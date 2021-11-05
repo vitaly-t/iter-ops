@@ -1,6 +1,7 @@
 import {pipe} from "./pipe";
 import {filter} from "./filter";
 import {reduce} from "./reduce";
+import {map} from "./map";
 
 function* here(): Iterable<number> {
     for (let i = 1; i < 10; i++) {
@@ -27,7 +28,7 @@ const d = pipe(
     filter(a => a > 5), // fails to deduce the type :|
     filter(b => b > 5), // fails to deduce the type :|
     filter(b => b > 5), // fails to deduce the type :|
-    filter(b => b > 5) // fails to deduce the type :|
+    map(a => a ** 2) // fails to deduce the type :|
 );
 
 console.log(b);

@@ -1,2 +1,2 @@
-export type Piper<T> = (i: Iterable<T>) => Iterable<T>;
+export type Piper<T, R = T> = (i: Iterable<T>) => Iterable<R>;
 export type Terminator<T> = () => { process: (i: Iterable<T>) => T };

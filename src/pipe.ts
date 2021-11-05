@@ -1,14 +1,18 @@
 import {Piper, Terminator} from './common';
 
-export function pipe<T>(i: Iterable<T>, p1: Piper<T>): Iterable<T>;
-export function pipe<T>(i: Iterable<T>, p1: Piper<T>, p2: Piper<T>): Iterable<T>;
-export function pipe<T>(i: Iterable<T>, p1: Piper<T>, p2: Piper<T>, p3: Piper<T>): Iterable<T>;
-export function pipe<T>(i: Iterable<T>, p1: Piper<T>, p2: Piper<T>, p3: Piper<T>, p4: Piper<T>): Iterable<T>;
+export function pipe<T>(i: Iterable<T>, ...p: Piper<T>[]): Iterable<T>;
 
 export function pipe<T>(i: Iterable<T>, t: Terminator<T>): T;
-export function pipe<T>(i: Iterable<T>, p1: Piper<T>, t: Terminator<T>): T;
-export function pipe<T>(i: Iterable<T>, p1: Piper<T>, p2: Piper<T>, t: Terminator<T>): T;
-export function pipe<T>(i: Iterable<T>, p1: Piper<T>, p2: Piper<T>, p3: Piper<T>, t: Terminator<T>): T;
+export function pipe<T>(i: Iterable<T>, p0: Piper<T>, t: Terminator<T>): T;
+export function pipe<T>(i: Iterable<T>, p0: Piper<T>, p1: Piper<T>, t: Terminator<T>): T;
+export function pipe<T>(i: Iterable<T>, p0: Piper<T>, p1: Piper<T>, p2: Piper<T>, t: Terminator<T>): T;
+export function pipe<T>(i: Iterable<T>, p0: Piper<T>, p1: Piper<T>, p2: Piper<T>, p3: Piper<T>, t: Terminator<T>): T;
+export function pipe<T>(i: Iterable<T>, p0: Piper<T>, p1: Piper<T>, p2: Piper<T>, p3: Piper<T>, p4: Piper<T>, t: Terminator<T>): T;
+export function pipe<T>(i: Iterable<T>, p0: Piper<T>, p1: Piper<T>, p2: Piper<T>, p3: Piper<T>, p4: Piper<T>, p5: Piper<T>, t: Terminator<T>): T;
+export function pipe<T>(i: Iterable<T>, p0: Piper<T>, p1: Piper<T>, p2: Piper<T>, p3: Piper<T>, p4: Piper<T>, p5: Piper<T>, p6: Piper<T>, t: Terminator<T>): T;
+export function pipe<T>(i: Iterable<T>, p0: Piper<T>, p1: Piper<T>, p2: Piper<T>, p3: Piper<T>, p4: Piper<T>, p5: Piper<T>, p6: Piper<T>, p7: Piper<T>, t: Terminator<T>): T;
+export function pipe<T>(i: Iterable<T>, p0: Piper<T>, p1: Piper<T>, p2: Piper<T>, p3: Piper<T>, p4: Piper<T>, p5: Piper<T>, p6: Piper<T>, p7: Piper<T>, p8: Piper<T>, t: Terminator<T>): T;
+export function pipe<T>(i: Iterable<T>, p0: Piper<T>, p1: Piper<T>, p2: Piper<T>, p3: Piper<T>, p4: Piper<T>, p5: Piper<T>, p6: Piper<T>, p7: Piper<T>, p8: Piper<T>, p9: Piper<T>, t: Terminator<T>): T;
 
 export function pipe<T>(i: Iterable<T>, ...pt: (Piper<T> | Terminator<T>)[]): Iterable<T> | T {
     let prev: any = i;
