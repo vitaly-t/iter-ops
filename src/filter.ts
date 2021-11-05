@@ -1,4 +1,4 @@
-import {Piper} from "./common";
+import {Piper} from './common';
 
 export function filter<T>(cb: (value: T, index: number) => boolean): Piper<T> {
     return (iterator: Iterable<T>) => ({
