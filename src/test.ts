@@ -3,6 +3,7 @@ import {filter} from "./filter";
 import {reduce} from "./reduce";
 import {map} from "./map";
 import {stop} from "./stop";
+import {toArray} from "./to-array";
 
 function* here(): Iterable<number> {
     for (let i = 1; i < 10; i++) {
@@ -17,14 +18,15 @@ const b = pipe(
     map(f => ({value: f})),
     filter(f => f.value > 5),
     // filter(f => f.value > 7),
-    // reduce((c, i) => ({value: c.value + i.value}), {value: 0})
-    reduce((c, i) => c.value + i.value)
+    reduce((c, i) => ({value: c.value + i.value}), {value: 0})
+    // reduce((c, i) => c.value + i.value)
 );
 
 const c = pipe(
     data,
-    filter(f => f <= 5),
-    reduce((c, i) => c + i),
+    // filter(f => f <= 5),
+    toArray<number>()
+    // reduce((c, i) => c + i),
     // map(a => ({value: a})),
     // reduce((c, i) => c + i, 0)
 );
