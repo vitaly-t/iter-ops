@@ -5,14 +5,15 @@ is initialized to the second value in the array.
 */
 import {Terminator} from './common';
 
-export function reduce<T>(cb: (previousValue: T, currentValue: T, index: number) => T, initialValue?: T): Terminator<T> {
+// TODO: this needs to be updated, for the types also.
+export function reduce<T, R>(cb: (previousValue: T, currentValue: T, index: number) => R, initialValue?: T): Terminator<T, R> {
     return () => ({
         process(iterator: Iterable<T>) {
             let index = 0, prev = initialValue as any;
-            for (const a of iterator) {
-                prev = cb(prev, a, index++);
+            for (const curr of iterator) {
+                prev = cb(prev, curr, index++);
             }
-            return prev;
+            return prev as any;
         }
     })
 }
