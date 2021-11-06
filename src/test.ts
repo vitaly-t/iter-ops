@@ -2,7 +2,7 @@ import {pipe} from "./pipe";
 import {filter} from "./filter";
 import {reduce} from "./reduce";
 import {map} from "./map";
-import {stop} from "./stop";
+// import {stop} from "./stop";
 import {toArray} from "./to-array";
 
 function* here(): Iterable<number> {
@@ -11,22 +11,23 @@ function* here(): Iterable<number> {
     }
 }
 
-const data:number[] = [111, 2, 3, 4, 5, 6, 7, 8, 9];
+const data: number[] = [111, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const b = pipe(
     here(),
-    map(f => ({value: f})),
-    filter(f => f.value > 5),
+    // map(f => ({value: f})),
+    filter(f => f > 5),
     // filter(f => f.value > 7),
-    reduce((c, i) => ({value: c.value + i.value}), {value: 0})
-    // reduce((c, i) => c.value + i.value)
+    // reduce((c, i) => ({value: c.value + i.value}), {value: 0})
+    // map(a => a.value),
+    reduce<number>((c, i) => c + i)
 );
 
 const c = pipe(
     data,
     // filter(f => f <= 5),
-    toArray<number>()
-    // reduce((c, i) => c + i),
+    toArray(),
+    // reduce<number>((c, i) => c + i),
     // map(a => ({value: a})),
     // reduce((c, i) => c + i, 0)
 );

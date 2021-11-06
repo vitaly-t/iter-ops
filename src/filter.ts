@@ -1,6 +1,6 @@
 import {Piper} from './common';
 
-export function filter<T>(cb: (value: T, index: number) => boolean): Piper<T> {
+export function filter<T>(cb: (value: T, index: number) => boolean): Piper<T, T> {
     return (iterator: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             let index = 0, t = iterator[Symbol.iterator]();

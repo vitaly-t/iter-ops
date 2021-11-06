@@ -6,9 +6,8 @@ describe('reduce', () => {
         const input = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         expect(pipe(input, reduce((c, i) => c + i, 0))).to.eql(45);
     });
-    /*
     it('must work without initial value', () => {
         const input = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-        expect(pipe(input, reduce((c, i) => c + i))).to.eql(45);
-    });*/
+        expect(pipe(input, reduce<number>((c, i, index) => index))).to.eql(input.length - 1);
+    });
 });
