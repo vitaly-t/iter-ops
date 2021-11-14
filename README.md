@@ -72,8 +72,9 @@ All standard operators implement the same logic as [Array] does:
 #### <i>Extended operators:</i>
 
 * `toArray()` - produces a one-value iterable, with array of all values
-* `stop((value, index) => boolean)` - stops the iterable when the callback returns a truthy value
 * `empty()` - produces an empty iterable
+* `stop((value, index) => boolean)` - stops the iterable when the callback returns a truthy value
+* `tap((value, index) => void)` - taps into each value, without changing the output
 
 [Iterable]:https://javascript.info/iterable
 [Iterables]:https://javascript.info/iterable

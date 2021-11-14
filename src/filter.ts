@@ -10,13 +10,10 @@ export function filter<T>(cb: (value: T, index: number) => boolean): Piper<T, T>
             let index = 0, t = iterator[Symbol.iterator]();
             return {
                 next(): IteratorResult<T> {
-                    let a;
-                    do {
-                        a = t.next();
-                        if (!a.done && cb(a.value, index++)) {
-                            return {value: a.value};
-                        }
-                    } while (!a.done);
+                    const a = t.next();
+                    if (!a.done && cb(a.value, index++)) {
+                        return a;
+                    }
                     return {value: undefined, done: true};
                 }
             };
