@@ -41,5 +41,5 @@ const d = pipe(
 );
 
 console.log(b);
-console.log([...c]);
-console.log([...d]);
+console.log([...c], d);
+console.log(c.first);

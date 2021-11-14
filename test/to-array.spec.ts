@@ -5,6 +5,6 @@ describe('toArray', () => {
     it('must recreate input array', () => {
         const input = [1, 2, 3];
         const output = pipe(input, toArray());
-        expect([...output]).to.eql([input]);
+        expect(output.first).to.eql(input);
     });
 });
