@@ -2,7 +2,7 @@ import {Piper} from './common';
 
 /**
  * Accumulates all values from the iterable, into an array,
- * and returns a new iterable to produce the array as one value.
+ * and returns a one-value iterable, to produce that array.
  */
 export function toArray<T>(): Piper<T, T[]> {
     return (iterator: Iterable<T>) => ({

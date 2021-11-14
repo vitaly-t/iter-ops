@@ -1,5 +1,5 @@
 iter-ops
----------
+--------
 
 * [About](#about)
 * [Installation](#installation)
@@ -10,7 +10,9 @@ iter-ops
 
 ## About
 
-Basic operations on iterables.
+Basic operations on [Iterables], strictly for JavaScript native types.
+
+We do not use any synthetic types here, like Observable in RXJS, etc.  
 
 ## Installation
 
@@ -24,7 +26,7 @@ Follow the usage examples below, based on your development environment.
 
 ### JavaScript
 
-Remapping an iterable object:
+Remapping an [Iterable] object:
 
 ```js
 const {pipe, map} = require('iter-ops');
@@ -56,11 +58,12 @@ const result = i.first; //=> 384
 
 ## API
 
-Function `pipe` returns `IterableExt`, which extends [Iterable] with property `first`.
+Function `pipe` takes an [Iterable], applies specified operators to it, and returns a new [Iterable],
+extended with property `first`.
 
 #### <i>Standard operators:</i>
 
-All standard operators implement the same logic as for [Array]: 
+All standard operators implement the same logic as [Array] does: 
 
 * [map] - standard remapping processor for the iterable
 * [filter] - standard filter processor for the iterable
@@ -72,6 +75,7 @@ All standard operators implement the same logic as for [Array]:
 * `stop((value, index) => boolean)` - stops the iterable when the callback returns a truthy value
 
 [Iterable]:https://javascript.info/iterable
+[Iterables]:https://javascript.info/iterable
 [Array]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
 [map]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
 [filter]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
