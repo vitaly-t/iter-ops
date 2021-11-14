@@ -1,8 +1,8 @@
+import {Piper} from './common';
+
 /**
  * Stops an iterator when the callback returns a truthy value.
  */
-import {Piper} from './common';
-
 export function stop<T>(cb: (value: T, index: number) => boolean): Piper<T, T> {
     return (iterator: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {

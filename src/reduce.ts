@@ -1,11 +1,5 @@
-/*
-If initialValue is specified, that also causes currentValue to be initialized to the first value in the array.
-If initialValue is not specified, previousValue is initialized to the first value in the array, and currentValue
-is initialized to the second value in the array.
-*/
 import {Piper} from './common';
 
-// TODO: this needs to be updated, for the types also.
 export function reduce<T>(cb: (previousValue: T, currentValue: T, index: number) => T, initialValue?: T): Piper<T, T> {
     return (iterator: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
