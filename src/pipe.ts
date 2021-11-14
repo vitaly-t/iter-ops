@@ -12,17 +12,5 @@ export function pipe<T, A, B, C, D, E, F, G, H, I>(i: Iterable<T>, p0: Piper<T, 
 export function pipe<T, A, B, C, D, E, F, G, H, I, J>(i: Iterable<T>, p0: Piper<T, A>, p1: Piper<A, B>, p2: Piper<B, C>, p3: Piper<C, D>, p4: Piper<D, E>, p5: Piper<E, F>, p6: Piper<F, G>, p7: Piper<G, H>, p8: Piper<H, I>, p9: Piper<I, J>): Iterable<J>;
 
 export function pipe<T>(i: Iterable<T>, ...pt: any[]): any {
-    // TODO:
-    //   return pt.reduce();
-
-    let prev: any = i;
-    for (const a of pt) {
-        const res = a(prev) as any;
-        if (res[Symbol.iterator]) {
-            prev = res;
-            continue;
-        }
-        return res.process(prev);
-    }
-    return prev;
+    return pt.reduce((c, a) => a(c), i);
 }
