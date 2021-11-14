@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "ES2020",
+    "target": "ES2015",
+    "declaration": true,
+    "declarationDir": "../dist",
+    "outDir": "../dist",
     "strict": true,
     "noUnusedLocals": true
   },
