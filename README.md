@@ -12,7 +12,9 @@ iter-ops
 
 Basic operations on [Iterables], strictly for JavaScript native types.
 
-We do not use any synthetic types here, like Observable in RXJS, etc.  
+![image](https://user-images.githubusercontent.com/5108906/141699993-b5feee4d-fb05-45f4-bfbd-fffc94d100a8.png)
+
+We do not use any synthetic types here, like Observable in RXJS, etc. It is strictly an iterable on the input, and iterable on the output.
 
 ## Installation
 
