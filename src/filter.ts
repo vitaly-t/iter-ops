@@ -19,3 +19,4 @@ export function filter<T>(cb: (value: T, index: number) => boolean): Piper<T, T>
         }
     });
 }
+

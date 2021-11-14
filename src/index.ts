@@ -1,4 +1,4 @@
-export {Piper, Terminator} from './common';
+export {Piper} from './common';
 export {pipe} from './pipe';
 export {stop} from './stop';
 export {map} from './map';
