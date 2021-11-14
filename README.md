@@ -24,6 +24,8 @@ $ npm i iter-ops
 
 Follow the usage examples below, based on your development environment.
 
+See [WiKi] for more examples.
+
 ### JavaScript
 
 Remapping an [Iterable] object:
@@ -82,3 +84,4 @@ All standard operators implement the same logic as [Array] does:
 [map]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
 [filter]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
 [reduce]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
+[WiKi]:https://github.com/vitaly-t/iter-ops/wiki
