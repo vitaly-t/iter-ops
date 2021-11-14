@@ -11,6 +11,6 @@ export function pipe<T, A, B, C, D, E, F, G, H>(i: Iterable<T>, p0: Piper<T, A>,
 export function pipe<T, A, B, C, D, E, F, G, H, I>(i: Iterable<T>, p0: Piper<T, A>, p1: Piper<A, B>, p2: Piper<B, C>, p3: Piper<C, D>, p4: Piper<D, E>, p5: Piper<E, F>, p6: Piper<F, G>, p7: Piper<G, H>, p8: Piper<H, I>): Iterable<I>;
 export function pipe<T, A, B, C, D, E, F, G, H, I, J>(i: Iterable<T>, p0: Piper<T, A>, p1: Piper<A, B>, p2: Piper<B, C>, p3: Piper<C, D>, p4: Piper<D, E>, p5: Piper<E, F>, p6: Piper<F, G>, p7: Piper<G, H>, p8: Piper<H, I>, p9: Piper<I, J>): Iterable<J>;
 
-export function pipe<T>(i: Iterable<T>, ...pt: any[]): any {
-    return pt.reduce((c, a) => a(c), i);
+export function pipe<T>(i: Iterable<T>, ...p: any[]): any {
+    return p.reduce((c, a) => a(c), i);
 }

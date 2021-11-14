@@ -1,2 +1,4 @@
 # iter-ops
-Iterator helpers
+
+Basic iterable operations.
+
