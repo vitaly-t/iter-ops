@@ -12,4 +12,12 @@ describe('reduce', () => {
         const output = pipe(input, reduce((c, i) => c + i));
         expect(output.first).to.eql(45);
     });
+    it('must not generate more than one value', () => {
+        const input = [1, 2];
+        const output = pipe(input, reduce((a, c) => a + c));
+        const i = output[Symbol.iterator]();
+        const result = i.next() && i.next();
+        expect(result).to.eql({value: undefined, done: true});
+    });
 });
+

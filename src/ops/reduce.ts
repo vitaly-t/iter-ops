@@ -7,22 +7,22 @@ import {Piper} from '../types';
 export function reduce<T>(cb: (previousValue: T, currentValue: T, index: number) => T, initialValue?: T): Piper<T, T> {
     return (iterator: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
-            let value = initialValue as T, done = false;
+            let done = false;
             return {
                 next(): IteratorResult<T> {
-                    if (!done) {
-                        let index = 0;
-                        for (const curr of iterator) {
-                            if (!index++ && value === undefined) {
-                                value = curr;
-                                continue;
-                            }
-                            value = cb(value, curr, index++);
-                        }
-                        done = true;
-                        return {value};
+                    if (done) {
+                        return {value: undefined, done};
                     }
-                    return {value, done}
+                    let index = 0, value = initialValue as T;
+                    for (const curr of iterator) {
+                        if (!index++ && value === undefined) {
+                            value = curr;
+                            continue;
+                        }
+                        value = cb(value, curr, index++);
+                    }
+                    done = true;
+                    return {value};
                 }
             };
         }
