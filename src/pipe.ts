@@ -17,7 +17,7 @@ export function pipe<T, A, B, C, D, E, F, G, H, I, J>(i: Iterable<T>, p0: Piper<
 export function pipe<T>(i: Iterable<T>, ...p: Piper<any, any>[]): IterableExt<any> {
     const res = p.reduce((c, a) => a(c), i);
     Object.defineProperty(res, 'first', ({
-        get: function () {
+        get() {
             return this[Symbol.iterator]().next().value;
         }
     }));
