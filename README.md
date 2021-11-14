@@ -61,7 +61,7 @@ const result = i.first; //=> 384
 ## API
 
 Function `pipe` takes an [Iterable], applies the specified sequence of operators to it,
-and returns a new [Iterable], extended with property `first`.
+and returns a new [Iterable], extended with property `first`. See also - [WiKi].
 
 #### <i>Standard operators:</i>
 
@@ -77,6 +77,7 @@ All standard operators implement the same logic as [Array] does:
 * `empty()` - produces an empty iterable
 * `stop((value, index) => boolean)` - stops the iterable when the callback returns a truthy value
 * `tap((value, index) => void)` - taps into each value, without changing the output
+* `take(count)` - produces up to `count` number of elements
 
 [Iterable]:https://javascript.info/iterable
 [Iterables]:https://javascript.info/iterable
