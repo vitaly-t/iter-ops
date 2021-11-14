@@ -12,7 +12,7 @@ iter-ops
 
 Basic operations on [Iterables], strictly for JavaScript native types.
 
-![image](https://user-images.githubusercontent.com/5108906/141699993-b5feee4d-fb05-45f4-bfbd-fffc94d100a8.png)
+![image](https://user-images.githubusercontent.com/5108906/141700616-b3271d34-55ed-4b47-a34a-fff1ae86f895.png)
 
 We do not use any synthetic types here, like Observable in RXJS, etc. It is strictly an [Iterable] on the input,
 and an [Iterable] on the output.
