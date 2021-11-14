@@ -1,4 +1,4 @@
-import {IterableExt, Piper} from './common';
+import {IterableExt, Piper} from './types';
 
 export function pipe<T, A>(i: Iterable<T>, p0: Piper<T, A>): IterableExt<A>;
 export function pipe<T, A, B>(i: Iterable<T>, p0: Piper<T, A>, p1: Piper<A, B>): IterableExt<B>;

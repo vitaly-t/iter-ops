@@ -1,4 +1,4 @@
-import {Piper} from './common';
+import {Piper} from '../types';
 
 /**
  * Implements standard map processor for the iterable;

@@ -1,10 +1,11 @@
-export {Piper, IterableExt} from './common';
+export {Piper, IterableExt} from './types';
 export {pipe} from './pipe';
-export {map} from './map';
-export {filter} from './filter';
-export {reduce} from './reduce';
-export {toArray} from './to-array';
-export {stop} from './stop';
-export {empty} from './empty';
-export {tap} from './tap';
-export {take} from './take';
+
+export {map} from './ops/map';
+export {filter} from './ops/filter';
+export {reduce} from './ops/reduce';
+export {toArray} from './ops/to-array';
+export {stop} from './ops/stop';
+export {empty} from './ops/empty';
+export {tap} from './ops/tap';
+export {take} from './ops/take';

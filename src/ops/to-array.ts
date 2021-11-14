@@ -1,4 +1,4 @@
-import {Piper} from './common';
+import {Piper} from '../types';
 
 /**
  * Accumulates all values from the iterable, into an array,

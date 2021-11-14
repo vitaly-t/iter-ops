@@ -1,16 +1,16 @@
-import {Piper} from './common';
+import {Piper} from '../types';
 
 /**
- * Stops the iterator when the callback returns a truthy value.
+ * Emits up to provided number of values.
  */
-export function stop<T>(cb: (value: T, index: number) => boolean): Piper<T, T> {
+export function take<T>(count: number): Piper<T, T> {
     return (iterator: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             let index = 0, i = iterator[Symbol.iterator]();
             return {
                 next(): IteratorResult<T> {
                     const a = i.next();
-                    if (a.done || cb(a.value, index++)) {
+                    if (a.done || index++ >= count) {
                         return {value: undefined, done: true};
                     }
                     return a;

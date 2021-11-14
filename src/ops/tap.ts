@@ -1,4 +1,4 @@
-import {Piper} from './common';
+import {Piper} from '../types';
 
 /**
  * Taps into each value, without changing the output.

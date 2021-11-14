@@ -1,4 +1,4 @@
-import {Piper} from './common';
+import {Piper} from '../types';
 
 /**
  * Implements standard filter processor for the iterable;
