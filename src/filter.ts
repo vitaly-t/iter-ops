@@ -1,5 +1,9 @@
 import {Piper} from './common';
 
+/**
+ * Implements standard filter processor for the iterable;
+ * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+ */
 export function filter<T>(cb: (value: T, index: number) => boolean): Piper<T, T> {
     return (iterator: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
@@ -19,4 +23,3 @@ export function filter<T>(cb: (value: T, index: number) => boolean): Piper<T, T>
         }
     });
 }
-

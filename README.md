@@ -47,7 +47,7 @@ import {pipe, filter, reduce} from 'iter-ops';
 const a = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const i = pipe(a,
-        filter(f => f % 2),
+        filter(f => f % 2 === 0),
         reduce((p, c) => p * c)
 ); //=> factorial of all even numbers (one-value iterable)
 
@@ -76,4 +76,3 @@ All standard operators implement the same logic as for [Array]:
 [map]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
 [filter]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
 [reduce]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
-

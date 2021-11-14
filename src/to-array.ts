@@ -1,5 +1,9 @@
 import {Piper} from './common';
 
+/**
+ * Accumulates all values from the iterable, into an array,
+ * and returns a new iterable to produce the array as one value.
+ */
 export function toArray<T>(): Piper<T, T[]> {
     return (iterator: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T[]> {

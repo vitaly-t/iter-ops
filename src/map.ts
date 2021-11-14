@@ -1,5 +1,9 @@
 import {Piper} from './common';
 
+/**
+ * Implements standard map processor for the iterable;
+ * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+ */
 export function map<T, R>(cb: (value: T, index: number) => R): Piper<T, R> {
     return (iterator: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<R> {

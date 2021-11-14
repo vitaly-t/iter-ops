@@ -1,5 +1,9 @@
 import {Piper} from './common';
 
+/**
+ * Implements standard reducer for the iterable;
+ * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
+ */
 export function reduce<T>(cb: (previousValue: T, currentValue: T, index: number) => T, initialValue?: T): Piper<T, T> {
     return (iterator: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
