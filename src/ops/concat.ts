@@ -19,7 +19,7 @@ export function concat<T, A, B, C, D, E, F, G, H, I, J>(v0: VI<A>, v1: VI<B>, v2
 
 /**
  * Logically merges current iterable with a list of values or iterables.
- * Merged inputs are iterated over after the current iterable is depleted.
+ * Merged inputs are iterated over after depleting the current iterable.
  *
  * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
  */
