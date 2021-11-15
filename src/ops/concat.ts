@@ -1,7 +1,11 @@
 import {Piper} from '../types';
 
-type VI<T> = T | Iterable<T>; // Value or Iterable
+/**
+ * Value or Iterable
+ */
+type VI<T> = T | Iterable<T>;
 
+export function concat<T>(): Piper<T, T>;
 export function concat<T, A>(v0: VI<A>): Piper<T, T | A>;
 export function concat<T, A, B>(v0: VI<A>, v1: VI<B>): Piper<T, T | A | B>;
 export function concat<T, A, B, C>(v0: VI<A>, v1: VI<B>, v2: VI<C>): Piper<T, T | A | B | C>;
