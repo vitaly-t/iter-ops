@@ -20,12 +20,16 @@ describe('concat', () => {
     });
     describe('multicast', () => {
         it('must join value types', () => {
-            const result = pipe([1, 2, 3], concat('next', true));
-            expect([...result]).to.eql([1, 2, 3, 'next', true]);
+            const result = pipe([1, 2], concat(null, 'next', true));
+            // expect([...result]).to.eql([1, 2, null, 'next', true]);
+            // Because string is an iterable:
+            expect([...result]).to.eql([1, 2, null, 'n', 'e', 'x', 't', true]);
         });
         it('must join iterable types', () => {
-            const result = pipe([1, 2, 3], concat('hello', ['world', true]));
-            expect([...result]).to.eql([1, 2, 3, 'hello', 'world', true]);
+            const result = pipe([1, 2], concat('hello', [undefined, 'world', true]));
+            // Because string is an iterable:
+            // expect([...result]).to.eql([1, 2, 'hello', undefined, 'world', true]);
+            expect([...result]).to.eql([1, 2, 'h', 'e', 'l', 'l', 'o', undefined, 'world', true]);
         });
     });
 });

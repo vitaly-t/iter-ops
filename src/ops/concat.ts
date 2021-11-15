@@ -26,9 +26,36 @@ export function concat<T, A, B, C, D, E, F, G, H, I, J>(v0: VI<A>, v1: VI<B>, v2
 export function concat<T>(...values: VI<any>[]): Piper<T, any> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
+            const i = iterable[Symbol.iterator]();
+            let index = -1, k: Iterator<T>, v: any, start = true;
             return {
                 next(): IteratorResult<T> {
-                    // TODO: to be implemented
+                    if (index < 0) {
+                        const a = i.next();
+                        if (!a.done) {
+                            return a;
+                        }
+                        index = 0;
+                    }
+                    while (index < values.length) {
+                        if (start) {
+                            v = values[index];
+                            k = v?.[Symbol.iterator]?.();
+                            start = false;
+                        }
+                        if (k) {
+                            const b = k.next();
+                            if (!b.done) {
+                                return b;
+                            }
+                            start = true;
+                            index++;
+                        } else {
+                            start = true;
+                            index++;
+                            return {value: v};
+                        }
+                    }
                     return {value: undefined, done: true};
                 }
             };
