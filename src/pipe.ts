@@ -16,11 +16,15 @@ export function pipe<T, A, B, C, D, E, F, G, H, I>(i: Iterable<T>, p0: Piper<T, 
 export function pipe<T, A, B, C, D, E, F, G, H, I, J>(i: Iterable<T>, p0: Piper<T, A>, p1: Piper<A, B>, p2: Piper<B, C>, p3: Piper<C, D>, p4: Piper<D, E>, p5: Piper<E, F>, p6: Piper<F, G>, p7: Piper<G, H>, p8: Piper<H, I>, p9: Piper<I, J>): IterableExt<J>;
 
 export function pipe<T>(i: Iterable<T>, ...p: Piper<any, any>[]): IterableExt<any> {
-    const res = p.reduce((c, a) => a(c), i);
-    Object.defineProperty(res, 'first', ({
+    let r: any = p.reduce((c, a) => a(c), i);
+    if (typeof r === 'string') {
+        // operator-less iteration over an open string;
+        r = new String(r); // turn into object, so it can be extended
+    }
+    Object.defineProperty(r, 'first', ({
         get() {
             return this[Symbol.iterator]().next().value;
         }
     }));
-    return res;
+    return r;
 }
