@@ -70,18 +70,19 @@ and returns a new [Iterable], extended with property `first`. See also - [WiKi].
 
 All standard operators implement the same logic as [Array] does: 
 
-* [map] - standard remapping processor for the iterable
 * [filter] - standard filter processor for the iterable
+* [map] - standard remapping processor for the iterable
 * [reduce] - executes standard `reducer` on iterable values  
 
 #### <i>Extended operators:</i>
 
-* `toArray()` - produces a one-value iterable, with array of all values
+* `count()` - counts values, and produces a one-value iterable
 * `empty()` - produces an empty iterable
 * `start((value, index) => boolean)` - starts producing values after the callback returns a truthy value
 * `stop((value, index) => boolean)` - stops the iterable when the callback returns a truthy value
-* `tap((value, index) => void)` - taps into each value, without changing the output
 * `take(count)` - produces up to `count` number of elements
+* `tap((value, index) => void)` - taps into each value, without changing the output
+* `toArray()` - aggregates values into an array, and produces a one-value iterable
 
 [Iterable]:https://javascript.info/iterable
 [Iterables]:https://javascript.info/iterable
