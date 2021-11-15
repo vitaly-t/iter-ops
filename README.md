@@ -64,7 +64,7 @@ const result = i.first; //=> 384
 ## API
 
 Function `pipe` takes an [Iterable], applies the specified sequence of operators to it,
-and returns a new [Iterable], extended with property `first`. See also - [WiKi].
+and returns a new [Iterable], extended with property `first` (to simplify use of one-value iterables).
 
 #### <i>Standard operators:</i>
 
@@ -72,7 +72,7 @@ All standard operators implement the same logic as [Array] does:
 
 * [filter] - standard filter processor for the iterable
 * [map] - standard remapping processor for the iterable
-* [reduce] - executes standard `reducer` on iterable values  
+* [reduce] - executes standard `reducer`, and produces a one-value iterable  
 
 #### <i>Extended operators:</i>
 
