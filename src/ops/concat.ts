@@ -11,7 +11,8 @@ export function concat<T>(...values: (T | Iterable<T>)[]): Piper<T, T> {
         [Symbol.iterator](): Iterator<T> {
             return {
                 next(): IteratorResult<T> {
-
+                    // TODO: to be implemented
+                    return {value: undefined, done: true};
                 }
             };
         }
