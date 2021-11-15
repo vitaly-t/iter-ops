@@ -23,7 +23,7 @@ export function concat<T, A, B, C, D, E, F, G, H, I, J>(v0: VI<A>, v1: VI<B>, v2
  *
  * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
  */
-export function concat<T>(...values: any[]): Piper<T, any> {
+export function concat<T>(...values: VI<any>[]): Piper<T, any> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             return {
