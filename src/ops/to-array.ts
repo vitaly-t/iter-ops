@@ -2,7 +2,7 @@ import {Piper} from '../types';
 
 /**
  * Accumulates all values from the iterable, into an array,
- * and returns a one-value iterable, to produce that array.
+ * and returns a one-value iterable, to emit that array.
  */
 export function toArray<T>(): Piper<T, T[]> {
     return (iterable: Iterable<T>) => ({
