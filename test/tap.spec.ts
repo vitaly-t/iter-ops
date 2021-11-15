@@ -7,8 +7,7 @@ describe('tap', () => {
         const a = pipe(input, tap((val, idx) => {
             res.push({val, idx});
         }));
-        // @ts-ignore
-        const trigger = [...a];
+        [...a]; // trigger iteration
         expect(res).to.eql([{val: 1, idx: 0}, {val: 2, idx: 1}, {val: 3, idx: 2}]);
     });
 });
