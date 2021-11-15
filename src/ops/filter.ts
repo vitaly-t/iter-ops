@@ -5,9 +5,9 @@ import {Piper} from '../types';
  * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
  */
 export function filter<T>(cb: (value: T, index: number) => boolean): Piper<T, T> {
-    return (iterator: Iterable<T>) => ({
+    return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
-            const i = iterator[Symbol.iterator]();
+            const i = iterable[Symbol.iterator]();
             let index = 0;
             return {
                 next(): IteratorResult<T> {

@@ -5,7 +5,7 @@ import {Piper} from '../types';
  * and produces a one-value iterable with the count.
  */
 export function count<T>(): Piper<T, number> {
-    return (iterator: Iterable<T>) => ({
+    return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<number> {
             let done = false;
             return {
@@ -14,7 +14,7 @@ export function count<T>(): Piper<T, number> {
                     if (done) {
                         return {value, done};
                     }
-                    const i = iterator[Symbol.iterator]();
+                    const i = iterable[Symbol.iterator]();
                     value = 0;
                     while (!i.next().done) {
                         value++;

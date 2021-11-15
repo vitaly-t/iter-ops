@@ -4,9 +4,9 @@ import {Piper} from '../types';
  * Taps into each value, without changing the output.
  */
 export function tap<T>(cb: (value: T, index: number) => void): Piper<T, T> {
-    return (iterator: Iterable<T>) => ({
+    return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
-            const i = iterator[Symbol.iterator]();
+            const i = iterable[Symbol.iterator]();
             let index = 0;
             return {
                 next(): IteratorResult<T> {

@@ -5,7 +5,7 @@ import {Piper} from '../types';
  * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
  */
 export function reduce<T>(cb: (previousValue: T, currentValue: T, index: number) => T, initialValue?: T): Piper<T, T> {
-    return (iterator: Iterable<T>) => ({
+    return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             let done = false;
             return {
@@ -16,7 +16,7 @@ export function reduce<T>(cb: (previousValue: T, currentValue: T, index: number)
                     }
                     let index = 0;
                     value = initialValue as T;
-                    for (const curr of iterator) {
+                    for (const curr of iterable) {
                         if (!index++ && value === undefined) {
                             value = curr;
                             continue;

@@ -5,9 +5,9 @@ import {Piper} from '../types';
  * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
  */
 export function map<T, R>(cb: (value: T, index: number) => R): Piper<T, R> {
-    return (iterator: Iterable<T>) => ({
+    return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<R> {
-            const i = iterator[Symbol.iterator]();
+            const i = iterable[Symbol.iterator]();
             let index = 0;
             return {
                 next(): IteratorResult<R> {

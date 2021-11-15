@@ -5,7 +5,7 @@ import {Piper} from '../types';
  * and returns a one-value iterable, to produce that array.
  */
 export function toArray<T>(): Piper<T, T[]> {
-    return (iterator: Iterable<T>) => ({
+    return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T[]> {
             let done = false;
             return {
@@ -15,7 +15,7 @@ export function toArray<T>(): Piper<T, T[]> {
                         return {value, done};
                     }
                     value = [];
-                    for (const a of iterator) {
+                    for (const a of iterable) {
                         value.push(a);
                     }
                     done = true;
