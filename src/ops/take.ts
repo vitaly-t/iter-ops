@@ -1,7 +1,7 @@
 import {Piper} from '../types';
 
 /**
- * Emits up to `count` number of values.
+ * Emits up to "count" number of values.
  */
 export function take<T>(count: number): Piper<T, T> {
     return (iterable: Iterable<T>) => ({

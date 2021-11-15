@@ -5,6 +5,12 @@ import {Piper} from '../types';
  */
 type VI<T> = T | Iterable<T>;
 
+/**
+ * Logically merges current iterable with a list of values or iterables.
+ * Merged inputs are iterated over after depleting the current iterable.
+ *
+ * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
+ */
 export function concat<T>(): Piper<T, T>;
 export function concat<T, A>(v0: VI<A>): Piper<T, T | A>;
 export function concat<T, A, B>(v0: VI<A>, v1: VI<B>): Piper<T, T | A | B>;
@@ -17,12 +23,6 @@ export function concat<T, A, B, C, D, E, F, G, H>(v0: VI<A>, v1: VI<B>, v2: VI<C
 export function concat<T, A, B, C, D, E, F, G, H, I>(v0: VI<A>, v1: VI<B>, v2: VI<C>, v3: VI<D>, v4: VI<E>, v5: VI<F>, v6: VI<G>, v7: VI<H>, v8: VI<I>): Piper<T, T | A | B | C | D | E | F | G | H | I>;
 export function concat<T, A, B, C, D, E, F, G, H, I, J>(v0: VI<A>, v1: VI<B>, v2: VI<C>, v3: VI<D>, v4: VI<E>, v5: VI<F>, v6: VI<G>, v7: VI<H>, v8: VI<I>, v9: VI<J>): Piper<T, T | A | B | C | D | E | F | G | H | I | J>;
 
-/**
- * Logically merges current iterable with a list of values or iterables.
- * Merged inputs are iterated over after depleting the current iterable.
- *
- * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
- */
 export function concat<T>(...values: VI<any>[]): Piper<T, any> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
