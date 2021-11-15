@@ -19,7 +19,7 @@ export function concat<T, A, B, C, D, E, F, G, H, I, J>(v0: VI<A>, v1: VI<B>, v2
 
 /**
  * Logically merges current iterable with a list of values or iterables.
- * Merged values are iterated over after the current iterable is depleted.
+ * Merged inputs are iterated over after the current iterable is depleted.
  *
  * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
  */
@@ -48,11 +48,10 @@ export function concat<T>(...values: VI<any>[]): Piper<T, any> {
                             if (!b.done) {
                                 return b;
                             }
-                            start = true;
-                            index++;
-                        } else {
-                            start = true;
-                            index++;
+                        }
+                        start = true;
+                        index++;
+                        if (!k) {
                             return {value: v};
                         }
                     }
