@@ -70,8 +70,9 @@ and returns a new [Iterable], extended with property `first` (to simplify use of
 
 All standard operators implement the same logic as [Array] does: 
 
+* [concat] - merges current iterable with multiple values or iterables 
 * [filter] - standard filter processor for the iterable
-* [map] - standard remapping processor for the iterable
+* [map] - standard mapping processor for the iterable
 * [reduce] - executes standard `reducer`, and produces a one-value iterable  
 
 #### <i>Extended operators:</i>
@@ -87,7 +88,8 @@ All standard operators implement the same logic as [Array] does:
 [Iterable]:https://javascript.info/iterable
 [Iterables]:https://javascript.info/iterable
 [Array]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
-[map]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+[concat]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
 [filter]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+[map]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
 [reduce]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
 [WiKi]:https://github.com/vitaly-t/iter-ops/wiki
