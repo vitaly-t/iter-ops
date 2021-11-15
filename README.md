@@ -63,7 +63,7 @@ const result = i.first; //=> 384
 
 ## API
 
-Function `pipe` takes an [Iterable], applies the specified sequence of operators to it,
+Function [pipe] takes an [Iterable], applies the specified sequence of operators to it,
 and returns a new [Iterable], extended with property `first` (to simplify use of one-value iterables).
 
 #### <i>Standard operators:</i>
@@ -93,3 +93,4 @@ All standard operators implement the same logic as [Array] does:
 [map]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
 [reduce]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
 [WiKi]:https://github.com/vitaly-t/iter-ops/wiki
+[pipe]:https://github.com/vitaly-t/iter-ops/blob/main/src/pipe.ts
