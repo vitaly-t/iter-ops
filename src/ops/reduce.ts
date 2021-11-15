@@ -10,10 +10,12 @@ export function reduce<T>(cb: (previousValue: T, currentValue: T, index: number)
             let done = false;
             return {
                 next(): IteratorResult<T> {
+                    let value;
                     if (done) {
-                        return {value: undefined, done};
+                        return {value, done};
                     }
-                    let index = 0, value = initialValue as T;
+                    let index = 0;
+                    value = initialValue as T;
                     for (const curr of iterator) {
                         if (!index++ && value === undefined) {
                             value = curr;
