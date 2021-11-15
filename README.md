@@ -78,6 +78,7 @@ All standard operators implement the same logic as [Array] does:
 
 * `toArray()` - produces a one-value iterable, with array of all values
 * `empty()` - produces an empty iterable
+* `start((value, index) => boolean)` - starts producing values after the callback returns a truthy value
 * `stop((value, index) => boolean)` - stops the iterable when the callback returns a truthy value
 * `tap((value, index) => void)` - taps into each value, without changing the output
 * `take(count)` - produces up to `count` number of elements
