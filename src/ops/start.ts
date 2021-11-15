@@ -1,7 +1,7 @@
 import {Piper} from '../types';
 
 /**
- * Starts producing values after the callback returns a truthy value.
+ * Starts emitting values after the callback returns a truthy value.
  */
 export function start<T>(cb: (value: T, index: number) => boolean): Piper<T, T> {
     return (iterable: Iterable<T>) => ({
