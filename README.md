@@ -82,7 +82,7 @@ All standard operators implement the same logic as [Array] does:
 * `stop((value, index) => boolean)` - stops the iterable when the callback returns a truthy value
 * `take(count)` - produces up to `count` number of elements
 * `tap((value, index) => void)` - taps into each value, without changing the output
-* `toArray()` - aggregates values into an array, and produces a one-value iterable
+* `toArray()` - accumulates values into an array, and produces a one-value iterable
 
 [Iterable]:https://javascript.info/iterable
 [Iterables]:https://javascript.info/iterable

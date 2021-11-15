@@ -10,10 +10,11 @@ export function toArray<T>(): Piper<T, T[]> {
             let done = false;
             return {
                 next(): IteratorResult<T[]> {
+                    let value;
                     if (done) {
-                        return {value: undefined, done};
+                        return {value, done};
                     }
-                    const value: T[] = [];
+                    value = [];
                     for (const a of iterator) {
                         value.push(a);
                     }
