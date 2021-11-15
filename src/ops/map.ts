@@ -7,12 +7,13 @@ import {Piper} from '../types';
 export function map<T, R>(cb: (value: T, index: number) => R): Piper<T, R> {
     return (iterator: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<R> {
-            let index = 0, t = iterator[Symbol.iterator]()
+            const i = iterator[Symbol.iterator]();
+            let index = 0;
             return {
                 next(): IteratorResult<R> {
                     let a;
                     do {
-                        a = t.next();
+                        a = i.next();
                         if (!a.done) {
                             return {value: cb(a.value, index++)};
                         }

@@ -1,0 +1,14 @@
+{
+  "rules": {
+    "semicolon": true,
+    "trailing-comma": true,
+    "no-console": true,
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "class-name": true,
+    "unnecessary-else": "error",
+    "prefer-const": true
+  }
+}

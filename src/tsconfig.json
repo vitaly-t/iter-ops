@@ -6,7 +6,7 @@
     "declarationDir": "../dist",
     "outDir": "../dist",
     "strict": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
   },
   "include": [
     "./**/*.ts"

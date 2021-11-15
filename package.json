@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "del /s/q .\\test\\*.js && del /s/q .\\src\\*.js && rd /s/q .\\dist",
     "build": "tsc -p src",
-    "lint": "tslint --fix ./src/*.ts ./test/*.ts",
+    "lint": "tslint --fix ./src/**/*.ts ./test/*.ts",
     "test": "nyc mocha -r ts-node/register test/*.spec.ts"
   },
   "files": [

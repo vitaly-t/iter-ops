@@ -6,7 +6,8 @@ import {Piper} from '../types';
 export function start<T>(cb: (value: T, index: number) => boolean): Piper<T, T> {
     return (iterator: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
-            let index = 0, i = iterator[Symbol.iterator](), started = false;
+            const i = iterator[Symbol.iterator]();
+            let index = 0, started = false;
             return {
                 next(): IteratorResult<T> {
                     if (started) {

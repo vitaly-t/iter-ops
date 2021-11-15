@@ -18,7 +18,7 @@ export function toArray<T>(): Piper<T, T[]> {
                     for (const a of iterator) {
                         value.push(a);
                     }
-                    done = true
+                    done = true;
                     return {value};
                 }
             };
