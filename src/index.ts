@@ -6,6 +6,7 @@ export {count} from './ops/count';
 export {distinct} from './ops/distinct';
 export {empty} from './ops/empty';
 export {filter} from './ops/filter';
+export {last} from './ops/last';
 export {map} from './ops/map';
 export {reduce} from './ops/reduce';
 export {start} from './ops/start';
