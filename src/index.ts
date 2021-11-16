@@ -3,6 +3,7 @@ export {pipe} from './pipe';
 
 export {concat} from './ops/concat';
 export {count} from './ops/count';
+export {distinct} from './ops/distinct';
 export {empty} from './ops/empty';
 export {filter} from './ops/filter';
 export {map} from './ops/map';
