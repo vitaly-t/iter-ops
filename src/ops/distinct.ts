@@ -22,7 +22,7 @@ export function distinct<T, K>(keySelector?: (value: T, index: number) => K): Pi
                             }
                         }
                     } while (!a.done);
-                    keySet.clear();
+                    keySet.clear(); // for better memory management
                     return {value: undefined, done: true};
                 }
             };
