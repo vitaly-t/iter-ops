@@ -9,6 +9,7 @@ export {filter} from './ops/filter';
 export {last} from './ops/last';
 export {map} from './ops/map';
 export {reduce} from './ops/reduce';
+export {skip} from './ops/skip';
 export {start} from './ops/start';
 export {stop} from './ops/stop';
 export {take} from './ops/take';
