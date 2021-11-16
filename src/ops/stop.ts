@@ -7,14 +7,18 @@ export function stop<T>(cb: (value: T, index: number) => boolean): Piper<T, T> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
-            let index = 0;
+            let index = 0, stopped = false;
             return {
                 next(): IteratorResult<T> {
-                    const a = i.next();
-                    if (a.done || cb(a.value, index++)) {
-                        return {value: undefined, done: true};
+                    if (!stopped) {
+                        const a = i.next();
+                        if (a.done || cb(a.value, index++)) {
+                            stopped = true;
+                        } else {
+                            return a;
+                        }
                     }
-                    return a;
+                    return {value: undefined, done: true};
                 }
             };
         }
