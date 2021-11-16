@@ -88,7 +88,7 @@ All standard operators implement the same logic as [Array] does:
   - it is equivalent to `start((_, index) => index >= count)`
 * `start((value, index) => boolean)` - starts emitting values after the callback returns a truthy value
 * `stop((value, index) => boolean)` - stops the iterable when the callback returns a truthy value
-* `take(count)` - emits up to `count` number of values;
+* `take(count)` - emits up to `count` number of values
   - it is equivalent to `stop((_, index) => index >= count)` 
 * `tap((value, index) => void)` - taps into each value, without changing the output
 * `toArray()` - accumulates values into an array, and produces a one-value iterable
