@@ -38,10 +38,12 @@ const {pipe, map} = require('iter-ops');
 
 const a = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-const i = pipe(a, map(value => ({value})));
+const i = pipe(
+    a,
+    map(value => ({value}))
+);
 
-const result = [...i];
-//=> [{value: 1}, {value: 2}, ...]
+const result = [...i]; //=> [{value: 1}, {value: 2}, ...]
 ```
 
 ### TypeScript
@@ -53,7 +55,8 @@ import {pipe, filter, reduce} from 'iter-ops';
 
 const a = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-const i = pipe(a,
+const i = pipe(
+    a,
     filter(f => f % 2 === 0),
     reduce((p, c) => p * c)
 ); //=> factorial of all even numbers (one-value iterable)
@@ -80,6 +83,7 @@ All standard operators implement the same logic as [Array] does:
 * `count()` - counts values, and produces a one-value iterable
 * `distinct(?(value, index) => key)` - emits unique values, with optional key selector
 * `empty()` - produces an empty iterable
+* `last()` - produces a one-value iterable, with the last emitted value
 * `start((value, index) => boolean)` - starts emitting values after the callback returns a truthy value
 * `stop((value, index) => boolean)` - stops the iterable when the callback returns a truthy value
 * `take(count)` - emits up to `count` number of values
