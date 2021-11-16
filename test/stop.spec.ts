@@ -2,10 +2,10 @@ import {expect} from './header';
 import {pipe, stop} from '../src';
 
 describe('stop', () => {
-    it('must stop on condition', () => {
-        const input = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-        const output = pipe(input, stop(a => a > 5));
-        expect([...output]).to.eql([1, 2, 3, 4, 5]);
+    it('must trigger on condition', () => {
+        const input = [1, 2, 3, 4, 5];
+        const output = pipe(input, stop(a => a > 3));
+        expect([...output]).to.eql([1, 2, 3]);
     });
     it('must not let overlap the condition', () => {
         const input = [1, 2, 3];
