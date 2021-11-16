@@ -2,10 +2,25 @@ import {expect} from './header';
 import {pipe, concat} from '../src';
 
 describe('concat', () => {
-    it('must support iterators', () => {
-        const input = [1, 2, 3][Symbol.iterator]();
-        const result = pipe([], concat(input));
-        expect([...result]).to.eql([1, 2, 3]);
+    describe('with iterators', () => {
+        it('must support regular ones', () => {
+            const input = [1, 2, 3][Symbol.iterator]();
+            const result = pipe([], concat(input));
+            expect([...result]).to.eql([1, 2, 3]);
+        });
+        it('must support synthetic ones', () => {
+            let count = 3;
+            const input = {
+                next() {
+                    if (count--) {
+                        return {value: count};
+                    }
+                    return {value: undefined, done: true};
+                }
+            };
+            const result = pipe([], concat(input));
+            expect([...result]).to.eql([2, 1, 0]);
+        });
     });
     describe('with no inputs', () => {
         it('must produce only the source', () => {
