@@ -14,8 +14,8 @@ Basic operations on [Iterables], strictly for JavaScript native types.
 
 ![image](https://user-images.githubusercontent.com/5108906/141853837-9410c17f-8b97-4b4a-b2f2-0b4ff4efc77c.png)
 
-We do not use any synthetic types here, like Observable in RXJS, etc. It is strictly an [Iterable] on the input,
-and an [Iterable] on the output.
+We do not use any synthetic types here, like Observable in RXJS, etc. It is strictly an [Iterable] on the input, and
+an [Iterable] on the output.
 
 ## Installation
 
@@ -54,8 +54,8 @@ import {pipe, filter, reduce} from 'iter-ops';
 const a = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const i = pipe(a,
-        filter(f => f % 2 === 0),
-        reduce((p, c) => p * c)
+    filter(f => f % 2 === 0),
+    reduce((p, c) => p * c)
 ); //=> factorial of all even numbers (one-value iterable)
 
 const result = i.first; //=> 384 
@@ -63,21 +63,22 @@ const result = i.first; //=> 384
 
 ## API
 
-Function [pipe] takes an [Iterable], applies the specified sequence of operators to it,
-and returns a new [Iterable], extended with property `first` (to simplify use of one-value iterables).
+Function [pipe] takes an [Iterable], applies the specified sequence of operators to it, and returns a new [Iterable],
+extended with property `first` (to simplify use of one-value iterables).
 
 #### <i>Standard operators:</i>
 
-All standard operators implement the same logic as [Array] does: 
+All standard operators implement the same logic as [Array] does:
 
-* [concat] - merges current iterable with multiple values or iterables 
+* [concat] - merges current iterable with multiple values or iterables
 * [filter] - standard filter processor for the iterable
 * [map] - standard mapping processor for the iterable
-* [reduce] - executes standard `reducer`, and produces a one-value iterable  
+* [reduce] - executes standard `reducer`, and produces a one-value iterable
 
 #### <i>Extended operators:</i>
 
 * `count()` - counts values, and produces a one-value iterable
+* `distinct(?(value, index) => key)` - emits unique values, with optional key selector
 * `empty()` - produces an empty iterable
 * `start((value, index) => boolean)` - starts emitting values after the callback returns a truthy value
 * `stop((value, index) => boolean)` - stops the iterable when the callback returns a truthy value
@@ -86,11 +87,19 @@ All standard operators implement the same logic as [Array] does:
 * `toArray()` - accumulates values into an array, and produces a one-value iterable
 
 [Iterable]:https://javascript.info/iterable
+
 [Iterables]:https://javascript.info/iterable
+
 [Array]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
+
 [concat]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
+
 [filter]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+
 [map]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+
 [reduce]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
+
 [WiKi]:https://github.com/vitaly-t/iter-ops/wiki
+
 [pipe]:https://github.com/vitaly-t/iter-ops/blob/main/src/pipe.ts
