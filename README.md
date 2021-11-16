@@ -14,7 +14,7 @@ Basic operations on synchronous [Iterables], strictly for JavaScript native type
 
 ![image](https://user-images.githubusercontent.com/5108906/142058291-b39d7226-56a4-4df0-8dc1-2ff2c6c18f10.png)
 
-We do not use any synthetic types here, like `Observable` in RXJS, etc. It is strictly a synchronous [Iterable]
+We do not use any synthetic types / wrappers here, like `Observable` in RXJS, etc. It is strictly a synchronous [Iterable]
 on the input, and a synchronous [Iterable] on the output, for maximum performance and simplicity.
 
 ## Installation

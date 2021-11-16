@@ -20,4 +20,3 @@ describe('reduce', () => {
         expect(result).to.eql({value: undefined, done: true});
     });
 });
-
