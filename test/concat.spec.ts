@@ -2,6 +2,11 @@ import {expect} from './header';
 import {pipe, concat} from '../src';
 
 describe('concat', () => {
+    it('must support iterators', () => {
+        const input = [1, 2, 3][Symbol.iterator]();
+        const result = pipe([], concat(input));
+        expect([...result]).to.eql([1, 2, 3]);
+    });
     describe('with no inputs', () => {
         it('must produce only the source', () => {
             const result = pipe([1, 2, 3], concat());

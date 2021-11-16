@@ -1,12 +1,12 @@
 import {Piper} from '../types';
 
 /**
- * Value or Iterable
+ * Value | Iterator | Iterable
  */
-type VI<T> = T | Iterable<T>;
+type VI<T> = T | Iterator<T> | Iterable<T>;
 
 /**
- * Logically merges current iterable with a list of values or iterables.
+ * Logically merges current iterable with a list of values, iterators or iterables.
  * Merged inputs are iterated over after depleting the current iterable.
  *
  * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
@@ -40,7 +40,7 @@ export function concat<T>(...values: VI<any>[]): Piper<T, any> {
                     while (index < values.length) {
                         if (start) {
                             v = values[index];
-                            k = v?.[Symbol.iterator]?.();
+                            k = v?.next ? v : v?.[Symbol.iterator]?.();
                             start = false;
                         }
                         if (k) {

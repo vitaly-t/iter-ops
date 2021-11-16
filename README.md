@@ -73,7 +73,7 @@ extended with property `first` (to simplify use of one-value iterables).
 
 All standard operators implement the same logic as [Array] does:
 
-* [concat] - merges current iterable with multiple values or iterables
+* [concat] - merges current iterable with multiple values, iterators or iterables
 * [filter] - standard filter processor for the iterable
 * [map] - standard mapping processor for the iterable
 * [reduce] - executes standard `reducer`, and produces a one-value iterable
