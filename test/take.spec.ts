@@ -16,4 +16,10 @@ describe('take', () => {
         const output = pipe(input, take(100));
         expect([...output]).to.eql(input);
     });
+    it('must not overlap the limit', () => {
+        const output = pipe(input, take(1));
+        const i = output[Symbol.iterator]();
+        const res = i.next() && i.next() && i.next();
+        expect(res).to.eql({value: undefined, done: true});
+    });
 });
