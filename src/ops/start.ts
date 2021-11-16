@@ -10,17 +10,13 @@ export function start<T>(cb: (value: T, index: number) => boolean): Piper<T, T> 
             let index = 0, done = false;
             return {
                 next(): IteratorResult<T> {
-                    if (done) {
-                        return i.next();
-                    }
-                    let a;
-                    do {
-                        a = i.next();
-                        if (!a.done && cb(a.value, index++)) {
-                            done = true;
-                            return a;
+                    let a = i.next();
+                    if (!done) {
+                        while (!a.done && !cb(a.value, index++)) {
+                            a = i.next();
                         }
-                    } while (!a.done);
+                        done = true;
+                    }
                     return a;
                 }
             };
