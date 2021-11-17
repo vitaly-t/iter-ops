@@ -35,7 +35,7 @@ export function concat<T>(...values: Any<any>[]): Piper<T, any> {
                     while (index < values.length) {
                         if (start) {
                             v = values[index];
-                            k = v?.next ? v : v?.[Symbol.iterator]?.();
+                            k = typeof v?.next === 'function' ? v : v?.[Symbol.iterator]?.();
                             start = false;
                         }
                         if (k) {
