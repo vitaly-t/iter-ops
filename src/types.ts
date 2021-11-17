@@ -17,3 +17,8 @@ export interface IterableExt<T> extends Iterable<T> {
 export interface Piper<T, R> {
     (i: Iterable<T>): Iterable<R>;
 }
+
+/**
+ * Any templated value type: Value | Iterator | Iterable
+ */
+export type Any<T> = T | Iterator<T> | Iterable<T>;
