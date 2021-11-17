@@ -85,11 +85,12 @@ All standard operators implement the same logic as [Array] does:
 * `defaultEmpty(value | iterator | iterable)` - adds default to an empty iterable
 * `distinct(?(value, index) => key)` - emits unique values, with optional key selector
 * `empty()` - produces an empty iterable
-* `last()` - produces a one-value iterable, with the last emitted value
+* `last(?(value, index) => boolean)` - produces a one-value iterable, with the last emitted value. When optional
+  predicate is provided, the last value that satisfied the predicate will be emitted.
 * `skip(count)` - starts emitting values after `count` number of values
     - it is equivalent to `start((_, index) => index >= count)`
-* `start((value, index) => boolean)` - starts emitting values after the callback returns a truthy value
-* `stop((value, index) => boolean)` - stops the iterable when the callback returns a truthy value
+* `start((value, index) => boolean)` - starts emitting values after the predicate returns a truthy value
+* `stop((value, index) => boolean)` - stops the iterable when the predicate returns a truthy value
 * `take(count)` - emits up to `count` number of values
     - it is equivalent to `stop((_, index) => index >= count)`
 * `tap((value, index) => void)` - taps into each value, without changing the output
