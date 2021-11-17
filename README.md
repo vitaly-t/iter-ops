@@ -82,6 +82,7 @@ All standard operators implement the same logic as [Array] does:
 #### <i>Extended operators:</i>
 
 * `count()` - counts values, and produces a one-value iterable
+* `defaultEmpty(value | iterator | iterable)` - adds default to an empty iterable
 * `distinct(?(value, index) => key)` - emits unique values, with optional key selector
 * `empty()` - produces an empty iterable
 * `last()` - produces a one-value iterable, with the last emitted value

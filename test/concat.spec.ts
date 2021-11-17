@@ -10,7 +10,7 @@ describe('concat', () => {
         });
         it('must support synthetic ones', () => {
             let count = 3;
-            const input = {
+            const input: Iterator<number> = {
                 next() {
                     if (count--) {
                         return {value: count};
@@ -20,6 +20,11 @@ describe('concat', () => {
             };
             const result = pipe([], concat(input));
             expect([...result]).to.eql([2, 1, 0]);
+        });
+        it('must treat "next" property as value', () => {
+            const input = {next: 123};
+            const result = pipe([], concat(input));
+            expect([...result]).to.eql([input]);
         });
     });
     describe('with no inputs', () => {

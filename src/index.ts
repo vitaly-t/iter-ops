@@ -1,8 +1,9 @@
-export {Piper, IterableExt} from './types';
+export {Any, Piper, IterableExt} from './types';
 export {pipe} from './pipe';
 
 export {concat} from './ops/concat';
 export {count} from './ops/count';
+export {defaultEmpty} from './ops/default-empty';
 export {distinct} from './ops/distinct';
 export {empty} from './ops/empty';
 export {filter} from './ops/filter';

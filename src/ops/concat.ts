@@ -1,9 +1,4 @@
-import {Piper} from '../types';
-
-/**
- * Value | Iterator | Iterable
- */
-type VI<T> = T | Iterator<T> | Iterable<T>;
+import {Any, Piper} from '../types';
 
 /**
  * Logically merges current iterable with a list of values, iterators or iterables.
@@ -12,18 +7,18 @@ type VI<T> = T | Iterator<T> | Iterable<T>;
  * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
  */
 export function concat<T>(): Piper<T, T>;
-export function concat<T, A>(v0: VI<A>): Piper<T, T | A>;
-export function concat<T, A, B>(v0: VI<A>, v1: VI<B>): Piper<T, T | A | B>;
-export function concat<T, A, B, C>(v0: VI<A>, v1: VI<B>, v2: VI<C>): Piper<T, T | A | B | C>;
-export function concat<T, A, B, C, D>(v0: VI<A>, v1: VI<B>, v2: VI<C>, v3: VI<D>): Piper<T, T | A | B | C | D>;
-export function concat<T, A, B, C, D, E>(v0: VI<A>, v1: VI<B>, v2: VI<C>, v3: VI<D>, v4: VI<E>): Piper<T, T | A | B | C | D | E>;
-export function concat<T, A, B, C, D, E, F>(v0: VI<A>, v1: VI<B>, v2: VI<C>, v3: VI<D>, v4: VI<E>, v5: VI<F>): Piper<T, T | A | B | C | D | E | F>;
-export function concat<T, A, B, C, D, E, F, G>(v0: VI<A>, v1: VI<B>, v2: VI<C>, v3: VI<D>, v4: VI<E>, v5: VI<F>, v6: VI<G>): Piper<T, T | A | B | C | D | E | F | G>;
-export function concat<T, A, B, C, D, E, F, G, H>(v0: VI<A>, v1: VI<B>, v2: VI<C>, v3: VI<D>, v4: VI<E>, v5: VI<F>, v6: VI<G>, v7: VI<H>): Piper<T, T | A | B | C | D | E | F | G | H>;
-export function concat<T, A, B, C, D, E, F, G, H, I>(v0: VI<A>, v1: VI<B>, v2: VI<C>, v3: VI<D>, v4: VI<E>, v5: VI<F>, v6: VI<G>, v7: VI<H>, v8: VI<I>): Piper<T, T | A | B | C | D | E | F | G | H | I>;
-export function concat<T, A, B, C, D, E, F, G, H, I, J>(v0: VI<A>, v1: VI<B>, v2: VI<C>, v3: VI<D>, v4: VI<E>, v5: VI<F>, v6: VI<G>, v7: VI<H>, v8: VI<I>, v9: VI<J>): Piper<T, T | A | B | C | D | E | F | G | H | I | J>;
+export function concat<T, A>(v0: Any<A>): Piper<T, T | A>;
+export function concat<T, A, B>(v0: Any<A>, v1: Any<B>): Piper<T, T | A | B>;
+export function concat<T, A, B, C>(v0: Any<A>, v1: Any<B>, v2: Any<C>): Piper<T, T | A | B | C>;
+export function concat<T, A, B, C, D>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>): Piper<T, T | A | B | C | D>;
+export function concat<T, A, B, C, D, E>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>): Piper<T, T | A | B | C | D | E>;
+export function concat<T, A, B, C, D, E, F>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>, v5: Any<F>): Piper<T, T | A | B | C | D | E | F>;
+export function concat<T, A, B, C, D, E, F, G>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>, v5: Any<F>, v6: Any<G>): Piper<T, T | A | B | C | D | E | F | G>;
+export function concat<T, A, B, C, D, E, F, G, H>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>, v5: Any<F>, v6: Any<G>, v7: Any<H>): Piper<T, T | A | B | C | D | E | F | G | H>;
+export function concat<T, A, B, C, D, E, F, G, H, I>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>, v5: Any<F>, v6: Any<G>, v7: Any<H>, v8: Any<I>): Piper<T, T | A | B | C | D | E | F | G | H | I>;
+export function concat<T, A, B, C, D, E, F, G, H, I, J>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>, v5: Any<F>, v6: Any<G>, v7: Any<H>, v8: Any<I>, v9: Any<J>): Piper<T, T | A | B | C | D | E | F | G | H | I | J>;
 
-export function concat<T>(...values: VI<any>[]): Piper<T, any> {
+export function concat<T>(...values: Any<any>[]): Piper<T, any> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
@@ -40,7 +35,7 @@ export function concat<T>(...values: VI<any>[]): Piper<T, any> {
                     while (index < values.length) {
                         if (start) {
                             v = values[index];
-                            k = v?.next ? v : v?.[Symbol.iterator]?.();
+                            k = typeof v?.next === 'function' ? v : v?.[Symbol.iterator]?.();
                             start = false;
                         }
                         if (k) {
