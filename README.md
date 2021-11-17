@@ -14,7 +14,8 @@ Basic operations on synchronous [Iterables], strictly for JavaScript native type
 
 ![image](https://user-images.githubusercontent.com/5108906/142058291-b39d7226-56a4-4df0-8dc1-2ff2c6c18f10.png)
 
-We do not use any synthetic types / wrappers here, like `Observable` in RXJS, etc. It is strictly a synchronous [Iterable]
+We do not use any synthetic types / wrappers here, like `Observable` in RXJS, etc. It is strictly a
+synchronous [Iterable]
 on the input, and a synchronous [Iterable] on the output, for maximum performance and simplicity.
 
 ## Installation
@@ -27,7 +28,7 @@ $ npm i iter-ops
 
 Follow the usage examples below, based on your development environment.
 
-See [WiKi] for more examples.
+See [recipes] for additional operations.
 
 ### JavaScript
 
@@ -85,13 +86,15 @@ All standard operators implement the same logic as [Array] does:
 * `empty()` - produces an empty iterable
 * `last()` - produces a one-value iterable, with the last emitted value
 * `skip(count)` - starts emitting values after `count` number of values
-  - it is equivalent to `start((_, index) => index >= count)`
+    - it is equivalent to `start((_, index) => index >= count)`
 * `start((value, index) => boolean)` - starts emitting values after the callback returns a truthy value
 * `stop((value, index) => boolean)` - stops the iterable when the callback returns a truthy value
 * `take(count)` - emits up to `count` number of values
-  - it is equivalent to `stop((_, index) => index >= count)` 
+    - it is equivalent to `stop((_, index) => index >= count)`
 * `tap((value, index) => void)` - taps into each value, without changing the output
 * `toArray()` - accumulates values into an array, and produces a one-value iterable
+
+See [recipes] for more operations.
 
 [Iterable]:https://javascript.info/iterable
 
@@ -110,3 +113,5 @@ All standard operators implement the same logic as [Array] does:
 [WiKi]:https://github.com/vitaly-t/iter-ops/wiki
 
 [pipe]:https://github.com/vitaly-t/iter-ops/blob/main/src/pipe.ts
+
+[recipes]:https://github.com/vitaly-t/iter-ops/wiki/recipes
