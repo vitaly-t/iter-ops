@@ -1,7 +1,7 @@
 import {Piper} from '../types';
 
 /**
- * Stops the iterator when the callback returns a truthy value.
+ * Stops the iterator when the predicate returns a truthy value.
  */
 export function stop<T>(cb: (value: T, index: number) => boolean): Piper<T, T> {
     return (iterable: Iterable<T>) => ({

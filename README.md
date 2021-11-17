@@ -74,27 +74,27 @@ extended with property `first` (to simplify use of one-value iterables).
 
 All standard operators implement the same logic as [Array] does:
 
-* [concat] - merges current iterable with multiple values, iterators or iterables
-* [filter] - standard filter processor for the iterable
-* [map] - standard mapping processor for the iterable
-* [reduce] - executes standard `reducer`, and produces a one-value iterable
+* [concat] - merges current iterable with multiple values, iterators or iterables.
+* [filter] - standard filter processor for the iterable.
+* [map] - standard mapping processor for the iterable.
+* [reduce] - executes standard `reducer`, and produces a one-value iterable.
 
 #### <i>Extended operators:</i>
 
-* `count()` - counts values, and produces a one-value iterable
-* `defaultEmpty(value | iterator | iterable)` - adds default to an empty iterable
-* `distinct(?(value, index) => key)` - emits unique values, with optional key selector
-* `empty()` - produces an empty iterable
+* `count()` - counts values, and produces a one-value iterable.
+* `defaultEmpty(value | iterator | iterable)` - adds default to an empty iterable.
+* `distinct(?(value, index) => key)` - emits unique values, with optional key selector.
+* `empty()` - produces an empty iterable.
 * `last(?(value, index) => boolean)` - produces a one-value iterable, with the last emitted value. When optional
-  predicate is provided, the last value that satisfied the predicate will be emitted.
-* `skip(count)` - starts emitting values after `count` number of values
+  predicate is provided, the last value satisfying it will be emitted.
+* `skip(count)` - starts emitting values after `count` number of values;
     - it is equivalent to `start((_, index) => index >= count)`
-* `start((value, index) => boolean)` - starts emitting values after the predicate returns a truthy value
-* `stop((value, index) => boolean)` - stops the iterable when the predicate returns a truthy value
-* `take(count)` - emits up to `count` number of values
+* `start((value, index) => boolean)` - starts emitting values after the predicate returns a truthy value.
+* `stop((value, index) => boolean)` - stops the iterable when the predicate returns a truthy value.
+* `take(count)` - emits up to `count` number of values;
     - it is equivalent to `stop((_, index) => index >= count)`
-* `tap((value, index) => void)` - taps into each value, without changing the output
-* `toArray()` - accumulates values into an array, and produces a one-value iterable
+* `tap((value, index) => void)` - taps into each value, without changing the output.
+* `toArray()` - accumulates values into an array, and produces a one-value iterable.
 
 See [recipes] for more operations.
 

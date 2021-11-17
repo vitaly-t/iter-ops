@@ -2,6 +2,8 @@ import {Piper} from '../types';
 
 /**
  * Produces a one-value iterable, with the last emitted value.
+ *
+ * When optional predicate is provided, the last value satisfying it will be emitted.
  */
 export function last<T>(cb?: (value: T, index: number) => boolean): Piper<T, T> {
     return (iterable: Iterable<T>) => ({
