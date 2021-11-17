@@ -28,7 +28,7 @@ $ npm i iter-ops
 
 Follow the usage examples below, based on your development environment.
 
-See [recipes] for additional operations.
+See also: official [API] below, plus [recipes] for additional operations.
 
 ### JavaScript
 
