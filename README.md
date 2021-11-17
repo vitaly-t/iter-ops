@@ -6,7 +6,7 @@ iter-ops
 * [Usage](#usage)
     * [JavaScript](#javascript)
     * [TypeScript](#typescript)
-* [API](#api)
+* [API]
 
 ## About
 
@@ -95,6 +95,8 @@ All standard operators implement the same logic as [Array] does:
 * `toArray()` - accumulates values into an array, and produces a one-value iterable
 
 See [recipes] for more operations.
+
+[API]:#api
 
 [Iterable]:https://javascript.info/iterable
 
