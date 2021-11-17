@@ -10,7 +10,7 @@ describe('concat', () => {
         });
         it('must support synthetic ones', () => {
             let count = 3;
-            const input = {
+            const input: Iterator<number> = {
                 next() {
                     if (count--) {
                         return {value: count};
