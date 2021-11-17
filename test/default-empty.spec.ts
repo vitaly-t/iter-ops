@@ -22,7 +22,7 @@ describe('defaultEmpty', () => {
                 }
             };
             const output = pipe([], defaultEmpty(input));
-            expect([...output]).to.eql([3, 2, 1]);
+            expect([...output]).to.eql([3, 2, 1, 0]);
         });
         it('must treat "next" property as value', () => {
             const output = pipe([], defaultEmpty({next: 123}));
