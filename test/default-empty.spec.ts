@@ -1,5 +1,5 @@
 import {expect} from './header';
-import {IterableExt, pipe, defaultEmpty} from '../src';
+import {pipe, defaultEmpty} from '../src';
 
 describe('defaultEmpty', () => {
     it('must not add to a non-empty source', () => {
@@ -53,12 +53,12 @@ describe('defaultEmpty', () => {
             };
             // the actual test here is compile-time, inferring the type correctly;
             // NOTE: This case does require casting input as Iterator<string> :|
-            const i: IterableExt<number | string> = pipe([1, 2, 3], defaultEmpty(input));
+            const i: Iterable<number | string> = pipe([1, 2, 3], defaultEmpty(input));
             expect([...i]).to.eql([1, 2, 3]); // default not added
         });
         it('must work for iterables', () => {
             // the actual test here is compile-time, inferring the type correctly:
-            const i: IterableExt<number | string | boolean> = pipe([1, 2, 3], defaultEmpty(['hello', true]));
+            const i: Iterable<number | string | boolean> = pipe([1, 2, 3], defaultEmpty(['hello', true]));
             expect([...i]).to.eql([1, 2, 3]); // default not added
         });
     });
