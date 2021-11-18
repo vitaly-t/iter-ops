@@ -26,17 +26,7 @@ export function pipe<T>(i: Iterable<T>, ...p: Piper<any, any>[]): IterableExt<an
             r = new String(r); // turn into object, so it can be extended
         }
     }
-    extendIterable(r);
+    Object.defineProperty(r, 'first', ({get: () => r[Symbol.iterator]().next().value}));
+    r.catch = (cb: any) => catchError(cb)(i);
     return r;
-}
-
-function extendIterable(i: any) {
-    Object.defineProperty(i, 'first', ({
-        get() {
-            return this[Symbol.iterator]().next().value;
-        }
-    }));
-    i.catch = function (cb: (error: any, index: number, lastValue?: any) => any) {
-        return catchError(cb)(i);
-    };
 }
