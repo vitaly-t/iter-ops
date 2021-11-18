@@ -15,4 +15,18 @@ describe('pipe', () => {
             expect(output.first).to.eql('o');
         });
     });
+    describe('catch', () => {
+        it('must allow full nesting', () => {
+            const dummy = () => {
+                return 2;
+            };
+            const a = pipe([1]);
+            expect(typeof a.catch).to.eql('function');
+            expect(typeof a.catch(dummy).catch).to.eql('function');
+            expect(typeof a.catch(dummy).catch(dummy).catch).to.eql('function');
+            expect(a.first).to.eql(1);
+            expect(a.catch(dummy).first).to.eql(1);
+            expect(a.catch(dummy).catch(dummy).first).to.eql(1);
+        });
+    });
 });
