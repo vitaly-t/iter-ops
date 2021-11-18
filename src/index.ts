@@ -15,5 +15,6 @@ export {skip} from './ops/skip';
 export {start} from './ops/start';
 export {stop} from './ops/stop';
 export {take} from './ops/take';
+export {takeLast} from './ops/take-last';
 export {tap} from './ops/tap';
 export {toArray} from './ops/to-array';
