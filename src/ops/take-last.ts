@@ -6,19 +6,24 @@ import {Piper} from '../types';
 export function takeLast<T>(count: number): Piper<T, T> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
-            // const i = iterable[Symbol.iterator]();
-            // let index = 0, done = false;
+            const i = iterable[Symbol.iterator]();
+            const buffer: IteratorResult<T>[] = [];
+            let ready = false, index = 0;
             return {
                 next(): IteratorResult<T> {
-                    // TODO: to be implemented
-
-                    /*
-                    a) allocate buffer size = count; (or use dynamic one)
-                    b) deplete the source, while shifting everything in the buffer once it is full
-                    c) start emitting values from the buffer
-
-                    NOTE: check how RXJS does it first!
-                    */
+                    if (!ready) {
+                        let a;
+                        while (!(a = i.next()).done) {
+                            buffer.push(a);
+                            if (count < buffer.length) {
+                                buffer.shift();
+                            }
+                        }
+                        ready = true;
+                    }
+                    if (index < buffer.length) {
+                        return buffer[index++];
+                    }
                     return {value: undefined, done: true};
                 }
             };
