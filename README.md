@@ -85,6 +85,7 @@ All standard operators implement the same logic as [Array] does:
 * `defaultEmpty(value | iterator | iterable)` - adds default to an empty iterable.
 * `distinct(?(value, index) => key)` - emits unique values, with optional key selector.
 * `empty()` - produces an empty iterable.
+* `isEmpty()` - produces a one-value iterable, indicating if the source is empty.
 * `last(?(value, index) => boolean)` - produces a one-value iterable, with the last emitted value. When optional
   predicate is provided, the last value satisfying it will be emitted.
 * `skip(count)` - starts emitting values after `count` number of values;
