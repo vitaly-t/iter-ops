@@ -82,7 +82,7 @@ All standard operators implement the same logic as [Array] does:
 #### <i>Extended operators:</i>
 
 * `catchError((err, index, ?lastValue)) => value | throw` - catches iteration errors, to either re-throw or return a new
-  value (`index` is current, while `lastValue` is the last successful value, if any, or else `undefined`).
+  value (see [Error Handling]).
 * `count()` - counts values, and produces a one-value iterable.
 * `defaultEmpty(value | iterator | iterable)` - adds default to an empty iterable.
 * `distinct(?(value, index) => key)` - emits unique values, with optional key selector.
@@ -103,6 +103,8 @@ All standard operators implement the same logic as [Array] does:
 See [recipes] for more operations.
 
 [API]:#api
+
+[Error Handling]:https://github.com/vitaly-t/iter-ops/wiki/Error-Handling
 
 [Iterable]:https://javascript.info/iterable
 
