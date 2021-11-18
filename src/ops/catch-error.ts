@@ -6,8 +6,8 @@ import {Piper} from '../types';
  * Callback parameters:
  *
  *  - error: the error that was thrown
- *  - index: current value index
- *  - lastValue: the last successful value, if any, or else undefined
+ *  - index: index of the value that we failed to retrieve
+ *  - lastValue: last successful value, if any, or else undefined
  */
 export function catchError<T>(cb: (error: any, index: number, lastValue?: T) => never): Piper<T, T>;
 export function catchError<T>(cb: (error: any, index: number, lastValue?: T) => T): Piper<T, T>;

@@ -11,7 +11,8 @@ export interface IterableExt<T> extends Iterable<T> {
     readonly first?: T;
 
     /**
-     * TODO: document
+     * Appends catchError operator to the end of the iterable,
+     * with the specified callback function.
      */
     catch(cb: (error: any, index: number, lastValue?: T) => T): IterableExt<T>;
 }
