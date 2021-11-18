@@ -7,6 +7,7 @@ export function distinct<T, K>(keySelector?: (value: T, index: number) => K): Pi
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
+            const ks = typeof keySelector === 'function' && keySelector;
             const keySet = new Set();
             let index = 0;
             return {
@@ -15,7 +16,7 @@ export function distinct<T, K>(keySelector?: (value: T, index: number) => K): Pi
                     do {
                         a = i.next();
                         if (!a.done) {
-                            const key = keySelector ? keySelector(a.value, index++) : a.value;
+                            const key = ks ? ks(a.value, index++) : a.value;
                             if (!keySet.has(key)) {
                                 keySet.add(key);
                                 return a;

@@ -26,5 +26,9 @@ describe('distinct', () => {
             expect([...output]).to.eql([{a: 1}, {a: 2}, {a: 3}]);
             expect(indexes).to.eql([0, 1, 2, 3, 4, 5]); // index is for each original element
         });
+        it('must ignore invalid selectors', () => {
+            const output = pipe([1, 1, 2, 2], distinct('bla' as any));
+            expect([...output]).to.eql([1, 2]);
+        });
     });
 });
