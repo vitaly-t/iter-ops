@@ -28,7 +28,7 @@ $ npm i iter-ops
 
 Follow the usage examples below, based on your development environment.
 
-_See also:_ official [API] below, plus [recipes] for additional operations.
+_See also:_ official [API] below, plus [Recipes] for additional operations.
 
 ### JavaScript
 
@@ -100,7 +100,7 @@ All standard operators implement the same logic as [Array] does:
 * `tap((value, index) => void)` - taps into each value, without changing the output.
 * `toArray()` - accumulates values into an array, and produces a one-value iterable.
 
-See [recipes] for more operations.
+See [Recipes] for more operations.
 
 [API]:#api
 
@@ -124,4 +124,4 @@ See [recipes] for more operations.
 
 [pipe]:https://github.com/vitaly-t/iter-ops/blob/main/src/pipe.ts
 
-[recipes]:https://github.com/vitaly-t/iter-ops/wiki/recipes
+[Recipes]:https://github.com/vitaly-t/iter-ops/wiki/Recipes
