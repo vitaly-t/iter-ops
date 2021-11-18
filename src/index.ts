@@ -7,6 +7,7 @@ export {defaultEmpty} from './ops/default-empty';
 export {distinct} from './ops/distinct';
 export {empty} from './ops/empty';
 export {filter} from './ops/filter';
+export {isEmpty} from './ops/is-empty';
 export {last} from './ops/last';
 export {map} from './ops/map';
 export {reduce} from './ops/reduce';
