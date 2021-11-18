@@ -10,7 +10,6 @@ describe('catchError', () => {
             }),
             catchError(() => {
                 throw new Error('handled');
-                // return 2;
             })
         );
         expect(() => {
