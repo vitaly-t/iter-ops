@@ -1,4 +1,5 @@
 import {IterableExt, Piper} from './types';
+import {catchError} from './ops/catch-error';
 
 /**
  * Pipes an iterable through the list of operators, and returns an extended iterable.
@@ -25,10 +26,17 @@ export function pipe<T>(i: Iterable<T>, ...p: Piper<any, any>[]): IterableExt<an
             r = new String(r); // turn into object, so it can be extended
         }
     }
-    Object.defineProperty(r, 'first', ({
+    extendIterable(r);
+    return r;
+}
+
+function extendIterable(i: any) {
+    Object.defineProperty(i, 'first', ({
         get() {
             return this[Symbol.iterator]().next().value;
         }
     }));
-    return r;
+    i.catch = function (cb: (error: any, index: number, lastValue?: any) => any) {
+        return catchError(cb)(i);
+    };
 }

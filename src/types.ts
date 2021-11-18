@@ -9,6 +9,11 @@ export interface IterableExt<T> extends Iterable<T> {
      * It is to simplify use of one-value iterables.
      */
     readonly first?: T;
+
+    /**
+     * TODO: document
+     */
+    catch(cb: (error: any, index: number, lastValue?: T) => T): IterableExt<T>;
 }
 
 /**
