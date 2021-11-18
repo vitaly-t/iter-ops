@@ -11,6 +11,14 @@ export function takeLast<T>(count: number): Piper<T, T> {
             return {
                 next(): IteratorResult<T> {
                     // TODO: to be implemented
+
+                    /*
+                    a) allocate buffer size = count; (or use dynamic one)
+                    b) deplete the source, while shifting everything in the buffer once it is full
+                    c) start emitting values from the buffer
+
+                    NOTE: check how RXJS does it first!
+                    */
                     return {value: undefined, done: true};
                 }
             };
