@@ -2,7 +2,7 @@ import {expect} from './header';
 import {pipe, tap, catchError} from '../src';
 
 describe('catchError', () => {
-    it('must continue with returned values', () => {
+    it('must continue without value', () => {
         const reports: any[] = [];
         const i = pipe(
             [1, 2, 3, 4, 5],
