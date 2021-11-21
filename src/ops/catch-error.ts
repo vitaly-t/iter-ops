@@ -1,15 +1,15 @@
-import {IErrorInfo, Piper} from '../types';
+import {IErrorContext, Piper} from '../types';
 
 /**
- * Catches iteration errors, to either re-throw or return a new value of the same type.
+ * Catches iteration errors.
  *
- * Callback parameters:
- *
- *  - error: the error that was thrown
- *  - index: index of the value that we failed to retrieve
- *  - lastValue: last successful value, if any, or else undefined
+ * Your options inside the error handler:
+ * - do nothing;
+ * - re-throw the original error;
+ * - throw a new error;
+ * - replace the value via ctx.emit(value)
  */
-export function catchError<T>(cb: (error: any, info: IErrorInfo<T>) => void): Piper<T, T> {
+export function catchError<T>(cb: (error: any, ctx: IErrorContext<T>) => void): Piper<T, T> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
