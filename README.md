@@ -81,7 +81,7 @@ All standard operators implement the same logic as [Array] does:
 
 #### <i>Extended operators:</i>
 
-* `catchError((error, ctx)) => - catches iteration errors - see [Error Handling].
+* `catchError((error, ctx))` => - catches iteration errors - see [Error Handling].
 * `count()` - counts values, and produces a one-value iterable.
 * `defaultEmpty(value | iterator | iterable)` - adds default to an empty iterable.
 * `distinct(?(value, index) => key)` - emits unique values, with optional key selector.
