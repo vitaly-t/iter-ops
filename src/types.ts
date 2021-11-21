@@ -1,3 +1,10 @@
+export interface IErrorInfo<T> {
+    index: number;
+    lastValue?: T;
+
+    emit(value: T): void;
+}
+
 /**
  * Extended Iterable.
  */
@@ -14,7 +21,7 @@ export interface IterableExt<T> extends Iterable<T> {
      * Appends catchError operator to the end of the iterable,
      * with the specified callback function.
      */
-    catch(cb: (error: any, index: number, lastValue?: T) => T): IterableExt<T>;
+    catch(cb: (error: any, info: IErrorInfo<T>) => void): IterableExt<T>;
 }
 
 /**
