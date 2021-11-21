@@ -1,4 +1,25 @@
 /**
+ * Iteration Error Context.
+ */
+export interface IErrorContext<T> {
+    /**
+     * Value Index.
+     */
+    index: number;
+
+    /**
+     * Last successfully retrieved value, if any (undefined otherwise).
+     */
+    lastValue?: T;
+
+    /**
+     * Alternative value emitter, to replace what we failed to retrieve.
+     * Without this call, the errored value is skipped from iteration.
+     */
+    emit(value: T): void;
+}
+
+/**
  * Extended Iterable.
  */
 export interface IterableExt<T> extends Iterable<T> {
@@ -14,7 +35,7 @@ export interface IterableExt<T> extends Iterable<T> {
      * Appends catchError operator to the end of the iterable,
      * with the specified callback function.
      */
-    catch(cb: (error: any, index: number, lastValue?: T) => T): IterableExt<T>;
+    catch(cb: (error: any, ctx: IErrorContext<T>) => void): IterableExt<T>;
 }
 
 /**
