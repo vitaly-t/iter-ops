@@ -19,25 +19,23 @@ export function catchError<T>(cb: (error: any, info: IErrorInfo<T>) => void): Pi
                     do {
                         try {
                             last = i.next();
+                            index++;
+                            if (!last.done) {
+                                return last;
+                            }
                         } catch (e) {
-                            let value: T, emitted = false;
-                            const info: IErrorInfo<T> = {
+                            let value: T, emitted;
+                            cb(e, {
                                 index: index++,
                                 lastValue: last?.value,
                                 emit(v) {
                                     value = v;
                                     emitted = true;
                                 }
-                            };
-                            cb(e, info);
+                            });
                             if (emitted) {
-                                return {value};
+                                return {value: value!};
                             }
-                            // TODO: what do we do here?
-                        }
-                        index++;
-                        if (!last?.done) {
-                            return last;
                         }
                     } while (!last.done);
                     return {value: undefined, done: true};
