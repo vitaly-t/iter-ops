@@ -5,7 +5,7 @@ import {IErrorContext, Piper} from '../types';
  *
  * What you can do inside the error handler:
  *
- * - nothing (just skip the value);
+ * - nothing (we let it skip the value);
  * - provide a new/alternative value (via ctx.emit(value));
  * - re-throw the original error;
  * - throw a new error.
