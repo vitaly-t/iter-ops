@@ -1,3 +1,14 @@
+import {catchError} from './ops/catch-error';
+
+/**
+ * Extends an iterable object to IterableExt type.
+ */
+export function extendIterable(i: any) {
+    Object.defineProperty(i, 'first', ({get: () => i[Symbol.iterator]().next().value}));
+    i.catch = (cb: any) => extendIterable(catchError(cb)(i));
+    return i;
+}
+
 /**
  * Type-dependent performance optimizer.
  *

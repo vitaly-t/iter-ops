@@ -1,6 +1,5 @@
 import {IterableExt, Piper} from './types';
-import {optimizeIterable} from './utils';
-import {catchError} from './ops/catch-error';
+import {extendIterable, optimizeIterable} from './utils';
 
 /**
  * Pipes an iterable through the list of operators, and returns an extended iterable.
@@ -19,10 +18,4 @@ export function pipe<T, A, B, C, D, E, F, G, H, I, J>(i: Iterable<T>, p0: Piper<
 
 export function pipe<T>(i: Iterable<T>, ...p: Piper<any, any>[]): IterableExt<any> {
     return extendIterable(p.reduce((c, a) => a(c), optimizeIterable(i)));
-}
-
-function extendIterable(i: any) {
-    Object.defineProperty(i, 'first', ({get: () => i[Symbol.iterator]().next().value}));
-    i.catch = (cb: any) => extendIterable(catchError(cb)(i));
-    return i;
 }
