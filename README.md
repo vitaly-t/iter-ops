@@ -67,7 +67,7 @@ const result = i.first; //=> 384
 
 ## API
 
-Function [pipe] takes an [Iterable], applies the specified operators to it, and returns
+Function [pipe] takes an [Iterable], applies all specified operators to it, and returns
 an [IterableExt](https://github.com/vitaly-t/iter-ops/blob/main/src/types.ts#L25).
 
 #### <i>Standard operators:</i>
