@@ -30,6 +30,8 @@ Follow the usage examples below, based on your development environment.
 
 _See also:_ official [API] below, plus [Recipes] for additional operations.
 
+For web usage, either bundle it properly, or see [web](./web) folder.
+
 ### JavaScript
 
 Remapping an [Iterable] object:
