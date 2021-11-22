@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "iter-ops web builder",
   "scripts": {
-    "build": "browserify ../dist-web/index.js -o iter-ops.js -s iterOps && gulp"
+    "build": "browserify ../dist/index.js -o iter-ops.js -s iterOps && gulp"
   },
   "repository": {
     "type": "git",
