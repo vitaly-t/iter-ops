@@ -68,7 +68,7 @@ const result = i.first; //=> 384
 ## API
 
 Function [pipe] takes an [Iterable], applies the specified sequence of operators to it, and returns a new [Iterable],
-extended with property `first` (to simplify use of one-value iterables).
+extended with property `first` (to simplify use of one-value iterables), plus `catch` method (see [Error Handling]).
 
 #### <i>Standard operators:</i>
 
