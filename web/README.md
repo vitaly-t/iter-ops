@@ -28,4 +28,4 @@ All library exports reside inside global `iterOps` namespace:
 const {pipe, map, filter} = iterOps; // importing some functions
 ```
 
-NOTE: Both `map` and `gzip` files are included in distribution.
+Note that `map` and `gzip` files are included in distribution.

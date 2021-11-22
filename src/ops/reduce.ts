@@ -7,6 +7,7 @@ import {Piper} from '../types';
 export function reduce<T>(cb: (previousValue: T, currentValue: T, index: number) => T, initialValue?: T): Piper<T, T> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
+            const i = iterable[Symbol.iterator]();
             let done = false;
             return {
                 next(): IteratorResult<T> {
@@ -14,14 +15,14 @@ export function reduce<T>(cb: (previousValue: T, currentValue: T, index: number)
                     if (done) {
                         return {value, done};
                     }
-                    let index = 0;
                     value = initialValue as T;
-                    for (const curr of iterable) {
+                    let index = 0, a;
+                    while (!(a = i.next()).done) {
                         if (!index++ && value === undefined) {
-                            value = curr;
+                            value = a.value;
                             continue;
                         }
-                        value = cb(value, curr, index++);
+                        value = cb(value, a.value, index++);
                     }
                     done = true;
                     return {value};

@@ -7,19 +7,20 @@ import {Piper} from '../types';
 export function toArray<T>(): Piper<T, T[]> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T[]> {
+            const i = iterable[Symbol.iterator]();
             let done = false;
             return {
                 next(): IteratorResult<T[]> {
-                    let value;
                     if (done) {
-                        return {value, done};
+                        return {value: undefined, done};
                     }
-                    value = [];
-                    for (const a of iterable) {
-                        value.push(a);
+                    const arr = [];
+                    let a;
+                    while (!(a = i.next()).done) {
+                        arr.push(a.value);
                     }
                     done = true;
-                    return {value};
+                    return {value: arr};
                 }
             };
         }
