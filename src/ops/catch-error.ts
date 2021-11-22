@@ -3,11 +3,12 @@ import {IErrorContext, Piper} from '../types';
 /**
  * Catches iteration errors.
  *
- * Your options inside the error handler:
- * - do nothing;
+ * What you can do inside the error handler:
+ *
+ * - nothing (just skip the value);
+ * - provide a new/alternative value (via ctx.emit(value));
  * - re-throw the original error;
- * - throw a new error;
- * - replace the value via ctx.emit(value)
+ * - throw a new error.
  */
 export function catchError<T>(cb: (error: any, ctx: IErrorContext<T>) => void): Piper<T, T> {
     return (iterable: Iterable<T>) => ({
