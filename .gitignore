@@ -3,5 +3,7 @@
 node_modules/
 coverage/
 package-lock.json
+dist/
+dist-web/
 **/*.js
 **/*.d.ts
