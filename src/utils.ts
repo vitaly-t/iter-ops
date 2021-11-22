@@ -1,10 +1,10 @@
 /**
- * Type-based performance optimizer.
+ * Type-dependent performance optimizer.
  *
  * Tests show that for indexed types, JavaScript performs way better
  * when accessed via index, rather than iterable interface.
  */
-export function wrapIterable<T>(input: any): any {
+export function optimizeIterable<T>(input: any): any {
     if (isIndexed(input)) {
         // wrap the input, to use index internally;
         return {

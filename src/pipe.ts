@@ -1,5 +1,5 @@
 import {IterableExt, Piper} from './types';
-import {wrapIterable} from './utils';
+import {optimizeIterable} from './utils';
 import {catchError} from './ops/catch-error';
 
 /**
@@ -18,7 +18,7 @@ export function pipe<T, A, B, C, D, E, F, G, H, I>(i: Iterable<T>, p0: Piper<T, 
 export function pipe<T, A, B, C, D, E, F, G, H, I, J>(i: Iterable<T>, p0: Piper<T, A>, p1: Piper<A, B>, p2: Piper<B, C>, p3: Piper<C, D>, p4: Piper<D, E>, p5: Piper<E, F>, p6: Piper<F, G>, p7: Piper<G, H>, p8: Piper<H, I>, p9: Piper<I, J>): IterableExt<J>;
 
 export function pipe<T>(i: Iterable<T>, ...p: Piper<any, any>[]): IterableExt<any> {
-    return extendIterable(p.reduce((c, a) => a(c), wrapIterable(i)));
+    return extendIterable(p.reduce((c, a) => a(c), optimizeIterable(i)));
 }
 
 function extendIterable(i: any) {
