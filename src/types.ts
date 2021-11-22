@@ -32,7 +32,7 @@ export interface IterableExt<T> extends Iterable<T> {
     readonly first?: T;
 
     /**
-     * Appends catchError operator to the iterable.
+     * Appends catchError operator to the pipeline.
      */
     catch(cb: (error: any, ctx: IErrorContext<T>) => void): IterableExt<T>;
 }
