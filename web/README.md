@@ -1,7 +1,7 @@
 Web Build
 ---------
 
-This is in case you do not want to properly package TypeScript for you project, and rather use a pre-packaged JavaScript
+This is in case you do not want to properly bundle the library for you project, and rather use a pre-packaged JavaScript
 file.
 
 Here we build a complete web distribution, which is shipped with the library.
