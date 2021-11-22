@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "clean": "del /s/q .\\test\\*.js && del /s/q .\\src\\*.js && rd /s/q .\\dist",
-    "build": "tsc -p src",
+    "build": "tsc -p src && tsc -p src/tsconfig.web.json",
     "lint": "tslint --fix ./src/**/*.ts ./test/*.ts",
     "test": "nyc mocha -r ts-node/register test/*.spec.ts"
   },
