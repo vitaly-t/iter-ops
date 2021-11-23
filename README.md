@@ -99,7 +99,7 @@ All standard operators implement the same logic as [Array] does:
 * `take(count)` - emits up to `count` number of values;
     - it is equivalent to `stop((_, index) => index >= count)`
 * `takeLast(count)` - emits up to `count` number of the last values.
-* `tap((value, index) => void)` - taps into each value, without changing the output.
+* `tap((value, index, state) => void)` - taps into each value, without changing the output.
 * `toArray()` - accumulates values into an array, and produces a one-value iterable.
 
 See [Recipes] for more operations.
