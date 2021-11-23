@@ -94,8 +94,8 @@ All standard operators implement the same logic as [Array] does:
   predicate is provided, the last value satisfying it will be emitted.
 * `skip(count)` - starts emitting values after `count` number of values;
     - it is equivalent to `start((_, index) => index >= count)`
-* `start((value, index) => boolean)` - starts emitting values after the predicate returns a truthy value.
-* `stop((value, index) => boolean)` - stops the iterable when the predicate returns a truthy value.
+* `start((value, index, state) => boolean)` - starts emitting, once the predicate returns a truthy value.
+* `stop((value, index, state) => boolean)` - stops emitting, once the predicate returns a truthy value.
 * `take(count)` - emits up to `count` number of values;
     - it is equivalent to `stop((_, index) => index >= count)`
 * `takeLast(count)` - emits up to `count` number of the last values.
