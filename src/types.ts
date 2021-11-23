@@ -48,3 +48,11 @@ export interface Piper<T, R> {
  * Any templated value type: Value | Iterator | Iterable
  */
 export type Any<T> = T | Iterator<T> | Iterable<T>;
+
+/**
+ * Iteration State.
+ *
+ * An object with random properties, shared between callbacks during a complete sequence,
+ * for any intermediate processing/tracking data that the callback logic may require.
+ */
+export type IterationState = { [name: string]: any };

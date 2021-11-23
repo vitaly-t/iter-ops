@@ -15,4 +15,16 @@ describe('stop', () => {
         expect(i.next()).to.eql({value: undefined, done: true});
         expect(i.next()).to.eql({value: undefined, done: true}); // key test here
     });
+    it('must reuse the state object', () => {
+        const input = 'hello!';
+        const arr: number[] = [];
+        const output = pipe(input, stop((value, index, state) => {
+            state.count = state.count ?? 0;
+            state.count++;
+            arr.push(state.count);
+            return true;
+        }));
+        expect([...output]).to.eql([]);
+        expect(arr).to.eql([1]);
+    });
 });

@@ -1,4 +1,4 @@
-export {Any, Piper, IterableExt, IErrorContext} from './types';
+export {Any, Piper, IterableExt, IterationState, IErrorContext} from './types';
 export {pipe} from './pipe';
 
 export {catchError} from './ops/catch-error';

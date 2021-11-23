@@ -19,4 +19,16 @@ describe('reduce', () => {
         const result = i.next() && i.next();
         expect(result).to.eql({value: undefined, done: true});
     });
+    it('must reuse the state object', () => {
+        const input = 'hello!';
+        const arr: number[] = [];
+        const output = pipe(input, reduce((a, c, index, state) => {
+            state.count = state.count ?? 0;
+            state.count++;
+            arr.push(state.count);
+            return '';
+        }));
+        [...output];
+        expect(arr).to.eql([1, 2, 3, 4, 5]);
+    });
 });

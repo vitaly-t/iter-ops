@@ -78,9 +78,9 @@ an [IterableExt](https://github.com/vitaly-t/iter-ops/blob/main/src/types.ts#L25
 All standard operators implement the same logic as [Array] does:
 
 * [concat] - merges current iterable with multiple values, iterators or iterables.
-* [filter] - standard filter processor for the iterable.
-* [map] - standard mapping processor for the iterable.
-* [reduce] - executes standard `reducer`, and produces a one-value iterable.
+* [filter] - standard filter processor, extended for state support.
+* [map] - standard mapping processor, extended for state support.
+* [reduce] - `reduce` processor (with state support), which produces a one-value iterable.
 
 #### <i>Extended operators:</i>
 
@@ -94,12 +94,12 @@ All standard operators implement the same logic as [Array] does:
   predicate is provided, the last value satisfying it will be emitted.
 * `skip(count)` - starts emitting values after `count` number of values;
     - it is equivalent to `start((_, index) => index >= count)`
-* `start((value, index) => boolean)` - starts emitting values after the predicate returns a truthy value.
-* `stop((value, index) => boolean)` - stops the iterable when the predicate returns a truthy value.
+* `start((value, index, state) => boolean)` - starts emitting, once the predicate returns a truthy value.
+* `stop((value, index, state) => boolean)` - stops emitting, once the predicate returns a truthy value.
 * `take(count)` - emits up to `count` number of values;
     - it is equivalent to `stop((_, index) => index >= count)`
 * `takeLast(count)` - emits up to `count` number of the last values.
-* `tap((value, index) => void)` - taps into each value, without changing the output.
+* `tap((value, index, state) => void)` - taps into each value, without changing the output.
 * `toArray()` - accumulates values into an array, and produces a one-value iterable.
 
 See [Recipes] for more operations.
