@@ -34,37 +34,38 @@ For web usage, either bundle it properly, or see [web](./web) folder.
 
 ### JavaScript
 
-Remapping an [Iterable] object:
+Simple filtering + mapping an [Iterable]:
 
 ```js
-const {pipe, map} = require('iter-ops');
+const {pipe, filter, map} = require('iter-ops');
 
-const a = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const a = [1, 2, 3, 4, 5];
 
 const i = pipe(
     a,
-    map(value => ({value}))
+    filter(a => a % 2 === 0), // find even numbers
+    map(value => ({value})) // remap into objects
 );
 
-const result = [...i]; //=> [{value: 1}, {value: 2}, ...]
+const result = [...i]; //=> [{value: 2}, {value: 4}]
 ```
 
 ### TypeScript
 
-Calculating factorial of all even numbers:
+Calculating factorial of unique numbers:
 
 ```ts
 import {pipe, filter, reduce} from 'iter-ops';
 
-const a = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const a = [1, 2, 2, 3, 3, 4];
 
 const i = pipe(
     a,
-    filter(f => f % 2 === 0),
+    distinct(), // emit unique items
     reduce((p, c) => p * c)
-); //=> factorial of all even numbers (one-value iterable)
+); //=> factorial of unique numbers (one-value iterable)
 
-const result = i.first; //=> 384 
+const result = i.first; //=> 24
 ```
 
 ## API
