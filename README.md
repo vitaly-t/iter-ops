@@ -78,7 +78,7 @@ an [IterableExt](https://github.com/vitaly-t/iter-ops/blob/main/src/types.ts#L25
 All standard operators implement the same logic as [Array] does:
 
 * [concat] - merges current iterable with multiple values, iterators or iterables.
-* [filter] - standard filter processor for the iterable.
+* [filter] - standard filter processor, extended for state support.
 * [map] - standard mapping processor, extended for state support.
 * [reduce] - executes standard `reducer`, and produces a one-value iterable.
 

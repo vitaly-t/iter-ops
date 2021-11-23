@@ -1,8 +1,9 @@
 import {IterationState, Piper} from '../types';
 
 /**
- * Implements standard map logic for the iterable,
- * extended for supporting iteration state.
+ * Standard map logic for the iterable, extended for supporting iteration state.
+ *
+ * See also: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
  */
 export function map<T, R>(cb: (value: T, index: number, state: IterationState) => R): Piper<T, R> {
     return (iterable: Iterable<T>) => ({
