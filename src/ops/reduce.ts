@@ -1,13 +1,15 @@
-import {Piper} from '../types';
+import {IterationState, Piper} from '../types';
 
 /**
- * Implements standard reducer for the iterable;
- * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
+ * Standard reducer for the iterable, extended for supporting iteration state.
+ *
+ * See also: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
  */
-export function reduce<T>(cb: (previousValue: T, currentValue: T, index: number) => T, initialValue?: T): Piper<T, T> {
+export function reduce<T>(cb: (previousValue: T, currentValue: T, index: number, state: IterationState) => T, initialValue?: T): Piper<T, T> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
+            const state = {};
             let done = false;
             return {
                 next(): IteratorResult<T> {
@@ -22,7 +24,7 @@ export function reduce<T>(cb: (previousValue: T, currentValue: T, index: number)
                             value = a.value;
                             continue;
                         }
-                        value = cb(value, a.value, index++);
+                        value = cb(value, a.value, index++, state);
                     }
                     done = true;
                     return {value};
