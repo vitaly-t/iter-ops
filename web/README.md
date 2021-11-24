@@ -28,4 +28,4 @@ Here we build the web distribution that's shipped with the library.
 * Build the main project, with `npm run build`
 * Build web distribution, with `npm run build` inside `web` folder.
 
-All files will be generated in folder `../dist/web`.
+All web files will be generated in folder `../dist/web`.
