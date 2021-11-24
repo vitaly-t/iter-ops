@@ -71,7 +71,7 @@ const result = i.first; //=> 10
 ## API
 
 Function [pipe] takes an [Iterable], applies all specified operators to it, and returns
-an [IterableExt](https://github.com/vitaly-t/iter-ops/blob/main/src/types.ts#L25).
+[IterableExt](https://github.com/vitaly-t/iter-ops/blob/main/src/types.ts#L25).
 
 #### <i>Standard operators:</i>
 
@@ -84,7 +84,7 @@ All standard operators implement the same logic as [Array] does:
 
 #### <i>Extended operators:</i>
 
-* `aggregate((values) => result)` - executes an aggregate on accumulated values - see [Aggregates].
+* `aggregate(values => result)` - executes an aggregate on accumulated values - see [Aggregates].
 * `catchError((error, ctx) => void)` - catches iteration errors - see [Error Handling].
 * `count()` - counts values, and produces a one-value iterable.
 * `defaultEmpty(value | iterator | iterable)` - adds default to an empty iterable.
