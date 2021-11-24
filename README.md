@@ -61,9 +61,9 @@ const a = [1, 2, 2, 3, 3, 4];
 
 const i = pipe(
     a,
-    distinct(), // emit unique items
-    reduce((p, c) => p + c)
-); //=> factorial of unique numbers (one-value iterable)
+    distinct(), // emit unique numbers
+    reduce((p, c) => p + c) // sum up the numbers
+); //=> one-value iterable
 
 const result = i.first; //=> 10
 ```
