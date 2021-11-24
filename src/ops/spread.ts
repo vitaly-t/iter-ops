@@ -1,22 +1,16 @@
 import {Piper} from '../types';
-import {pipe} from '../pipe';
 
 /**
  * Spreads iterable values.
  */
-export function spread<T extends Iterable<R>, R>(): Piper<T, R> {
-    return (iterable: Iterable<T>) => ({
-        [Symbol.iterator](): Iterator<R> {
+export function spread<T>(): Piper<Iterable<T>, T> {
+    return (iterable: Iterable<Iterable<T>>) => ({
+        [Symbol.iterator](): Iterator<T> {
             return {
-                next(): IteratorResult<R> {
+                next(): IteratorResult<T> {
                     return {value: undefined, done: true};
                 }
             };
         }
     });
 }
-
-// declaration tests:
-pipe(['text'], spread());
-
-pipe([[1], [2], [3]], spread());
