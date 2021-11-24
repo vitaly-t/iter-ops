@@ -26,7 +26,7 @@ export function spread<T>(): Piper<Iterable<T>, T> {
                             start = true;
                         }
                     } while (!a.done);
-                    return {value: undefined, done: true};
+                    return a;
                 }
             };
         }
