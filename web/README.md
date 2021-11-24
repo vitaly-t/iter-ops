@@ -6,7 +6,7 @@ file.
 
 ## Usage
 
-Include the distributed `iter-ops.min.js` from the package:
+Include `iter-ops.min.js` from the package:
 
 ```html
 
