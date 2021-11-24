@@ -1,6 +1,7 @@
 export {Any, Piper, IterableExt, IterationState, IErrorContext} from './types';
 export {pipe} from './pipe';
 
+export {aggregate} from './ops/aggregate';
 export {catchError} from './ops/catch-error';
 export {concat} from './ops/concat';
 export {count} from './ops/count';
