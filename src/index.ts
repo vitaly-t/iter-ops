@@ -13,6 +13,7 @@ export {last} from './ops/last';
 export {map} from './ops/map';
 export {reduce} from './ops/reduce';
 export {skip} from './ops/skip';
+export {spread} from './ops/spread';
 export {start} from './ops/start';
 export {stop} from './ops/stop';
 export {take} from './ops/take';
