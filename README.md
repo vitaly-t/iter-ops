@@ -84,7 +84,7 @@ All standard operators implement the same logic as [Array] does:
 
 #### <i>Extended operators:</i>
 
-* `aggregate((values) => newValue)` - executes an aggregate on accumulated values - see [Aggregates].
+* `aggregate((values) => result)` - executes an aggregate on accumulated values - see [Aggregates].
 * `catchError((error, ctx) => void)` - catches iteration errors - see [Error Handling].
 * `count()` - counts values, and produces a one-value iterable.
 * `defaultEmpty(value | iterator | iterable)` - adds default to an empty iterable.
