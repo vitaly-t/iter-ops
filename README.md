@@ -94,6 +94,7 @@ All standard operators implement the same logic as [Array] does:
   predicate is provided, the last value satisfying it will be emitted.
 * `skip(count)` - starts emitting values after `count` number of values;
     - it is equivalent to `start((_, index) => index >= count)`
+* `spread()` - spreads iterable values.
 * `start((value, index, state) => boolean)` - starts emitting, once the predicate returns a truthy value.
 * `stop((value, index, state) => boolean)` - stops emitting, once the predicate returns a truthy value.
 * `take(count)` - emits up to `count` number of values;
