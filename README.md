@@ -77,32 +77,35 @@ Function [pipe] takes an [Iterable], applies all specified operators to it, and 
 
 All standard operators implement the same logic as [Array] does:
 
-* [concat] - merges current iterable with multiple values, iterators or iterables.
-* [filter] - standard filter processor, extended for [state] support.
-* [map] - standard mapping processor, extended for [state] support.
-* [reduce] - `reduce` processor (with [state] support), which produces a one-value iterable.
+* [concat](./src/ops/concat.ts) - merges current iterable with multiple values, iterators or iterables.
+* [filter](./src/ops/filter.ts) - standard filter processor, extended for [state] support.
+* [map](./src/ops/map.ts) - standard mapping processor, extended for [state] support.
+* [reduce](./src/ops/reduce.ts) - `reduce` processor (with [state] support), which produces a one-value iterable.
 
 #### <i>Extended operators:</i>
 
-* [aggregate(values => result)](https://github.com/vitaly-t/iter-ops/blob/main/src/ops/aggregate.ts) - executes an aggregate on accumulated values - see [Aggregates].
-* [catchError((error, ctx) => void)](https://github.com/vitaly-t/iter-ops/blob/main/src/ops/catch-error.ts) - catches iteration errors - see [Error Handling].
-* [count()](https://github.com/vitaly-t/iter-ops/blob/main/src/ops/count.ts) - counts values, and produces a one-value iterable.
-* [defaultEmpty(value | iterator | iterable)](https://github.com/vitaly-t/iter-ops/blob/main/src/ops/default-empty.ts) - adds default to an empty iterable.
-* [distinct(?(value, index) => key)](https://github.com/vitaly-t/iter-ops/blob/main/src/ops/distinct.ts) - emits unique values, with optional key selector.
-* [empty()](https://github.com/vitaly-t/iter-ops/blob/main/src/ops/empty.ts) - produces an empty iterable.
-* [isEmpty()](https://github.com/vitaly-t/iter-ops/blob/main/src/ops/is-empty.ts) - produces a one-value iterable, indicating if the source is empty.
-* [last(?(value, index) => boolean)](https://github.com/vitaly-t/iter-ops/blob/main/src/ops/last.ts) - produces a one-value iterable, with the last emitted value. When optional
-  predicate is provided, the last value satisfying it will be emitted.
+* [aggregate(values => result)](./src/ops/aggregate.ts) - executes an aggregate on accumulated values - see [Aggregates]
+  .
+* [catchError((error, ctx) => void)](./src/ops/catch-error.ts) - catches iteration errors - see [Error Handling].
+* [count()](./src/ops/count.ts) - counts values, and produces a one-value iterable.
+* [defaultEmpty(value | iterator | iterable)](./src/ops/default-empty.ts) - adds default to an empty iterable.
+* [distinct(?(value, index) => key)](./src/ops/distinct.ts) - emits unique values, with optional key selector.
+* [empty()](./src/ops/empty.ts) - produces an empty iterable.
+* [isEmpty()](./src/ops/is-empty.ts) - produces a one-value iterable, indicating if the source is empty.
+* [last(?(value, index) => boolean)](./src/ops/last.ts) - produces a one-value iterable, with the last emitted value.
+  When optional predicate is provided, the last value satisfying it will be emitted.
 * [skip(count)](./src/ops/skip.ts) - starts emitting values after `count` number of values;
     - it is equivalent to `start((_, index) => index >= count)`
-* `spread()` - spreads iterable values.
-* `start((value, index, state) => boolean)` - starts emitting, once the predicate returns a truthy value.
-* `stop((value, index, state) => boolean)` - stops emitting, once the predicate returns a truthy value.
-* `take(count)` - emits up to `count` number of values;
+* [spread()](./src/ops/spread.ts) - spreads iterable values.
+* [start((value, index, state) => boolean)](./src/ops/start.ts) - starts emitting, once the predicate returns a truthy
+  value.
+* [stop((value, index, state) => boolean)](./src/ops/stop.ts) - stops emitting, once the predicate returns a truthy
+  value.
+* [take(count)](./src/ops/take.ts) - emits up to `count` number of values;
     - it is equivalent to `stop((_, index) => index >= count)`
-* `takeLast(count)` - emits up to `count` number of the last values.
-* `tap((value, index, state) => void)` - taps into each value, without changing the output.
-* `toArray()` - accumulates values into an array, and produces a one-value iterable.
+* [takeLast(count)](./src/ops/take-last.ts) - emits up to `count` number of the last values.
+* [tap((value, index, state) => void)](./src/ops/tap.ts) - taps into each value, without changing the output.
+* [toArray()](./src/ops/to-array.ts) - accumulates values into an array, and produces a one-value iterable.
 
 See [Recipes] for more operations.
 
@@ -115,14 +118,6 @@ See [Recipes] for more operations.
 [Iterables]:https://javascript.info/iterable
 
 [Array]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
-
-[concat]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
-
-[filter]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
-
-[map]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
-
-[reduce]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
 
 [WiKi]:https://github.com/vitaly-t/iter-ops/wiki
 
