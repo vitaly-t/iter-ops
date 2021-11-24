@@ -84,6 +84,7 @@ All standard operators implement the same logic as [Array] does:
 
 #### <i>Extended operators:</i>
 
+* `aggregate((values) => newValue)` - executes an aggregate function on accumulated values - see [Aggregates].
 * `catchError((error, ctx) => void)` - catches iteration errors - see [Error Handling].
 * `count()` - counts values, and produces a one-value iterable.
 * `defaultEmpty(value | iterator | iterable)` - adds default to an empty iterable.
@@ -130,3 +131,5 @@ See [Recipes] for more operations.
 [Recipes]:https://github.com/vitaly-t/iter-ops/wiki/Recipes
 
 [state]:https://github.com/vitaly-t/iter-ops/wiki/Iteration-State
+
+[Aggregates]:https://github.com/vitaly-t/iter-ops/wiki/Aggregates
