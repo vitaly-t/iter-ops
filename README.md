@@ -52,20 +52,20 @@ const result = [...i]; //=> [{value: 2}, {value: 4}]
 
 ### TypeScript
 
-Calculating factorial of unique numbers:
+Calculating the sum of unique numbers:
 
 ```ts
-import {pipe, filter, reduce} from 'iter-ops';
+import {pipe, distinct, reduce} from 'iter-ops';
 
 const a = [1, 2, 2, 3, 3, 4];
 
 const i = pipe(
     a,
     distinct(), // emit unique items
-    reduce((p, c) => p * c)
+    reduce((p, c) => p + c)
 ); //=> factorial of unique numbers (one-value iterable)
 
-const result = i.first; //=> 24
+const result = i.first; //=> 10
 ```
 
 ## API
