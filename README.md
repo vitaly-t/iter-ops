@@ -84,16 +84,16 @@ All standard operators implement the same logic as [Array] does:
 
 #### <i>Extended operators:</i>
 
-* `aggregate(values => result)` - executes an aggregate on accumulated values - see [Aggregates].
-* `catchError((error, ctx) => void)` - catches iteration errors - see [Error Handling].
-* `count()` - counts values, and produces a one-value iterable.
-* `defaultEmpty(value | iterator | iterable)` - adds default to an empty iterable.
-* `distinct(?(value, index) => key)` - emits unique values, with optional key selector.
-* `empty()` - produces an empty iterable.
-* `isEmpty()` - produces a one-value iterable, indicating if the source is empty.
-* `last(?(value, index) => boolean)` - produces a one-value iterable, with the last emitted value. When optional
+* [aggregate(values => result)](https://github.com/vitaly-t/iter-ops/blob/main/src/ops/aggregate.ts) - executes an aggregate on accumulated values - see [Aggregates].
+* [catchError((error, ctx) => void)](https://github.com/vitaly-t/iter-ops/blob/main/src/ops/catch-error.ts) - catches iteration errors - see [Error Handling].
+* [count()](https://github.com/vitaly-t/iter-ops/blob/main/src/ops/count.ts) - counts values, and produces a one-value iterable.
+* [defaultEmpty(value | iterator | iterable)](https://github.com/vitaly-t/iter-ops/blob/main/src/ops/default-empty.ts) - adds default to an empty iterable.
+* [distinct(?(value, index) => key)](https://github.com/vitaly-t/iter-ops/blob/main/src/ops/distinct.ts) - emits unique values, with optional key selector.
+* [empty()](https://github.com/vitaly-t/iter-ops/blob/main/src/ops/empty.ts) - produces an empty iterable.
+* [isEmpty()](https://github.com/vitaly-t/iter-ops/blob/main/src/ops/is-empty.ts) - produces a one-value iterable, indicating if the source is empty.
+* [last(?(value, index) => boolean)](https://github.com/vitaly-t/iter-ops/blob/main/src/ops/last.ts) - produces a one-value iterable, with the last emitted value. When optional
   predicate is provided, the last value satisfying it will be emitted.
-* `skip(count)` - starts emitting values after `count` number of values;
+* [skip(count)](./src/ops/skip.ts) - starts emitting values after `count` number of values;
     - it is equivalent to `start((_, index) => index >= count)`
 * `spread()` - spreads iterable values.
 * `start((value, index, state) => boolean)` - starts emitting, once the predicate returns a truthy value.
