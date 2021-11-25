@@ -27,9 +27,15 @@ export interface ISplitIndex {
 export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean): Piper<T, T[] | null> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T[]> {
-            // const i = iterable[Symbol.iterator]();
+            const i = iterable[Symbol.iterator]();
+            const index: ISplitIndex = {
+                start: 0,
+                list: 0,
+                split: 0
+            };
             return {
                 next(): IteratorResult<T[]> {
+
                     return {value: undefined, done: true};
                 }
             };
