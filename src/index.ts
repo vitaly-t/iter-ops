@@ -15,6 +15,7 @@ export {map} from './ops/map';
 export {page} from './ops/page';
 export {reduce} from './ops/reduce';
 export {skip} from './ops/skip';
+export {split} from './ops/split';
 export {spread} from './ops/spread';
 export {start} from './ops/start';
 export {stop} from './ops/stop';
