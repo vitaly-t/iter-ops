@@ -26,16 +26,29 @@ export interface ISplitIndex {
  */
 export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean): Piper<T, T[] | null> {
     return (iterable: Iterable<T>) => ({
-        [Symbol.iterator](): Iterator<T[]> {
+        [Symbol.iterator](): Iterator<T[] | null> {
             const i = iterable[Symbol.iterator]();
+            const state = {};
             const index: ISplitIndex = {
                 start: 0,
                 list: 0,
                 split: 0
             };
             return {
-                next(): IteratorResult<T[]> {
-
+                // TODO: Not sure if exact split logic is necessary;
+                //  maybe we shouldn't emit null ever?
+                next(): IteratorResult<T[] | null> {
+                    const list: T[] = [];
+                    let a;
+                    while (!(a = i.next()).done) {
+                        if (cb(a.value, index, state)) {
+                            return {value: list.length ? list : null};
+                        }
+                        list.push(a.value);
+                    }
+                    if (list.length) {
+                        return {value: list};
+                    }
                     return {value: undefined, done: true};
                 }
             };
