@@ -1,7 +1,7 @@
 import {Any, Piper} from '../types';
 
 /**
- * Logically merges current iterable with a list of values, iterators or iterables.
+ * Merges current iterable with a list of values, iterators or iterables.
  * Merged inputs are iterated over after depleting the current iterable.
  *
  * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
