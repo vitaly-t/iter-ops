@@ -94,6 +94,7 @@ All standard operators implement the same logic as [Array] does:
 * [isEmpty()](./src/ops/is-empty.ts) - produces a one-value iterable, indicating if the source is empty.
 * [last(?(value, index) => boolean)](./src/ops/last.ts) - produces a one-value iterable, with the last emitted value.
   When optional predicate is provided, the last value satisfying it will be emitted.
+* [page(size)](./src/ops/page.ts) - splits values into pages of specified size.
 * [skip(count)](./src/ops/skip.ts) - starts emitting values after `count` number of values;
     - it is equivalent to `start((_, index) => index >= count)`
 * [spread()](./src/ops/spread.ts) - spreads iterable values.

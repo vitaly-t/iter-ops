@@ -12,6 +12,7 @@ export {filter} from './ops/filter';
 export {isEmpty} from './ops/is-empty';
 export {last} from './ops/last';
 export {map} from './ops/map';
+export {page} from './ops/page';
 export {reduce} from './ops/reduce';
 export {skip} from './ops/skip';
 export {spread} from './ops/spread';
