@@ -2,6 +2,8 @@ import {Piper} from '../types';
 
 /**
  * Spreads iterable values.
+ *
+ * It requires (controls by type) that any input iterable emits iterable values only.
  */
 export function spread<T>(): Piper<Iterable<T>, T> {
     return (iterable: Iterable<Iterable<T>>) => ({

@@ -20,7 +20,7 @@ export function map<T, R>(cb: (value: T, index: number, state: IterationState) =
                             return {value: cb(a.value, index++, state)};
                         }
                     } while (!a.done);
-                    return {value: undefined, done: true};
+                    return a;
                 }
             };
         }

@@ -52,7 +52,7 @@ export type Any<T> = T | Iterator<T> | Iterable<T>;
 /**
  * Iteration State.
  *
- * An object with random properties, shared between callbacks during a complete sequence,
+ * An object with random properties, shared between callbacks during an iteration session,
  * for any intermediate processing/tracking data that the callback logic may require.
  */
 export type IterationState = { [name: string]: any };

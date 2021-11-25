@@ -20,7 +20,7 @@ export function filter<T>(cb: (value: T, index: number, state: IterationState) =
                             return a;
                         }
                     } while (!a.done);
-                    return {value: undefined, done: true};
+                    return a;
                 }
             };
         }

@@ -22,7 +22,7 @@ export function last<T>(cb?: (value: T, index: number) => boolean): Piper<T, T> 
                     if (r) {
                         return {value: r.value};
                     }
-                    return {value: undefined, done: true};
+                    return a;
                 }
             };
         }
