@@ -24,15 +24,16 @@ describe('page', () => {
         const i = pipe([1, 2, 3], page(1));
         expect([...i]).to.eql([[1], [2], [3]]);
     });
-    it('must throw on page size < 1 or invalid', () => {
+    it('must throw during iteration when page size < 1 or invalid', () => {
+        const errMsg = (value: any) => `Page size must be a number, greater than zero: ${JSON.stringify(value)}`;
         expect(() => {
-            pipe([], page(0));
-        }).to.throw('ops!');
+            pipe([], page(0)).first;
+        }).to.throw(errMsg(0));
         expect(() => {
-            pipe([], page(-1));
-        }).to.throw('ops!');
+            pipe([], page(-1)).first;
+        }).to.throw(errMsg(-1));
         expect(() => {
-            pipe([], page('bla' as any));
-        }).to.throw('ops!');
+            pipe([], page('bla' as any)).first;
+        }).to.throw(errMsg('bla'));
     });
 });
