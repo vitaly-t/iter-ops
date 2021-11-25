@@ -8,6 +8,6 @@ describe('split', () => {
     });
     it('must process gaps correctly', () => {
         const i = pipe([0, 1, 2, 0, 3, 4, 0, 0], split(a => a === 0));
-        expect([...i]).to.eql([[], [1, 2], [3, 4], [], []]);
+        expect([...i]).to.eql([null, [1, 2], [3, 4], null, null]);
     });
 });

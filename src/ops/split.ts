@@ -20,11 +20,11 @@ export interface ISplitIndex {
 /**
  * Splits values into separate lists when predicate returns true.
  *
- * The behavior is consistent with String.split logic:
+ * The behavior is similar to String.split logic:
  * - values on which the split is triggered are excluded;
- * - split without current values emits an empty array.
+ * - splits without current values emit null-s.
  */
-export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean): Piper<T, T[]> {
+export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean): Piper<T, T[] | null> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T[]> {
             // const i = iterable[Symbol.iterator]();
