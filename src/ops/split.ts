@@ -22,7 +22,7 @@ export interface ISplitIndex {
  *
  * The behavior is consistent with String.split logic:
  * - values on which the split is triggered are excluded;
- * - with no values between splits, empty array is emitted.
+ * - split without current values emits an empty array.
  */
 export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean): Piper<T, T[]> {
     return (iterable: Iterable<T>) => ({
