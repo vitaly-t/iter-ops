@@ -24,4 +24,10 @@ describe('spread', () => {
         const output = pipe([[], [1]], spread());
         expect([...output]).to.eql([1]);
     });
+    it('must throw on non-iterable', () => {
+        expect(() => {
+            const i = pipe(['text', 123 as any], spread());
+            [...i];
+        }).to.throw('Value at index 1 is not iterable: 123');
+    });
 });

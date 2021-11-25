@@ -3,13 +3,15 @@ import {Piper} from '../types';
 /**
  * Spreads iterable values.
  *
- * It requires (controls by type) that any input iterable emits iterable values only.
+ * It requires that the input iterable emits iterable values only,
+ * or else it will throw an error.
  */
 export function spread<T>(): Piper<Iterable<T>, T> {
     return (iterable: Iterable<Iterable<T>>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
-            let a: IteratorResult<Iterable<T>>, k: Iterator<T>, v: IteratorResult<T>, start = true;
+            let a: IteratorResult<Iterable<T>>, k: Iterator<T>, v: IteratorResult<T>,
+                start = true, index = 0;
             return {
                 next(): IteratorResult<T> {
                     do {
@@ -17,8 +19,12 @@ export function spread<T>(): Piper<Iterable<T>, T> {
                             start = false;
                             a = i.next();
                             if (!a.done) {
-                                k = a.value[Symbol.iterator]();
+                                k = a.value?.[Symbol.iterator]?.();
+                                if (!k) {
+                                    throw new TypeError(`Value at index ${index} is not iterable: ${JSON.stringify(a.value)}`);
+                                }
                             }
+                            index++;
                         }
                         if (!a.done) {
                             v = k.next();
