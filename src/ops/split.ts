@@ -13,17 +13,25 @@ export interface ISplitIndex {
 
     /**
      * List Index - relative to the current list.
-     *
      * Index of the value within the currently accumulated list.
+     *
+     * Note that when split/toggle values are carried forward (carry > 0),
+     * it starts with 1, as 0 refers to the value that was carried forward.
+     *
      * When in "toggle" mode, it is undefined while between toggles.
      */
     list?: number;
 
     /**
-     * Split Index - of resulting emits by the operator.
-     * It is incremented every time the operator emits data.
+     * Split Index - of resulting emits by the operator, starts with 0,
+     * and incremented every time the operator emits data.
+     *
+     * When in "toggle" mode, it represents index of the toggle intervals.
+     * Therefore, it starts as undefined, until the first toggle is triggerred,
+     * at which point it becomes 0, staying unchanged while between toggles,
+     * and incremented once inside the next toggle interval.
      */
-    split: number;
+    split?: number;
 }
 
 /**
