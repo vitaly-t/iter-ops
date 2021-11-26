@@ -12,9 +12,57 @@ export interface ISplitIndex {
     list: number;
 
     /**
-     * Split Index - of emits by the operator.
+     * Split Index - of resulting emits by the operator.
      */
     split: number;
+}
+
+export interface ISplitOptions {
+
+    /**
+     * Defines where to carry the split value.
+     * Default is none, means
+     */
+    carry?: SplitValueCarry;
+
+    /**
+     * By default, when there are no values between splits,
+     * an empty list is emitted.
+     *
+     * Setting this option forces to discard any such gap.
+     */
+    trim?: boolean;
+}
+
+/**
+ * Strategy for carrying over the split value.
+ * It defines what should be done with the value that triggerred the split.
+ *
+ * Note that "split" operator treats this enum in non-strict manner:
+ *  - any negative number is treated as "back"
+ *  - any positive number value is treated as "forward"
+ *  - everything else is treated as "none"
+ */
+export enum SplitValueCarry {
+    /**
+     * Split values represent the end of each list,
+     * and as such, they are to be carried back,
+     * to be the last value in the current list.
+     */
+    back = -1,
+
+    /**
+     * Split values are just placeholders/gaps, to be skipped.
+     * This is the default.
+     */
+    none = 0,
+
+    /**
+     * Split values represent beginning of the next list,
+     * and as such, they are to be carried forward,
+     * to make the first value in the next list.
+     */
+    forward = 1
 }
 
 /**
@@ -24,7 +72,7 @@ export interface ISplitIndex {
  * - values on which the split is triggered are excluded;
  * - splits without current values emit null-s.
  */
-export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean): Piper<T, T[] | null> {
+export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): Piper<T, T[] | null> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T[] | null> {
             const i = iterable[Symbol.iterator]();
