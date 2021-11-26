@@ -59,10 +59,11 @@ export interface ISplitOptions {
     toggle?: boolean;
 
     /**
-     * By default, when there are no values between splits/toggles,
-     * an empty list is emitted.
+     * By default, when there are no values between splits/toggles, an empty list is emitted.
+     * We specifically do not produce null or anything else, in order to keep the output
+     * signature automatically compatible with the input type of the "spread" operator.
      *
-     * Setting this option forces to discard any empty list.
+     * Setting this option forces to simply discard any empty list.
      */
     trim?: boolean;
 }
@@ -101,9 +102,9 @@ export enum SplitValueCarry {
  * Splits values into separate lists when predicate returns true.
  * When option "toggle" is set, the split uses the toggle logic.
  */
-export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): Piper<T, T[] | null> {
+export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): Piper<T, T[]> {
     return (iterable: Iterable<T>) => ({
-        [Symbol.iterator](): Iterator<T[] | null> {
+        [Symbol.iterator](): Iterator<T[]> {
             const i = iterable[Symbol.iterator]();
             const state = {};
             const index: ISplitIndex = {
@@ -112,14 +113,13 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                 split: 0
             };
             return {
-                // TODO: Not sure if exact split logic is necessary;
-                //  maybe we shouldn't emit null ever?
-                next(): IteratorResult<T[] | null> {
+                next(): IteratorResult<T[]> {
+                    // TODO: The whole thing is yet to be implemented
                     const list: T[] = [];
                     let a;
                     while (!(a = i.next()).done) {
                         if (cb(a.value, index, state)) {
-                            return {value: list.length ? list : null};
+                            return {value: list.length ? list : null} as any;
                         }
                         list.push(a.value);
                     }
