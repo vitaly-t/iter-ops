@@ -106,23 +106,41 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T[]> {
             const i = iterable[Symbol.iterator]();
-            const state = {};
-            const index: ISplitIndex = {
-                start: 0,
-                list: 0,
-                split: 0
-            };
+            const state = {}; // iteration session state
+
+            const toggle = !!options?.toggle; // quick access to the flag
+
+            // indexes:
+            let startIndex = 0;
+            let splitIndex = toggle ? undefined : 0;
+            let listIndex = toggle ? undefined : 0;
+
+            // index + list must be initialized during iteration,
+            // in case the predicate changes them between calls;
+            let index: ISplitIndex; // current index details
+            let list: T[]; // current list of values
+
+            let collecting = !toggle; // indicates when we are collecting values
+
             return {
                 next(): IteratorResult<T[]> {
-                    // TODO: The whole thing is yet to be implemented
-                    const list: T[] = [];
-                    let a;
-                    while (!(a = i.next()).done) {
-                        if (cb(a.value, index, state)) {
-                            return {value: list.length ? list : null} as any;
+                    index = {
+                        start: startIndex++,
+                        split: splitIndex,
+                        list: listIndex
+                    };
+                    list = [];
+
+                    let v: IteratorResult<T>; // next value object
+                    do {
+                        v = i.next();
+
+                        if (!v.done) {
+                            const r = cb(v.value, index, state); // callback result
                         }
-                        list.push(a.value);
-                    }
+
+                        list.push(v.value);
+                    } while (!v.done);
                     if (list.length) {
                         return {value: list};
                     }
