@@ -1,31 +1,42 @@
 import {IterationState, Piper} from '../types';
 
 /**
- *
+ * Value index details, during "split" operation.
  */
 export interface ISplitIndex {
     /**
      * Start Index - absolute value index.
+     *
+     * It is to guide you where you're at, relative to the start of the iterable.
      */
     start: number;
 
     /**
      * List Index - relative to the current list.
+     *
+     * Index of the value within the currently accumulated list.
+     * When in "toggle" mode, it is undefined while between toggles.
      */
-    list: number;
+    list?: number;
 
     /**
      * Split Index - of resulting emits by the operator.
+     * It is incremented every time the operator emits data.
      */
     split: number;
 }
 
+/**
+ * Set of options that can be passed into "split" operator.
+ */
 export interface ISplitOptions {
 
     /**
      * Strategy for carrying the split/toggle value.
+     *
+     * It is treated as a number (see SplitValueCarry).
      */
-    carry?: SplitValueCarry;
+    carry?: SplitValueCarry | number;
 
     /**
      * Changes what the "split" callback result represents.
@@ -49,8 +60,8 @@ export interface ISplitOptions {
 }
 
 /**
- * Strategy for carrying over split (or toggle switch) values.
- * It defines what to do with each value that triggers the split (or toggle switch).
+ * Strategy for carrying over split/toggle values.
+ * It defines what to do with each value that triggers the split/toggle.
  *
  * Note that "split" operator treats this enum in non-strict manner:
  *  - any negative number is treated as "back"
@@ -80,7 +91,7 @@ export enum SplitValueCarry {
 
 /**
  * Splits values into separate lists when predicate returns true.
- * When option "toggle" is set, the split uses toggle logic.
+ * When option "toggle" is set, the split uses the toggle logic.
  */
 export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): Piper<T, T[] | null> {
     return (iterable: Iterable<T>) => ({
