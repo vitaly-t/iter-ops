@@ -15,7 +15,7 @@ export interface ISplitIndex {
      * List Index - relative to the current list.
      * Index of the value within the currently accumulated list.
      *
-     * Note that when split/toggle values are carried forward (carry > 0),
+     * Note that when "split" or "toggle-OFF" values are carried forward,
      * it starts with 1, as 0 refers to the value that was carried forward.
      *
      * When in "toggle" mode, it is undefined while between toggles.
@@ -150,6 +150,7 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                             // previous trigger value is being moved forward;
                             list.push(prev.value);
                             prev = null;
+                            // listIndex!++;
                         }
                         v = i.next();
                         if (!v.done) {
@@ -170,7 +171,7 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                 }
                                 if (toggle) {
                                     collecting = !collecting;
-                                    listIndex = collecting ? 0 : undefined;
+                                    listIndex = collecting ? (carry > 0 ? 1 : 0) : undefined;
                                     if (collecting) {
                                         splitIndex = (splitIndex ?? -1) + 1;
                                         continue;
@@ -179,7 +180,7 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                         return {value: list};
                                     }
                                 } else {
-                                    listIndex = 0;
+                                    listIndex = carry > 0 ? 1 : 0;
                                     splitIndex!++; // cannot be undefined here
                                 }
                                 if (trim && !list.length) {

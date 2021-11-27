@@ -122,7 +122,7 @@ describe('split', () => {
         });
     });
     describe('indexes', () => {
-        describe('for split', () => {
+        describe('for split, no carrying', () => {
             it('must report correct indexes', () => {
                 const indexes: ISplitIndex[] = [];
                 const i = pipe('one two', split((a, idx) => {
@@ -141,8 +141,28 @@ describe('split', () => {
                 ]);
             });
         });
-        describe('for toggle', () => {
+        describe('for split, carrying forward', () => {
             it('must report correct indexes', () => {
+                const indexes: ISplitIndex[] = [];
+                const i = pipe('one two', split((a, idx) => {
+                    indexes.push(idx);
+                    return a === ' ';
+                }, {carryEnd: 1}));
+                [...i];
+                expect(indexes).to.eql([
+                    {start: 0, list: 0, split: 0},
+                    {start: 1, list: 1, split: 0},
+                    {start: 2, list: 2, split: 0},
+                    {start: 3, list: 3, split: 0},
+                    {start: 4, list: 1, split: 1},
+                    {start: 5, list: 2, split: 1},
+                    {start: 6, list: 3, split: 1}
+                ]);
+            });
+        });
+
+        describe('for toggle', () => {
+            it('must report correct indexes for carry=back', () => {
                 const indexes: ISplitIndex[] = [];
                 const i = pipe([1, 2, 3, 4, 5], split((a, idx) => {
                     indexes.push(idx);
@@ -157,6 +177,22 @@ describe('split', () => {
                     {start: 4, list: undefined, split: 1}
                 ]);
             });
+            it('must report correct indexes for carry=forward', () => {
+                const indexes: ISplitIndex[] = [];
+                const i = pipe([1, 2, 3, 4, 5], split((a, idx) => {
+                    indexes.push(idx);
+                    return true;
+                }, {toggle: true, carryStart: 1, carryEnd: 1}));
+                [...i];
+                expect(indexes).to.eql([
+                    {start: 0, list: undefined, split: undefined},
+                    {start: 1, list: 1, split: 0},
+                    {start: 2, list: undefined, split: 0},
+                    {start: 3, list: 1, split: 1},
+                    {start: 4, list: undefined, split: 1}
+                ]);
+            });
+
         });
     });
 });
