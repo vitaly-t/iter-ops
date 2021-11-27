@@ -173,27 +173,17 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                     }
                                     return {value: list};
                                 }
-                                // regular split...
-                                // for now, without the carry flag, so just skip;
-
                                 if (trim && !list.length) {
                                     continue;
                                 }
                                 break;
                             }
                             if (collecting) {
-                                // TODO: not sure collecting flag is needed here
-
                                 // active toggle, or in split mode
-                                // let's ignore the toggle for now, so we just skip the value;
-
-                                // NOTE: when in split mode, we are always collecting;
                                 list.push(v.value);
                             }
                         }
                     } while (!v.done);
-
-                    // for now, we ignore toggle;
                     if (!finished) {
                         finished = !!v.done;
                         if (collecting && (!trim || list.length)) {
