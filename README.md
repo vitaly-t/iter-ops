@@ -97,6 +97,7 @@ All standard operators implement the same logic as [Array] does:
 * [page(size)](./src/ops/page.ts) - splits values into pages of specified size.
 * [skip(count)](./src/ops/skip.ts) - starts emitting values after `count` number of values;
     - it is equivalent to `start((_, index) => index >= count)`
+* [split(predicate, options)](./src/ops/split.ts) - splits values into separate lists, based on predicate - see [Split].
 * [spread()](./src/ops/spread.ts) - spreads iterable values.
 * [start((value, index, state) => boolean)](./src/ops/start.ts) - starts emitting, once the predicate returns a truthy
   value.
@@ -129,3 +130,5 @@ See [Recipes] for more operations.
 [state]:https://github.com/vitaly-t/iter-ops/wiki/Iteration-State
 
 [Aggregates]:https://github.com/vitaly-t/iter-ops/wiki/Aggregates
+
+[Split]:https://github.com/vitaly-t/iter-ops/wiki/Split
