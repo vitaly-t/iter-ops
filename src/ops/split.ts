@@ -178,7 +178,9 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                     if (collecting) {
                                         continue;
                                     }
-                                    return {value: list};
+                                    if (!trim || list.length) {
+                                        return {value: list};
+                                    }
                                 }
                                 if (trim && !list.length) {
                                     continue;

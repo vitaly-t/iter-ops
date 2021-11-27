@@ -54,7 +54,7 @@ describe('split', () => {
             });
         });
         describe('toggle', () => {
-            it('must handle a regular scenario', () => {
+            it('must handle any regular scenario', () => {
                 const i1 = pipe([0, 1, 2, 0, 0, 3, 4], split(a => !a, {toggle: true}));
                 expect([...i1]).to.eql([[1, 2], [3, 4]]);
 
@@ -77,13 +77,13 @@ describe('split', () => {
                 const i2 = pipe([1, 2, 3, 4, 5, 6], split(a => true, {toggle: true}));
                 expect([...i2]).to.eql([[], [], []]);
             });
-            /*
-                        it('must handle toggle at start', () => {
+            it('must process trim correctly', () => {
+                const i1 = pipe([1], split(a => true, {toggle: true, trim: true}));
+                expect([...i1]).to.eql([]);
 
-                        });
-                        it('must handle toggle at end', () => {
-
-                        });*/
+                const i2 = pipe([1, 2, 3, 4, 5], split(a => true, {toggle: true, trim: true}));
+                expect([...i2]).to.eql([]);
+            });
         });
     });
 });
