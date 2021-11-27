@@ -109,10 +109,10 @@ export enum SplitValueCarry {
  * Splits values into separate lists when predicate returns true.
  * When option "toggle" is set, the split uses the toggle start/end logic.
  *
- * When you know only the start value of each block, you can use the default/split mode,
+ * When you know only the start value of each block, you can use the default split mode,
  * with carryEnd set to 1/forward (in case you do not want it skipped);
  *
- * When you know only the end value of each block, you can use the default/split mode,
+ * When you know only the end value of each block, you can use the default split mode,
  * with carryEnd set to -1/back (in case you do not want it skipped);
  *
  * When you know both start and end values of each block, you can use the toggle mode,
@@ -154,24 +154,18 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                         list: listIndex
                     };
                     list = [];
-
                     let v: IteratorResult<T>; // next value object
                     do {
-                        v = i.next();
-
                         if (prev) {
-                            // previous trigger value being moved forward;
+                            // previous trigger value is being moved forward;
                             list.push(prev.value);
                             prev = null;
                         }
-
+                        v = i.next();
                         if (!v.done) {
-                            const r = cb(v.value, index, state); // callback result
-
-                            if (r) {
-                                const carry = collecting ? carryEnd : carryStart;
-
+                            if (cb(v.value, index, state)) {
                                 // split has been triggerred;
+                                const carry = collecting ? carryEnd : carryStart;
                                 if (carry) {
                                     if (carry < 0) {
                                         list.push(v.value); // add value to the current list:
@@ -192,7 +186,7 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                 break;
                             }
                             if (collecting) {
-                                // active toggle, or in split mode
+                                // toggle-ON, or in split mode;
                                 list.push(v.value);
                             }
                         }
