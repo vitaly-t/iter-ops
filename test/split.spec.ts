@@ -46,6 +46,12 @@ describe('split', () => {
             });
         });
         describe('toggle', () => {
+            /*
+            The first to be catered for:
+            it('must handle a regular scenario', () => {
+                const i = pipe([1, 2, 3, 0, 3, 4, 5], split(a => !!a, {toggle: true}));
+                expect([...i]).to.eql([[2, 3], [4, 5]]);
+            });*/
             it('must handle no toggles', () => {
                 const i = pipe([1, 2, 3, 4, 5], split(a => false, {toggle: true}));
                 expect([...i]).to.eql([]);
