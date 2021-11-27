@@ -105,10 +105,13 @@ export enum SplitValueCarry {
 export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): Piper<T, T[]> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T[]> {
-            const i = iterable[Symbol.iterator]();
+            const i = iterable[Symbol.iterator](); // source iterator
             const state = {}; // iteration session state
 
-            const toggle = !!options?.toggle; // quick access to the flag
+            // quick access to the options:
+            const carry = options?.carry ? (options?.carry < 0 ? -1 : (options?.carry > 0 ? 1 : 0)) : 0;
+            const toggle = !!options?.toggle;
+            const trim = !!options?.trim;
 
             // indexes:
             let startIndex = 0;
@@ -137,6 +140,19 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
 
                         if (!v.done) {
                             const r = cb(v.value, index, state); // callback result
+                            if (r) {
+                                // split has been triggerred;
+                                collecting = toggle ? !collecting : true;
+                            }
+                            if (collecting) {
+                                if (carry < 0) {
+                                    list.push(v.value);
+                                } else {
+                                    if (carry > 0) {
+
+                                    }
+                                }
+                            }
                         }
 
                         list.push(v.value);
