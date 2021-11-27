@@ -67,6 +67,11 @@ export interface ISplitOptions {
      * signature automatically compatible with the input type of the "spread" operator.
      *
      * Setting this option forces to simply discard any empty list.
+     *
+     * Note that if you set option "carry" to "back" or "forward", it changes things:
+     * - "carry" = "back" => empty lists aren't possible, "trim" will have no effect;
+     * - "carry" = "forward" => an empty list is only possible at the very start,
+     *   and after that "trim" will have no effect.
      */
     trim?: boolean;
 }
