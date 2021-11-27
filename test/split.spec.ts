@@ -50,11 +50,10 @@ describe('split', () => {
                 const i = pipe([0, 1, 2, 0, 0, 3, 4], split(a => !a, {toggle: true}));
                 expect([...i]).to.eql([[1, 2], [3, 4]]);
             });
-            /*
             it('must handle no toggles', () => {
                 const i = pipe([1, 2, 3, 4, 5], split(a => false, {toggle: true}));
                 expect([...i]).to.eql([]);
-            });
+            });/*
             it('must handle all toggles', () => {
                 // ending with open toggle:
                 const i1 = pipe([1, 2, 3, 4, 5], split(a => true, {toggle: true}));

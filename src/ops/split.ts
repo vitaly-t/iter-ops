@@ -196,7 +196,7 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                     // for now, we ignore toggle;
                     if (!finished) {
                         finished = !!v.done;
-                        if (!trim || list.length) {
+                        if (collecting && (!trim || list.length)) {
                             return {value: list};
                         }
                     }
@@ -207,5 +207,3 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
     });
 }
 
-const i = pipe([0, 1, 2, 0, 0, 3, 4], split(a => !a, {toggle: true}));
-[...i]
