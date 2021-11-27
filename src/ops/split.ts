@@ -124,6 +124,7 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
             let list: T[]; // current list of values
 
             let collecting = !toggle; // indicates when we are collecting values
+            let finished = false; // indicate when we are all done;
 
             return {
                 next(): IteratorResult<T[]> {
@@ -142,24 +143,44 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                             const r = cb(v.value, index, state); // callback result
                             if (r) {
                                 // split has been triggerred;
-                                collecting = toggle ? !collecting : true;
+                                // collecting = toggle ? !collecting : true;
+                                if (toggle) {
+                                    // do for the toggle later...
+
+                                } else {
+                                    // regular split...
+                                    // for now, without the carry flag, so just skip;
+                                    break;
+                                }
                             }
                             if (collecting) {
+                                // active toggle, or in split mode
+                                // let's ignore the toggle + carry for now, so we just skip the value;
+
+                                // NOTE: when in split mode, we are always collecting;
+                                list.push(v.value);
+
+                                /*
                                 if (carry < 0) {
                                     list.push(v.value);
                                 } else {
                                     if (carry > 0) {
-
+                                        // ready to send the list;
+                                        return {value: list};
                                     }
-                                }
+                                    // skip the value, and carry on;
+                                    // continue; // unnecessary, for now
+                                }*/
                             }
                         }
-
-                        list.push(v.value);
                     } while (!v.done);
-                    if (list.length) {
+
+                    // for now, we ignore toggle + carry;
+                    if (!finished) {
+                        finished = !!v.done;
                         return {value: list};
                     }
+
                     return {value: undefined, done: true};
                 }
             };
