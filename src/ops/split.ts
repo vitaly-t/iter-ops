@@ -131,15 +131,15 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
             const toggle = !!options?.toggle;
             const trim = !!options?.trim;
 
-            // indexes:
+            // all indexes:
             let startIndex = 0;
             let listIndex = toggle ? undefined : 0;
             let splitIndex = toggle ? undefined : 0;
 
             let collecting = !toggle; // indicates when we are collecting values
-            let finished = false; // indicate when we are all done;
+            let finished = false; // indicates when we are all done
 
-            let prev: IteratorResult<T> | null; // previous value when carry=forward
+            let prev: IteratorResult<T> | null; // previous value when carrying forward
 
             return {
                 next(): IteratorResult<T[]> {
@@ -165,7 +165,7 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                     if (carry < 0) {
                                         list.push(v.value);
                                     } else {
-                                        prev = v; // "forward", save for the next list;
+                                        prev = v; // carry "forward", save for the next list
                                     }
                                 }
                                 if (toggle) {
