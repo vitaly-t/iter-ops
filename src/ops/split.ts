@@ -135,6 +135,13 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
 
             let prev: IteratorResult<T> | null; // previous value when carry=forward
 
+            // TODO: BIG problem: when we know what starts and ends our block,
+            //  we are likely to want the start carried forward, and the end carried back.
+            //  And, if we know only the start, then we want it carried forward
+            //  If we only know the end we want it it carried back, while the previous
+            //  values all collected also.
+            //  In all, we need {carryStart, carryEnd}
+
             return {
                 next(): IteratorResult<T[]> {
                     index = {
