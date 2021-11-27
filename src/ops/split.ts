@@ -204,7 +204,6 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                             return {value: list};
                         }
                     }
-
                     return {value: undefined, done: true};
                 }
             };
@@ -212,5 +211,5 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
     });
 }
 
-const res = pipe([1, 2, 3, 4, 5], split(a => true, {toggle: true}));
+const res = pipe([1, 2, 3, 4, 5], split(a => false, {toggle: true}));
 [...res];
