@@ -1,7 +1,4 @@
-// tslint:disable
-
 import {IterationState, Piper} from '../types';
-import {pipe} from "../pipe";
 
 /**
  * Value index details, during "split" operation.
@@ -69,7 +66,8 @@ export interface ISplitOptions {
      * Setting this option forces to simply discard any empty list.
      *
      * Note that if you set option "carry" to "back" or "forward", it changes things:
-     * - "carry" = "back" => empty lists aren't possible, "trim" will have no effect;
+     * - "carry" = "back" => an empty list is only possible at the very end,
+     *   and "trim" will have no effect before that;
      * - "carry" = "forward" => an empty list is only possible at the very start,
      *   and after that "trim" will have no effect.
      */
@@ -117,7 +115,6 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
             const state = {}; // iteration session state
 
             // quick access to the options:
-            // @ts-ignore
             const carry = options?.carry ? (options?.carry < 0 ? -1 : (options?.carry > 0 ? 1 : 0)) : 0;
             const toggle = !!options?.toggle;
             const trim = !!options?.trim;
@@ -159,6 +156,12 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                 } else {
                                     // regular split...
                                     // for now, without the carry flag, so just skip;
+
+                                    if (carry < 0) {
+                                        // we must add value to the current list:
+                                        list.push(v.value);
+                                    }
+
                                     if (trim && !list.length) {
                                         continue;
                                     }
@@ -167,7 +170,7 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                             }
                             if (collecting) {
                                 // active toggle, or in split mode
-                                // let's ignore the toggle + carry for now, so we just skip the value;
+                                // let's ignore the toggle for now, so we just skip the value;
 
                                 // NOTE: when in split mode, we are always collecting;
                                 list.push(v.value);
