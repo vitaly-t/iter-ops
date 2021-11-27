@@ -84,6 +84,25 @@ describe('split', () => {
                 const i2 = pipe([1, 2, 3, 4, 5], split(a => true, {toggle: true, trim: true}));
                 expect([...i2]).to.eql([]);
             });
+            it('must work with carrying back', () => {
+                const i1 = pipe([1, 2, 3, 4, 5], split(a => true, {toggle: true, carryStart: -1}));
+                expect([...i1]).to.eql([[1], [3], [5]]);
+
+                const i2 = pipe([1, 2, 3, 4, 5], split(a => true, {toggle: true, carryStart: -1, carryEnd: -1}));
+                expect([...i2]).to.eql([[1, 2], [3, 4], [5]]);
+            });
+            it('must work with carrying forward', () => {
+                const i1 = pipe([1, 2, 3, 4, 5], split(a => !!a, {toggle: true, carryStart: 1}));
+                expect([...i1]).to.eql([[1], [3], [5]]);
+
+                /*
+                const i2 = pipe([0, 1, 2, 0, 3, 4, 0, 5], split(a => a === 0, {
+                    toggle: true,
+                    carryStart: 1,
+                    carryEnd: 1
+                }));
+                expect([...i2]).to.eql([[], [1, 2], [3, 4], [5]]);*/
+            });
         });
     });
 });
