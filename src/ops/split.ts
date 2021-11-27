@@ -168,9 +168,9 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                 const carry = collecting ? carryEnd : carryStart;
                                 if (carry) {
                                     if (carry < 0) {
-                                        list.push(v.value); // add value to the current list:
+                                        list.push(v.value);
                                     } else {
-                                        prev = v; // save for the list forward
+                                        prev = v; // "forward", save for the next list;
                                     }
                                 }
                                 if (toggle) {
@@ -186,7 +186,6 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                 break;
                             }
                             if (collecting) {
-                                // toggle-ON, or in split mode;
                                 list.push(v.value);
                             }
                         }
