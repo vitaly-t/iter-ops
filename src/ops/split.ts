@@ -40,12 +40,13 @@ export interface ISplitIndex {
 export interface ISplitOptions {
 
     /**
-     * Strategy for carrying the split/toggle value at the start.
+     * Strategy for carrying every "toggle-ON" value.
+     * It is used only when in "toggle" mode.
      */
     carryStart?: SplitValueCarry | number;
 
     /**
-     * Strategy for carrying the split/toggle value at the end.
+     * Strategy for carrying every "toggle-OFF" or "split" value.
      */
     carryEnd?: SplitValueCarry | number;
 
@@ -81,14 +82,14 @@ export interface ISplitOptions {
  * Strategy for carrying over split/toggle values.
  * It defines what to do with each value that triggers the split/toggle.
  *
- * Note that "split" operator treats this enum in non-strict manner:
+ * Note that split operator treats this enum in non-strict manner:
  *  - any negative number is treated as "back"
  *  - any positive number is treated as "forward"
  *  - everything else is treated as "none"
  */
 export enum SplitValueCarry {
     /**
-     * Split/toggle value is to be carried back, to be the last value in the current list.
+     * Split/toggle value is carried back, to be the last value in the current list.
      */
     back = -1,
 
@@ -99,14 +100,24 @@ export enum SplitValueCarry {
     none = 0,
 
     /**
-     * Split/toggle value is to be carried forward, to make the first value in the next list.
+     * Split/toggle value is carried forward, to make the first value in the next list.
      */
     forward = 1
 }
 
 /**
  * Splits values into separate lists when predicate returns true.
- * When option "toggle" is set, the split uses the toggle logic.
+ * When option "toggle" is set, the split uses the toggle start/end logic.
+ *
+ * When you know only the start value of each block, you can use the default/split mode,
+ * with carryEnd set to 1/forward (in case you do not want it skipped);
+ *
+ * When you know only the end value of each block, you can use the default/split mode,
+ * with carryEnd set to -1/back (in case you do not want it skipped);
+ *
+ * When you know both start and end values of each block, you can use the toggle mode,
+ * with carryStart set to 1/forward, and carryEnd set to -1/back, unless you want
+ * either of those skipped, then leave them at 0/none.
  */
 export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): Piper<T, T[]> {
     return (iterable: Iterable<T>) => ({
