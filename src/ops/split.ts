@@ -1,5 +1,4 @@
 import {IterationState, Piper} from '../types';
-import {pipe} from "../pipe";
 
 /**
  * Value index details, during "split" operation.
@@ -159,8 +158,6 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
 
                             if (r) {
                                 // split has been triggerred;
-                                // collecting = toggle ? !collecting : true;
-
                                 if (carry) {
                                     if (carry < 0) {
                                         list.push(v.value); // add value to the current list:
@@ -168,15 +165,16 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                         prev = v; // save for the list forward
                                     }
                                 }
-
                                 if (toggle) {
                                     // do for the toggle later...
                                     collecting = !collecting;
                                     if (collecting) {
                                         continue;
                                     }
+                                    if (!list.length) {
+                                        return {value: []};
+                                    }
                                     break;
-                                    // break; // is ok, without carry support
                                 }
                                 // regular split...
                                 // for now, without the carry flag, so just skip;
@@ -185,9 +183,10 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                     continue;
                                 }
                                 break;
-
                             }
                             if (collecting) {
+                                // TODO: not sure collecting flag is needed here
+
                                 // active toggle, or in split mode
                                 // let's ignore the toggle for now, so we just skip the value;
 
@@ -200,7 +199,7 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                     // for now, we ignore toggle;
                     if (!finished) {
                         finished = !!v.done;
-                        if (!trim || list.length) {
+                        if (collecting && (!trim || list.length)) {
                             return {value: list};
                         }
                     }
@@ -210,6 +209,3 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
         }
     });
 }
-
-const res = pipe([1, 2, 3, 4, 5], split(a => false, {toggle: true}));
-[...res];
