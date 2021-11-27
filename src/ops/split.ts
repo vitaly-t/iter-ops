@@ -133,13 +133,8 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
 
             // indexes:
             let startIndex = 0;
-            let splitIndex = toggle ? undefined : 0;
             let listIndex = toggle ? undefined : 0;
-
-            // index + list must be initialized during iteration,
-            // in case the predicate changes them between calls;
-            let index: ISplitIndex; // current index details
-            let list: T[]; // current list of values
+            let splitIndex = toggle ? undefined : 0;
 
             let collecting = !toggle; // indicates when we are collecting values
             let finished = false; // indicate when we are all done;
@@ -148,12 +143,7 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
 
             return {
                 next(): IteratorResult<T[]> {
-                    index = {
-                        start: startIndex++,
-                        split: splitIndex,
-                        list: listIndex
-                    };
-                    list = [];
+                    const list: T[] = [];
                     let v: IteratorResult<T>; // next value object
                     do {
                         if (prev) {
@@ -163,8 +153,13 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                         }
                         v = i.next();
                         if (!v.done) {
+                            const index: ISplitIndex = {
+                                start: startIndex++,
+                                list: listIndex,
+                                split: splitIndex
+                            };
                             if (cb(v.value, index, state)) {
-                                // split has been triggerred;
+                                // split/toggle has been triggerred;
                                 const carry = collecting ? carryEnd : carryStart;
                                 if (carry) {
                                     if (carry < 0) {
@@ -175,12 +170,17 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                 }
                                 if (toggle) {
                                     collecting = !collecting;
+                                    listIndex = collecting ? 0 : undefined;
                                     if (collecting) {
+                                        splitIndex = (splitIndex ?? -1) + 1;
                                         continue;
                                     }
                                     if (!trim || list.length) {
                                         return {value: list};
                                     }
+                                } else {
+                                    listIndex = 0;
+                                    splitIndex!++; // cannot be undefined here
                                 }
                                 if (trim && !list.length) {
                                     continue;
@@ -188,6 +188,7 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                 break;
                             }
                             if (collecting) {
+                                listIndex!++; // cannot be undefined here
                                 list.push(v.value);
                             }
                         }

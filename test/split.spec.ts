@@ -1,5 +1,6 @@
 import {expect} from './header';
 import {pipe, split, SplitValueCarry} from '../src';
+import {ISplitIndex} from "../dist";
 
 describe('split', () => {
     describe('without options', () => {
@@ -8,9 +9,6 @@ describe('split', () => {
             expect([...i]).to.eql([['o', 'n', 'e'], ['t', 'w', 'o'], ['t', 'h', 'r', 'e', 'e']]);
         });
         it('must process gaps correctly', () => {
-            // TODO: It is important to remember why split() can only emit empty arrays for empty lists,
-            //  and it is because the result signature has to be compatible with the spread() operator.
-            //  This has been added to the "trim" option documentation.
             const i = pipe([0, 1, 2, 0, 3, 4, 0, 0], split(a => a === 0));
             expect([...i]).to.eql([[], [1, 2], [3, 4], [], []]);
         });
@@ -120,6 +118,44 @@ describe('split', () => {
                     const i2 = pipe([0, 0, 0, 0], split(a => a === 0, {toggle: true, carryStart: -1, carryEnd: -1}));
                     expect([...i2]).to.eql([[0, 0], [0, 0]]);
                 });
+            });
+        });
+    });
+    describe('indexes', () => {
+        describe('for split', () => {
+            it('must report correct indexes', () => {
+                const indexes: ISplitIndex[] = [];
+                const i = pipe('one two', split((a, idx) => {
+                    indexes.push(idx);
+                    return a === ' ';
+                }));
+                [...i];
+                expect(indexes).to.eql([
+                    {start: 0, list: 0, split: 0},
+                    {start: 1, list: 1, split: 0},
+                    {start: 2, list: 2, split: 0},
+                    {start: 3, list: 3, split: 0},
+                    {start: 4, list: 0, split: 1},
+                    {start: 5, list: 1, split: 1},
+                    {start: 6, list: 2, split: 1}
+                ]);
+            });
+        });
+        describe('for toggle', () => {
+            it('must report correct indexes', () => {
+                const indexes: ISplitIndex[] = [];
+                const i = pipe([1, 2, 3, 4, 5], split((a, idx) => {
+                    indexes.push(idx);
+                    return true;
+                }, {toggle: true, carryStart: -1, carryEnd: -1}));
+                [...i];
+                expect(indexes).to.eql([
+                    {start: 0, list: undefined, split: undefined},
+                    {start: 1, list: 0, split: 0},
+                    {start: 2, list: undefined, split: 0},
+                    {start: 3, list: 0, split: 1},
+                    {start: 4, list: undefined, split: 1}
+                ]);
             });
         });
     });
