@@ -132,6 +132,8 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
             let collecting = !toggle; // indicates when we are collecting values
             let finished = false; // indicate when we are all done;
 
+            let prev: IteratorResult<T> | null; // previous value when carry=forward
+
             return {
                 next(): IteratorResult<T[]> {
                     index = {
@@ -145,22 +147,33 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                     do {
                         v = i.next();
 
+                        if (prev) {
+                            // previous trigger value being moved forward;
+                            list.push(prev.value);
+                            prev = null;
+                        }
+
                         if (!v.done) {
                             const r = cb(v.value, index, state); // callback result
+
                             if (r) {
                                 // split has been triggerred;
                                 // collecting = toggle ? !collecting : true;
+
+                                if (carry) {
+                                    if (carry < 0) {
+                                        list.push(v.value); // add value to the current list:
+                                    } else {
+                                        prev = v; // save for the list forward
+                                    }
+                                }
+
                                 if (toggle) {
                                     // do for the toggle later...
 
                                 } else {
                                     // regular split...
                                     // for now, without the carry flag, so just skip;
-
-                                    if (carry < 0) {
-                                        // we must add value to the current list:
-                                        list.push(v.value);
-                                    }
 
                                     if (trim && !list.length) {
                                         continue;
