@@ -13,40 +13,14 @@ describe('split', () => {
         });
     });
     describe('with option', () => {
-        describe('trim', () => {
-            it('must discard empty arrays', () => {
-                const i = pipe([0, 1, 2, 0, 0, 3, 4, 0, 0], split(a => a === 0, {trim: true}));
-                expect([...i]).to.eql([[1, 2], [3, 4]]);
-            });
-        });
         describe('carry', () => {
-            describe('without trim', () => {
-                it('must be able to carry back', () => {
-                    const i = pipe([0, 1, 2, 0, 0, 3, 4, 0, 0], split(a => a === 0, {carryStart: -1, carryEnd: -1}));
-                    expect([...i]).to.eql([[0], [1, 2, 0], [0], [3, 4, 0], [0], []]);
-                });
-                it('must be able to carry forward', () => {
-                    const i = pipe([0, 1, 2, 0, 0, 3, 4, 0, 0], split(a => a === 0, {carryStart: 1, carryEnd: 1}));
-                    expect([...i]).to.eql([[], [0, 1, 2], [0], [0, 3, 4], [0], [0]]);
-                });
+            it('must be able to carry back', () => {
+                const i = pipe([0, 1, 2, 0, 0, 3, 4, 0, 0], split(a => a === 0, {carryStart: -1, carryEnd: -1}));
+                expect([...i]).to.eql([[0], [1, 2, 0], [0], [3, 4, 0], [0], []]);
             });
-            describe('with trim', () => {
-                it('should skip empty an list at the end, with carry = back', () => {
-                    const i = pipe([0, 1, 2, 0, 0, 3, 4, 0, 0], split(a => a === 0, {
-                        carryStart: -1,
-                        carryEnd: -1,
-                        trim: true
-                    }));
-                    expect([...i]).to.eql([[0], [1, 2, 0], [0], [3, 4, 0], [0]]);
-                });
-                it('should only skip at start, with carry = forward', () => {
-                    const i = pipe([0, 1, 2, 0, 0, 3, 4, 0, 0], split(a => a === 0, {
-                        carryStart: 1,
-                        carryEnd: 1,
-                        trim: true
-                    }));
-                    expect([...i]).to.eql([[0, 1, 2], [0], [0, 3, 4], [0], [0]]);
-                });
+            it('must be able to carry forward', () => {
+                const i = pipe([0, 1, 2, 0, 0, 3, 4, 0, 0], split(a => a === 0, {carryStart: 1, carryEnd: 1}));
+                expect([...i]).to.eql([[], [0, 1, 2], [0], [0, 3, 4], [0], [0]]);
             });
         });
         describe('toggle', () => {
@@ -80,13 +54,6 @@ describe('split', () => {
                     // ending with closed toggle:
                     const i2 = pipe([1, 2, 3, 4, 5, 6], split(a => true, {toggle: true}));
                     expect([...i2]).to.eql([[], [], []]);
-                });
-                it('must process trim correctly', () => {
-                    const i1 = pipe([1], split(a => true, {toggle: true, trim: true}));
-                    expect([...i1]).to.eql([]);
-
-                    const i2 = pipe([1, 2, 3, 4, 5], split(a => true, {toggle: true, trim: true}));
-                    expect([...i2]).to.eql([]);
                 });
             });
             describe('with carrying', () => {

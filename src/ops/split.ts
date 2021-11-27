@@ -59,21 +59,6 @@ export interface ISplitOptions {
      * And we do so repeatedly, skipping values outside [true, ..., true] toggles.
      */
     toggle?: boolean;
-
-    /**
-     * By default, when there are no values between splits/toggles, an empty list is emitted.
-     * We specifically do not produce null or anything else, in order to keep the output
-     * signature automatically compatible with the input type of the "spread" operator.
-     *
-     * Setting this option will discard any empty list.
-     *
-     * Note that if you set option "carry" to "back" or "forward", it changes things:
-     * - "carry" = "back" => an empty list is only possible at the very end,
-     *   and "trim" will have no effect before that;
-     * - "carry" = "forward" => an empty list is only possible at the very start,
-     *   and after that "trim" will have no effect.
-     */
-    trim?: boolean;
 }
 
 /**
@@ -127,7 +112,6 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
             const carryStart = options?.carryStart ? (options?.carryStart < 0 ? -1 : (options?.carryStart > 0 ? 1 : 0)) : 0;
             const carryEnd = options?.carryEnd ? (options?.carryEnd < 0 ? -1 : (options?.carryEnd > 0 ? 1 : 0)) : 0;
             const toggle = !!options?.toggle;
-            const trim = !!options?.trim;
 
             // all indexes:
             let startIndex = 0;
@@ -148,7 +132,6 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                             // previous trigger value is being moved forward;
                             list.push(prev.value);
                             prev = null;
-                            // listIndex!++;
                         }
                         v = i.next();
                         if (!v.done) {
@@ -174,16 +157,10 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                         splitIndex = (splitIndex ?? -1) + 1;
                                         continue;
                                     }
-                                    if (!trim || list.length) {
-                                        return {value: list};
-                                    }
-                                } else {
-                                    listIndex = carry > 0 ? 1 : 0;
-                                    splitIndex!++; // cannot be undefined here
+                                    return {value: list};
                                 }
-                                if (trim && !list.length) {
-                                    continue;
-                                }
+                                listIndex = carry > 0 ? 1 : 0;
+                                splitIndex!++; // cannot be undefined here
                                 break;
                             }
                             if (collecting) {
@@ -194,7 +171,7 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                     } while (!v.done);
                     if (!finished) {
                         finished = !!v.done;
-                        if (collecting && (!trim || list.length)) {
+                        if (collecting) {
                             return {value: list};
                         }
                     }
