@@ -25,22 +25,30 @@ describe('split', () => {
         describe('carry', () => {
             describe('without trim', () => {
                 it('must be able to carry back', () => {
-                    const i = pipe([0, 1, 2, 0, 0, 3, 4, 0, 0], split(a => a === 0, {carry: -1}));
+                    const i = pipe([0, 1, 2, 0, 0, 3, 4, 0, 0], split(a => a === 0, {carryStart: -1, carryEnd: -1}));
                     expect([...i]).to.eql([[0], [1, 2, 0], [0], [3, 4, 0], [0], []]);
                 });
                 it('must be able to carry forward', () => {
-                    const i = pipe([0, 1, 2, 0, 0, 3, 4, 0, 0], split(a => a === 0, {carry: 1}));
+                    const i = pipe([0, 1, 2, 0, 0, 3, 4, 0, 0], split(a => a === 0, {carryStart: 1, carryEnd: 1}));
                     expect([...i]).to.eql([[], [0, 1, 2], [0], [0, 3, 4], [0], [0]]);
                 });
             });
 
             describe('with trim', () => {
                 it('should skip empty an list at the end, with carry = back', () => {
-                    const i = pipe([0, 1, 2, 0, 0, 3, 4, 0, 0], split(a => a === 0, {carry: -1, trim: true}));
+                    const i = pipe([0, 1, 2, 0, 0, 3, 4, 0, 0], split(a => a === 0, {
+                        carryStart: -1,
+                        carryEnd: -1,
+                        trim: true
+                    }));
                     expect([...i]).to.eql([[0], [1, 2, 0], [0], [3, 4, 0], [0]]);
                 });
                 it('should only skip at start, with carry = forward', () => {
-                    const i = pipe([0, 1, 2, 0, 0, 3, 4, 0, 0], split(a => a === 0, {carry: 1, trim: true}));
+                    const i = pipe([0, 1, 2, 0, 0, 3, 4, 0, 0], split(a => a === 0, {
+                        carryStart: 1,
+                        carryEnd: 1,
+                        trim: true
+                    }));
                     expect([...i]).to.eql([[0, 1, 2], [0], [0, 3, 4], [0], [0]]);
                 });
             });

@@ -1,5 +1,4 @@
 import {IterationState, Piper} from '../types';
-import {pipe} from "../pipe";
 
 /**
  * Value index details, during "split" operation.
@@ -41,11 +40,14 @@ export interface ISplitIndex {
 export interface ISplitOptions {
 
     /**
-     * Strategy for carrying the split/toggle value.
-     *
-     * It is treated as a number (see SplitValueCarry).
+     * Strategy for carrying the split/toggle value at the start.
      */
-    carry?: SplitValueCarry | number;
+    carryStart?: SplitValueCarry | number;
+
+    /**
+     * Strategy for carrying the split/toggle value at the end.
+     */
+    carryEnd?: SplitValueCarry | number;
 
     /**
      * Changes what the "split" callback result represents.
@@ -86,21 +88,18 @@ export interface ISplitOptions {
  */
 export enum SplitValueCarry {
     /**
-     * Split/toggle values represent the end of each list, and as such,
-     * they are to be carried back, to be the last value in the current list.
+     * Split/toggle value is to be carried back, to be the last value in the current list.
      */
     back = -1,
 
     /**
-     * Split/toggle values are just placeholders/gaps, to be skipped.
+     * Split/toggle value is just a placeholder/gap, to be skipped.
      * This is the default.
      */
     none = 0,
 
     /**
-     * Split/toggle values represent beginning of the next list,
-     * and as such, they are to be carried forward,
-     * to make the first value in the next list.
+     * Split/toggle value is to be carried forward, to make the first value in the next list.
      */
     forward = 1
 }
@@ -116,7 +115,8 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
             const state = {}; // iteration session state
 
             // quick access to the options:
-            const carry = options?.carry ? (options?.carry < 0 ? -1 : (options?.carry > 0 ? 1 : 0)) : 0;
+            const carryStart = options?.carryStart ? (options?.carryStart < 0 ? -1 : (options?.carryStart > 0 ? 1 : 0)) : 0;
+            const carryEnd = options?.carryEnd ? (options?.carryEnd < 0 ? -1 : (options?.carryEnd > 0 ? 1 : 0)) : 0;
             const toggle = !!options?.toggle;
             const trim = !!options?.trim;
 
@@ -134,13 +134,6 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
             let finished = false; // indicate when we are all done;
 
             let prev: IteratorResult<T> | null; // previous value when carry=forward
-
-            // TODO: BIG problem: when we know what starts and ends our block,
-            //  we are likely to want the start carried forward, and the end carried back.
-            //  And, if we know only the start, then we want it carried forward
-            //  If we only know the end we want it it carried back, while the previous
-            //  values all collected also.
-            //  In all, we need {carryStart, carryEnd}
 
             return {
                 next(): IteratorResult<T[]> {
@@ -165,6 +158,8 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                             const r = cb(v.value, index, state); // callback result
 
                             if (r) {
+                                const carry = collecting ? carryEnd : carryStart;
+
                                 // split has been triggerred;
                                 if (carry) {
                                     if (carry < 0) {
@@ -203,4 +198,3 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
         }
     });
 }
-
