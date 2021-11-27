@@ -15,13 +15,12 @@ describe('split', () => {
             expect([...i]).to.eql([[], [1, 2], [3, 4], [], []]);
         });
     });
-    /*
     describe('with option', () => {
         describe('trim', () => {
             it('must discard empty arrays', () => {
-                const i = pipe([0, 1, 2, 0, 0, 3, 4, 0, 0], split(a => a === 0));
+                const i = pipe([0, 1, 2, 0, 0, 3, 4, 0, 0], split(a => a === 0, {trim: true}));
                 expect([...i]).to.eql([[1, 2], [3, 4]]);
             });
         });
-    });*/
+    });
 });

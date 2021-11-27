@@ -1,4 +1,7 @@
+// tslint:disable
+
 import {IterationState, Piper} from '../types';
+import {pipe} from "../pipe";
 
 /**
  * Value index details, during "split" operation.
@@ -109,6 +112,7 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
             const state = {}; // iteration session state
 
             // quick access to the options:
+            // @ts-ignore
             const carry = options?.carry ? (options?.carry < 0 ? -1 : (options?.carry > 0 ? 1 : 0)) : 0;
             const toggle = !!options?.toggle;
             const trim = !!options?.trim;
@@ -150,6 +154,9 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                 } else {
                                     // regular split...
                                     // for now, without the carry flag, so just skip;
+                                    if (trim && !list.length) {
+                                        continue;
+                                    }
                                     break;
                                 }
                             }
@@ -178,7 +185,9 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                     // for now, we ignore toggle + carry;
                     if (!finished) {
                         finished = !!v.done;
-                        return {value: list};
+                        if (!trim || list.length) {
+                            return {value: list};
+                        }
                     }
 
                     return {value: undefined, done: true};
