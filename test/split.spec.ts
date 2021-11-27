@@ -1,6 +1,5 @@
 import {expect} from './header';
-import {pipe, split, SplitValueCarry} from '../src';
-import {ISplitIndex} from "../dist";
+import {pipe, split, SplitValueCarry, ISplitIndex} from '../src';
 
 describe('split', () => {
     describe('without options', () => {
@@ -31,7 +30,6 @@ describe('split', () => {
                     expect([...i]).to.eql([[], [0, 1, 2], [0], [0, 3, 4], [0], [0]]);
                 });
             });
-
             describe('with trim', () => {
                 it('should skip empty an list at the end, with carry = back', () => {
                     const i = pipe([0, 1, 2, 0, 0, 3, 4, 0, 0], split(a => a === 0, {
@@ -91,7 +89,6 @@ describe('split', () => {
                     expect([...i2]).to.eql([]);
                 });
             });
-
             describe('with carrying', () => {
                 it('must work with carrying back', () => {
                     const i1 = pipe([1, 2, 3, 4, 5], split(a => true, {toggle: true, carryStart: -1}));
@@ -160,7 +157,6 @@ describe('split', () => {
                 ]);
             });
         });
-
         describe('for toggle', () => {
             it('must report correct indexes for carry=back', () => {
                 const indexes: ISplitIndex[] = [];
@@ -192,7 +188,6 @@ describe('split', () => {
                     {start: 4, list: undefined, split: 1}
                 ]);
             });
-
         });
     });
 });

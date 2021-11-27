@@ -5,9 +5,7 @@ import {IterationState, Piper} from '../types';
  */
 export interface ISplitIndex {
     /**
-     * Start Index - absolute value index.
-     *
-     * It is to guide you where you're at, relative to the start of the iterable.
+     * Start Index - absolute value index, from the start of the iterable.
      */
     start: number;
 
@@ -43,12 +41,12 @@ export interface ISplitOptions {
      * Strategy for carrying every "toggle-ON" value.
      * It is used only when in "toggle" mode.
      */
-    carryStart?: SplitValueCarry | number;
+    carryStart?: SplitValueCarry;
 
     /**
      * Strategy for carrying every "toggle-OFF" or "split" value.
      */
-    carryEnd?: SplitValueCarry | number;
+    carryEnd?: SplitValueCarry;
 
     /**
      * Changes what the "split" callback result represents.
@@ -67,7 +65,7 @@ export interface ISplitOptions {
      * We specifically do not produce null or anything else, in order to keep the output
      * signature automatically compatible with the input type of the "spread" operator.
      *
-     * Setting this option forces to simply discard any empty list.
+     * Setting this option will discard any empty list.
      *
      * Note that if you set option "carry" to "back" or "forward", it changes things:
      * - "carry" = "back" => an empty list is only possible at the very end,
