@@ -1,7 +1,7 @@
 import {Piper} from '../types';
 
 /**
- * Splits values into pages of specified size.
+ * Splits values into pages of fixed size (last page can be smaller).
  *
  * Throws an error when page size is less than 1 or not a number.
  */
