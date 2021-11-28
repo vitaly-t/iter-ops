@@ -1,0 +1,13 @@
+{
+  "name": "ITER-OPS v0.5",
+  "readme": "README.md",
+  "out": "docs",
+  "theme": "minimal",
+  "excludeExternals": true,
+  "excludePrivate": true,
+  "excludeNotDocumented": true,
+  "disableOutputCheck": true,
+  "exclude": [
+    "./test/*.ts"
+  ]
+}

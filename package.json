@@ -7,6 +7,7 @@
   "scripts": {
     "clean": "del /s/q .\\test\\*.js && del /s/q .\\src\\*.js && rd /s/q .\\dist",
     "build": "tsc -p src",
+    "doc": "typedoc ./src/index.ts",
     "lint": "tslint --fix ./src/**/*.ts ./test/*.ts",
     "test": "nyc mocha -r ts-node/register test/*.spec.ts"
   },
@@ -51,6 +52,7 @@
     "ts-node": "10.4.0",
     "tslib": "2.3.1",
     "tslint": "6.1.3",
+    "typedoc": "0.22.10",
     "typescript": "4.5.2"
   }
 }
