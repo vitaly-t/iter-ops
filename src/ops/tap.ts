@@ -7,7 +7,7 @@ export function tap<T>(cb: (value: T, index: number, state: IterationState) => v
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
-            const state = {};
+            const state: IterationState = {};
             let index = 0;
             return {
                 next(): IteratorResult<T> {

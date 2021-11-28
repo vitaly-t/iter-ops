@@ -9,7 +9,7 @@ export function reduce<T>(cb: (previousValue: T, currentValue: T, index: number,
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
-            const state = {};
+            const state: IterationState = {};
             let done = false;
             return {
                 next(): IteratorResult<T> {

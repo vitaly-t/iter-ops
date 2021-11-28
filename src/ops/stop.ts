@@ -7,7 +7,7 @@ export function stop<T>(cb: (value: T, index: number, state: IterationState) => 
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
-            const state = {};
+            const state: IterationState = {};
             let index = 0, done = false;
             return {
                 next(): IteratorResult<T> {

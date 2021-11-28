@@ -9,7 +9,7 @@ export function map<T, R>(cb: (value: T, index: number, state: IterationState) =
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<R> {
             const i = iterable[Symbol.iterator]();
-            const state = {};
+            const state: IterationState = {};
             let index = 0;
             return {
                 next(): IteratorResult<R> {

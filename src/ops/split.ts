@@ -92,7 +92,7 @@ export enum SplitValueCarry {
  * Splits values into separate lists when predicate returns true.
  * When option "toggle" is set, the split uses the toggle start/end logic.
  *
- * When you know only the start value of each block, you can use the default split mode,
+ * When you know only the split value of each block, you can use the default split mode,
  * with carryEnd set to 1/forward (in case you do not want it skipped);
  *
  * When you know only the end value of each block, you can use the default split mode,
@@ -105,8 +105,8 @@ export enum SplitValueCarry {
 export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): Piper<T, T[]> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T[]> {
-            const i = iterable[Symbol.iterator](); // source iterator
-            const state = {}; // iteration session state
+            const i = iterable[Symbol.iterator]();
+            const state: IterationState = {};
 
             // quick access to the options:
             const carryStart = options?.carryStart ? (options?.carryStart < 0 ? -1 : (options?.carryStart > 0 ? 1 : 0)) : 0;
