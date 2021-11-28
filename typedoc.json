@@ -2,11 +2,15 @@
   "name": "ITER-OPS v0.5",
   "readme": "README.md",
   "out": "docs",
-  "theme": "minimal",
+  "theme": "default",
   "excludeExternals": true,
   "excludePrivate": true,
   "excludeNotDocumented": true,
-  "disableOutputCheck": true,
+  "entryPoints": [
+    "src/index.ts"
+  ],
+  "entryPointStrategy": "Resolve",
+  "tsconfig": "src/tsconfig.json",
   "exclude": [
     "./test/*.ts"
   ]
