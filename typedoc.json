@@ -2,7 +2,6 @@
   "name": "ITER-OPS v0.5",
   "readme": "README.md",
   "out": "docs",
-  "theme": "default",
   "excludeExternals": true,
   "excludePrivate": true,
   "excludeNotDocumented": true,
