@@ -21,13 +21,8 @@ export interface ISplitIndex {
     /**
      * Split Index - of resulting emits by the operator, starts with 0,
      * and incremented every time the operator emits data.
-     *
-     * When in "toggle" mode, it represents index of the toggle intervals.
-     * Therefore, it starts as undefined, until the first toggle is triggerred,
-     * at which point it becomes 0, staying unchanged while between toggles,
-     * and incremented once inside the next toggle interval.
      */
-    split?: number;
+    split: number;
 }
 
 /**
@@ -114,7 +109,7 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
             // all indexes:
             let startIndex = 0;
             let listIndex = 0;
-            let splitIndex = toggle ? undefined : 0;
+            let splitIndex = 0;
 
             let collecting = !toggle; // indicates when we are collecting values
             let finished = false; // indicates when we are all done
@@ -152,13 +147,13 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                     collecting = !collecting;
                                     listIndex = collecting && carry > 0 ? 1 : 0;
                                     if (collecting) {
-                                        splitIndex = (splitIndex ?? -1) + 1;
+                                        splitIndex++;
                                         continue;
                                     }
                                     return {value: list};
                                 }
                                 listIndex = carry > 0 ? 1 : 0;
-                                splitIndex!++; // cannot be undefined here
+                                splitIndex++;
                                 break;
                             }
                             if (collecting) {
