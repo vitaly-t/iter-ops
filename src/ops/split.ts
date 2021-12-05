@@ -94,6 +94,10 @@ export enum SplitValueCarry {
  * When you know both start and end values of each block, you can use the toggle mode,
  * with carryStart set to 1/forward, and carryEnd set to -1/back, unless you want
  * either of those skipped, then leave them at 0/none.
+ *
+ * Note that in toggle mode, you cannot use carryStart=back (it will be ignored),
+ * because it would delay emission of the current block indefinitely, plus carrying
+ * block start backward doesn't make much sense anyway.
  */
 export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): Piper<T, T[]> {
     return (iterable: Iterable<T>) => ({
