@@ -5,7 +5,7 @@
   "excludeExternals": true,
   "excludePrivate": true,
   "excludeNotDocumented": true,
-  "disableOutputCheck": true,
+  "cleanOutputDir": false,
   "entryPoints": [
     "src/index.ts"
   ],
