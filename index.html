@@ -21,7 +21,7 @@
 <p>We do not use any synthetic types / wrappers here, like <code>Observable</code> in RXJS, etc. It is strictly a
 synchronous <a href="https://javascript.info/iterable">Iterable</a> on the input, and a synchronous <a href="https://javascript.info/iterable">Iterable</a> on the output, for maximum performance, simplicity and
 compatibility.</p>
-<p>We also do not use ES6 generators internally, because their current implementation in V8 is quite slow.</p>
+<p>We also do not use ES6 generators internally, because their current implementation in V8 is relatively slow.</p>
 
 <a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
   <h2>Installation</h2>
@@ -82,8 +82,8 @@ compatibility.</p>
 <li><a href="./src/ops/last.ts">last(?(value, index) =&gt; boolean)</a> - produces a one-value iterable, with the last emitted value.
 When optional predicate is provided, the last value satisfying it will be emitted.</li>
 <li><a href="./src/ops/page.ts">page(size)</a> - splits values into pages of fixed size (last page can be smaller).<ul>
-<li>equivalent 1: <code>split((_, index) =&gt; index.list! &gt;= size, {carryEnd: 1})</code></li>
-<li>equivalent 2: <code>split((_, index) =&gt; index.list! &gt;= size - 1, {carryEnd: -1})</code></li>
+<li>equivalent 1: <code>split((_, index) =&gt; index.list &gt;= size, {carryEnd: 1})</code></li>
+<li>equivalent 2: <code>split((_, index) =&gt; index.list &gt;= size - 1, {carryEnd: -1})</code></li>
 </ul>
 </li>
 <li><a href="./src/ops/skip.ts">skip(count)</a> - starts emitting values after <code>count</code> number of values;<ul>
