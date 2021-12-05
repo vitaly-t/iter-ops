@@ -15,10 +15,8 @@ export interface ISplitIndex {
      *
      * Note that when "split" or "toggle-OFF" values are carried forward,
      * it starts with 1, as 0 refers to the value that was carried forward.
-     *
-     * When in "toggle" mode, it is undefined while between toggles.
      */
-    list?: number;
+    list: number;
 
     /**
      * Split Index - of resulting emits by the operator, starts with 0,
@@ -115,7 +113,7 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
 
             // all indexes:
             let startIndex = 0;
-            let listIndex = toggle ? undefined : 0;
+            let listIndex = 0;
             let splitIndex = toggle ? undefined : 0;
 
             let collecting = !toggle; // indicates when we are collecting values
@@ -152,7 +150,7 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                 }
                                 if (toggle) {
                                     collecting = !collecting;
-                                    listIndex = collecting ? (carry > 0 ? 1 : 0) : undefined;
+                                    listIndex = collecting && carry > 0 ? 1 : 0;
                                     if (collecting) {
                                         splitIndex = (splitIndex ?? -1) + 1;
                                         continue;

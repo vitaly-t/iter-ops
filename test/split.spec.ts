@@ -133,11 +133,11 @@ describe('split', () => {
                 }, {toggle: true, carryStart: -1, carryEnd: -1}));
                 [...i];
                 expect(indexes).to.eql([
-                    {start: 0, list: undefined, split: undefined},
+                    {start: 0, list: 0, split: undefined},
                     {start: 1, list: 0, split: 0},
-                    {start: 2, list: undefined, split: 0},
+                    {start: 2, list: 0, split: 0},
                     {start: 3, list: 0, split: 1},
-                    {start: 4, list: undefined, split: 1}
+                    {start: 4, list: 0, split: 1}
                 ]);
             });
             it('must report correct indexes for carry=forward', () => {
@@ -148,11 +148,11 @@ describe('split', () => {
                 }, {toggle: true, carryStart: 1, carryEnd: 1}));
                 [...i];
                 expect(indexes).to.eql([
-                    {start: 0, list: undefined, split: undefined},
+                    {start: 0, list: 0, split: undefined},
                     {start: 1, list: 1, split: 0},
-                    {start: 2, list: undefined, split: 0},
+                    {start: 2, list: 0, split: 0},
                     {start: 3, list: 1, split: 1},
-                    {start: 4, list: undefined, split: 1}
+                    {start: 4, list: 0, split: 1}
                 ]);
             });
         });
