@@ -16,7 +16,7 @@ Testing `iter-ops` versus the latest `rxjs`:
 
 ### Test Results
 
-![image](https://user-images.githubusercontent.com/5108906/144763096-9de43082-fd56-45f7-bdc0-98968eaddb27.png)
+![image](https://user-images.githubusercontent.com/5108906/144763751-4a536b8b-ce7a-447a-9589-49bde7d3c821.png)
 
 * Testing against `rxjs` pipeline - we get 2x times better performance
 * Testing against `rxjs` with a single empty subscription - we get 5x better performance
