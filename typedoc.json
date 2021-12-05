@@ -1,10 +1,11 @@
 {
-  "name": "ITER-OPS v0.6",
+  "name": "ITER-OPS v0.6.1",
   "readme": "README.md",
   "out": "docs",
   "excludeExternals": true,
   "excludePrivate": true,
   "excludeNotDocumented": true,
+  "disableOutputCheck": true,
   "entryPoints": [
     "src/index.ts"
   ],
