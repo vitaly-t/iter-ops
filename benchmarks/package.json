@@ -1,0 +1,8 @@
+{
+  "name": "iter-ops-benchmarks",
+  "version": "0.0.1",
+  "description": "Benchmarks for iter-ops library",
+  "dependencies": {
+    "rxjs": "7.4.0"
+  }
+}
