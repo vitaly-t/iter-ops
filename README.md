@@ -18,7 +18,7 @@ We do not use any synthetic types / wrappers here, like `Observable` in RXJS, et
 synchronous [Iterable] on the input, and a synchronous [Iterable] on the output, for maximum performance, simplicity and
 compatibility.
 
-We also do not use ES6 generators internally, because their current implementation in V8 is quite slow.
+We also do not use ES6 generators internally, because their current implementation in V8 is relatively slow.
 
 ## Installation
 
