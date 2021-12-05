@@ -1,3 +1,43 @@
+# indexes
+
+**works:**
+
+* default split, `list`
+
+```ts
+import {pipe, split} from 'iter-ops';
+
+const input = [-1, 1, 2, -2, 3, 4, -3, 5, 6];
+
+const i = pipe(
+input,
+split((value, index) => {
+console.log(value, index);
+return value < 0;
+}, {toggle: true})
+);
+
+console.log([...i]);
+```
+
+result:
+
+```
+-1 { start: 0, list: 0, split: 0 }
+1 { start: 1, list: 0, split: 1 }
+2 { start: 2, list: 1, split: 1 }
+-2 { start: 3, list: 2, split: 1 }
+3 { start: 4, list: 0, split: 1 }
+4 { start: 5, list: 1, split: 1 }
+-3 { start: 6, list: 2, split: 1 }
+5 { start: 7, list: 0, split: 2 }
+6 { start: 8, list: 1, split: 2 }
+```
+
+expected `0` for 4, because we are still outside block
+
+# carrying
+
 ```ts
 import {pipe, split} from 'iter-ops';
 

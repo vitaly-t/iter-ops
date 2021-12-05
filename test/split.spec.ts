@@ -125,6 +125,27 @@ describe('split', () => {
             });
         });
         describe('for toggle', () => {
+            it('must report correct indexes, without carrying', () => {
+                const indexes: ISplitIndex[] = [];
+                const input = [-1, 1, 2, 3, -2, 4, 5, -3, 6, 7];
+                const i = pipe(input, split((a, idx) => {
+                    indexes.push(idx);
+                    return a < 0;
+                }, {toggle: true}));
+                [...i];
+                expect(indexes).to.eql([
+                    {start: 0, list: 0, split: 0},
+                    {start: 1, list: 0, split: 1},
+                    {start: 2, list: 1, split: 1},
+                    {start: 3, list: 2, split: 1},
+                    {start: 4, list: 3, split: 1},
+                    {start: 5, list: 0, split: 1},
+                    {start: 6, list: 0, split: 1},
+                    {start: 7, list: 0, split: 1},
+                    {start: 8, list: 0, split: 2},
+                    {start: 9, list: 1, split: 2}
+                ]);
+            });
             it('must report correct indexes for carry=back', () => {
                 const indexes: ISplitIndex[] = [];
                 const i = pipe([1, 2, 3, 4, 5], split((a, idx) => {
