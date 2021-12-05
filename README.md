@@ -30,7 +30,11 @@ $ npm i iter-ops
 
 Follow the usage examples below, based on your development environment.
 
-_See also:_ official [API] below, plus [Recipes] for additional operations.
+_See also..._
+
+* [Official API] below
+* [Recipes], for additional operations
+* [Benchmarks], for performance comparison
 
 For web usage, either bundle it properly, or see [web](./web) folder.
 
@@ -117,6 +121,8 @@ See [Recipes] for more operations.
 
 [API]:#api
 
+[Official API]:#api
+
 [Error Handling]:https://github.com/vitaly-t/iter-ops/wiki/Error-Handling
 
 [Iterable]:https://javascript.info/iterable
@@ -136,3 +142,5 @@ See [Recipes] for more operations.
 [Aggregates]:https://github.com/vitaly-t/iter-ops/wiki/Aggregates
 
 [Split]:https://github.com/vitaly-t/iter-ops/wiki/Split
+
+[Benchmarks]:./benchmarks
