@@ -130,7 +130,7 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                         if (!v.done) {
                             const index: ISplitIndex = {
                                 start: startIndex++,
-                                list: listIndex,
+                                list: listIndex++,
                                 split: splitIndex
                             };
                             if (cb(v.value, index, state)) {
@@ -157,7 +157,6 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                 break;
                             }
                             if (collecting) {
-                                listIndex++;
                                 list.push(v.value);
                             }
                         }
