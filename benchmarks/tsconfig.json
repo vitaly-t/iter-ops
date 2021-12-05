@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES2015",
+    "declaration": true,
+    "strict": true
+  },
+  "include": [
+    "./*.ts"
+  ]
+}
