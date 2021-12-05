@@ -8,3 +8,4 @@ Testing `iter-ops` versus the latest `RXJS`:
 * Then we `map` each value into an object;
 * Collecting all values into an array;
 
+![image](https://user-images.githubusercontent.com/5108906/144763096-9de43082-fd56-45f7-bdc0-98968eaddb27.png)
