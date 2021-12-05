@@ -162,7 +162,7 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                                 break;
                             }
                             if (collecting) {
-                                listIndex!++; // cannot be undefined here
+                                listIndex++;
                                 list.push(v.value);
                             }
                         }
