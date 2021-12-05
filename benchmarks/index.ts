@@ -17,9 +17,9 @@ async function testRXJS(input: number[], withSubscription?: boolean) {
     const {length} = await rx.firstValueFrom(i);
     const duration = Date.now() - start;
     if (withSubscription) {
-        return {'RXJS + sub': {duration, length}};
+        return {'rxjs + sub': {duration, length}};
     }
-    return {'RXJS': {duration, length}};
+    return {'rxjs': {duration, length}};
 }
 
 function testIterOps(input: number[]) {
