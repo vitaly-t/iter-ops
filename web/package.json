@@ -1,0 +1,30 @@
+{
+  "name": "iter-ops-web",
+  "version": "0.0.1",
+  "description": "iter-ops web builder",
+  "scripts": {
+    "build": "browserify ../dist/index.js -o iter-ops.js -s iterOps && gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vitaly-t/iter-ops.git"
+  },
+  "author": {
+    "name": "Vitaly Tomilov",
+    "email": "vitaly.tomilov@gmail.com"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=10"
+  },
+  "dependencies": {
+    "browserify": "17.0.0",
+    "gulp": "4.0.2",
+    "gulp-eslint": "6.0.0",
+    "gulp-gzip": "1.4.2",
+    "gulp-header": "2.0.9",
+    "gulp-rename": "2.0.0",
+    "gulp-sourcemaps": "3.0.0",
+    "gulp-uglify": "3.0.2"
+  }
+}

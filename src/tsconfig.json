@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES2015",
+    "declaration": true,
+    "declarationDir": "../dist",
+    "outDir": "../dist",
+    "strict": true,
+    "noUnusedLocals": true
+  },
+  "include": [
+    "./**/*.ts"
+  ]
+}

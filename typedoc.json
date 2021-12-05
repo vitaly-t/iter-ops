@@ -1,0 +1,16 @@
+{
+  "name": "ITER-OPS v0.6",
+  "readme": "README.md",
+  "out": "docs",
+  "excludeExternals": true,
+  "excludePrivate": true,
+  "excludeNotDocumented": true,
+  "entryPoints": [
+    "src/index.ts"
+  ],
+  "entryPointStrategy": "Resolve",
+  "tsconfig": "src/tsconfig.json",
+  "exclude": [
+    "./test/*.ts"
+  ]
+}
