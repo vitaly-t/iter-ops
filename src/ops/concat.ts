@@ -79,7 +79,7 @@ function concatAsync<T>(iterable: AsyncIterable<T>, ...values: any[]): AsyncIter
                     while (index < values.length) {
                         if (start) {
                             v = values[index];
-                            k = typeof v?.next === 'function' ? v : v?.[Symbol.asyncIterator]?.();
+                            k = typeof v?.next === 'function' ? v : (v?.[Symbol.iterator]?.() || v?.[Symbol.asyncIterator]?.());
                             start = false;
                         }
                         if (k) {

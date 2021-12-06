@@ -46,11 +46,12 @@ function spreadSync<T>(iterable: Iterable<Iterable<T>>): Iterable<T> {
     };
 }
 
-function spreadAsync<T>(iterable: AsyncIterable<AsyncIterable<T>>): AsyncIterable<T> {
+function spreadAsync<T>(iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>): AsyncIterable<T> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
-            let a: IteratorResult<AsyncIterable<T>>, k: AsyncIterator<T>, v: IteratorResult<T>,
+            let a: IteratorResult<any>, k: Iterator<T> | AsyncIterator<T>,
+                v: IteratorResult<T>,
                 start = true, index = 0;
             return {
                 async next(): Promise<IteratorResult<T>> {
@@ -59,7 +60,7 @@ function spreadAsync<T>(iterable: AsyncIterable<AsyncIterable<T>>): AsyncIterabl
                             start = false;
                             a = await i.next();
                             if (!a.done) {
-                                k = a.value?.[Symbol.asyncIterator]?.();
+                                k = a.value?.[Symbol.iterator]?.() || a.value?.[Symbol.asyncIterator]?.();
                                 if (!k) {
                                     throw new TypeError(`Value at index ${index} is not iterable: ${JSON.stringify(a.value)}`);
                                 }

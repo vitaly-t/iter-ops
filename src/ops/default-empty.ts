@@ -63,7 +63,7 @@ function defaultEmptyAsync<T, D>(iterable: AsyncIterable<T>, value: Any<D>): Asy
                         if (empty) {
                             if (start) {
                                 v = value;
-                                k = typeof v?.next === 'function' ? v : v?.[Symbol.asyncIterator]?.();
+                                k = typeof v?.next === 'function' ? v : (v?.[Symbol.iterator]?.() || v?.[Symbol.asyncIterator]?.());
                                 start = false;
                             }
                             if (k) {
