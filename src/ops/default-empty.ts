@@ -1,11 +1,11 @@
-import {Any, AnySync, Operation} from '../types';
+import {Any, AnySync, AnyIterable, AnyIterator, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
  * Adds default value|iterator|iterable to an empty iterable.
  */
-export function defaultEmpty<T, D>(value: Iterable<D> | AsyncIterable<D>): Operation<T, T | D>;
-export function defaultEmpty<T, D>(value: Iterator<D> | AsyncIterator<D>): Operation<T, T | D>;
+export function defaultEmpty<T, D>(value: AnyIterable<D>): Operation<T, T | D>;
+export function defaultEmpty<T, D>(value: AnyIterator<D>): Operation<T, T | D>;
 export function defaultEmpty<T, D>(value: D | Promise<D>): Operation<T, T | D>;
 
 export function defaultEmpty<T, D>(value: Any<D>): Operation<T, T | D> {
