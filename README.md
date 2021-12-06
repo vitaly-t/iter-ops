@@ -27,6 +27,12 @@ We also do not use ES6 generators internally, because their current implementati
 $ npm i iter-ops
 ```
 
+In case you need to use asynchronous iterables also (they are in beta now):
+
+```
+$ npm i iter-ops@beta
+```
+
 ## Usage
 
 Follow the usage examples below, based on your development environment.
