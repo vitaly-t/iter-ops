@@ -1,4 +1,4 @@
-import {Piper} from '../types';
+import {SyncPiper} from '../types';
 
 /**
  * Aggregates/accumulates all values into array, passes it into the callback/aggregate,
@@ -7,7 +7,7 @@ import {Piper} from '../types';
  * If the callback result is an iterable that you want to emit values,
  * follow it up with the spread operator.
  */
-export function aggregate<T, R>(cb: (arr: T[]) => R): Piper<T, R> {
+export function aggregate<T, R>(cb: (arr: T[]) => R): SyncPiper<T, R> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<R> {
             const i = iterable[Symbol.iterator]();

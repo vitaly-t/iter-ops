@@ -1,6 +1,6 @@
 export {
     Any, AsyncAny,
-    Piper, AsyncPiper,
+    Piper, SyncPiper,
     IterableExt, AsyncIterableExt,
     IterationState,
     IErrorContext

@@ -56,11 +56,14 @@ export interface AsyncIterableExt<T> extends AsyncIterable<T> {
  * Pipe-through type (return type for all operators)
  */
 export interface Piper<T, R> {
-    (i: Iterable<T>): Iterable<R>;
+    (i: Iterable<T> | AsyncIterable<T>): Iterable<R> | AsyncIterable<R>;
 }
 
-export interface AsyncPiper<T, R> {
-    (i: AsyncIterable<T>): AsyncIterable<R>;
+/**
+ * Temporary, for POC;
+ */
+export interface SyncPiper<T, R> {
+    (i: Iterable<T>): Iterable<R>;
 }
 
 /**

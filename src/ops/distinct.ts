@@ -1,9 +1,9 @@
-import {Piper} from '../types';
+import {SyncPiper} from '../types';
 
 /**
  * Emits unique values, with optional key selector.
  */
-export function distinct<T, K>(keySelector?: (value: T, index: number) => K): Piper<T, T> {
+export function distinct<T, K>(keySelector?: (value: T, index: number) => K): SyncPiper<T, T> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();

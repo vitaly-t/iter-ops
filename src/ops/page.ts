@@ -1,11 +1,11 @@
-import {Piper} from '../types';
+import {SyncPiper} from '../types';
 
 /**
  * Splits values into pages of fixed size (last page can be smaller).
  *
  * Throws an error when page size is less than 1 or not a number.
  */
-export function page<T>(size: number): Piper<T, T[]> {
+export function page<T>(size: number): SyncPiper<T, T[]> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T[]> {
             const i = iterable[Symbol.iterator]();

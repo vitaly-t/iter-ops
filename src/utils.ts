@@ -11,7 +11,7 @@ export function extendIterable(i: any): IterableExt<any> {
 }
 
 export function extendAsyncIterable(i: any): AsyncIterableExt<any> {
-    Object.defineProperty(i, 'first', ({get: () => i[Symbol.asyncIterator]().next().value}));
+    Object.defineProperty(i, 'first', ({get: () => i[Symbol.asyncIterator]().next().then((a: any) => a.value)}));
     i.catch = (cb: any) => extendAsyncIterable(catchError(cb)(i));
     return i;
 }

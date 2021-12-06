@@ -1,10 +1,10 @@
-import {Piper} from '../types';
+import {SyncPiper} from '../types';
 
 /**
  * Goes through the entire iterable, counting the values,
  * and produces a one-value iterable with the count.
  */
-export function count<T>(): Piper<T, number> {
+export function count<T>(): SyncPiper<T, number> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<number> {
             let done = false;

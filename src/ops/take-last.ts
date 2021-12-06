@@ -1,9 +1,9 @@
-import {Piper} from '../types';
+import {SyncPiper} from '../types';
 
 /**
  * Emits up to "count" number of the last values.
  */
-export function takeLast<T>(count: number): Piper<T, T> {
+export function takeLast<T>(count: number): SyncPiper<T, T> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();

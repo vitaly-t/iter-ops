@@ -1,9 +1,9 @@
-import {IterationState, Piper} from '../types';
+import {IterationState, SyncPiper} from '../types';
 
 /**
  * Taps into each value, without changing the output.
  */
-export function tap<T>(cb: (value: T, index: number, state: IterationState) => void): Piper<T, T> {
+export function tap<T>(cb: (value: T, index: number, state: IterationState) => void): SyncPiper<T, T> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();

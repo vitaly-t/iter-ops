@@ -1,9 +1,9 @@
-import {IterationState, Piper} from '../types';
+import {IterationState, SyncPiper} from '../types';
 
 /**
  * Stops emitting values, once the predicate returns a truthy value.
  */
-export function stop<T>(cb: (value: T, index: number, state: IterationState) => boolean): Piper<T, T> {
+export function stop<T>(cb: (value: T, index: number, state: IterationState) => boolean): SyncPiper<T, T> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();

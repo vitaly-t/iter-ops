@@ -1,9 +1,9 @@
-import {Piper} from '../types';
+import {SyncPiper} from '../types';
 
 /**
  * Starts emitting values after "count" number of values.
  */
-export function skip<T>(count: number): Piper<T, T> {
+export function skip<T>(count: number): SyncPiper<T, T> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();

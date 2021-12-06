@@ -1,9 +1,9 @@
-import {Piper} from '../types';
+import {SyncPiper} from '../types';
 
 /**
  * Accumulates all values and emits an array.
  */
-export function toArray<T>(): Piper<T, T[]> {
+export function toArray<T>(): SyncPiper<T, T[]> {
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T[]> {
             const i = iterable[Symbol.iterator]();
