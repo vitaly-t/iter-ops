@@ -1,4 +1,4 @@
-import {IErrorContext, SyncPiper} from '../types';
+import {IErrorContext, Operation} from '../types';
 
 /**
  * Catches iteration errors.
@@ -10,7 +10,8 @@ import {IErrorContext, SyncPiper} from '../types';
  * - re-throw the original error;
  * - throw a new error.
  */
-export function catchError<T>(cb: (error: any, ctx: IErrorContext<T>) => void): SyncPiper<T, T> {
+export function catchError<T>(cb: (error: any, ctx: IErrorContext<T>) => void): Operation<T, T> {
+    return null as any;/*
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
@@ -43,5 +44,5 @@ export function catchError<T>(cb: (error: any, ctx: IErrorContext<T>) => void): 
                 }
             };
         }
-    });
+    });*/
 }

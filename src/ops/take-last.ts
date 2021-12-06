@@ -1,9 +1,10 @@
-import {SyncPiper} from '../types';
+import {Operation} from '../types';
 
 /**
  * Emits up to "count" number of the last values.
  */
-export function takeLast<T>(count: number): SyncPiper<T, T> {
+export function takeLast<T>(count: number): Operation<T, T> {
+    return null as any;/*
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
@@ -31,5 +32,5 @@ export function takeLast<T>(count: number): SyncPiper<T, T> {
                 }
             };
         }
-    });
+    });*/
 }

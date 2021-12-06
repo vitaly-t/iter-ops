@@ -1,10 +1,11 @@
-import {SyncPiper} from '../types';
+import {Operation} from '../types';
 
 /**
  * Checks if the iterable can produce any value,
  * and returns a one-value iterable with the flag.
  */
-export function isEmpty<T>(): SyncPiper<T, boolean> {
+export function isEmpty<T>(): Operation<T, boolean> {
+    return null as any;/*
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<boolean> {
             let done = false;
@@ -19,5 +20,5 @@ export function isEmpty<T>(): SyncPiper<T, boolean> {
                 }
             };
         }
-    });
+    });*/
 }

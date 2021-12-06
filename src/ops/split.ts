@@ -1,4 +1,4 @@
-import {IterationState, SyncPiper} from '../types';
+import {IterationState, Operation} from '../types';
 
 /**
  * Value index details, during "split" operation.
@@ -99,7 +99,8 @@ export enum SplitValueCarry {
  * because it would delay emission of the current block indefinitely, plus carrying
  * block start backward doesn't make much sense anyway.
  */
-export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): SyncPiper<T, T[]> {
+export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): Operation<T, T[]> {
+    return null as any;/*
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T[]> {
             const i = iterable[Symbol.iterator]();
@@ -176,5 +177,5 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                 }
             };
         }
-    });
+    });*/
 }

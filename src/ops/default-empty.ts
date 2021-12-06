@@ -1,13 +1,14 @@
-import {Any, SyncPiper} from '../types';
+import {Any, Operation} from '../types';
 
 /**
  * Adds default value|iterator|iterable to an empty iterable.
  */
-export function defaultEmpty<T, D>(value: Iterable<D>): SyncPiper<T, T | D>;
-export function defaultEmpty<T, D>(value: Iterator<D>): SyncPiper<T, T | D>;
-export function defaultEmpty<T, D>(value: D): SyncPiper<T, T | D>;
+export function defaultEmpty<T, D>(value: Iterable<D>): Operation<T, T | D>;
+export function defaultEmpty<T, D>(value: Iterator<D>): Operation<T, T | D>;
+export function defaultEmpty<T, D>(value: D): Operation<T, T | D>;
 
-export function defaultEmpty<T, D>(value: Any<D>): SyncPiper<T, T | D> {
+export function defaultEmpty<T, D>(value: Any<D>): Operation<T, T | D> {
+    return null as any;/*
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
@@ -39,5 +40,5 @@ export function defaultEmpty<T, D>(value: Any<D>): SyncPiper<T, T | D> {
                 }
             };
         }
-    });
+    });*/
 }

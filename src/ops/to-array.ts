@@ -1,9 +1,10 @@
-import {SyncPiper} from '../types';
+import {Operation} from '../types';
 
 /**
  * Accumulates all values and emits an array.
  */
-export function toArray<T>(): SyncPiper<T, T[]> {
+export function toArray<T>(): Operation<T, T[]> {
+    return null as any;/*
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T[]> {
             const i = iterable[Symbol.iterator]();
@@ -23,5 +24,5 @@ export function toArray<T>(): SyncPiper<T, T[]> {
                 }
             };
         }
-    });
+    });*/
 }

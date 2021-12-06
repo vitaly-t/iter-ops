@@ -1,11 +1,12 @@
-import {IterationState, SyncPiper} from '../types';
+import {IterationState, Operation} from '../types';
 
 /**
  * Standard map logic for the iterable, extended for supporting iteration state.
  *
  * See also: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
  */
-export function map<T, R>(cb: (value: T, index: number, state: IterationState) => R): SyncPiper<T, R> {
+export function map<T, R>(cb: (value: T, index: number, state: IterationState) => R): Operation<T, R> {
+    return null as any;/*
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<R> {
             const i = iterable[Symbol.iterator]();
@@ -24,5 +25,5 @@ export function map<T, R>(cb: (value: T, index: number, state: IterationState) =
                 }
             };
         }
-    });
+    });*/
 }

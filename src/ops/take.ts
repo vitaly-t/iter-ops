@@ -1,9 +1,10 @@
-import {SyncPiper} from '../types';
+import {Operation} from '../types';
 
 /**
  * Emits up to "count" number of values.
  */
-export function take<T>(count: number): SyncPiper<T, T> {
+export function take<T>(count: number): Operation<T, T> {
+    return null as any;/*
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
@@ -22,5 +23,5 @@ export function take<T>(count: number): SyncPiper<T, T> {
                 }
             };
         }
-    });
+    });*/
 }

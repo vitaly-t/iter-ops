@@ -1,9 +1,10 @@
-import {SyncPiper} from '../types';
+import {Operation} from '../types';
 
 /**
  * Emits unique values, with optional key selector.
  */
-export function distinct<T, K>(keySelector?: (value: T, index: number) => K): SyncPiper<T, T> {
+export function distinct<T, K>(keySelector?: (value: T, index: number) => K): Operation<T, T> {
+    return null as any;/*
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
@@ -28,5 +29,5 @@ export function distinct<T, K>(keySelector?: (value: T, index: number) => K): Sy
                 }
             };
         }
-    });
+    });*/
 }

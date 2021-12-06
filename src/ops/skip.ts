@@ -1,9 +1,10 @@
-import {SyncPiper} from '../types';
+import {Operation} from '../types';
 
 /**
  * Starts emitting values after "count" number of values.
  */
-export function skip<T>(count: number): SyncPiper<T, T> {
+export function skip<T>(count: number): Operation<T, T> {
+    return null as any;/*
     return (iterable: Iterable<T>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
@@ -21,5 +22,5 @@ export function skip<T>(count: number): SyncPiper<T, T> {
                 }
             };
         }
-    });
+    });*/
 }

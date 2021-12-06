@@ -1,4 +1,4 @@
-import {SyncPiper} from '../types';
+import {Operation} from '../types';
 
 /**
  * Spreads iterable values.
@@ -6,7 +6,8 @@ import {SyncPiper} from '../types';
  * It requires that the input iterable emits iterable values only,
  * or else it will throw an error.
  */
-export function spread<T>(): SyncPiper<Iterable<T>, T> {
+export function spread<T>(): Operation<Iterable<T>, T> {
+    return null as any;/*
     return (iterable: Iterable<Iterable<T>>) => ({
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
@@ -38,5 +39,5 @@ export function spread<T>(): SyncPiper<Iterable<T>, T> {
                 }
             };
         }
-    });
+    });*/
 }
