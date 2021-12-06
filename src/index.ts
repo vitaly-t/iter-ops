@@ -1,5 +1,5 @@
 export {
-    Any,
+    SyncAny, AsyncAny,
     Operation,
     IterableExt, AsyncIterableExt,
     IterationState,

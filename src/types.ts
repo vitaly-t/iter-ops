@@ -52,21 +52,26 @@ export interface AsyncIterableExt<T> extends AsyncIterable<T> {
     catch(cb: (error: any, ctx: IErrorContext<T>) => void): IterableExt<T>;
 }
 
+export interface SyncOperation<T, R> {
+    (i: Iterable<T>): SyncOperation<T, R>;
+}
+
+export interface AsyncOperation<T, R> {
+    (i: AsyncIterable<T>): AsyncOperation<T, R>;
+}
+
 /**
  * Pipe-through type (return type for all operators)
  */
-export interface Operation<T, R> {
-    (i: Iterable<T> | AsyncIterable<T>): Operation<T, R>;
+export interface Operation<T, R> extends SyncOperation<T, R>, AsyncOperation<T, R> {
 }
 
 /**
  * Any templated value type: Value | Iterator | Iterable
  */
-export type Any<T> = T | Iterator<T> | Iterable<T> | AsyncIterator<T> | AsyncIterable<T>;
+export type SyncAny<T> = T | Iterator<T> | Iterable<T>;
 
-// export interface Any<T> = T | Iterator<T> | Iterable<T> | AsyncIterator<T> | AsyncIterable<T>;
-
-// export type AsyncAny<T> = T | AsyncIterator<T> | AsyncIterable<T>;
+export type AsyncAny<T> = Promise<T> | AsyncIterator<T> | AsyncIterable<T>;
 
 /**
  * Iteration State.
