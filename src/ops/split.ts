@@ -1,4 +1,5 @@
 import {IterationState, Operation} from '../types';
+import {createOperation} from '../utils';
 
 /**
  * Value index details, during "split" operation.
@@ -100,8 +101,11 @@ export enum SplitValueCarry {
  * block start backward doesn't make much sense anyway.
  */
 export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): Operation<T, T[]> {
-    return null as any;/*
-    return (iterable: Iterable<T>) => ({
+    return createOperation(splitSync, splitAsync, arguments);
+}
+
+function splitSync<T>(iterable: Iterable<T>, cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): Iterable<T[]> {
+    return {
         [Symbol.iterator](): Iterator<T[]> {
             const i = iterable[Symbol.iterator]();
             const state: IterationState = {};
@@ -177,5 +181,85 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
                 }
             };
         }
-    });*/
+    };
+}
+
+function splitAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): AsyncIterable<T[]> {
+    return {
+        [Symbol.asyncIterator](): AsyncIterator<T[]> {
+            const i = iterable[Symbol.asyncIterator]();
+            const state: IterationState = {};
+
+            // quick access to the options:
+            const carryStart = options?.carryStart ? (options?.carryStart < 0 ? -1 : (options?.carryStart > 0 ? 1 : 0)) : 0;
+            const carryEnd = options?.carryEnd ? (options?.carryEnd < 0 ? -1 : (options?.carryEnd > 0 ? 1 : 0)) : 0;
+            const toggle = !!options?.toggle;
+
+            // all indexes:
+            let startIndex = 0;
+            let listIndex = 0;
+            let splitIndex = 0;
+
+            let collecting = !toggle; // indicates when we are collecting values
+            let finished = false; // indicates when we are all done
+
+            let prev: IteratorResult<T> | null; // previous value when carrying forward
+
+            return {
+                async next(): Promise<IteratorResult<T[]>> {
+                    const list: T[] = [];
+                    let v: IteratorResult<T>; // next value object
+                    do {
+                        if (prev) {
+                            // previous trigger value is being moved forward;
+                            list.push(prev.value);
+                            prev = null;
+                        }
+                        v = await i.next();
+                        if (!v.done) {
+                            const index: ISplitIndex = {
+                                start: startIndex++,
+                                list: listIndex,
+                                split: splitIndex
+                            };
+                            if (cb(v.value, index, state)) {
+                                // split/toggle has been triggerred;
+                                const carry = collecting ? carryEnd : carryStart;
+                                if (carry) {
+                                    if (carry < 0) {
+                                        list.push(v.value);
+                                    } else {
+                                        prev = v; // carry "forward", save for the next list
+                                    }
+                                }
+                                if (toggle) {
+                                    collecting = !collecting;
+                                    listIndex = collecting && carry > 0 ? 1 : 0;
+                                    if (collecting) {
+                                        splitIndex++;
+                                        continue;
+                                    }
+                                    return {value: list};
+                                }
+                                listIndex = carry > 0 ? 1 : 0;
+                                splitIndex++;
+                                break;
+                            }
+                            if (collecting) {
+                                listIndex++;
+                                list.push(v.value);
+                            }
+                        }
+                    } while (!v.done);
+                    if (!finished) {
+                        finished = !!v.done;
+                        if (collecting) {
+                            return {value: list};
+                        }
+                    }
+                    return {value: undefined, done: true};
+                }
+            };
+        }
+    };
 }
