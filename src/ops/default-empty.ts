@@ -51,7 +51,7 @@ function defaultEmptyAsync<T, D>(iterable: AsyncIterable<T>, value: Any<D>): Asy
     return {
         [Symbol.asyncIterator](): AsyncIterator<T | D> {
             const i = iterable[Symbol.asyncIterator]();
-            let k: Iterator<T>, v: any, start = true, empty = true, done = false;
+            let k: AsyncIterator<T>, v: any, start = true, empty = true, done = false;
             return {
                 async next(): Promise<IteratorResult<T>> {
                     if (!done) {
@@ -63,11 +63,11 @@ function defaultEmptyAsync<T, D>(iterable: AsyncIterable<T>, value: Any<D>): Asy
                         if (empty) {
                             if (start) {
                                 v = value;
-                                k = typeof v?.next === 'function' ? v : v?.[Symbol.iterator]?.();
+                                k = typeof v?.next === 'function' ? v : v?.[Symbol.asyncIterator]?.();
                                 start = false;
                             }
                             if (k) {
-                                const b = k.next();
+                                const b = await k.next();
                                 done = !!b.done;
                                 return b;
                             }

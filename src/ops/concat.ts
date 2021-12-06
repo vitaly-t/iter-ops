@@ -7,7 +7,7 @@ import {createOperation} from '../utils';
  *
  * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
  */
- export function concat<T>(): Operation<T, T>;
+export function concat<T>(): Operation<T, T>;
 export function concat<T, A>(v0: Any<A>): Operation<T, T | A>;
 export function concat<T, A, B>(v0: Any<A>, v1: Any<B>): Operation<T, T | A | B>;
 export function concat<T, A, B, C>(v0: Any<A>, v1: Any<B>, v2: Any<C>): Operation<T, T | A | B | C>;
@@ -66,7 +66,7 @@ function concatAsync<T>(iterable: AsyncIterable<T>, ...values: any[]): AsyncIter
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
-            let index = -1, k: Iterator<T>, v: any, start = true;
+            let index = -1, k: AsyncIterator<T>, v: any, start = true;
             return {
                 async next(): Promise<IteratorResult<T>> {
                     if (index < 0) {
@@ -79,11 +79,11 @@ function concatAsync<T>(iterable: AsyncIterable<T>, ...values: any[]): AsyncIter
                     while (index < values.length) {
                         if (start) {
                             v = values[index];
-                            k = typeof v?.next === 'function' ? v : v?.[Symbol.iterator]?.();
+                            k = typeof v?.next === 'function' ? v : v?.[Symbol.asyncIterator]?.();
                             start = false;
                         }
                         if (k) {
-                            const b = k.next();
+                            const b = await k.next();
                             if (!b.done) {
                                 return b;
                             }
