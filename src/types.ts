@@ -69,9 +69,7 @@ export interface Operation<T, R> extends SyncOperation<T, R>, AsyncOperation<T, 
 /**
  * Any templated value type: Value | Iterator | Iterable
  */
-export type SyncAny<T> = T | Iterator<T> | Iterable<T>;
-
-export type AsyncAny<T> = Promise<T> | AsyncIterator<T> | AsyncIterable<T>;
+export type Any<T> = T | Iterator<T> | Iterable<T> | Promise<T> | AsyncIterator<T> | AsyncIterable<T>;
 
 /**
  * Iteration State.

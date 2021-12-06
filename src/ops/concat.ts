@@ -1,4 +1,4 @@
-import {SyncAny, AsyncAny, SyncOperation, AsyncOperation} from '../types';
+import {Any, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -7,11 +7,9 @@ import {createOperation} from '../utils';
  *
  * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
  */
-// export function concat<T>(): Operation<T, T>;
-
-export function concat<T, A>(v0: SyncAny<A>): SyncOperation<T, T | A>;
-export function concat<T, A, B>(v0: SyncAny<A>, v1: SyncAny<B>): SyncOperation<T, T | A | B>;
-/*
+ export function concat<T>(): Operation<T, T>;
+export function concat<T, A>(v0: Any<A>): Operation<T, T | A>;
+export function concat<T, A, B>(v0: Any<A>, v1: Any<B>): Operation<T, T | A | B>;
 export function concat<T, A, B, C>(v0: Any<A>, v1: Any<B>, v2: Any<C>): Operation<T, T | A | B | C>;
 export function concat<T, A, B, C, D>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>): Operation<T, T | A | B | C | D>;
 export function concat<T, A, B, C, D, E>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>): Operation<T, T | A | B | C | D | E>;
@@ -20,12 +18,8 @@ export function concat<T, A, B, C, D, E, F, G>(v0: Any<A>, v1: Any<B>, v2: Any<C
 export function concat<T, A, B, C, D, E, F, G, H>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>, v5: Any<F>, v6: Any<G>, v7: Any<H>): Operation<T, T | A | B | C | D | E | F | G | H>;
 export function concat<T, A, B, C, D, E, F, G, H, I>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>, v5: Any<F>, v6: Any<G>, v7: Any<H>, v8: Any<I>): Operation<T, T | A | B | C | D | E | F | G | H | I>;
 export function concat<T, A, B, C, D, E, F, G, H, I, J>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>, v5: Any<F>, v6: Any<G>, v7: Any<H>, v8: Any<I>, v9: Any<J>): Operation<T, T | A | B | C | D | E | F | G | H | I | J>;
-*/
 
-export function concat<T, A>(v0: AsyncAny<A>): AsyncOperation<T, T | A>;
-export function concat<T, A, B>(v0: AsyncAny<A>, v1: AsyncAny<B>): AsyncOperation<T, T | A | B>;
-
-export function concat<T>(...values: any[]): SyncOperation<T, any> | AsyncOperation<T, any> {
+export function concat<T>(...values: any[]): Operation<T, any> {
     return createOperation(concatSync, concatAsync, arguments);
 }
 
