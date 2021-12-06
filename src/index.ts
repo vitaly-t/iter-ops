@@ -1,7 +1,8 @@
 export {
     Any,
     Operation,
-    IterableExt, AsyncIterableExt,
+    IterableExt,
+    AsyncIterableExt,
     IterationState,
     IErrorContext
 } from './types';

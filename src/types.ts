@@ -52,18 +52,11 @@ export interface AsyncIterableExt<T> extends AsyncIterable<T> {
     catch(cb: (error: any, ctx: IErrorContext<T>) => void): IterableExt<T>;
 }
 
-export interface SyncOperation<T, R> {
-    (i: Iterable<T>): SyncOperation<T, R>;
-}
-
-export interface AsyncOperation<T, R> {
-    (i: AsyncIterable<T>): AsyncOperation<T, R>;
-}
-
 /**
  * Pipe-through type (return type for all operators)
  */
-export interface Operation<T, R> extends SyncOperation<T, R>, AsyncOperation<T, R> {
+export interface Operation<T, R> {
+    (i: Iterable<T> | AsyncIterable<T>): Operation<T, R>;
 }
 
 /**
