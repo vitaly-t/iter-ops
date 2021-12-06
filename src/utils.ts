@@ -1,7 +1,10 @@
 import {IterableExt, AsyncIterableExt, Operation} from './types';
 import {catchError} from './ops/catch-error';
 
-export function createOperation<T, R = T>(
+/**
+ * Wraps operator signature.
+ */
+export function createOperation<T, R>(
     syncFunc: (i: Iterable<T>, ...args: any[]) => Iterable<R>,
     asyncFunc: (i: AsyncIterable<T>, ...args: any[]) => AsyncIterable<R>,
     args?: IArguments): Operation<T, T> {
@@ -12,7 +15,7 @@ export function createOperation<T, R = T>(
 }
 
 /**
- * Extends an iterable object to IterableExt type.
+ * Extends an Iterable object into IterableExt type.
  */
 export function extendIterable(i: any): IterableExt<any> {
     Object.defineProperty(i, 'first', ({get: () => i[Symbol.iterator]().next().value}));
@@ -20,6 +23,9 @@ export function extendIterable(i: any): IterableExt<any> {
     return i;
 }
 
+/**
+ * Extends an AsyncIterable object into AsyncIterableExt type.
+ */
 export function extendAsyncIterable(i: any): AsyncIterableExt<any> {
     Object.defineProperty(i, 'first', ({get: () => i[Symbol.asyncIterator]().next().then((a: any) => a.value)}));
     i.catch = (cb: any) => extendAsyncIterable(catchError(cb)(i));
