@@ -1,12 +1,17 @@
-import {Piper} from '../types';
+import {Operation} from '../types';
+import {createOperation} from '../utils';
 
 /**
  * Produces a one-value iterable, with the last emitted value.
  *
  * When optional predicate is provided, the last value satisfying it will be emitted.
  */
-export function last<T>(cb?: (value: T, index: number) => boolean): Piper<T, T> {
-    return (iterable: Iterable<T>) => ({
+export function last<T>(cb?: (value: T, index: number) => boolean): Operation<T, T> {
+    return createOperation(lastSync, lastAsync, arguments);
+}
+
+function lastSync<T>(iterable: Iterable<T>, cb?: (value: T, index: number) => boolean): Iterable<T> {
+    return {
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
             const test = typeof cb === 'function' && cb;
@@ -26,5 +31,29 @@ export function last<T>(cb?: (value: T, index: number) => boolean): Piper<T, T> 
                 }
             };
         }
-    });
+    };
+}
+
+function lastAsync<T>(iterable: AsyncIterable<T>, cb?: (value: T, index: number) => boolean): AsyncIterable<T> {
+    return {
+        [Symbol.asyncIterator](): AsyncIterator<T> {
+            const i = iterable[Symbol.asyncIterator]();
+            const test = typeof cb === 'function' && cb;
+            let index = 0;
+            return {
+                async next(): Promise<IteratorResult<T>> {
+                    let a, r;
+                    while (!(a = await i.next()).done) {
+                        if (!test || test(a.value, index++)) {
+                            r = a;
+                        }
+                    }
+                    if (r) {
+                        return {value: r.value};
+                    }
+                    return a;
+                }
+            };
+        }
+    };
 }

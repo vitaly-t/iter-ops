@@ -1,12 +1,17 @@
-import {IterationState, Piper} from '../types';
+import {IterationState, Operation} from '../types';
+import {createOperation} from '../utils';
 
 /**
  * Standard filter logic for the iterable, extended for supporting iteration state.
  *
  * See also: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
  */
-export function filter<T>(cb: (value: T, index: number, state: IterationState) => boolean): Piper<T, T> {
-    return (iterable: Iterable<T>) => ({
+export function filter<T>(cb: (value: T, index: number, state: IterationState) => boolean): Operation<T, T> {
+    return createOperation(filterSync, filterAsync, arguments);
+}
+
+function filterSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state: IterationState) => boolean): Iterable<T> {
+    return {
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
             const state: IterationState = {};
@@ -24,5 +29,27 @@ export function filter<T>(cb: (value: T, index: number, state: IterationState) =
                 }
             };
         }
-    });
+    };
+}
+
+function filterAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => boolean): AsyncIterable<T> {
+    return {
+        [Symbol.asyncIterator](): AsyncIterator<T> {
+            const i = iterable[Symbol.asyncIterator]();
+            const state: IterationState = {};
+            let index = 0;
+            return {
+                async next(): Promise<IteratorResult<T>> {
+                    let a;
+                    do {
+                        a = await i.next();
+                        if (!a.done && cb(a.value, index++, state)) {
+                            return a;
+                        }
+                    } while (!a.done);
+                    return a;
+                }
+            };
+        }
+    };
 }

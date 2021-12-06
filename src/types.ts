@@ -37,17 +37,41 @@ export interface IterableExt<T> extends Iterable<T> {
     catch(cb: (error: any, ctx: IErrorContext<T>) => void): IterableExt<T>;
 }
 
+export interface AsyncIterableExt<T> extends AsyncIterable<T> {
+    /**
+     * - first element produced by the iterable;
+     * - undefined, if the iterable produced nothing.
+     *
+     * It is to simplify use of one-value iterables.
+     */
+    readonly first?: T;
+
+    /**
+     * Appends catchError operator to the pipeline.
+     */
+    catch(cb: (error: any, ctx: IErrorContext<T>) => void): IterableExt<T>;
+}
+
+export interface SyncOperation<T, R> {
+    (i: Iterable<T>): SyncOperation<T, R>;
+}
+
+export interface AsyncOperation<T, R> {
+    (i: AsyncIterable<T>): AsyncOperation<T, R>;
+}
+
 /**
  * Pipe-through type (return type for all operators)
  */
-export interface Piper<T, R> {
-    (i: Iterable<T>): Iterable<R>;
+export interface Operation<T, R> extends SyncOperation<T, R>, AsyncOperation<T, R> {
 }
 
 /**
  * Any templated value type: Value | Iterator | Iterable
  */
-export type Any<T> = T | Iterator<T> | Iterable<T>;
+export type Any<T> = T | Iterator<T> | Iterable<T> | Promise<T> | AsyncIterator<T> | AsyncIterable<T>;
+
+export type AnySync<T> = T | Iterator<T> | Iterable<T>;
 
 /**
  * Iteration State.
