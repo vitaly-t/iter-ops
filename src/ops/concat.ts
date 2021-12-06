@@ -1,4 +1,5 @@
 import {Any, Operation} from '../types';
+import {createOperation} from '../utils';
 
 /**
  * Merges current iterable with a list of values, iterators or iterables.
@@ -19,8 +20,11 @@ export function concat<T, A, B, C, D, E, F, G, H, I>(v0: Any<A>, v1: Any<B>, v2:
 export function concat<T, A, B, C, D, E, F, G, H, I, J>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>, v5: Any<F>, v6: Any<G>, v7: Any<H>, v8: Any<I>, v9: Any<J>): Operation<T, T | A | B | C | D | E | F | G | H | I | J>;
 
 export function concat<T>(...values: Any<any>[]): Operation<T, any> {
-    return null as any;/*
-    return (iterable: Iterable<T>) => ({
+    return createOperation(concatSync, concatAsync, arguments);
+}
+
+function concatSync<T>(iterable: Iterable<T>, ...values: Any<any>[]): Iterable<any> {
+    return {
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
             let index = -1, k: Iterator<T>, v: any, start = true;
@@ -55,5 +59,44 @@ export function concat<T>(...values: Any<any>[]): Operation<T, any> {
                 }
             };
         }
-    });*/
+    };
+}
+
+function concatAsync<T>(iterable: AsyncIterable<T>, ...values: Any<any>[]): AsyncIterable<any> {
+    return {
+        [Symbol.asyncIterator](): AsyncIterator<T> {
+            const i = iterable[Symbol.asyncIterator]();
+            let index = -1, k: Iterator<T>, v: any, start = true;
+            return {
+                async next(): Promise<IteratorResult<T>> {
+                    if (index < 0) {
+                        const a = await i.next();
+                        if (!a.done) {
+                            return a;
+                        }
+                        index = 0;
+                    }
+                    while (index < values.length) {
+                        if (start) {
+                            v = values[index];
+                            k = typeof v?.next === 'function' ? v : v?.[Symbol.iterator]?.();
+                            start = false;
+                        }
+                        if (k) {
+                            const b = k.next();
+                            if (!b.done) {
+                                return b;
+                            }
+                        }
+                        start = true;
+                        index++;
+                        if (!k) {
+                            return {value: v};
+                        }
+                    }
+                    return {value: undefined, done: true};
+                }
+            };
+        }
+    };
 }

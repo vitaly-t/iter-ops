@@ -62,9 +62,11 @@ export interface Operation<T, R> {
 /**
  * Any templated value type: Value | Iterator | Iterable
  */
-export type Any<T> = T | Iterator<T> | Iterable<T>;
+export type Any<T> = T | Iterator<T> | Iterable<T> | AsyncIterator<T> | AsyncIterable<T>;
 
-export type AsyncAny<T> = T | AsyncIterator<T> | AsyncIterable<T>;
+// export interface Any<T> = T | Iterator<T> | Iterable<T> | AsyncIterator<T> | AsyncIterable<T>;
+
+// export type AsyncAny<T> = T | AsyncIterator<T> | AsyncIterable<T>;
 
 /**
  * Iteration State.
