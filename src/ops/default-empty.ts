@@ -6,7 +6,7 @@ import {createOperation} from '../utils';
  */
 export function defaultEmpty<T, D>(value: AnyIterable<D>): Operation<T, T | D>;
 export function defaultEmpty<T, D>(value: AnyIterator<D>): Operation<T, T | D>;
-export function defaultEmpty<T, D>(value: D | Promise<D>): Operation<T, T | D>;
+export function defaultEmpty<T, D>(value: D): Operation<T, T | D>;
 
 export function defaultEmpty<T, D>(value: Any<D>): Operation<T, T | D> {
     return createOperation(defaultEmptySync, defaultEmptyAsync, arguments);
