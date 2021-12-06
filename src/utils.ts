@@ -1,5 +1,23 @@
-import {IterableExt, AsyncIterableExt} from './types';
+import {IterableExt, AsyncIterableExt, Operation} from './types';
 import {catchError} from './ops/catch-error';
+
+export function createOperation<T>(
+    syncFunc: (i: Iterable<T>, ...args: any[]) => Iterable<T>,
+    asyncFunc: (i: AsyncIterable<T>, ...args: any[]) => AsyncIterable<T>,
+    args: IArguments): Operation<T, T> {
+    return (i: Iterable<T> | AsyncIterable<T>) => {
+        if ((i as any)[Symbol.iterator]) {
+            return syncFunc.apply(null, [
+                i as Iterable<T>,
+                ...args
+            ]);
+        }
+        return asyncFunc.apply(null, [
+            i as AsyncIterable<T>,
+            ...args
+        ]) as any;
+    };
+}
 
 /**
  * Extends an iterable object to IterableExt type.

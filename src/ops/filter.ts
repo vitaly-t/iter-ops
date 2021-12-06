@@ -1,27 +1,5 @@
 import {IterationState, Operation} from '../types';
-
-function wrap1<T>(
-    syncFunc: (i: Iterable<T>, ...a: any[]) => Iterable<T>,
-    asyncFunc: (i: AsyncIterable<T>, ...a: any[]) => AsyncIterable<T>,
-    args: IArguments): Operation<T, T> {
-    return (i: Iterable<T> | AsyncIterable<T>) => {
-        if ((i as any)[Symbol.iterator]) {
-            return syncFunc.apply(null, [
-                i as Iterable<T>,
-                ...args
-            ]) as any;
-        }
-        return asyncFunc.apply(null, [
-            i as AsyncIterable<T>,
-            ...args
-        ]) as any;
-    };
-}
-
-/*
-function wrap2<T, R>(syncFunc: (...a: any[]) => Iterable<R>, asyncFunc: (...a: any[]) => AsyncIterable<R>, args: IArguments): Operation<T, R> {
-
-}*/
+import {createOperation} from '../utils';
 
 /**
  * Standard filter logic for the iterable, extended for supporting iteration state.
@@ -29,15 +7,7 @@ function wrap2<T, R>(syncFunc: (...a: any[]) => Iterable<R>, asyncFunc: (...a: a
  * See also: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
  */
 export function filter<T>(cb: (value: T, index: number, state: IterationState) => boolean): Operation<T, T> {
-    return wrap1(filterSync, filterAsync, arguments);
-
-/*
-    return (iterable: Iterable<T> | AsyncIterable<T>) => {
-        if ((iterable as any)[Symbol.iterator]) {
-            return filterSync(iterable as Iterable<T>, cb);
-        }
-        return filterAsync(iterable as AsyncIterable<T>, cb);
-    };*/
+    return createOperation(filterSync, filterAsync, arguments);
 }
 
 function filterSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state: IterationState) => boolean): Iterable<T> {
