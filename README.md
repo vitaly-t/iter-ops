@@ -19,6 +19,8 @@ We do not use any synthetic types / wrappers here, like `Observable` in RXJS, et
 
 We also do not use ES6 generators internally, because their current implementation in V8 is relatively slow.
 
+**NOTE:** Asynchronous iterables are also supported, but they are currently in Beta.
+
 ## Installation
 
 ```

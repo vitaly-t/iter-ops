@@ -1,6 +1,6 @@
 {
   "name": "iter-ops",
-  "version": "0.7.0-beta.1",
+  "version": "0.7.0-beta.2",
   "description": "Basic operations on iterables",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,6 +26,7 @@
   "keywords": [
     "typescript",
     "synchronous",
+    "asynchronous",
     "sequence",
     "iterators",
     "iterables",
