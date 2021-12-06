@@ -1,12 +1,4 @@
-export {
-    Any,
-    Operation,
-    IterableExt,
-    AsyncIterableExt,
-    IterationState,
-    IErrorContext
-} from './types';
-
+export * from './types';
 export {pipe} from './pipe';
 
 export {aggregate} from './ops/aggregate';

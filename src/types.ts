@@ -60,11 +60,14 @@ export interface Operation<T, R> {
 }
 
 /**
- * Any templated value type: Value | Iterator | Iterable
+ * Any synchronous value type.
  */
-export type Any<T> = T | Iterator<T> | Iterable<T> | Promise<T> | AsyncIterator<T> | AsyncIterable<T>;
-
 export type AnySync<T> = T | Iterator<T> | Iterable<T>;
+
+/**
+ * Any synchronous or asynchronous value type.
+ */
+export type Any<T> = AnySync<T> | AsyncIterator<T> | AsyncIterable<T>;
 
 /**
  * Iteration State.
