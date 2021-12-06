@@ -10,13 +10,12 @@ iter-ops
 
 ## About
 
-Basic operations on synchronous [Iterables], strictly for JavaScript native types.
+Basic operations on [Iterables], strictly for JavaScript native types.
 
 ![image](https://user-images.githubusercontent.com/5108906/142058291-b39d7226-56a4-4df0-8dc1-2ff2c6c18f10.png)
 
-We do not use any synthetic types / wrappers here, like `Observable` in RXJS, etc. It is strictly a
-synchronous [Iterable] on the input, and a synchronous [Iterable] on the output, for maximum performance, simplicity and
-compatibility.
+We do not use any synthetic types / wrappers here, like `Observable` in RXJS, etc. It is strictly an
+[Iterable] on the input, and an [Iterable] on the output, for maximum performance, simplicity and compatibility.
 
 We also do not use ES6 generators internally, because their current implementation in V8 is relatively slow.
 

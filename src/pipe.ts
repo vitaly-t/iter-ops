@@ -2,7 +2,7 @@ import {AsyncIterableExt, IterableExt, Operation} from './types';
 import {extendAsyncIterable, extendIterable, optimizeIterable} from './utils';
 
 /**
- * Pipes an iterable through the list of operators, and returns an extended iterable.
+ * Pipes a synchronous iterable through the list of operators, and returns an extended synchronous iterable.
  */
 export function pipe<T>(i: Iterable<T>): IterableExt<T>;
 export function pipe<T, A>(i: Iterable<T>, p0: Operation<T, A>): IterableExt<A>;
@@ -17,7 +17,7 @@ export function pipe<T, A, B, C, D, E, F, G, H, I>(i: Iterable<T>, p0: Operation
 export function pipe<T, A, B, C, D, E, F, G, H, I, J>(i: Iterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>, p3: Operation<C, D>, p4: Operation<D, E>, p5: Operation<E, F>, p6: Operation<F, G>, p7: Operation<G, H>, p8: Operation<H, I>, p9: Operation<I, J>): IterableExt<J>;
 
 /**
- * Pipes an asynchronous iterable through the list of operators, and returns an extended iterable.
+ * Pipes an asynchronous iterable through the list of operators, and returns an extended asynchronous iterable.
  */
 export function pipe<T>(i: AsyncIterable<T>): AsyncIterableExt<T>;
 export function pipe<T, A>(i: AsyncIterable<T>, p0: Operation<T, A>): AsyncIterableExt<A>;
@@ -35,8 +35,5 @@ export function pipe(i: any, ...p: any[]): IterableExt<any> | AsyncIterableExt<a
     if (i[Symbol.iterator]) {
         return extendIterable(p.reduce((c, a) => a(c), optimizeIterable(i)));
     }
-    if (i[Symbol.asyncIterator]) {
-        return extendAsyncIterable(p.reduce((c, a) => a(c), i));
-    }
-    throw new Error('not an iterator');
+    return extendAsyncIterable(p.reduce((c, a) => a(c), i));
 }
