@@ -1,4 +1,4 @@
-import {Any, Operation} from '../types';
+import {Any, AnySync, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -19,11 +19,11 @@ export function concat<T, A, B, C, D, E, F, G, H>(v0: Any<A>, v1: Any<B>, v2: An
 export function concat<T, A, B, C, D, E, F, G, H, I>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>, v5: Any<F>, v6: Any<G>, v7: Any<H>, v8: Any<I>): Operation<T, T | A | B | C | D | E | F | G | H | I>;
 export function concat<T, A, B, C, D, E, F, G, H, I, J>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>, v5: Any<F>, v6: Any<G>, v7: Any<H>, v8: Any<I>, v9: Any<J>): Operation<T, T | A | B | C | D | E | F | G | H | I | J>;
 
-export function concat<T>(...values: any[]): Operation<T, any> {
+export function concat<T>(...values: Any<T>[]): Operation<T, any> {
     return createOperation(concatSync, concatAsync, arguments);
 }
 
-function concatSync<T>(iterable: Iterable<T>, ...values: any[]): Iterable<any> {
+function concatSync<T>(iterable: Iterable<T>, ...values: AnySync<T>[]): Iterable<any> {
     return {
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
@@ -62,7 +62,7 @@ function concatSync<T>(iterable: Iterable<T>, ...values: any[]): Iterable<any> {
     };
 }
 
-function concatAsync<T>(iterable: AsyncIterable<T>, ...values: any[]): AsyncIterable<any> {
+function concatAsync<T>(iterable: AsyncIterable<T>, ...values: Any<T>[]): AsyncIterable<any> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
@@ -80,6 +80,7 @@ function concatAsync<T>(iterable: AsyncIterable<T>, ...values: any[]): AsyncIter
                         if (start) {
                             v = values[index];
                             k = typeof v?.next === 'function' ? v : (v?.[Symbol.iterator]?.() || v?.[Symbol.asyncIterator]?.());
+                            // TODO: add Promise support here
                             start = false;
                         }
                         if (k) {

@@ -1,4 +1,4 @@
-import {Any, Operation} from '../types';
+import {Any, AnySync, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -47,7 +47,7 @@ function defaultEmptySync<T, D>(iterable: Iterable<T>, value: Any<D>): Iterable<
     };
 }
 
-function defaultEmptyAsync<T, D>(iterable: AsyncIterable<T>, value: Any<D>): AsyncIterable<T | D> {
+function defaultEmptyAsync<T, D>(iterable: AsyncIterable<T>, value: AnySync<D>): AsyncIterable<T | D> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<T | D> {
             const i = iterable[Symbol.asyncIterator]();
@@ -64,6 +64,7 @@ function defaultEmptyAsync<T, D>(iterable: AsyncIterable<T>, value: Any<D>): Asy
                             if (start) {
                                 v = value;
                                 k = typeof v?.next === 'function' ? v : (v?.[Symbol.iterator]?.() || v?.[Symbol.asyncIterator]?.());
+                                // TODO: add Promise support here
                                 start = false;
                             }
                             if (k) {

@@ -5,17 +5,9 @@ export function createOperation<T, R = T>(
     syncFunc: (i: Iterable<T>, ...args: any[]) => Iterable<R>,
     asyncFunc: (i: AsyncIterable<T>, ...args: any[]) => AsyncIterable<R>,
     args?: IArguments): Operation<T, T> {
-    return (i: Iterable<T> | AsyncIterable<T>) => {
-        if ((i as any)[Symbol.iterator]) {
-            return syncFunc.apply(null, [
-                i as Iterable<T>,
-                ...args || []
-            ]);
-        }
-        return asyncFunc.apply(null, [
-            i as AsyncIterable<T>,
-            ...args || []
-        ]) as any;
+    return (i: any) => {
+        const func: any = i[Symbol.iterator] ? syncFunc : asyncFunc;
+        return func.apply(null, [i, ...args || []]);
     };
 }
 
