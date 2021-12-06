@@ -1,4 +1,4 @@
-import {IterableExt} from './types';
+import {IterableExt, AsyncIterableExt} from './types';
 import {catchError} from './ops/catch-error';
 
 /**
@@ -7,6 +7,12 @@ import {catchError} from './ops/catch-error';
 export function extendIterable(i: any): IterableExt<any> {
     Object.defineProperty(i, 'first', ({get: () => i[Symbol.iterator]().next().value}));
     i.catch = (cb: any) => extendIterable(catchError(cb)(i));
+    return i;
+}
+
+export function extendAsyncIterable(i: any): AsyncIterableExt<any> {
+    Object.defineProperty(i, 'first', ({get: () => i[Symbol.asyncIterator]().next().value}));
+    i.catch = (cb: any) => extendAsyncIterable(catchError(cb)(i));
     return i;
 }
 

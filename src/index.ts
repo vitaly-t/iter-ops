@@ -1,4 +1,11 @@
-export {Any, Piper, IterableExt, IterationState, IErrorContext} from './types';
+export {
+    Any, AsyncAny,
+    Piper, AsyncPiper,
+    IterableExt, AsyncIterableExt,
+    IterationState,
+    IErrorContext
+} from './types';
+
 export {pipe} from './pipe';
 
 export {aggregate} from './ops/aggregate';
