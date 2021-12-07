@@ -16,18 +16,18 @@ function aggregateSync<T, R>(iterable: Iterable<T>, cb: (arr: T[]) => R): Iterab
     return {
         [Symbol.iterator](): Iterator<R> {
             const i = iterable[Symbol.iterator]();
-            let done = false;
+            let finished = false;
             return {
                 next(): IteratorResult<R> {
-                    if (done) {
-                        return {value: undefined, done};
+                    if (finished) {
+                        return {value: undefined, done: true};
                     }
                     const arr: T[] = [];
                     let a;
                     while (!(a = i.next()).done) {
                         arr.push(a.value);
                     }
-                    done = true;
+                    finished = true;
                     return {value: cb(arr)};
                 }
             };
@@ -39,19 +39,21 @@ function aggregateAsync<T, R>(iterable: AsyncIterable<T>, cb: (arr: T[]) => R): 
     return {
         [Symbol.asyncIterator](): AsyncIterator<R> {
             const i = iterable[Symbol.asyncIterator]();
-            let done = false;
+            const arr: T[] = [];
+            let finished = false;
             return {
                 async next(): Promise<IteratorResult<R>> {
-                    if (done) {
-                        return {value: undefined, done};
-                    }
-                    const arr: T[] = [];
-                    let a;
-                    while (!(a = await i.next()).done) {
+                    return i.next().then(a => {
+                        if (a.done) {
+                            if (finished) {
+                                return a;
+                            }
+                            finished = true;
+                            return {value: cb(arr)};
+                        }
                         arr.push(a.value);
-                    }
-                    done = true;
-                    return {value: cb(arr)};
+                        return this.next();
+                    });
                 }
             };
         }
