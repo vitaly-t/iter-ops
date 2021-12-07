@@ -5,7 +5,7 @@ const expect = chai.expect;
 
 export {chai, describe, expect};
 
-export function _async<T>(list: Iterable<T>): AsyncIterable<T> {
+export function _async<T>(list: Iterable<T> = []): AsyncIterable<T> {
     return {
         [Symbol.asyncIterator]() {
             const i = list[Symbol.iterator]();
