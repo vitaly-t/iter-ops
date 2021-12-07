@@ -30,8 +30,8 @@ Testing `iter-ops` versus the latest `rxjs`:
 
 This library performs about 2x faster than `rxjs` synchronous pipeline. However, just as you add a single subscription in `rxjs` (
 which is inevitable with `rxjs`), it drops performance further 2.5 times. So ultimately, this library can process
-iterables about 5 times faster than synchronous `rxjs`.
+syncronous iterables about 5 times faster than synchronous `rxjs`.
 
-For asycnronous iterables, we get the same performance against `rxjs` pipeline, and ~2x times real-world better performance,
+For asycnronous iterables, we get about the same performance against `rxjs` asyncronous pipeline, and ~2x times real-world better performance,
 when we use subscriptions.
 
