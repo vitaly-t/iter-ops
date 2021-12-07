@@ -36,19 +36,19 @@ function toArrayAsync<T>(iterable: AsyncIterable<T>): AsyncIterable<T[]> {
         [Symbol.asyncIterator](): AsyncIterator<T[]> {
             const i = iterable[Symbol.asyncIterator]();
             const value: T[] = [];
-            let done = false;
+            let finished = false;
             return {
                 next(): Promise<IteratorResult<T[]>> {
                     return i.next().then(a => {
-                        if (!a.done) {
-                            value.push(a.value);
-                            return this.next();
+                        if (a.done) {
+                            if (finished) {
+                                return a;
+                            }
+                            finished = true;
+                            return {value};
                         }
-                        if (done) {
-                            return {value: undefined, done};
-                        }
-                        done = true;
-                        return {value};
+                        value.push(a.value);
+                        return this.next();
                     });
                 }
             };

@@ -44,24 +44,24 @@ function reduceAsync<T>(iterable: AsyncIterable<T>, cb: (previousValue: T, curre
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
             const state: IterationState = {};
-            let done = false;
+            let finished = false, index = 0, value = initialValue as T;
             return {
-                async next(): Promise<IteratorResult<T>> {
-                    let value;
-                    if (done) {
-                        return {value, done};
-                    }
-                    value = initialValue as T;
-                    let index = 0, a;
-                    while (!(a = await i.next()).done) {
-                        if (!index++ && value === undefined) {
-                            value = a.value;
-                            continue;
+                next(): Promise<IteratorResult<T>> {
+                    return i.next().then(a => {
+                        if (a.done) {
+                            if (finished) {
+                                return a;
+                            }
+                            finished = true;
+                            return {value};
                         }
-                        value = cb(value, a.value, index++, state);
-                    }
-                    done = true;
-                    return {value};
+                        if (index++ === 0 && value === undefined) {
+                            value = a.value;
+                        } else {
+                            value = cb(value, a.value, index++, state);
+                        }
+                        return this.next();
+                    });
                 }
             };
         }

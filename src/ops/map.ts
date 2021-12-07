@@ -42,7 +42,7 @@ function mapAsync<T, R>(iterable: AsyncIterable<T>, cb: (value: T, index: number
                 next(): Promise<IteratorResult<R>> {
                     return i.next().then(a => {
                         if (a.done) {
-                            return {value: undefined, done: true};
+                            return a;
                         }
                         return {value: cb(a.value, index++, state)};
                     });
