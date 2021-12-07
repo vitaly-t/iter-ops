@@ -49,7 +49,7 @@ export interface AsyncIterableExt<T> extends AsyncIterable<T> {
     /**
      * Appends catchError operator to the pipeline.
      */
-    catch(cb: (error: any, ctx: IErrorContext<T>) => void): IterableExt<T>;
+    catch(cb: (error: any, ctx: IErrorContext<T>) => void): AsyncIterableExt<T>;
 }
 
 /**
