@@ -21,8 +21,8 @@ function spreadSync<T>(iterable: Iterable<Iterable<T>>): Iterable<T> {
                 next(): IteratorResult<T> {
                     do {
                         if (start) {
-                            start = false;
                             a = i.next();
+                            start = false;
                             if (!a.done) {
                                 k = a.value?.[Symbol.iterator]?.();
                                 if (!k) {
@@ -57,8 +57,8 @@ function spreadAsync<T>(iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>)
                 async next(): Promise<IteratorResult<T>> {
                     do {
                         if (start) {
-                            start = false;
                             a = await i.next();
+                            start = false;
                             if (!a.done) {
                                 k = a.value?.[Symbol.iterator]?.() || a.value?.[Symbol.asyncIterator]?.();
                                 if (!k) {
