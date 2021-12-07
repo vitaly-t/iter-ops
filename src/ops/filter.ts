@@ -39,15 +39,16 @@ function filterAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number
             const state: IterationState = {};
             let index = 0;
             return {
-                async next(): Promise<IteratorResult<T>> {
-                    let a;
-                    do {
-                        a = await i.next();
-                        if (!a.done && cb(a.value, index++, state)) {
+                next(): Promise<IteratorResult<T>> {
+                    return i.next().then(a => {
+                        if (a.done) {
+                            return {value: undefined, done: true};
+                        }
+                        if (cb(a.value, index++, state)) {
                             return a;
                         }
-                    } while (!a.done);
-                    return a;
+                        return this.next();
+                    });
                 }
             };
         }
