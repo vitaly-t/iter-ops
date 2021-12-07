@@ -43,7 +43,7 @@ function catchErrorSync<T>(iterable: Iterable<T>, cb: (error: any, ctx: IErrorCo
                                 return {value: value!};
                             }
                         }
-                    } while (!last.done);
+                    } while (!last?.done);
                     return {value: undefined, done: true};
                 }
             };
@@ -79,7 +79,7 @@ function catchErrorAsync<T>(iterable: AsyncIterable<T>, cb: (error: any, ctx: IE
                                 return {value: value!};
                             }
                         }
-                    } while (!last.done);
+                    } while (!last?.done);
                     return {value: undefined, done: true};
                 }
             };
