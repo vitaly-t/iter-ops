@@ -42,7 +42,7 @@ function aggregateAsync<T, R>(iterable: AsyncIterable<T>, cb: (arr: T[]) => R): 
             const arr: T[] = [];
             let finished = false;
             return {
-                async next(): Promise<IteratorResult<R>> {
+                next(): Promise<IteratorResult<R>> {
                     return i.next().then(a => {
                         if (a.done) {
                             if (finished) {
