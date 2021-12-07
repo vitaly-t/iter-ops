@@ -1,4 +1,4 @@
-import {createAsync, expect, getAsyncValues} from './header';
+import {_async, _asyncValues, expect} from './header';
 import {pipe, filter} from '../src';
 
 describe('sync filter', () => {
@@ -23,12 +23,12 @@ describe('sync filter', () => {
 
 describe('async filter', () => {
     it('must emit on condition', async () => {
-        const input = createAsync([1, 2, 3, 4, 5, 0]);
+        const input = _async([1, 2, 3, 4, 5, 0]);
         const output = pipe(input, filter(a => a < 3));
-        expect(await getAsyncValues(output)).to.eql([1, 2, 0]);
+        expect(await _asyncValues(output)).to.eql([1, 2, 0]);
     });
     it('must reuse the state object', async () => {
-        const input = createAsync('hello!');
+        const input = _async('hello!');
         const arr: number[] = [];
         const output = pipe(input, filter((value, index, state) => {
             state.count = state.count ?? 0;
@@ -36,7 +36,7 @@ describe('async filter', () => {
             arr.push(state.count);
             return false;
         }));
-        await getAsyncValues(output);
+        await _asyncValues(output);
         expect(arr).to.eql([1, 2, 3, 4, 5, 6]);
     });
 });
