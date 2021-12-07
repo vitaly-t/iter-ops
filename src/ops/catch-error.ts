@@ -57,30 +57,26 @@ function catchErrorAsync<T>(iterable: AsyncIterable<T>, cb: (error: any, ctx: IE
             const i = iterable[Symbol.asyncIterator]();
             let index = 0, last: IteratorResult<T>;
             return {
-                async next(): Promise<IteratorResult<T>> {
-                    do {
-                        try {
-                            last = await i.next();
-                            index++;
-                            if (!last.done) {
-                                return last;
+                next(): Promise<IteratorResult<T>> {
+                    return i.next().then(a => {
+                        last = a;
+                        index++;
+                        return a;
+                    }).catch(e => {
+                        let value: T, emitted;
+                        cb(e, {
+                            index: index++,
+                            lastValue: last?.value,
+                            emit(v) {
+                                value = v;
+                                emitted = true;
                             }
-                        } catch (e) {
-                            let value: T, emitted;
-                            cb(e, {
-                                index: index++,
-                                lastValue: last?.value,
-                                emit(v) {
-                                    value = v;
-                                    emitted = true;
-                                }
-                            });
-                            if (emitted) {
-                                return {value: value!};
-                            }
+                        });
+                        if (emitted) {
+                            return {value: value!};
                         }
-                    } while (!last?.done);
-                    return {value: undefined, done: true};
+                        return this.next();
+                    });
                 }
             };
         }

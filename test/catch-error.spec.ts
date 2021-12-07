@@ -1,6 +1,5 @@
 import {_async, _asyncValues, expect} from './header';
 import {pipe, tap, catchError} from '../src';
-import {AsyncIterableExt} from "../dist";
 
 describe('sync catchError', () => {
     it('must continue without value', () => {
