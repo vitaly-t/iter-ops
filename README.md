@@ -19,18 +19,12 @@ We do not use any synthetic types / wrappers here, like `Observable` in RXJS, et
 
 We also do not use ES6 generators internally, because their current implementation in V8 is relatively slow.
 
-**NOTE:** [Asynchronous Iterables] are also supported, but they are currently in Beta.
+**NOTE:** Support for [Asynchronous Iterables] was added in v0.7.0
 
 ## Installation
 
 ```
 $ npm i iter-ops
-```
-
-In case you need to use [Asynchronous Iterables] also (they are in beta now):
-
-```
-$ npm i iter-ops@beta
 ```
 
 ## Usage
