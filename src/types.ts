@@ -55,7 +55,7 @@ export interface AsyncIterableExt<T> extends AsyncIterable<T> {
 /**
  * Any iterable type.
  */
-export type AnyIterable<T> = Iterable<T> | AsyncIterable<T>;
+export type AnyIterable<T> = AsyncIterable<T> | Iterable<T>;
 
 /**
  * Any iterator type.

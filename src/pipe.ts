@@ -1,4 +1,4 @@
-import {AsyncIterableExt, IterableExt, Operation} from './types';
+import {AnyIterable, AsyncIterableExt, IterableExt, Operation} from './types';
 import {extendAsyncIterable, extendIterable, optimizeIterable} from './utils';
 
 /**
@@ -19,17 +19,17 @@ export function pipe<T, A, B, C, D, E, F, G, H, I, J>(i: Iterable<T>, p0: Operat
 /**
  * Pipes an asynchronous iterable through the list of operators, and returns an extended asynchronous iterable.
  */
-export function pipe<T>(i: AsyncIterable<T>): AsyncIterableExt<T>;
-export function pipe<T, A>(i: AsyncIterable<T>, p0: Operation<T, A>): AsyncIterableExt<A>;
-export function pipe<T, A, B>(i: AsyncIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>): AsyncIterableExt<B>;
-export function pipe<T, A, B, C>(i: AsyncIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>): AsyncIterableExt<C>;
-export function pipe<T, A, B, C, D>(i: AsyncIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>, p3: Operation<C, D>): AsyncIterableExt<D>;
-export function pipe<T, A, B, C, D, E>(i: AsyncIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>, p3: Operation<C, D>, p4: Operation<D, E>): AsyncIterableExt<E>;
-export function pipe<T, A, B, C, D, E, F>(i: AsyncIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>, p3: Operation<C, D>, p4: Operation<D, E>, p5: Operation<E, F>): AsyncIterableExt<F>;
-export function pipe<T, A, B, C, D, E, F, G>(i: AsyncIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>, p3: Operation<C, D>, p4: Operation<D, E>, p5: Operation<E, F>, p6: Operation<F, G>): AsyncIterableExt<G>;
-export function pipe<T, A, B, C, D, E, F, G, H>(i: AsyncIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>, p3: Operation<C, D>, p4: Operation<D, E>, p5: Operation<E, F>, p6: Operation<F, G>, p7: Operation<G, H>): AsyncIterableExt<H>;
-export function pipe<T, A, B, C, D, E, F, G, H, I>(i: AsyncIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>, p3: Operation<C, D>, p4: Operation<D, E>, p5: Operation<E, F>, p6: Operation<F, G>, p7: Operation<G, H>, p8: Operation<H, I>): AsyncIterableExt<I>;
-export function pipe<T, A, B, C, D, E, F, G, H, I, J>(i: AsyncIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>, p3: Operation<C, D>, p4: Operation<D, E>, p5: Operation<E, F>, p6: Operation<F, G>, p7: Operation<G, H>, p8: Operation<H, I>, p9: Operation<I, J>): AsyncIterableExt<J>;
+export function pipe<T>(i: AnyIterable<T>): AsyncIterableExt<T>;
+export function pipe<T, A>(i: AnyIterable<T>, p0: Operation<T, A>): AsyncIterableExt<A>;
+export function pipe<T, A, B>(i: AnyIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>): AsyncIterableExt<B>;
+export function pipe<T, A, B, C>(i: AnyIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>): AsyncIterableExt<C>;
+export function pipe<T, A, B, C, D>(i: AnyIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>, p3: Operation<C, D>): AsyncIterableExt<D>;
+export function pipe<T, A, B, C, D, E>(i: AnyIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>, p3: Operation<C, D>, p4: Operation<D, E>): AsyncIterableExt<E>;
+export function pipe<T, A, B, C, D, E, F>(i: AnyIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>, p3: Operation<C, D>, p4: Operation<D, E>, p5: Operation<E, F>): AsyncIterableExt<F>;
+export function pipe<T, A, B, C, D, E, F, G>(i: AnyIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>, p3: Operation<C, D>, p4: Operation<D, E>, p5: Operation<E, F>, p6: Operation<F, G>): AsyncIterableExt<G>;
+export function pipe<T, A, B, C, D, E, F, G, H>(i: AnyIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>, p3: Operation<C, D>, p4: Operation<D, E>, p5: Operation<E, F>, p6: Operation<F, G>, p7: Operation<G, H>): AsyncIterableExt<H>;
+export function pipe<T, A, B, C, D, E, F, G, H, I>(i: AnyIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>, p3: Operation<C, D>, p4: Operation<D, E>, p5: Operation<E, F>, p6: Operation<F, G>, p7: Operation<G, H>, p8: Operation<H, I>): AsyncIterableExt<I>;
+export function pipe<T, A, B, C, D, E, F, G, H, I, J>(i: AnyIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>, p3: Operation<C, D>, p4: Operation<D, E>, p5: Operation<E, F>, p6: Operation<F, G>, p7: Operation<G, H>, p8: Operation<H, I>, p9: Operation<I, J>): AsyncIterableExt<J>;
 
 export function pipe(i: any, ...p: any[]): IterableExt<any> | AsyncIterableExt<any> {
     if (i[Symbol.iterator]) {

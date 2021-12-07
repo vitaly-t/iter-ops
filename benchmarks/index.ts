@@ -3,7 +3,11 @@ import * as rx from 'rxjs';
 
 // tslint:disable:no-console
 
-async function testRXJS(input: number[], withSubscription?: boolean) {
+const maxItems = 1e7;
+
+type InputType = Iterable<number> | AsyncIterable<number>;
+
+async function testRXJS(input: InputType, withSubscription?: boolean) {
     const start = Date.now();
     const i = rx.from(input).pipe(
         rx.filter(a => a % 2 === 0),
@@ -22,7 +26,7 @@ async function testRXJS(input: number[], withSubscription?: boolean) {
     return {'rxjs': {duration, length}};
 }
 
-function testIterOps(input: number[]) {
+async function testIterOps(input: InputType) {
     const start = Date.now();
     const i = it.pipe(
         input,
@@ -30,18 +34,40 @@ function testIterOps(input: number[]) {
         it.map(b => ({value: b})),
         it.toArray()
     );
-    const {length} = i.first!;
+    const {length} = (await i.first)!;
     const duration = Date.now() - start;
     return {'iter-ops': {duration, length}};
 }
 
-(async function test() {
+(async function testSync() {
     const input: number[] = [];
-    for (let i = 0; i < 1e7; i++) {
+    for (let i = 0; i < maxItems; i++) {
         input.push(i);
     }
     const result = {
-        ...testIterOps(input),
+        ...await testIterOps(input),
+        ...await testRXJS(input),
+        ...await testRXJS(input, true)
+    };
+    console.table(result);
+})();
+
+(async function testAsync() {
+    const input: AsyncIterable<number> = {
+        [Symbol.asyncIterator](): AsyncIterator<number> {
+            let count = maxItems;
+            return {
+                async next(): Promise<IteratorResult<number>> {
+                    if (count > 0) {
+                        return {value: count--};
+                    }
+                    return {value: undefined, done: true};
+                }
+            };
+        }
+    };
+    const result = {
+        ...await testIterOps(input),
         ...await testRXJS(input),
         ...await testRXJS(input, true)
     };
