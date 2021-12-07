@@ -1,4 +1,5 @@
-import {testIterOps, testRXJS} from './tests';
+import {testIterOps} from './tests/iter-ops';
+import {testRXJS} from './tests/rxjs';
 
 // tslint:disable:no-console
 
