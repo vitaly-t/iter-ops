@@ -25,3 +25,7 @@ export async function _asyncValues<T>(input: AsyncIterable<T>): Promise<T[]> {
     }
     return res;
 }
+
+export function YSNP() {
+    throw new Error('You Shall Not Pass!');
+}

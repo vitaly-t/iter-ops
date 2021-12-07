@@ -72,10 +72,7 @@ function catchErrorAsync<T>(iterable: AsyncIterable<T>, cb: (error: any, ctx: IE
                                 emitted = true;
                             }
                         });
-                        if (emitted) {
-                            return {value: value!};
-                        }
-                        return this.next();
+                        return emitted ? {value: value!} : this.next();
                     });
                 }
             };

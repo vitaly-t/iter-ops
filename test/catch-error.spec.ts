@@ -1,4 +1,4 @@
-import {_async, _asyncValues, expect} from './header';
+import {_async, _asyncValues, expect, YSNP} from './header';
 import {pipe, tap, catchError} from '../src';
 
 describe('sync catchError', () => {
@@ -83,11 +83,9 @@ describe('async catchError', () => {
         const result = await _asyncValues(i);
         expect(result).to.eql([1, 2, 333, 4, 5]);
     });
-    // TODO: Rethrowing doesn't work:
-    /*
-    it('must allow re-throwing', () => {
+    it('must allow re-throwing', async () => {
         const i = pipe(
-            _async([1]),
+            _async([1, 2, 3]),
             tap(() => {
                 throw new Error('ops');
             }),
@@ -95,8 +93,13 @@ describe('async catchError', () => {
                 throw new Error('handled');
             })
         );
-        expect(async () => {
+        let err: Error;
+        try {
             await _asyncValues(i);
-        }).to.throw('handled');
-    });*/
+            YSNP();
+        } catch (e) {
+            err = e as Error;
+        }
+        expect(err!.message).to.eql('handled');
+    });
 });
