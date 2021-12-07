@@ -19,7 +19,7 @@ We do not use any synthetic types / wrappers here, like `Observable` in RXJS, et
 
 We also do not use ES6 generators internally, because their current implementation in V8 is relatively slow.
 
-**NOTE:** Asynchronous iterables are also supported, but they are currently in Beta.
+**NOTE:** Asynchronous iterables are also supported, but they are currently in Beta (see [Asynchronous Iterables]).
 
 ## Installation
 
@@ -151,3 +151,5 @@ See [Recipes] for more operations.
 [Split]:https://github.com/vitaly-t/iter-ops/wiki/Split
 
 [Benchmarks]:./benchmarks
+
+[Asynchronous Iterables]:https://github.com/vitaly-t/iter-ops/wiki/Asynchronous-Iterables
