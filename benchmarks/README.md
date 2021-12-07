@@ -32,6 +32,6 @@ This library performs about 2x faster than `rxjs` synchronous pipeline. However,
 which is inevitable with `rxjs`), it drops performance further 2.5 times. So ultimately, this library can process
 syncronous iterables about 5 times faster than synchronous `rxjs`.
 
-For asycnronous iterables, we get about the same performance against `rxjs` asyncronous pipeline, and ~2x times real-world better performance,
+For asycnronous iterables, we get about the same performance against `rxjs` asyncronous pipeline, and ~2x times better real-world performance,
 when we use subscriptions.
 
