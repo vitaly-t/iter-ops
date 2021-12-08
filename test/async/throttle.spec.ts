@@ -16,4 +16,19 @@ describe('throttle', () => {
             {value: 3, index: 2, state: {sum: 6}}
         ]);
     });
+    it('must throw on synchronous pipeline', () => {
+        expect(() => {
+            pipe([], throttle(() => Promise.resolve(123))).first;
+        }).to.throw('Operator "throttle" requires asynchronous pipeline');
+    });
+    it('must throw on rejected promise', async () => {
+        const i = pipe(_async([1]), throttle(() => Promise.reject(555)));
+        let err: any;
+        try {
+            await _asyncValues(i);
+        } catch (e) {
+            err = e;
+        }
+        expect(err).to.eql(555);
+    });
 });
