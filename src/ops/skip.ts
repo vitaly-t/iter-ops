@@ -12,15 +12,15 @@ function skipSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
     return {
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
-            let index = 0, done = false;
+            let index = 0, finished = false;
             return {
                 next(): IteratorResult<T> {
                     let a = i.next();
-                    if (!done) {
+                    if (!finished) {
                         while (!a.done && index++ < count) {
                             a = i.next();
                         }
-                        done = true;
+                        finished = true;
                     }
                     return a;
                 }
@@ -33,17 +33,15 @@ function skipAsync<T>(iterable: AsyncIterable<T>, count: number): AsyncIterable<
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
-            let index = 0, done = false;
+            let index = 0, finished = false;
             return {
-                async next(): Promise<IteratorResult<T>> {
-                    let a = await i.next();
-                    if (!done) {
-                        while (!a.done && index++ < count) {
-                            a = await i.next();
+                next(): Promise<IteratorResult<T>> {
+                    return i.next().then(a => {
+                        if (!finished) {
+                            finished = a.done || index++ >= count;
                         }
-                        done = true;
-                    }
-                    return a;
+                        return finished ? a : this.next();
+                    });
                 }
             };
         }
