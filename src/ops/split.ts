@@ -159,7 +159,7 @@ function splitSync<T>(iterable: Iterable<T>, cb: (value: T, index: ISplitIndex, 
                                         splitIndex++;
                                         continue;
                                     }
-                                    return {value: list};
+                                    return {value: list, done: false};
                                 }
                                 listIndex = carry > 0 ? 1 : 0;
                                 splitIndex++;
@@ -174,7 +174,7 @@ function splitSync<T>(iterable: Iterable<T>, cb: (value: T, index: ISplitIndex, 
                     if (!finished) {
                         finished = !!v.done;
                         if (collecting) {
-                            return {value: list};
+                            return {value: list, done: false};
                         }
                     }
                     return {value: undefined, done: true};
@@ -239,7 +239,7 @@ function splitAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: ISplitI
                                         splitIndex++;
                                         continue;
                                     }
-                                    return {value: list};
+                                    return {value: list, done: false};
                                 }
                                 listIndex = carry > 0 ? 1 : 0;
                                 splitIndex++;
@@ -254,7 +254,7 @@ function splitAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: ISplitI
                     if (!finished) {
                         finished = !!v.done;
                         if (collecting) {
-                            return {value: list};
+                            return {value: list, done: false};
                         }
                     }
                     return {value: undefined, done: true};

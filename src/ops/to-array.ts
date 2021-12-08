@@ -24,7 +24,7 @@ function toArraySync<T>(iterable: Iterable<T>): Iterable<T[]> {
                         arr.push(a.value);
                     }
                     done = true;
-                    return {value: arr};
+                    return {value: arr, done: false};
                 }
             };
         }
@@ -45,7 +45,7 @@ function toArrayAsync<T>(iterable: AsyncIterable<T>): AsyncIterable<T[]> {
                                 return a;
                             }
                             finished = true;
-                            return {value};
+                            return {value, done: false};
                         }
                         value.push(a.value);
                         return this.next();

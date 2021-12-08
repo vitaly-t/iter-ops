@@ -32,7 +32,7 @@ function reduceSync<T>(iterable: Iterable<T>, cb: (previousValue: T, currentValu
                         value = cb(value, a.value, index++, state);
                     }
                     done = true;
-                    return {value};
+                    return {value, done: false};
                 }
             };
         }
@@ -53,13 +53,9 @@ function reduceAsync<T>(iterable: AsyncIterable<T>, cb: (previousValue: T, curre
                                 return a;
                             }
                             finished = true;
-                            return {value};
+                            return {value, done: false};
                         }
-                        if (index++ === 0 && value === undefined) {
-                            value = a.value;
-                        } else {
-                            value = cb(value, a.value, index++, state);
-                        }
+                        value = index++ === 0 && value === undefined ? a.value : cb(value, a.value, index++, state);
                         return this.next();
                     });
                 }
