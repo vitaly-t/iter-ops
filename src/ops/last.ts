@@ -39,19 +39,22 @@ function lastAsync<T>(iterable: AsyncIterable<T>, cb?: (value: T, index: number)
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
             const test = typeof cb === 'function' && cb;
-            let index = 0;
+            let finished = false, index = 0, value: IteratorResult<T>;
             return {
-                async next(): Promise<IteratorResult<T>> {
-                    let a, r;
-                    while (!(a = await i.next()).done) {
-                        if (!test || test(a.value, index++)) {
-                            r = a;
+                next(): Promise<IteratorResult<T>> {
+                    return i.next().then(a => {
+                        if (a.done) {
+                            if (finished || !value) {
+                                return a;
+                            }
+                            finished = true;
+                            return value;
                         }
-                    }
-                    if (r) {
-                        return {value: r.value};
-                    }
-                    return a;
+                        if (!test || test(a.value, index++)) {
+                            value = a;
+                        }
+                        return this.next();
+                    });
                 }
             };
         }
