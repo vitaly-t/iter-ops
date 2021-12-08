@@ -12,18 +12,11 @@ function takeSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
     return {
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
-            let index = 0, done = false;
+            let index = 0;
             return {
                 next(): IteratorResult<T> {
-                    if (!done) {
-                        const a = i.next();
-                        if (a.done || index++ >= count) {
-                            done = true;
-                        } else {
-                            return a;
-                        }
-                    }
-                    return {value: undefined, done};
+                    const a = i.next();
+                    return a.done || index++ < count ? a : {value: undefined, done: true};
                 }
             };
         }
