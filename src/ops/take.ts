@@ -34,18 +34,10 @@ function takeAsync<T>(iterable: AsyncIterable<T>, count: number): AsyncIterable<
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
-            let index = 0, done = false;
+            let index = 0;
             return {
-                async next(): Promise<IteratorResult<T>> {
-                    if (!done) {
-                        const a = await i.next();
-                        if (a.done || index++ >= count) {
-                            done = true;
-                        } else {
-                            return a;
-                        }
-                    }
-                    return {value: undefined, done};
+                next(): Promise<IteratorResult<T>> {
+                    return i.next().then(a => a.done || index++ < count ? a : {value: undefined, done: true});
                 }
             };
         }
