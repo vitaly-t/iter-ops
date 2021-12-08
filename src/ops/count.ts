@@ -19,9 +19,6 @@ function countSync<T>(iterable: Iterable<T>): Iterable<number> {
                     while (!finished) {
                         a = i.next();
                         if (a.done) {
-                            if (finished) {
-                                break;
-                            }
                             finished = true;
                             return {value};
                         }
