@@ -17,8 +17,8 @@ function emptySync<T>(): Iterable<T> {
 function emptyAsync<T>(): AsyncIterable<T> {
     return {
         [Symbol.asyncIterator]: () => ({
-            async next() {
-                return {value: undefined, done: true};
+            next() {
+                return Promise.resolve({value: undefined, done: true});
             }
         })
     };
