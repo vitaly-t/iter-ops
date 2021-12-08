@@ -12,20 +12,22 @@ export function count<T>(): Operation<T, number> {
 function countSync<T>(iterable: Iterable<T>): Iterable<number> {
     return {
         [Symbol.iterator](): Iterator<number> {
-            let done = false;
+            const i = iterable[Symbol.iterator]();
+            let value = 0, finished = false, a: IteratorResult<any>;
             return {
                 next(): IteratorResult<number> {
-                    let value;
-                    if (done) {
-                        return {value, done};
-                    }
-                    const i = iterable[Symbol.iterator]();
-                    value = 0;
-                    while (!i.next().done) {
+                    while (!finished) {
+                        a = i.next();
+                        if (a.done) {
+                            if (finished) {
+                                break;
+                            }
+                            finished = true;
+                            return {value};
+                        }
                         value++;
                     }
-                    done = true;
-                    return {value};
+                    return a;
                 }
             };
         }
@@ -35,20 +37,21 @@ function countSync<T>(iterable: Iterable<T>): Iterable<number> {
 function countAsync<T>(iterable: AsyncIterable<T>): AsyncIterable<number> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<number> {
-            let done = false;
+            const i = iterable[Symbol.asyncIterator]();
+            let value = 0, finished = false;
             return {
-                async next(): Promise<IteratorResult<number>> {
-                    let value;
-                    if (done) {
-                        return {value, done};
-                    }
-                    const i = iterable[Symbol.asyncIterator]();
-                    value = 0;
-                    while (!(await i.next()).done) {
+                next(): Promise<IteratorResult<number>> {
+                    return i.next().then(a => {
+                        if (a.done) {
+                            if (finished) {
+                                return a;
+                            }
+                            finished = true;
+                            return {value};
+                        }
                         value++;
-                    }
-                    done = true;
-                    return {value};
+                        return this.next();
+                    });
                 }
             };
         }
