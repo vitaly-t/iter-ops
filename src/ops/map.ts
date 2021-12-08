@@ -19,12 +19,9 @@ function mapSync<T, R>(iterable: Iterable<T>, cb: (value: T, index: number, stat
             return {
                 next(): IteratorResult<R> {
                     let a;
-                    do {
-                        a = i.next();
-                        if (!a.done) {
-                            return {value: cb(a.value, index++, state), done: false};
-                        }
-                    } while (!a.done);
+                    while (!(a = i.next()).done) {
+                        return {value: cb(a.value, index++, state), done: false};
+                    }
                     return a;
                 }
             };

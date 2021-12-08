@@ -19,12 +19,7 @@ function filterSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, stat
             return {
                 next(): IteratorResult<T> {
                     let a;
-                    do {
-                        a = i.next();
-                        if (!a.done && cb(a.value, index++, state)) {
-                            return a;
-                        }
-                    } while (!a.done);
+                    while (!(a = i.next()).done && !cb(a.value, index++, state));
                     return a;
                 }
             };
@@ -40,12 +35,7 @@ function filterAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number
             let index = 0;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    return i.next().then(a => {
-                        if (a.done) {
-                            return a;
-                        }
-                        return cb(a.value, index++, state) ? a : this.next();
-                    });
+                    return i.next().then(a => a.done ? a : (cb(a.value, index++, state) ? a : this.next()));
                 }
             };
         }
