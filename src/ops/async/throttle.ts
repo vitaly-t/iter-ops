@@ -9,7 +9,7 @@ export function throttle<T>(cb: (value: T, index: number, state: IterationState)
     return createOperation(throwOnSync('throttle'), throttleAsync, arguments);
 }
 
-function throttleAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => Promise<T>): AsyncIterable<T> {
+function throttleAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => Promise<any>): AsyncIterable<T> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
