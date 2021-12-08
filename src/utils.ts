@@ -15,7 +15,7 @@ export function createOperation<T, R>(
 }
 
 /**
- * Creates a generic synchronous operator that throws an error.
+ * Creates a generic synchronous operator that throws an error during iteration.
  */
 export function throwOnSync<T>(operatorName: string) {
     return () => ({

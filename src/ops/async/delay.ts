@@ -2,10 +2,10 @@ import {IterationState, Operation} from '../../types';
 import {createOperation, throwOnSync} from '../../utils';
 
 /**
- * Delays next value by the specified timeout (direct number or from a callback).
- * When the delay is a negative number, no timeout added.
+ * Delays each value by the specified timeout (direct number or from a callback).
+ * When the timeout is a negative number, it is not added.
  *
- * Throws error during iteration, if inside a synchronous pipeline.
+ * Throws an error during iteration, if inside a synchronous pipeline.
  */
 export function delay<T>(timeout: number): Operation<T, T>;
 export function delay<T>(cb: (value: T, index: number, state: IterationState) => number): Operation<T, T>;
