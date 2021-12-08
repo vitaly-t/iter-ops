@@ -44,20 +44,19 @@ function distinctAsync<T, K>(iterable: AsyncIterable<T>, keySelector?: (value: T
             const keySet = new Set();
             let index = 0;
             return {
-                async next(): Promise<IteratorResult<T>> {
-                    let a;
-                    do {
-                        a = await i.next();
-                        if (!a.done) {
-                            const key = ks ? ks(a.value, index++) : a.value;
-                            if (!keySet.has(key)) {
-                                keySet.add(key);
-                                return a;
-                            }
+                next(): Promise<IteratorResult<T>> {
+                    return i.next().then(a => {
+                        if (a.done) {
+                            keySet.clear(); // for better memory management
+                            return a;
                         }
-                    } while (!a.done);
-                    keySet.clear(); // for better memory management
-                    return a;
+                        const key = ks ? ks(a.value, index++) : a.value;
+                        if (!keySet.has(key)) {
+                            keySet.add(key);
+                            return a;
+                        }
+                        return this.next();
+                    });
                 }
             };
         }
