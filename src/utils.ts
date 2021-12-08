@@ -14,6 +14,21 @@ export function createOperation<T, R>(
     };
 }
 
+/**+
+ * Creates a generic a synchronous operator that throws an error.
+ */
+export function throwOnSync<T>(operatorName: string) {
+    return () => ({
+        [Symbol.iterator]() {
+            return {
+                next() {
+                    throw new Error(`Operator "${operatorName}" requires asynchronous pipeline`);
+                }
+            };
+        }
+    });
+}
+
 /**
  * Extends an Iterable object into IterableExt type.
  */
