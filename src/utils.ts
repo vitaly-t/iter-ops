@@ -47,7 +47,7 @@ export function optimizeIterable(input: any): Iterable<any> {
                 let i = 0;
                 return {
                     next(): IteratorResult<any> {
-                        return i < len ? {value: input[i++]} : {value: undefined, done: true};
+                        return i < len ? {value: input[i++], done: false} : {value: undefined, done: true};
                     }
                 };
             }
