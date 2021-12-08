@@ -18,7 +18,7 @@ function delayAsync<T>(iterable: AsyncIterable<T>, timeout: number | ((value: T,
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
-            const test = typeof timeout === 'function' && timeout;
+            const cb = typeof timeout === 'function' && timeout;
             const state: IterationState = {};
             let index = 0;
             return {
@@ -27,12 +27,12 @@ function delayAsync<T>(iterable: AsyncIterable<T>, timeout: number | ((value: T,
                         if (a.done) {
                             return a;
                         }
-                        const d: number = test ? test(a.value, index++, state) : timeout;
-                        if (d < 0) {
+                        const delay: number = cb ? cb(a.value, index++, state) : timeout;
+                        if (delay < 0) {
                             return a; // negative delay => no timeout
                         }
                         return new Promise(resolve => {
-                            setTimeout(() => resolve(a), d);
+                            setTimeout(() => resolve(a), delay);
                         });
                     });
                 }
