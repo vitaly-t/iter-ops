@@ -12,15 +12,16 @@ export function isEmpty<T>(): Operation<T, boolean> {
 function isEmptySync<T>(iterable: Iterable<T>): Iterable<boolean> {
     return {
         [Symbol.iterator](): Iterator<boolean> {
-            let done = false;
+            const i = iterable[Symbol.iterator]();
+            let finished = false;
             return {
                 next(): IteratorResult<boolean> {
-                    if (done) {
-                        return {value: undefined, done};
+                    if (!finished) {
+                        const a = i.next();
+                        finished = true;
+                        return {value: !!a.done};
                     }
-                    const a = iterable[Symbol.iterator]().next();
-                    done = true;
-                    return {value: !!a.done};
+                    return {value: undefined, done: true};
                 }
             };
         }
@@ -30,15 +31,17 @@ function isEmptySync<T>(iterable: Iterable<T>): Iterable<boolean> {
 function isEmptyAsync<T>(iterable: AsyncIterable<T>): AsyncIterable<boolean> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<boolean> {
-            let done = false;
+            const i = iterable[Symbol.asyncIterator]();
+            let finished = false;
             return {
-                async next(): Promise<IteratorResult<boolean>> {
-                    if (done) {
-                        return {value: undefined, done};
-                    }
-                    const a = await iterable[Symbol.asyncIterator]().next();
-                    done = true;
-                    return {value: !!a.done};
+                next(): Promise<IteratorResult<boolean>> {
+                    return i.next().then(a => {
+                        if (!finished) {
+                            finished = true;
+                            return {value: !!a.done};
+                        }
+                        return {value: undefined, done: true};
+                    });
                 }
             };
         }
