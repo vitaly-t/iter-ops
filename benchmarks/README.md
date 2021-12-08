@@ -29,10 +29,10 @@ Running tests separately is recommended, or else results may become skewed.
 * Testing against `rxjs` synchronous pipeline - we get ~2.3x times better performance
 * Testing against `rxjs` with a single empty subscription - we get ~4.8x better performance
 
-![image](https://user-images.githubusercontent.com/5108906/145098534-8a9c5426-aa77-40b4-9a99-64db4c713810.png)
+![image](https://user-images.githubusercontent.com/5108906/145146437-ae121032-058b-4adb-a500-5d2f28a79883.png)
 
 * Testing against `rxjs` asynchronous pipeline, we get roughly the same performance
-* Testing against `rxjs` with a single empty subscription - we get ~2.1x better performance
+* Testing against `rxjs` with a single empty subscription - we get ~2x better performance
 
 ### Conclusions
 
