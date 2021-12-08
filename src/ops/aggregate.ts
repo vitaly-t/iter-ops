@@ -28,7 +28,7 @@ function aggregateSync<T, R>(iterable: Iterable<T>, cb: (arr: T[]) => R): Iterab
                         arr.push(a.value);
                     }
                     finished = true;
-                    return {value: cb(arr)};
+                    return {value: cb(arr), done: false};
                 }
             };
         }
@@ -49,7 +49,7 @@ function aggregateAsync<T, R>(iterable: AsyncIterable<T>, cb: (arr: T[]) => R): 
                                 return a;
                             }
                             finished = true;
-                            return {value: cb(arr)};
+                            return {value: cb(arr), done: false};
                         }
                         arr.push(a.value);
                         return this.next();

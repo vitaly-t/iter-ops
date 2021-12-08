@@ -44,10 +44,7 @@ function filterAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number
                         if (a.done) {
                             return a;
                         }
-                        if (cb(a.value, index++, state)) {
-                            return a;
-                        }
-                        return this.next();
+                        return cb(a.value, index++, state) ? a : this.next();
                     });
                 }
             };

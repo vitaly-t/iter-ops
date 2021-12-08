@@ -52,7 +52,7 @@ function concatSync<T>(iterable: Iterable<T>, ...values: AnySync<T>[]): Iterable
                         start = true;
                         index++;
                         if (!k) {
-                            return {value: v};
+                            return {value: v, done: false};
                         }
                     }
                     return {value: undefined, done: true};
@@ -91,7 +91,7 @@ function concatAsync<T>(iterable: AsyncIterable<T>, ...values: Any<T>[]): AsyncI
                         start = true;
                         index++;
                         if (!k) {
-                            return {value: v};
+                            return {value: v, done: false};
                         }
                     }
                     return {value: undefined, done: true};

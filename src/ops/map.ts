@@ -22,7 +22,7 @@ function mapSync<T, R>(iterable: Iterable<T>, cb: (value: T, index: number, stat
                     do {
                         a = i.next();
                         if (!a.done) {
-                            return {value: cb(a.value, index++, state)};
+                            return {value: cb(a.value, index++, state), done: false};
                         }
                     } while (!a.done);
                     return a;
@@ -40,12 +40,7 @@ function mapAsync<T, R>(iterable: AsyncIterable<T>, cb: (value: T, index: number
             let index = 0;
             return {
                 next(): Promise<IteratorResult<R>> {
-                    return i.next().then(a => {
-                        if (a.done) {
-                            return a;
-                        }
-                        return {value: cb(a.value, index++, state)};
-                    });
+                    return i.next().then(a => a.done ? a : {value: cb(a.value, index++, state), done: false});
                 }
             };
         }

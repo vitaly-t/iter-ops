@@ -20,7 +20,7 @@ function countSync<T>(iterable: Iterable<T>): Iterable<number> {
                         a = i.next();
                         if (a.done) {
                             finished = true;
-                            return {value};
+                            return {value, done: false};
                         }
                         value++;
                     }
@@ -44,7 +44,7 @@ function countAsync<T>(iterable: AsyncIterable<T>): AsyncIterable<number> {
                                 return a;
                             }
                             finished = true;
-                            return {value};
+                            return {value, done: false};
                         }
                         value++;
                         return this.next();

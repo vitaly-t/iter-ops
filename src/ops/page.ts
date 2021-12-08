@@ -29,7 +29,7 @@ function pageSync<T>(iterable: Iterable<T>, size: number): Iterable<T[]> {
                         value.push(a.value);
                     }
                     if (value.length) {
-                        return {value};
+                        return {value, done: false};
                     }
                     return {value: undefined, done: true};
                 }
@@ -57,7 +57,7 @@ function pageAsync<T>(iterable: AsyncIterable<T>, size: number): AsyncIterable<T
                         value.push(a.value);
                     }
                     if (value.length) {
-                        return {value};
+                        return {value, done: false};
                     }
                     return {value: undefined, done: true};
                 }

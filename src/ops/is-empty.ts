@@ -19,7 +19,7 @@ function isEmptySync<T>(iterable: Iterable<T>): Iterable<boolean> {
                     if (!finished) {
                         const a = i.next();
                         finished = true;
-                        return {value: !!a.done};
+                        return {value: !!a.done, done: false};
                     }
                     return {value: undefined, done: true};
                 }
@@ -38,7 +38,7 @@ function isEmptyAsync<T>(iterable: AsyncIterable<T>): AsyncIterable<boolean> {
                     return i.next().then(a => {
                         if (!finished) {
                             finished = true;
-                            return {value: !!a.done};
+                            return {value: !!a.done, done: false};
                         }
                         return {value: undefined, done: true};
                     });

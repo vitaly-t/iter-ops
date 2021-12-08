@@ -40,7 +40,7 @@ function catchErrorSync<T>(iterable: Iterable<T>, cb: (error: any, ctx: IErrorCo
                                 }
                             });
                             if (emitted) {
-                                return {value: value!};
+                                return {value: value!, done: false};
                             }
                         }
                     } while (!last?.done);
@@ -72,7 +72,7 @@ function catchErrorAsync<T>(iterable: AsyncIterable<T>, cb: (error: any, ctx: IE
                                 emitted = true;
                             }
                         });
-                        return emitted ? {value: value!} : this.next();
+                        return emitted ? {value: value!, done: false} : this.next();
                     });
                 }
             };

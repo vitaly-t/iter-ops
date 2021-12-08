@@ -37,7 +37,7 @@ function defaultEmptySync<T, D>(iterable: Iterable<T>, value: AnySync<D>): Itera
                                 return b;
                             }
                             done = true;
-                            return {value: v};
+                            return {value: v, done: false};
                         }
                     }
                     return {value: undefined, done: true};
@@ -72,7 +72,7 @@ function defaultEmptyAsync<T, D>(iterable: AsyncIterable<T>, value: Any<D>): Asy
                                 return b;
                             }
                             done = true;
-                            return {value: v};
+                            return {value: v, done: false};
                         }
                     }
                     return {value: undefined, done: true};

@@ -24,10 +24,7 @@ function lastSync<T>(iterable: Iterable<T>, cb?: (value: T, index: number) => bo
                             r = a;
                         }
                     }
-                    if (r) {
-                        return {value: r.value};
-                    }
-                    return a;
+                    return r ? {value: r.value, done: false} : a;
                 }
             };
         }
