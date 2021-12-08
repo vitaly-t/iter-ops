@@ -12,7 +12,7 @@ Testing `iter-ops` versus the latest `rxjs`:
 
 * NodeJS v16.13.1
 * rxjs v7.4.0
-* iter-ops v0.7.1
+* iter-ops v0.7.4
 
 ### Running Tests
 
@@ -24,10 +24,10 @@ Running tests separately is recommended, or else results may become skewed.
 
 ### Test Results
 
-![image](https://user-images.githubusercontent.com/5108906/145098065-020326cc-397c-4d9c-9192-f3a3e066563f.png)
+![image](https://user-images.githubusercontent.com/5108906/145146801-59b8c576-54a5-4913-8482-b2b4cb4b4259.png)
 
 * Testing against `rxjs` synchronous pipeline - we get ~2.3x times better performance
-* Testing against `rxjs` with a single empty subscription - we get ~4.8x better performance
+* Testing against `rxjs` with a single empty subscription - we get ~4.9x better performance
 
 ![image](https://user-images.githubusercontent.com/5108906/145146437-ae121032-058b-4adb-a500-5d2f28a79883.png)
 
