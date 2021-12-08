@@ -34,12 +34,13 @@ function tapAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, s
             const state: IterationState = {};
             let index = 0;
             return {
-                async next(): Promise<IteratorResult<T>> {
-                    const a = await i.next();
-                    if (!a.done) {
-                        cb(a.value, index++, state);
-                    }
-                    return a;
+                next(): Promise<IteratorResult<T>> {
+                    return i.next().then(a => {
+                        if (!a.done) {
+                            cb(a.value, index++, state);
+                        }
+                        return a;
+                    });
                 }
             };
         }
