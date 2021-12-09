@@ -7,20 +7,13 @@ import {createOperation} from '../utils';
 export function repeat<T>(count: number): Operation<T, T>;
 
 /**
- * Repeats every value, while the callback is returning true.
- * `index` - original value index;
- * `count` - repeats count thus far (starts with 0).
- */
-export function repeat<T>(cb: (value: T, index: number, count: number, state: IterationState) => boolean): Operation<T, T>;
-
-/**
- * Repeats every value, for as long as the callback result resolves with true.
+ * Repeats every value, while the callback is returning true (or resolves with true).
  * `index` - original value index;
  * `count` - repeats count thus far (starts with 0).
  *
- * This works only inside asynchronous iterables.
+ * The promise version works only inside asynchronous iterables.
  */
-export function repeat<T>(cb: (value: T, index: number, count: number, state: IterationState) => Promise<boolean>): Operation<T, T>;
+export function repeat<T>(cb: (value: T, index: number, count: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T>;
 
 /**
  * Starts emitting values after "count" number of values.
