@@ -1,4 +1,5 @@
 export * from './types';
+export {toAsync} from './helpers';
 export {pipe} from './pipe';
 
 export {aggregate} from './ops/aggregate';
