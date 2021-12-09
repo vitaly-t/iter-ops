@@ -1,11 +1,11 @@
 import {Operation} from '../../types';
 import {createOperation, throwOnSync} from '../../utils';
 
-export function wait<T>(): Operation<Promise<T> | T, T>;
-
 /**
  * When the value is a Promise, it is resolved, or else returned as is.
  */
+export function wait<T>(): Operation<Promise<T> | T, T>;
+
 export function wait<T>() {
     return createOperation(throwOnSync('wait'), waitAsync, arguments);
 }

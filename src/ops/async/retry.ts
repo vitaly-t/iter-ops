@@ -3,6 +3,8 @@ import {createOperation, throwOnSync} from '../../utils';
 
 /**
  * When the iterable rejects, retries getting the value specified number of times.
+ *
+ * Note that retries deplete values prior the operator that threw the error.
  */
 export function retry<T>(attempts: number): Operation<T, T>;
 
@@ -14,6 +16,8 @@ export function retry<T>(attempts: number): Operation<T, T>;
  * - `index` - index of the iterable value that we failed to acquire
  * - `attempts` - number of retry attempts we've made so far (starts with 0)
  * - `state` - state for the entire iteration session
+ *
+ * Note that retries deplete values prior the operator that threw the error.
  */
 export function retry<T>(cb: (index: number, attempts: number, state: IterationState) => Promise<boolean>): Operation<T, T>;
 
