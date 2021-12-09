@@ -118,7 +118,10 @@ All standard operators implement the same logic as [Array] does:
 * [tap((value, index, state) => void)](./src/ops/tap.ts) - taps into each value, without changing the output.
 * [toArray()](./src/ops/to-array.ts) - accumulates values into an array, and produces a one-value iterable.
 
-See [Recipes] for more operations.
+See also:
+
+* [Asynchronous Operators](./src/ops/async) - specific for asynchronous iterables
+* [Recipes] - for more operations.
 
 [API]:#api
 
