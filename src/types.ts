@@ -37,6 +37,9 @@ export interface IterableExt<T> extends Iterable<T> {
     catch(cb: (error: any, ctx: IErrorContext<T>) => void): IterableExt<T>;
 }
 
+/**
+ * Extended Asynchronous Iterable.
+ */
 export interface AsyncIterableExt<T> extends AsyncIterable<T> {
     /**
      * - first element produced by the iterable;
