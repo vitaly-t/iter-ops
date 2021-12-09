@@ -1,19 +1,42 @@
 import {_async, _asyncValues, expect} from '../header';
-import {pipe, map, retry} from '../../src';
+import {pipe, tap, retry} from '../../src';
 
 describe('retry', () => {
+    const source = pipe(
+        _async([1, 2, 3, 4, 5]),
+        tap((value, index, state) => {
+            if (index < 2) {
+                throw new Error(`Throw for value ${value}`);
+            }
+            return value;
+        }),
+    );
     it('must retry number of attempts', async () => {
-        const i = pipe(
-            _async([1, 2, 3, 4, 5]),
-            map((value, index, state) => {
-                state[value] = (state[value] ?? -1) + 1;
-                if (state[value] < 3) {
-                    throw new Error(`Throw attempt ${state[value]} for value ${value}`);
-                }
-                return value;
-            }),
-            retry(3)
-        );
-        expect(await _asyncValues(i)).to.eql([1, 2, 3, 4, 5]);
+        const i = pipe(source, retry(2));
+        expect(await _asyncValues(i)).to.eql([3, 4, 5]);
+    });
+    it('must retry while resolves with true', async () => {
+        const i = pipe(source, retry((index, attempts) => Promise.resolve(attempts < 3)));
+        expect(await _asyncValues(i)).to.eql([3, 4, 5]);
+    });
+    it('must throw when failed for number', async () => {
+        const i = pipe(source, retry(1));
+        let err: any;
+        try {
+            await _asyncValues(i);
+        } catch (e) {
+            err = e;
+        }
+        expect(err?.message).to.eql('Throw for value 2');
+    });
+    it('must throw when failed for promise', async () => {
+        const i = pipe(source, retry((index, attempts) => Promise.resolve(attempts < 1)));
+        let err: any;
+        try {
+            await _asyncValues(i);
+        } catch (e) {
+            err = e;
+        }
+        expect(err?.message).to.eql('Throw for value 2');
     });
 });
