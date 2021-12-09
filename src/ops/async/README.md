@@ -7,7 +7,7 @@ Adding these to a synchronous pipeline will throw an iteration-time error, i.e. 
 
 ### EXAMPLE
 
-Below is a fairly complex example of using asynchronous iterables. Its purpose is mainly to show how several
+Below is a fairly advanced example of using asynchronous iterables. Its purpose is mainly to show how several
 asynchronous operators can be used in combination.
 
 **Task**
@@ -16,7 +16,7 @@ asynchronous operators can be used in combination.
 * Data from each URL must be requested in consecutive order (not in parallel)
 * When it fails for a URL, must retry 3 times for it, with delays of 1s, 3s and 5s
 * Report basic confirmation of the data received from each URL
-* Each URL that ultimately failed, must be reported
+* Any URL that ultimately failed, must be reported
 
 **Inputs**
 
@@ -51,7 +51,7 @@ const i = pipe(
         }) // remapping into HTTP requests
     ),
     filter(a => !!a), // removing null-s from above
-    wait(), // resolving all promises
+    wait(), // resolving promises
     retry((index, attempts) => new Promise(resolve => {
         setTimeout(() => resolve(attempts < delays.length), delays[attempts]);
     })) // set up retries from our list of delays
@@ -65,7 +65,7 @@ const i = pipe(
 
 ```ts
 for await(const a of i) {
-    console.log(a?.data?.length || a?.data); // some URL data
+    console.log(a?.data?.length || a?.data); // some URL data, for success confirmation
 }
 ```
 
