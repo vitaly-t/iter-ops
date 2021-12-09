@@ -4,10 +4,10 @@ import {createOperation, throwOnSync} from '../../utils';
 export function wait<T>(): Operation<Promise<T> | T, T>;
 
 /**
- * Bla
+ * When the value is a Promise, it is resolved, or else returned as is.
  */
-export function wait<T>(): Operation<Promise<T>, T> {
-    return createOperation(throwOnSync('wait'), waitAsync as any, arguments);
+export function wait<T>() {
+    return createOperation(throwOnSync('wait'), waitAsync, arguments);
 }
 
 export function waitAsync<T>(iterable: AsyncIterable<Promise<T> | T>): AsyncIterable<T> {
@@ -21,10 +21,7 @@ export function waitAsync<T>(iterable: AsyncIterable<Promise<T> | T>): AsyncIter
                             return a as any;
                         }
                         const p = a.value as Promise<T>;
-                        if (typeof p?.then === 'function') {
-                            return p?.then(value => ({value, done: false}));
-                        }
-                        return a;
+                        return typeof p?.then === 'function' ? p?.then(value => ({value, done: false})) : a;
                     });
                 }
             };
