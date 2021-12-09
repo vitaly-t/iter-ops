@@ -16,6 +16,7 @@ export {last} from './ops/last';
 export {map} from './ops/map';
 export {page} from './ops/page';
 export {reduce} from './ops/reduce';
+export {retry} from './ops/async/retry';
 export {skip} from './ops/skip';
 export {split, ISplitIndex, ISplitOptions, SplitValueCarry} from './ops/split';
 export {spread} from './ops/spread';
