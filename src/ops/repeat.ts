@@ -69,32 +69,34 @@ function repeatSync<T>(iterable: Iterable<T>, count: number | ((value: T, index:
 function repeatAsync<T>(iterable: AsyncIterable<T>, count: number | ((value: T, index: number, count: number, state: IterationState) => boolean | Promise<boolean>)): AsyncIterable<T> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
-            //const i = iterable[Symbol.asyncIterator]();
-            //const cb = typeof count === 'function' && count;
-            //const getCopyCount = () => !cb && count > 0 ? count as number : 0;
-            //const copyCount = getCopyCount();
-            //let index = 0;
+            const i = iterable[Symbol.asyncIterator]();
+            const state: IterationState = {};
+            const cb = typeof count === 'function' && count;
+            const getCopyCount = () => !cb && count > 0 ? count as number : 0;
+            let copyCount = getCopyCount();
+            let index = -1, copied = 0, start = true, a: IteratorResult<T>;
             return {
-                next(): Promise<IteratorResult<T>> {
-                    return null as any;
-                    /*
-                    return i.next()
-                        .then(a => {
-                            index++;
-                            attempts = 0;
-                            leftTries = getLeftTries();
-                            return a;
-                        })
-                        .catch(e => {
-                            if (cb) {
-                                return cb(index, attempts++, state).then(r => r ? this.next() : Promise.reject(e));
-                            }
-                            if (leftTries) {
-                                leftTries--;
-                                return this.next();
-                            }
-                            return Promise.reject(e);
-                        });*/
+                async next(): Promise<IteratorResult<T>> {
+                    if (start) {
+                        a = await i.next();
+                        start = false;
+                        index++;
+                        copied = 0;
+                        copyCount = getCopyCount();
+                    }
+                    if (a.done) {
+                        return a;
+                    }
+                    if (cb) {
+                        start = !(await cb(a.value, index, copied++, state));
+                        return a;
+                    }
+                    if (copyCount) {
+                        copyCount--;
+                    } else {
+                        start = true;
+                    }
+                    return a;
                 }
             };
         }

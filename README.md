@@ -104,6 +104,7 @@ All standard operators implement the same logic as [Array] does:
 * [page(size)](./src/ops/page.ts) - splits values into pages of fixed size (last page can be smaller).
     - equivalent 1: `split((_, index) => index.list >= size, {carryEnd: 1})`
     - equivalent 2: `split((_, index) => index.list >= size - 1, {carryEnd: -1})`
+* [repeat(count | cb)](./src/ops/repeat.ts) - repeats each value `count` times, or according to the callback. 
 * [skip(count)](./src/ops/skip.ts) - starts emitting values after `count` number of values;
     - it is equivalent to `start((_, index) => index >= count)`
 * [split(predicate, options)](./src/ops/split.ts) - splits values into separate lists, based on predicate - see [Split].
