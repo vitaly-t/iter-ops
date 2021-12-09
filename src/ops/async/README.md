@@ -7,8 +7,11 @@ Adding these to a synchronous pipeline will throw an iteration-time error, i.e. 
 
 ### EXAMPLE
 
-Below is a fairly advanced example of using asynchronous iterables. Its purpose is mainly to show how several
-asynchronous operators can be used in combination.
+Below is a fairly advanced example of using asynchronous iterables. Its purpose is to show how several
+asynchronous operators can be used in combination, and that any sort of logic can be built on top of
+standard JavaScript iterables.
+
+The same task can be accomplished in a simpler way with other libraries, but that's beside the point here. 
 
 **Task**
 
@@ -37,7 +40,7 @@ const delays = [1000, 3000, 5000]; // delays for each retry, in ms
 Below we use a third-party module `axios` that makes an HTTP request, and returns a promise.
 
 ```ts
-import {pipe, map, filter, repeat, retry, toAsync, wait} from 'iter-ops';
+import {pipe, toAsync, map, filter, repeat, retry, wait} from 'iter-ops';
 import * as axios from 'axios';
 
 const i = pipe(
@@ -87,6 +90,5 @@ since our requests are asynchronous, it may end up requesting data twice, and so
 6. `wait()` - resolves every promise in the pipeline into value, since our `map` above produced a bunch of promises.
 7. `retry` - we set up our retries, from the list of `delays`
 8. We add `catch` error handler in the end - see [Error Handling].
-
 
 [Error Handling]:https://github.com/vitaly-t/iter-ops/wiki/Error-Handling
