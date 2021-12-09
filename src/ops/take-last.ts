@@ -44,26 +44,25 @@ function takeLastAsync<T>(iterable: AsyncIterable<T>, count: number): AsyncItera
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
             const buffer: IteratorResult<T>[] = [];
-            let ready = false, done = false, index = 0;
+            let done = false, index = 0;
             return {
-                async next(): Promise<IteratorResult<T>> {
-                    if (!done && count > 0) {
-                        if (!ready) {
-                            let a;
-                            while (!(a = await i.next()).done) {
+                next(): Promise<IteratorResult<T>> {
+                    return i.next().then(a => {
+                        if (!done && count > 0) {
+                            if (!a.done) {
                                 buffer.push(a);
                                 if (count < buffer.length) {
                                     buffer.shift();
                                 }
+                                return this.next();
                             }
-                            ready = true;
+                            if (index < buffer.length) {
+                                return buffer[index++];
+                            }
+                            done = true;
                         }
-                        if (index < buffer.length) {
-                            return buffer[index++];
-                        }
-                        done = true;
-                    }
-                    return {value: undefined, done: true};
+                        return {value: undefined, done: true};
+                    });
                 }
             };
         }
