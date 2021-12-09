@@ -41,20 +41,20 @@ import {pipe, map, filter, repeat, retry, toAsync, wait} from 'iter-ops';
 import * as axios from 'axios';
 
 const i = pipe(
-    toAsync(urls), // make asynchronous
-    map(url => ({url, data: null})), // make trackable
-    repeat((value, _, count) => !value.data && count < delays.length),
+    toAsync(urls), // making asynchronous
+    map(url => ({url, data: null})), // making trackable
+    repeat((value, _, count) => !value.data && count < delays.length), // repeating while no data and attempts left
     map(a => a.data ? null : axios.get(a.url)
         .then(data => {
             a.data = data;
             return data;
-        })
+        }) // remapping into HTTP requests
     ),
-    filter(a => !!a), // remove null-s from above
-    wait(), // resolve all promises
+    filter(a => !!a), // removing null-s from above
+    wait(), // resolving all promises
     retry((index, attempts) => new Promise(resolve => {
         setTimeout(() => resolve(attempts < delays.length), delays[attempts]);
-    }))
+    })) // set up retries from our list of delays
 ).catch((err, ctx) => {
     console.log('Ultimately failed for url:', urls[ctx.index]);
     //=> Ultimately failed for url: http://www.invalidaddress.ops
@@ -65,7 +65,7 @@ const i = pipe(
 
 ```ts
 for await(const a of i) {
-    console.log(a?.data?.length || a?.data);
+    console.log(a?.data?.length || a?.data); // some URL data
 }
 ```
 
