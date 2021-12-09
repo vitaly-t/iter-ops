@@ -55,7 +55,7 @@ const i = pipe(
     ),
     filter(a => !!a), // removing null-s from above
     wait(), // resolving promises
-    retry((index, attempts) => new Promise(resolve => {
+    retry((_, attempts) => new Promise(resolve => {
         setTimeout(() => resolve(attempts < delays.length), delays[attempts]);
     })) // set up retries from our list of delays
 ).catch((err, ctx) => {
