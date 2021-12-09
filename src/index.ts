@@ -25,3 +25,4 @@ export {takeLast} from './ops/take-last';
 export {tap} from './ops/tap';
 export {throttle} from './ops/async/throttle';
 export {toArray} from './ops/to-array';
+export {wait} from './ops/async/wait';
