@@ -11,13 +11,11 @@ export function repeat<T>(count: number): Operation<T, T>;
  * `index` - original value index;
  * `count` - repeats count thus far (starts with 0).
  *
- * The promise version works only inside asynchronous iterables.
+ * Note that the promise version works only inside an asynchronous pipeline, or else
+ * the promise will be treated as a simple value.
  */
 export function repeat<T>(cb: (value: T, index: number, count: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T>;
 
-/**
- * Starts emitting values after "count" number of values.
- */
 export function repeat<T>(count: number | ((value: T, index: number, count: number, state: IterationState) => boolean | Promise<boolean>)): Operation<T, T> {
     return createOperation(repeatSync, repeatAsync, arguments);
 }
@@ -81,7 +79,7 @@ function repeatAsync<T>(iterable: AsyncIterable<T>, count: number | ((value: T, 
                         return a;
                     }
                     if (cb) {
-                        start = !(await cb(a.value, index, copied++, state));
+                        start = !(await (cb(a.value, index, copied++, state) as Promise<boolean>));
                         return a;
                     }
                     if (copyCount) {
