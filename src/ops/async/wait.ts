@@ -2,7 +2,10 @@ import {Operation} from '../../types';
 import {createOperation, throwOnSync} from '../../utils';
 
 /**
- * When the value is a Promise, it is resolved, or else returned as is.
+ * When the value is a Promise, it is resolved, or else returned as is,
+ * i.e. the same logic as for JavaScript operator `await`.
+ *
+ * Throws an error during iteration, if inside a synchronous pipeline.
  */
 export function wait<T>(): Operation<Promise<T> | T, T>;
 

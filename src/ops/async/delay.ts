@@ -13,6 +13,9 @@ export function delay<T>(timeout: number): Operation<T, T>;
  * Delays each value by the specified timeout (as returned from the callback).
  * When the timeout is a negative number, it is not added.
  *
+ * Note that it doesn't support return of Promise<number> on purpose, to avoid
+ * confusion with what operator `throttle` does.
+ *
  * Throws an error during iteration, if inside a synchronous pipeline.
  */
 export function delay<T>(cb: (value: T, index: number, state: IterationState) => number): Operation<T, T>;

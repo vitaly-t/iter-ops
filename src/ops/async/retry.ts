@@ -6,6 +6,8 @@ import {createOperation, throwOnSync} from '../../utils';
  *
  * Note that retries deplete values prior the operator that threw the error,
  * and so it is often used in combination with operator `repeat`.
+ *
+ * Throws an error during iteration, if inside a synchronous pipeline.
  */
 export function retry<T>(attempts: number): Operation<T, T>;
 
@@ -20,6 +22,8 @@ export function retry<T>(attempts: number): Operation<T, T>;
  *
  * Note that retries deplete values prior the operator that threw the error,
  * and so it is often used in combination with operator `repeat`.
+ *
+ * Throws an error during iteration, if inside a synchronous pipeline.
  */
 export function retry<T>(cb: (index: number, attempts: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T>;
 

@@ -2,8 +2,9 @@ import {IterationState, Operation} from '../../types';
 import {createOperation, throwOnSync} from '../../utils';
 
 /**
- * Emits each value after the callback result resolves.
- * The resolved value itself is ignored.
+ * Emits each value after the callback result resolves. The resolved value itself is ignored.
+ *
+ * Throws an error during iteration, if inside a synchronous pipeline.
  */
 export function throttle<T>(cb: (value: T, index: number, state: IterationState) => Promise<any>): Operation<T, T> {
     return createOperation(throwOnSync('throttle'), throttleAsync, arguments);
