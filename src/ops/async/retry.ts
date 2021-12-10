@@ -4,28 +4,34 @@ import {createOperation, throwOnSync} from '../../utils';
 /**
  * When the iterable rejects, retries getting the value specified number of times.
  *
- * Note that retries deplete values prior the operator that threw the error.
+ * Note that retries deplete values prior the operator that threw the error,
+ * and so it is often used in combination with operator `repeat`.
+ *
+ * Throws an error during iteration, if inside a synchronous pipeline.
  */
 export function retry<T>(attempts: number): Operation<T, T>;
 
 /**
- * When the iterable rejects, the callback is to return an asynchronous flag,
- * indicating whether we should retry getting the value one more time.
+ * When the iterable rejects, the callback is to return the flag, indicating whether
+ * we should retry getting the value one more time.
  *
- * The callback is only called when there is a failure, and it receives:
+ * The callback is only invoked when there is a failure, and it receives:
  * - `index` - index of the iterable value that we failed to acquire
  * - `attempts` - number of retry attempts we've made so far (starts with 0)
  * - `state` - state for the entire iteration session
  *
- * Note that retries deplete values prior the operator that threw the error.
+ * Note that retries deplete values prior the operator that threw the error,
+ * and so it is often used in combination with operator `repeat`.
+ *
+ * Throws an error during iteration, if inside a synchronous pipeline.
  */
-export function retry<T>(cb: (index: number, attempts: number, state: IterationState) => Promise<boolean>): Operation<T, T>;
+export function retry<T>(cb: (index: number, attempts: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T>;
 
-export function retry<T>(retry: number | ((index: number, attempts: number, state: IterationState) => Promise<boolean>)): Operation<T, T> {
+export function retry<T>(retry: number | ((index: number, attempts: number, state: IterationState) => boolean | Promise<boolean>)): Operation<T, T> {
     return createOperation(throwOnSync('retry'), retryAsync, arguments);
 }
 
-function retryAsync<T>(iterable: AsyncIterable<T>, retry: number | ((index: number, attempts: number, state: IterationState) => Promise<boolean>)): AsyncIterable<T> {
+function retryAsync<T>(iterable: AsyncIterable<T>, retry: number | ((index: number, attempts: number, state: IterationState) => boolean | Promise<boolean>)): AsyncIterable<T> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
@@ -46,7 +52,9 @@ function retryAsync<T>(iterable: AsyncIterable<T>, retry: number | ((index: numb
                         })
                         .catch(e => {
                             if (cb) {
-                                return cb(index, attempts++, state).then(r => r ? this.next() : Promise.reject(e));
+                                const b = (f: any) => f ? this.next() : Promise.reject(e);
+                                const r = cb(index, attempts++, state) as Promise<boolean>;
+                                return typeof r?.then === 'function' ? r.then(b) : b(r);
                             }
                             if (leftTries) {
                                 leftTries--;
