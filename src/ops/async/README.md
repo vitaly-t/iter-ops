@@ -3,7 +3,7 @@ Async Operators
 
 In this folder, we have operators that can only be added to an asynchronous pipeline.
 
-Adding these to a synchronous pipeline will throw an iteration-time error, i.e. it can be handled with `catchError`.
+Adding these to a synchronous pipeline will throw an iteration-time error, unless converted into asynchronous first (see [WiKi](https://github.com/vitaly-t/iter-ops/wiki/Asynchronous-Iterables)).
 
 ### EXAMPLE
 
@@ -86,7 +86,7 @@ Here's what we are doing above, step by step...
 4. Next, we `map` our objects from step 2 into requests, and set property `data` when successful. However, since our
    requests are asynchronous, it may end up requesting data twice, and so we return `null` in those cases.
 5. Next, `filter` - we throw away any `null` that the previous operator may have created.
-6. `wait()` - resolves every promise in the pipeline into value, since our `map` above produced a bunch of promises.
+6. `wait()` - resolves every promise in the pipeline into value, since our `map` above produces promises.
 7. `retry` - we set up our retries, from the list of `delays`
 8. We add `catch` error handler in the end - see [Error Handling].
 

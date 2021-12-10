@@ -38,12 +38,7 @@ function delayAsync<T>(iterable: AsyncIterable<T>, timeout: number | ((value: T,
                             return a;
                         }
                         const delay: number = cb ? cb(a.value, index++, state) : timeout;
-                        if (delay < 0) {
-                            return a; // negative delay => no timeout
-                        }
-                        return new Promise(resolve => {
-                            setTimeout(() => resolve(a), delay);
-                        });
+                        return delay < 0 ? a : new Promise(resolve => setTimeout(() => resolve(a), delay));
                     });
                 }
             };
