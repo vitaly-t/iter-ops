@@ -19,6 +19,11 @@ describe('retry', () => {
         const i = pipe(source, retry((index, attempts) => Promise.resolve(attempts < 3)));
         expect(await _asyncValues(i)).to.eql([3, 4, 5]);
     });
+    it('must retry while returns true', async () => {
+        const i = pipe(source, retry((index, attempts) => attempts < 3));
+        expect(await _asyncValues(i)).to.eql([3, 4, 5]);
+    });
+
     it('must throw when failed for number', async () => {
         const i = pipe(source, retry(1));
         let err: any;
@@ -31,6 +36,16 @@ describe('retry', () => {
     });
     it('must throw when failed for promise', async () => {
         const i = pipe(source, retry((index, attempts) => Promise.resolve(attempts < 1)));
+        let err: any;
+        try {
+            await _asyncValues(i);
+        } catch (e) {
+            err = e;
+        }
+        expect(err?.message).to.eql('Throw for value 2');
+    });
+    it('must throw when failed for boolean', async () => {
+        const i = pipe(source, retry((index, attempts) => attempts < 1));
         let err: any;
         try {
             await _asyncValues(i);
