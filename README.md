@@ -39,7 +39,7 @@ For web usage, either bundle it properly, or see [web](./web) folder.
 
 ### JavaScript
 
-Simple filtering + mapping an [Iterable]:
+Simple filtering + mapping an iterable:
 
 ```js
 const {pipe, filter, map} = require('iter-ops');
@@ -75,8 +75,7 @@ const result = i.first; //=> 10
 
 ## API
 
-Function [pipe] takes an [Iterable], applies all specified operators to it, and returns
-[IterableExt](http://github.com/vitaly-t/iter-ops/blob/main/src/types.ts#L25).
+Function [pipe] takes an iterable, applies all specified operators to it, and returns an extended iterable.
 
 #### <i>Standard operators:</i>
 
