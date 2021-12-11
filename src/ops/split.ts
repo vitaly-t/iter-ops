@@ -2,7 +2,7 @@ import {IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Value index details, during `split` operation.
+ * Value index details, during [[split]] operation.
  */
 export interface ISplitIndex {
     /**
@@ -27,7 +27,7 @@ export interface ISplitIndex {
 }
 
 /**
- * Set of options that can be passed into `split` operator.
+ * Set of options that can be passed into [[split]] operator.
  */
 export interface ISplitOptions {
 
@@ -59,7 +59,7 @@ export interface ISplitOptions {
  * Strategy for carrying over split/toggle values.
  * It defines what to do with each value that triggers the split/toggle.
  *
- * Note that split operator treats this enum in non-strict manner:
+ * Note that [[split]] operator treats this enum in non-strict manner:
  *  - any negative number is treated as `back`
  *  - any positive number is treated as `forward`
  *  - everything else is treated as `none`
