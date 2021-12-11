@@ -10,16 +10,14 @@ iter-ops
 
 ## About
 
-Basic operations on [Iterables], strictly for JavaScript native types.
+Basic operations on [synchronous] + [asynchronous] iterables, strictly for JavaScript native types.
 
 ![image](https://user-images.githubusercontent.com/5108906/142058291-b39d7226-56a4-4df0-8dc1-2ff2c6c18f10.png)
 
-We do not use any synthetic types / wrappers here, like `Observable` in RXJS, etc. It is strictly an
-[Iterable] on the input, and an [Iterable] on the output, for maximum performance, simplicity and compatibility.
+We do not use any synthetic types / wrappers here, like `Observable` in RXJS, etc. It is strictly an iterable on the
+input, and an iterable on the output, for maximum performance, simplicity and compatibility.
 
 We also do not use ES6 generators internally, because their current implementation in V8 is relatively slow.
-
-**NOTE:** Support for [Asynchronous Iterables] was added in v0.7.0
 
 ## Installation
 
@@ -33,7 +31,7 @@ Follow the usage examples below, based on your development environment.
 
 _See also..._
 
-* [API List] below, plus [Full Documentation]
+* [API List] below, plus [Full API]
 * [Recipes], for additional operations
 * [Benchmarks], for performance comparison
 
@@ -124,7 +122,7 @@ All standard operators implement the same logic as [Array] does:
 
 #### <i>See also:</i>
 
-* [Full Documentation] - generated from code
+* [Full API] - generated from code
 * [Asynchronous Operators](./src/ops/async) - specific for asynchronous iterables
 * [Recipes] - for more operations.
 
@@ -132,7 +130,7 @@ All standard operators implement the same logic as [Array] does:
 
 [API List]:#api
 
-[Full Documentation]:https://vitaly-t.github.io/iter-ops
+[Full API]:https://vitaly-t.github.io/iter-ops
 
 [Error Handling]:https://github.com/vitaly-t/iter-ops/wiki/Error-Handling
 
@@ -157,3 +155,7 @@ All standard operators implement the same logic as [Array] does:
 [Benchmarks]:./benchmarks
 
 [Asynchronous Iterables]:https://github.com/vitaly-t/iter-ops/wiki/Asynchronous-Iterables
+
+[synchronous]:https://javascript.info/iterable
+
+[asynchronous]:https://javascript.info/async-iterators-generators#async-iterables
