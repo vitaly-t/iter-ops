@@ -25,14 +25,14 @@ export interface IErrorContext<T> {
 export interface IterableExt<T> extends Iterable<T> {
     /**
      * - first element produced by the iterable;
-     * - undefined, if the iterable produced nothing.
+     * - `undefined`, if the iterable produced nothing.
      *
      * It is to simplify use of one-value iterables.
      */
     readonly first?: T;
 
     /**
-     * Appends catchError operator to the pipeline.
+     * Appends [[catchError]] operator to the pipeline.
      */
     catch(cb: (error: any, ctx: IErrorContext<T>) => void): IterableExt<T>;
 }
@@ -56,12 +56,12 @@ export interface AsyncIterableExt<T> extends AsyncIterable<T> {
 }
 
 /**
- * Any iterable type.
+ * Any Iterable Type.
  */
 export type AnyIterable<T> = AsyncIterable<T> | Iterable<T>;
 
 /**
- * Any iterator type.
+ * Any Iterator Type.
  */
 export type AnyIterator<T> = Iterator<T> | AsyncIterator<T>;
 

@@ -14,7 +14,7 @@ export interface ISplitIndex {
      * List Index - relative to the current list.
      * Index of the value within the currently accumulated list.
      *
-     * Note that when "split" or "toggle-OFF" values are carried forward,
+     * Note that when `split` or `toggle-OFF` values are carried forward,
      * it starts with 1, as 0 refers to the value that was carried forward.
      */
     list: number;
@@ -27,30 +27,30 @@ export interface ISplitIndex {
 }
 
 /**
- * Set of options that can be passed into "split" operator.
+ * Set of options that can be passed into `split` operator.
  */
 export interface ISplitOptions {
 
     /**
-     * Strategy for carrying every "toggle-ON" value.
-     * It is used only when in "toggle" mode.
+     * Strategy for carrying every `toggle-ON` value.
+     * It is used only when in `toggle` mode.
      */
     carryStart?: SplitValueCarry;
 
     /**
-     * Strategy for carrying every "toggle-OFF" or "split" value.
+     * Strategy for carrying every `toggle-OFF` or `split` value.
      */
     carryEnd?: SplitValueCarry;
 
     /**
-     * Changes what the "split" callback result represents.
+     * Changes what the `split` callback result represents.
      * By default, it signals when we find a split value.
      *
-     * This option changes that into a toggle logic:
+     * This option changes that into a `toggle` logic:
      *
      * We start collecting values into a new list when the callback returns true
      * one time, and we stop collecting values when it returns true the next time.
-     * And we do so repeatedly, skipping values outside [true, ..., true] toggles.
+     * And we do so repeatedly, skipping values outside `[true, ..., true]` toggles.
      */
     toggle?: boolean;
 }
@@ -60,9 +60,9 @@ export interface ISplitOptions {
  * It defines what to do with each value that triggers the split/toggle.
  *
  * Note that split operator treats this enum in non-strict manner:
- *  - any negative number is treated as "back"
- *  - any positive number is treated as "forward"
- *  - everything else is treated as "none"
+ *  - any negative number is treated as `back`
+ *  - any positive number is treated as `forward`
+ *  - everything else is treated as `none`
  */
 export enum SplitValueCarry {
     /**
@@ -84,22 +84,23 @@ export enum SplitValueCarry {
 
 /**
  * Splits values into separate lists when predicate returns true.
- * When option "toggle" is set, the split uses the toggle start/end logic.
+ * When option `toggle` is set, the split uses the toggle start/end logic.
  *
  * When you know only the split value of each block, you can use the default split mode,
- * with carryEnd set to 1/forward (in case you do not want it skipped);
+ * with `carryEnd` set to `1/forward` (in case you do not want it skipped);
  *
  * When you know only the end value of each block, you can use the default split mode,
- * with carryEnd set to -1/back (in case you do not want it skipped);
+ * with `carryEnd` set to `-1/back` (in case you do not want it skipped);
  *
  * When you know both start and end values of each block, you can use the toggle mode,
- * with carryStart set to 1/forward, and carryEnd set to -1/back, unless you want
- * either of those skipped, then leave them at 0/none.
+ * with `carryStart` set to `1/forward`, and `carryEnd` set to `-1/back`, unless you want
+ * either of those skipped, then leave them at `0/none`.
  *
- * Note that in toggle mode, you cannot use carryStart=back (it will be ignored),
+ * Note that in toggle mode, you cannot use `carryStart=back` (it will be ignored),
  * because it would delay emission of the current block indefinitely, plus carrying
  * block start backward doesn't make much sense anyway.
  *
+ * @see [[page]]
  * @category Sync+Async
  */
 export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): Operation<T, T[]> {

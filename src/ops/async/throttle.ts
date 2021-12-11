@@ -6,6 +6,7 @@ import {createOperation, throwOnSync} from '../../utils';
  *
  * Throws an error during iteration, if inside a synchronous pipeline.
  *
+ * @see [[delay]]
  * @category Async-only
  */
 export function throttle<T>(cb: (value: T, index: number, state: IterationState) => Promise<any>): Operation<T, T> {

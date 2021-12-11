@@ -6,6 +6,7 @@ import {createOperation} from '../utils';
  *
  * Throws an error when the page size is less than 1 or not a `number`.
  *
+ * @see [[split]]
  * @category Sync+Async
  */
 export function page<T>(size: number): Operation<T, T[]> {
