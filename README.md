@@ -135,7 +135,7 @@ All standard operators implement the same logic as [Array] does:
 * [toArray()](http://vitaly-t.github.io/iter-ops/modules.html#toArray) - accumulates values into an array, and produces
   a one-value iterable.
 
-See also:
+#### <i>See also:</i>
 
 * [Full Documentation] - generated from code
 * [Asynchronous Operators](./src/ops/async) - specific for asynchronous iterables

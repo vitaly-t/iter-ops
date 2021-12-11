@@ -5,12 +5,11 @@ import {createOperation} from '../utils';
  * Aggregates/accumulates all values into array, passes it into the callback/aggregate,
  * to process the data and return the result.
  *
- * If the callback result is an iterable that you want to emit values,
- * follow it up with the spread operator.
+ * If the callback result is an iterable that you want to emit values, follow it up with the [[spread]] operator.
  *
  * It basically repeats the logic of combining [[toArray]] + [[map]].
  *
- * @see [[toArray]]
+ * @see {@link https://github.com/vitaly-t/iter-ops/wiki/Aggregates Aggregates}
  * @category Sync+Async
  */
 export function aggregate<T, R>(cb: (arr: T[]) => R): Operation<T, R> {
