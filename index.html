@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>ITER-OPS v0.8.1</title><meta name="description" content="Documentation for ITER-OPS v0.8.1"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">ITER-OPS v0.8.1</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>ITER-OPS v0.8.1</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>ITER-OPS v0.8.2</title><meta name="description" content="Documentation for ITER-OPS v0.8.2"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">ITER-OPS v0.8.2</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>ITER-OPS v0.8.2</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
 <a href="#iter-ops" id="iter-ops" style="color: inherit; text-decoration: none;">
   <h2>iter-ops</h2>
 </a>
@@ -35,7 +35,7 @@
 <p>Follow the usage examples below, based on your development environment.</p>
 <p><em>See also...</em></p>
 <ul>
-<li><a href="#api">Official API</a> below</li>
+<li><a href="#api">API List</a> below, plus <a href="https://vitaly-t.github.io/iter-ops">Full Documentation</a></li>
 <li><a href="https://github.com/vitaly-t/iter-ops/wiki/Recipes">Recipes</a>, for additional operations</li>
 <li><a href="./benchmarks">Benchmarks</a>, for performance comparison</li>
 </ul>
@@ -59,59 +59,76 @@
   <h2>API</h2>
 </a>
 <p>Function <a href="https://github.com/vitaly-t/iter-ops/blob/main/src/pipe.ts">pipe</a> takes an <a href="https://javascript.info/iterable">Iterable</a>, applies all specified operators to it, and returns
-<a href="https://github.com/vitaly-t/iter-ops/blob/main/src/types.ts#L25">IterableExt</a>.</p>
+<a href="http://github.com/vitaly-t/iter-ops/blob/main/src/types.ts#L25">IterableExt</a>.</p>
 
 <a href="#standard-operators" id="standard-operators" style="color: inherit; text-decoration: none;">
   <h4><i>Standard operators:</i></h4>
 </a>
 <p>All standard operators implement the same logic as <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> does:</p>
 <ul>
-<li><a href="./src/ops/concat.ts">concat</a> - merges current iterable with multiple values, iterators or iterables.</li>
-<li><a href="./src/ops/filter.ts">filter</a> - standard filter processor, extended for <a href="https://github.com/vitaly-t/iter-ops/wiki/Iteration-State">state</a> support.</li>
-<li><a href="./src/ops/map.ts">map</a> - standard mapping processor, extended for <a href="https://github.com/vitaly-t/iter-ops/wiki/Iteration-State">state</a> support.</li>
-<li><a href="./src/ops/reduce.ts">reduce</a> - <code>reduce</code> processor (with <a href="https://github.com/vitaly-t/iter-ops/wiki/Iteration-State">state</a> support), which produces a one-value iterable.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#concat">concat</a> - merges current iterable with multiple values,
+iterators or iterables.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#filter">filter</a> - standard filter processor, extended for <a href="https://github.com/vitaly-t/iter-ops/wiki/Iteration-State">state</a>
+support.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#map">map</a> - standard mapping processor, extended for <a href="https://github.com/vitaly-t/iter-ops/wiki/Iteration-State">state</a> support.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#reduce">reduce</a> - <code>reduce</code> processor (with <a href="https://github.com/vitaly-t/iter-ops/wiki/Iteration-State">state</a> support), which
+produces a one-value iterable.</li>
 </ul>
 
 <a href="#extended-operators" id="extended-operators" style="color: inherit; text-decoration: none;">
   <h4><i>Extended operators:</i></h4>
 </a>
 <ul>
-<li><a href="./src/ops/aggregate.ts">aggregate(values =&gt; result)</a> - executes an aggregate on accumulated values - see <a href="https://github.com/vitaly-t/iter-ops/wiki/Aggregates">Aggregates</a>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#aggregate">aggregate(values =&gt; result)</a> - executes an aggregate on
+accumulated values - see <a href="https://github.com/vitaly-t/iter-ops/wiki/Aggregates">Aggregates</a>
 .</li>
-<li><a href="./src/ops/catch-error.ts">catchError((error, ctx) =&gt; void)</a> - catches iteration errors - see <a href="https://github.com/vitaly-t/iter-ops/wiki/Error-Handling">Error Handling</a>.</li>
-<li><a href="./src/ops/count.ts">count()</a> - counts values, and produces a one-value iterable.</li>
-<li><a href="./src/ops/default-empty.ts">defaultEmpty(value | iterator | iterable)</a> - adds default to an empty iterable.</li>
-<li><a href="./src/ops/distinct.ts">distinct(?(value, index) =&gt; key)</a> - emits unique values, with optional key selector.</li>
-<li><a href="./src/ops/empty.ts">empty()</a> - produces an empty iterable.</li>
-<li><a href="./src/ops/is-empty.ts">isEmpty()</a> - produces a one-value iterable, indicating if the source is empty.</li>
-<li><a href="./src/ops/last.ts">last(?(value, index) =&gt; boolean)</a> - produces a one-value iterable, with the last emitted value.
-When optional predicate is provided, the last value satisfying it will be emitted.</li>
-<li><a href="./src/ops/page.ts">page(size)</a> - splits values into pages of fixed size (last page can be smaller).<ul>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#catchError">catchError((error, ctx) =&gt; void)</a> - catches iteration
+errors - see <a href="https://github.com/vitaly-t/iter-ops/wiki/Error-Handling">Error Handling</a>.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#count">count()</a> - counts values, and produces a one-value iterable.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#defaultEmpty">defaultEmpty(value | iterator | iterable)</a> - adds
+default to an empty iterable.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#distinct">distinct(?(value, index) =&gt; key)</a> - emits unique values,
+with optional key selector.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#empty">empty()</a> - produces an empty iterable.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#isEmpty">isEmpty()</a> - produces a one-value iterable, indicating if
+the source is empty.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#last">last(?(value, index) =&gt; boolean)</a> - produces a one-value
+iterable, with the last emitted value. When optional predicate is provided, the last value satisfying it will be
+emitted.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#page">page(size)</a> - splits values into pages of fixed size (last page
+can be smaller).<ul>
 <li>equivalent 1: <code>split((_, index) =&gt; index.list &gt;= size, {carryEnd: 1})</code></li>
 <li>equivalent 2: <code>split((_, index) =&gt; index.list &gt;= size - 1, {carryEnd: -1})</code></li>
 </ul>
 </li>
-<li><a href="./src/ops/repeat.ts">repeat(count | cb)</a> - repeats each value <code>count</code> times, or according to the callback. </li>
-<li><a href="./src/ops/skip.ts">skip(count)</a> - starts emitting values after <code>count</code> number of values;<ul>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#repeat">repeat(count | cb)</a> - repeats each value <code>count</code> times, or
+according to the callback.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#skip">skip(count)</a> - starts emitting values after <code>count</code> number of
+values;<ul>
 <li>it is equivalent to <code>start((_, index) =&gt; index &gt;= count)</code></li>
 </ul>
 </li>
-<li><a href="./src/ops/split.ts">split(predicate, options)</a> - splits values into separate lists, based on predicate - see <a href="https://github.com/vitaly-t/iter-ops/wiki/Split">Split</a>.</li>
-<li><a href="./src/ops/spread.ts">spread()</a> - spreads iterable values.</li>
-<li><a href="./src/ops/start.ts">start((value, index, state) =&gt; boolean)</a> - starts emitting, once the predicate returns a truthy
-value.</li>
-<li><a href="./src/ops/stop.ts">stop((value, index, state) =&gt; boolean)</a> - stops emitting, once the predicate returns a truthy
-value.</li>
-<li><a href="./src/ops/take.ts">take(count)</a> - emits up to <code>count</code> number of values;<ul>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#split">split(predicate, options)</a> - splits values into separate
+lists, based on predicate - see <a href="https://github.com/vitaly-t/iter-ops/wiki/Split">Split</a>.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#spread">spread()</a> - spreads iterable values.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#start">start((value, index, state) =&gt; boolean)</a> - starts emitting,
+once the predicate returns a truthy value.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#stop">stop((value, index, state) =&gt; boolean)</a> - stops emitting, once
+the predicate returns a truthy value.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#take">take(count)</a> - emits up to <code>count</code> number of values;<ul>
 <li>it is equivalent to <code>stop((_, index) =&gt; index &gt;= count)</code></li>
 </ul>
 </li>
-<li><a href="./src/ops/take-last.ts">takeLast(count)</a> - emits up to <code>count</code> number of the last values.</li>
-<li><a href="./src/ops/tap.ts">tap((value, index, state) =&gt; void)</a> - taps into each value, without changing the output.</li>
-<li><a href="./src/ops/to-array.ts">toArray()</a> - accumulates values into an array, and produces a one-value iterable.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#takeLast">takeLast(count)</a> - emits up to <code>count</code> number of the last
+values.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#tap">tap((value, index, state) =&gt; void)</a> - taps into each value,
+without changing the output.</li>
+<li><a href="http://vitaly-t.github.io/iter-ops/modules.html#toArray">toArray()</a> - accumulates values into an array, and produces
+a one-value iterable.</li>
 </ul>
 <p>See also:</p>
 <ul>
+<li><a href="https://vitaly-t.github.io/iter-ops">Full Documentation</a> - generated from code</li>
 <li><a href="./src/ops/async">Asynchronous Operators</a> - specific for asynchronous iterables</li>
 <li><a href="https://github.com/vitaly-t/iter-ops/wiki/Recipes">Recipes</a> - for more operations.</li>
 </ul>
