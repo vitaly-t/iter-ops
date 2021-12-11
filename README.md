@@ -78,46 +78,46 @@ const result = i.first; //=> 10
 ## API
 
 Function [pipe] takes an [Iterable], applies all specified operators to it, and returns
-[IterableExt](https://github.com/vitaly-t/iter-ops/blob/main/src/types.ts#L25).
+[IterableExt](http://github.com/vitaly-t/iter-ops/blob/main/src/types.ts#L25).
 
 #### <i>Standard operators:</i>
 
 All standard operators implement the same logic as [Array] does:
 
-* [concat](./src/ops/concat.ts) - merges current iterable with multiple values, iterators or iterables.
-* [filter](./src/ops/filter.ts) - standard filter processor, extended for [state] support.
-* [map](./src/ops/map.ts) - standard mapping processor, extended for [state] support.
-* [reduce](./src/ops/reduce.ts) - `reduce` processor (with [state] support), which produces a one-value iterable.
+* [concat](http://vitaly-t.github.io/iter-ops/modules.html#concat) - merges current iterable with multiple values, iterators or iterables.
+* [filter](http://vitaly-t.github.io/iter-ops/modules.html#filter) - standard filter processor, extended for [state] support.
+* [map](http://vitaly-t.github.io/iter-ops/modules.html#map) - standard mapping processor, extended for [state] support.
+* [reduce](http://vitaly-t.github.io/iter-ops/modules.html#reduce) - `reduce` processor (with [state] support), which produces a one-value iterable.
 
 #### <i>Extended operators:</i>
 
-* [aggregate(values => result)](./src/ops/aggregate.ts) - executes an aggregate on accumulated values - see [Aggregates]
+* [aggregate(values => result)](http://vitaly-t.github.io/iter-ops/modules.html#aggregate) - executes an aggregate on accumulated values - see [Aggregates]
   .
-* [catchError((error, ctx) => void)](./src/ops/catch-error.ts) - catches iteration errors - see [Error Handling].
-* [count()](./src/ops/count.ts) - counts values, and produces a one-value iterable.
-* [defaultEmpty(value | iterator | iterable)](./src/ops/default-empty.ts) - adds default to an empty iterable.
-* [distinct(?(value, index) => key)](./src/ops/distinct.ts) - emits unique values, with optional key selector.
-* [empty()](./src/ops/empty.ts) - produces an empty iterable.
-* [isEmpty()](./src/ops/is-empty.ts) - produces a one-value iterable, indicating if the source is empty.
-* [last(?(value, index) => boolean)](./src/ops/last.ts) - produces a one-value iterable, with the last emitted value.
+* [catchError((error, ctx) => void)](http://vitaly-t.github.io/iter-ops/modules.html#catchError) - catches iteration errors - see [Error Handling].
+* [count()](http://vitaly-t.github.io/iter-ops/modules.html#count) - counts values, and produces a one-value iterable.
+* [defaultEmpty(value | iterator | iterable)](http://vitaly-t.github.io/iter-ops/modules.html#defaultEmpty) - adds default to an empty iterable.
+* [distinct(?(value, index) => key)](http://vitaly-t.github.io/iter-ops/modules.html#distinct) - emits unique values, with optional key selector.
+* [empty()](http://vitaly-t.github.io/iter-ops/modules.html#empty) - produces an empty iterable.
+* [isEmpty()](http://vitaly-t.github.io/iter-ops/modules.html#isEmpty) - produces a one-value iterable, indicating if the source is empty.
+* [last(?(value, index) => boolean)](http://vitaly-t.github.io/iter-ops/modules.html#last) - produces a one-value iterable, with the last emitted value.
   When optional predicate is provided, the last value satisfying it will be emitted.
-* [page(size)](./src/ops/page.ts) - splits values into pages of fixed size (last page can be smaller).
+* [page(size)](http://vitaly-t.github.io/iter-ops/modules.html#page) - splits values into pages of fixed size (last page can be smaller).
     - equivalent 1: `split((_, index) => index.list >= size, {carryEnd: 1})`
     - equivalent 2: `split((_, index) => index.list >= size - 1, {carryEnd: -1})`
-* [repeat(count | cb)](./src/ops/repeat.ts) - repeats each value `count` times, or according to the callback. 
-* [skip(count)](./src/ops/skip.ts) - starts emitting values after `count` number of values;
+* [repeat(count | cb)](http://vitaly-t.github.io/iter-ops/modules.html#repeat) - repeats each value `count` times, or according to the callback. 
+* [skip(count)](http://vitaly-t.github.io/iter-ops/modules.html#skip) - starts emitting values after `count` number of values;
     - it is equivalent to `start((_, index) => index >= count)`
-* [split(predicate, options)](./src/ops/split.ts) - splits values into separate lists, based on predicate - see [Split].
-* [spread()](./src/ops/spread.ts) - spreads iterable values.
-* [start((value, index, state) => boolean)](./src/ops/start.ts) - starts emitting, once the predicate returns a truthy
+* [split(predicate, options)](http://vitaly-t.github.io/iter-ops/modules.html#split) - splits values into separate lists, based on predicate - see [Split].
+* [spread()](http://vitaly-t.github.io/iter-ops/modules.html#spread) - spreads iterable values.
+* [start((value, index, state) => boolean)](http://vitaly-t.github.io/iter-ops/modules.html#start) - starts emitting, once the predicate returns a truthy
   value.
-* [stop((value, index, state) => boolean)](./src/ops/stop.ts) - stops emitting, once the predicate returns a truthy
+* [stop((value, index, state) => boolean)](http://vitaly-t.github.io/iter-ops/modules.html#stop) - stops emitting, once the predicate returns a truthy
   value.
-* [take(count)](./src/ops/take.ts) - emits up to `count` number of values;
+* [take(count)](http://vitaly-t.github.io/iter-ops/modules.html#take) - emits up to `count` number of values;
     - it is equivalent to `stop((_, index) => index >= count)`
-* [takeLast(count)](./src/ops/take-last.ts) - emits up to `count` number of the last values.
-* [tap((value, index, state) => void)](./src/ops/tap.ts) - taps into each value, without changing the output.
-* [toArray()](./src/ops/to-array.ts) - accumulates values into an array, and produces a one-value iterable.
+* [takeLast(count)](http://vitaly-t.github.io/iter-ops/modules.html#takeLast) - emits up to `count` number of the last values.
+* [tap((value, index, state) => void)](http://vitaly-t.github.io/iter-ops/modules.html#tap) - taps into each value, without changing the output.
+* [toArray()](http://vitaly-t.github.io/iter-ops/modules.html#toArray) - accumulates values into an array, and produces a one-value iterable.
 
 See also:
 
