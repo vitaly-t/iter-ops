@@ -137,6 +137,7 @@ All standard operators implement the same logic as [Array] does:
 
 See also:
 
+* [Full Documentation] - generated from code
 * [Asynchronous Operators](./src/ops/async) - specific for asynchronous iterables
 * [Recipes] - for more operations.
 

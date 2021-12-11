@@ -2,7 +2,7 @@ import {Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Starts emitting values after "count" number of values.
+ * Starts emitting values after `count` number of values.
  *
  * @category Sync+Async
  */
