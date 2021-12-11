@@ -1,6 +1,6 @@
 {
   "name": "ITER-OPS v0.8.4",
-  "out": "docs",
+  "out": "../iter-ops/docs",
   "excludeExternals": true,
   "excludePrivate": true,
   "excludeNotDocumented": true,
@@ -10,7 +10,11 @@
   ],
   "entryPointStrategy": "Resolve",
   "tsconfig": "src/tsconfig.json",
-  "categoryOrder": ["Core", "Sync+Async", "*"],
+  "categoryOrder": [
+    "Core",
+    "Sync+Async",
+    "*"
+  ],
   "hideGenerator": true,
   "customCss": "./typedoc.css",
   "exclude": [
