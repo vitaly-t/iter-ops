@@ -4,7 +4,9 @@ import {createOperation} from '../utils';
 /**
  * Splits values into pages of fixed size (last page can be smaller).
  *
- * Throws an error when page size is less than 1 or not a number.
+ * Throws an error when the page size is less than 1 or not a `number`.
+ *
+ * @category Sync+Async
  */
 export function page<T>(size: number): Operation<T, T[]> {
     return createOperation(pageSync, pageAsync, arguments);

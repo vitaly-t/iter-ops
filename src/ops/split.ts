@@ -2,7 +2,7 @@ import {IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Value index details, during "split" operation.
+ * Value index details, during `split` operation.
  */
 export interface ISplitIndex {
     /**
@@ -99,6 +99,8 @@ export enum SplitValueCarry {
  * Note that in toggle mode, you cannot use carryStart=back (it will be ignored),
  * because it would delay emission of the current block indefinitely, plus carrying
  * block start backward doesn't make much sense anyway.
+ *
+ * @category Sync+Async
  */
 export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): Operation<T, T[]> {
     return createOperation(splitSync, splitAsync, arguments);

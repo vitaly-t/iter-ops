@@ -5,6 +5,8 @@ import {createOperation} from '../utils';
  * Produces a one-value iterable, with the last emitted value.
  *
  * When optional predicate is provided, the last value satisfying it will be emitted.
+ *
+ * @category Sync+Async
  */
 export function last<T>(cb?: (value: T, index: number) => boolean): Operation<T, T> {
     return createOperation(lastSync, lastAsync, arguments);

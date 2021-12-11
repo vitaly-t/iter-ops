@@ -6,6 +6,8 @@ import {createOperation} from '../utils';
  *
  * It requires that the input iterable emits iterable values only,
  * or else it will throw an error.
+ *
+ * @category Sync+Async
  */
 export function spread<T>(): Operation<Iterable<T> | AsyncIterable<T>, T> {
     return createOperation(spreadSync as any, spreadAsync as any);

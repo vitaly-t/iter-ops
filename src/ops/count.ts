@@ -4,6 +4,8 @@ import {createOperation} from '../utils';
 /**
  * Goes through the entire iterable, counting the values,
  * and produces a one-value iterable with the count.
+ *
+ * @category Sync+Async
  */
 export function count<T>(): Operation<T, number> {
     return createOperation(countSync, countAsync);

@@ -2,8 +2,9 @@ import {Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Checks if the iterable can produce any value,
- * and returns a one-value iterable with the flag.
+ * Checks if the iterable can produce any value, and returns a one-value iterable with the boolean flag.
+ *
+ * @category Sync+Async
  */
 export function isEmpty<T>(): Operation<T, boolean> {
     return createOperation(isEmptySync, isEmptyAsync);

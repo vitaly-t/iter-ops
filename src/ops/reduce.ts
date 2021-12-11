@@ -4,7 +4,9 @@ import {createOperation} from '../utils';
 /**
  * Standard reducer for the iterable, extended for supporting iteration state.
  *
- * See also: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
+ * @see [Array.reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce)
+ *
+ * @category Sync+Async
  */
 export function reduce<T>(cb: (previousValue: T, currentValue: T, index: number, state: IterationState) => T, initialValue?: T): Operation<T, T> {
     return createOperation(reduceSync, reduceAsync, arguments);

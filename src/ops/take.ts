@@ -2,7 +2,9 @@ import {Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Emits up to "count" number of values.
+ * Emits up to `count` number of values.
+ *
+ * @category Sync+Async
  */
 export function take<T>(count: number): Operation<T, T> {
     return createOperation(takeSync, takeAsync, arguments);

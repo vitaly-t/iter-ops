@@ -83,7 +83,7 @@ export type AnySync<T> = T | Iterator<T> | Iterable<T>;
 export type Any<T> = AnySync<T> | AsyncIterator<T> | AsyncIterable<T>;
 
 /**
- * Iteration State.
+ * Iteration Session State.
  *
  * An object with random properties, shared between callbacks during an iteration session,
  * for any intermediate processing/tracking data that the callback logic may require.

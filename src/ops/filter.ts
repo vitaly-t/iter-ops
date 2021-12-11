@@ -4,7 +4,9 @@ import {createOperation} from '../utils';
 /**
  * Standard filter logic for the iterable, extended for supporting iteration state.
  *
- * See also: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+ * @see [Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+ *
+ * @category Sync+Async
  */
 export function filter<T>(cb: (value: T, index: number, state: IterationState) => boolean): Operation<T, T> {
     return createOperation(filterSync, filterAsync, arguments);

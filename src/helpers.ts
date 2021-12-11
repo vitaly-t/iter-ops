@@ -1,5 +1,7 @@
 /**
  * Converts any synchronous iterable into asynchronous one.
+ *
+ * @category Core
  */
 export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
     return {

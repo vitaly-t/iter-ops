@@ -7,9 +7,11 @@ import {createOperation} from '../utils';
  * What you can do inside the error handler:
  *
  * - nothing (we let it skip the value);
- * - provide a new/alternative value (via ctx.emit(value));
+ * - provide a new/alternative value (via `ctx.emit(value)`);
  * - re-throw the original error;
  * - throw a new error.
+ *
+ * @category Sync+Async
  */
 export function catchError<T>(cb: (error: any, ctx: IErrorContext<T>) => void): Operation<T, T> {
     return createOperation(catchErrorSync, catchErrorAsync, arguments);

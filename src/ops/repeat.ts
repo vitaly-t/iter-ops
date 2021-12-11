@@ -3,16 +3,21 @@ import {createOperation} from '../utils';
 
 /**
  * Repeats every value specified number of times.
+ *
+ * @category Sync+Async
  */
 export function repeat<T>(count: number): Operation<T, T>;
 
 /**
- * Repeats every value, while the callback is returning true (or resolves with true).
- * `index` - original value index;
- * `count` - repeats count thus far (starts with 0).
+ * Repeats every value, while the callback is returning `true` (or resolves with `true`).
+ * - `index` - original value index;
+ * - `count` - repeats count thus far (starts with 0);
+ * - `state` - iteration state.
  *
  * Note that the promise version works only inside an asynchronous pipeline, or else
  * the promise will be treated as a simple value.
+ *
+ * @category Sync+Async
  */
 export function repeat<T>(cb: (value: T, index: number, count: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T>;
 

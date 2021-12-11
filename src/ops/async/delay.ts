@@ -6,6 +6,8 @@ import {createOperation, throwOnSync} from '../../utils';
  * When the timeout is a negative number, it is not added.
  *
  * Throws an error during iteration, if inside a synchronous pipeline.
+ *
+ * @category Async-only
  */
 export function delay<T>(timeout: number): Operation<T, T>;
 
@@ -17,6 +19,8 @@ export function delay<T>(timeout: number): Operation<T, T>;
  * confusion with what operator `throttle` does.
  *
  * Throws an error during iteration, if inside a synchronous pipeline.
+ *
+ * @category Async-only
  */
 export function delay<T>(cb: (value: T, index: number, state: IterationState) => number): Operation<T, T>;
 

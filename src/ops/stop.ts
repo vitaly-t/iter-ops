@@ -3,6 +3,8 @@ import {createOperation} from '../utils';
 
 /**
  * Stops emitting values, once the predicate returns a truthy value.
+ *
+ * @category Sync+Async
  */
 export function stop<T>(cb: (value: T, index: number, state: IterationState) => boolean): Operation<T, T> {
     return createOperation(stopSync, stopAsync, arguments);

@@ -3,6 +3,8 @@ import {createOperation} from '../utils';
 
 /**
  * Emits unique values, with optional key selector.
+ *
+ * @category Sync+Async
  */
 export function distinct<T, K>(keySelector?: (value: T, index: number) => K): Operation<T, T> {
     return createOperation(distinctSync, distinctAsync, arguments);

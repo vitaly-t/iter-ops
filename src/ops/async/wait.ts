@@ -6,6 +6,8 @@ import {createOperation, throwOnSync} from '../../utils';
  * i.e. the same logic as for JavaScript operator `await`.
  *
  * Throws an error during iteration, if inside a synchronous pipeline.
+ *
+ * @category Async-only
  */
 export function wait<T>(): Operation<Promise<T> | T, T>;
 

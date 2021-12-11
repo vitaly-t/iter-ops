@@ -7,6 +7,8 @@ import {createOperation} from '../utils';
  *
  * If the callback result is an iterable that you want to emit values,
  * follow it up with the spread operator.
+ *
+ * @category Sync+Async
  */
 export function aggregate<T, R>(cb: (arr: T[]) => R): Operation<T, R> {
     return createOperation(aggregateSync, aggregateAsync, arguments);

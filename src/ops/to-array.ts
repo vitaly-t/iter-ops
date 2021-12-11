@@ -3,6 +3,8 @@ import {createOperation} from '../utils';
 
 /**
  * Accumulates all values and emits an array.
+ *
+ * @category Sync+Async
  */
 export function toArray<T>(): Operation<T, T[]> {
     return createOperation(toArraySync, toArrayAsync);

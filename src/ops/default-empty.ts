@@ -3,6 +3,8 @@ import {createOperation} from '../utils';
 
 /**
  * Adds default value|iterator|iterable to an empty iterable.
+ *
+ * @category Sync+Async
  */
 export function defaultEmpty<T, D>(value: AnyIterable<D>): Operation<T, T | D>;
 export function defaultEmpty<T, D>(value: AnyIterator<D>): Operation<T, T | D>;

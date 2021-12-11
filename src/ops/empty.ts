@@ -3,6 +3,8 @@ import {createOperation} from '../utils';
 
 /**
  * Produces an empty iterable.
+ *
+ * @category Sync+Async
  */
 export function empty<T>(): Operation<T, T> {
     return createOperation(emptySync, emptyAsync);

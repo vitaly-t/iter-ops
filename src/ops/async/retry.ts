@@ -5,9 +5,11 @@ import {createOperation, throwOnSync} from '../../utils';
  * When the iterable rejects, retries getting the value specified number of times.
  *
  * Note that retries deplete values prior the operator that threw the error,
- * and so it is often used in combination with operator `repeat`.
+ * and so it is often used in combination with operator {@link repeat}.
  *
  * Throws an error during iteration, if inside a synchronous pipeline.
+ *
+ * @category Async-only
  */
 export function retry<T>(attempts: number): Operation<T, T>;
 
@@ -21,9 +23,11 @@ export function retry<T>(attempts: number): Operation<T, T>;
  * - `state` - state for the entire iteration session
  *
  * Note that retries deplete values prior the operator that threw the error,
- * and so it is often used in combination with operator `repeat`.
+ * and so it is often used in combination with operator {@link repeat}.
  *
  * Throws an error during iteration, if inside a synchronous pipeline.
+ *
+ * @category Async-only
  */
 export function retry<T>(cb: (index: number, attempts: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T>;
 

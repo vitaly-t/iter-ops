@@ -2,7 +2,9 @@ import {Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Emits up to "count" number of the last values.
+ * Emits up to `count` number of the last values.
+ *
+ * @category Sync+Async
  */
 export function takeLast<T>(count: number): Operation<T, T> {
     return createOperation(takeLastSync, takeLastAsync, arguments);

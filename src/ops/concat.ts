@@ -5,7 +5,9 @@ import {createOperation} from '../utils';
  * Merges current iterable with a list of values, iterators or iterables.
  * Merged inputs are iterated over after depleting the current iterable.
  *
- * See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
+ * @see: [Array.concat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat)
+ *
+ * @category Sync+Async
  */
 export function concat<T>(): Operation<T, T>;
 export function concat<T, A>(v0: Any<A>): Operation<T, T | A>;

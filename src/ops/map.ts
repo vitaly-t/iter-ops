@@ -4,7 +4,9 @@ import {createOperation} from '../utils';
 /**
  * Standard map logic for the iterable, extended for supporting iteration state.
  *
- * See also: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+ * @see [Array.map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+ *
+ * @category Sync+Async
  */
 export function map<T, R>(cb: (value: T, index: number, state: IterationState) => R): Operation<T, R> {
     return createOperation(mapSync, mapAsync, arguments);

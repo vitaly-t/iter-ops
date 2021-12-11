@@ -3,6 +3,8 @@ import {extendAsyncIterable, extendIterable, optimizeIterable} from './utils';
 
 /**
  * Pipes a synchronous iterable through the list of operators, and returns an extended synchronous iterable.
+ *
+ * @category Core
  */
 export function pipe<T>(i: Iterable<T>): IterableExt<T>;
 export function pipe<T, A>(i: Iterable<T>, p0: Operation<T, A>): IterableExt<A>;
@@ -18,6 +20,8 @@ export function pipe<T, A, B, C, D, E, F, G, H, I, J>(i: Iterable<T>, p0: Operat
 
 /**
  * Pipes an asynchronous iterable through the list of operators, and returns an extended asynchronous iterable.
+ *
+ * @category Core
  */
 export function pipe<T>(i: AnyIterable<T>): AsyncIterableExt<T>;
 export function pipe<T, A>(i: AnyIterable<T>, p0: Operation<T, A>): AsyncIterableExt<A>;
