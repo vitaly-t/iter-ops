@@ -4,6 +4,7 @@ import {createOperation} from '../utils';
 /**
  * Emits up to `count` number of the last values.
  *
+ * @see [[take]]
  * @category Sync+Async
  */
 export function takeLast<T>(count: number): Operation<T, T> {

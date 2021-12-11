@@ -4,6 +4,7 @@ import {createOperation} from '../utils';
 /**
  * Produces an empty iterable.
  *
+ * @see [[isEmpty]], [[defaultEmpty]]
  * @category Sync+Async
  */
 export function empty<T>(): Operation<T, T> {

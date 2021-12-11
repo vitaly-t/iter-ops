@@ -4,6 +4,7 @@ import {createOperation} from '../utils';
 /**
  * Emits up to `count` number of values.
  *
+ * @see [[takeLast]]
  * @category Sync+Async
  */
 export function take<T>(count: number): Operation<T, T> {

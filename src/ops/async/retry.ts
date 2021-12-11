@@ -20,7 +20,7 @@ export function retry<T>(attempts: number): Operation<T, T>;
  *
  * The callback is only invoked when there is a failure, and it receives:
  * - `index` - index of the iterable value that we failed to acquire
- * - `attempts` - number of retry attempts we've made so far (starts with 0)
+ * - `attempts` - number of retry attempts made so far (starts with 0)
  * - `state` - state for the entire iteration session
  *
  * Note that retries deplete values prior the operator that threw the error,

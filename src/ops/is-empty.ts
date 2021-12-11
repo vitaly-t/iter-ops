@@ -4,6 +4,7 @@ import {createOperation} from '../utils';
 /**
  * Checks if the iterable can produce any value, and returns a one-value iterable with the boolean flag.
  *
+ * @see [[empty]], [[defaultEmpty]]
  * @category Sync+Async
  */
 export function isEmpty<T>(): Operation<T, boolean> {

@@ -2,8 +2,9 @@ import {Any, AnySync, AnyIterable, AnyIterator, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Adds default value|iterator|iterable to an empty iterable.
+ * Adds default `value/iterator/iterable` to an empty iterable.
  *
+ * @see [[empty]], [[isEmpty]]
  * @category Sync+Async
  */
 export function defaultEmpty<T, D>(value: AnyIterable<D>): Operation<T, T | D>;

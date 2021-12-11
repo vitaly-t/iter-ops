@@ -4,6 +4,7 @@ import {createOperation} from '../utils';
 /**
  * Starts emitting values, once the predicate returns a truthy value.
  *
+ * @see [[stop]]
  * @category Sync+Async
  */
 export function start<T>(cb: (value: T, index: number, state: IterationState) => boolean): Operation<T, T> {
