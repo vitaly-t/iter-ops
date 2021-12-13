@@ -46,6 +46,9 @@ export interface IterableExt<T> extends Iterable<T> {
      * - `undefined`, if the iterable produced nothing.
      *
      * It is to simplify use of one-value iterables.
+     *
+     * IMPORTANT: It creates a new iterator from the iterable,
+     * so you shouldn't be accessing it more than once.
      */
     readonly first: T | undefined;
 
@@ -64,6 +67,9 @@ export interface AsyncIterableExt<T> extends AsyncIterable<T> {
      * - `Promise<undefined>`, if the iterable produced nothing.
      *
      * It is to simplify use of one-value iterables.
+     *
+     * IMPORTANT: It creates a new iterator from the iterable,
+     * so you shouldn't be accessing it more than once.
      */
     readonly first: Promise<T | undefined>;
 
