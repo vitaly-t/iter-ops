@@ -27,39 +27,43 @@ export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
     };
 }
 
-export function toIterable<T>(i: T): Iterable<T>;
+/**
+ * Converts a synchronous iterator into a synchronous iterable, so it can be used as a pipeline input.
+ *
+ * Note that a correct iterator can only be determined by starting the iteration, which is what this method does.
+ * So if getting the first iterator value throws an error, it will occur outside the pipeline.
+ */
 export function toIterable<T>(i: Iterator<T>): Iterable<T>;
+
+/**
+ * Converts an asynchronous iterator into asynchronous iterable, so it can be used as a pipeline input.
+ *
+ * Note that a correct iterator can only be determined by starting the iteration, which is what this method does.
+ * So if getting the first iterator value throws an error, it will occur outside the pipeline.
+ */
 export function toIterable<T>(i: AsyncIterator<T>): AsyncIterable<T>;
+
+/**
+ * Converts a random value into a synchronous iterable, so it can be used as a pipeline input.
+ */
+export function toIterable<T>(i: T): Iterable<T>;
 
 export function toIterable<T>(i: any): any {
     let value = i?.next;
     if (typeof value === 'function') {
-        value = value.call(i);
+        value = value.call(i); // this line may throw (outside the pipeline)
         let s: any = typeof value?.then === 'function' && Symbol.asyncIterator;
         if (s || (typeof value === 'object' && 'value' in (value ?? {}))) {
             s = s ?? Symbol.iterator;
             return {
                 [s]: () => ({
                     next() {
-                        this.next = i.next.bind(i);
+                        this.next = i.next.bind(i); // redirecting into the original iterator
                         return value;
                     }
                 })
             };
         }
     }
-    return {
-        [Symbol.iterator](): Iterator<T> {
-            let finished: boolean;
-            return {
-                next(): IteratorResult<T> {
-                    if (finished) {
-                        return {value: undefined, done: true};
-                    }
-                    finished = true;
-                    return {value, done: false};
-                }
-            };
-        }
-    };
+    return [value];
 }
