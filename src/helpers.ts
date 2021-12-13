@@ -1,5 +1,5 @@
 /**
- * Converts any synchronous Iterable (or Iterator) into asynchronous one.
+ * Converts any synchronous iterable into asynchronous one.
  *
  * It makes possible use of asynchronous-only operators downstream,
  * while also correctly casting all types in the pipeline, avoiding
@@ -14,19 +14,10 @@
  *
  * @category Core
  */
-export function toAsync<T>(i: Iterable<T> | Iterator<T>): AsyncIterable<T> {
+export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
-            const f = (i as Iterable<T>)[Symbol.iterator];
-            let it: Iterator<T>;
-            if (typeof f === 'function') {
-                it = f.call(i);
-            } else {
-                it = i as Iterator<T>;
-                if (typeof it?.next !== 'function') {
-                    throw new TypeError(`Value not iterable: ${JSON.stringify(i)}`);
-                }
-            }
+            const it = i[Symbol.iterator]();
             return {
                 next(): Promise<IteratorResult<T>> {
                     return Promise.resolve(it.next());
@@ -36,15 +27,37 @@ export function toAsync<T>(i: Iterable<T> | Iterator<T>): AsyncIterable<T> {
     };
 }
 
+export function toIterable<T>(i: T): Iterable<T>;
 export function toIterable<T>(i: Iterator<T>): Iterable<T>;
 export function toIterable<T>(i: AsyncIterator<T>): AsyncIterable<T>;
 
-export function toIterable<T>(i: Iterator<T> | AsyncIterator<T>): Iterable<T> | AsyncIterable<T> {
+export function toIterable<T>(i: any): any {
+    let value = i?.next;
+    if (typeof value === 'function') {
+        value = value.call(i);
+        let s: any = typeof value?.then === 'function' && Symbol.asyncIterator;
+        if (s || (typeof value === 'object' && 'value' in (value ?? {}))) {
+            s = s ?? Symbol.iterator;
+            return {
+                [s]: () => ({
+                    next() {
+                        this.next = i.next.bind(i);
+                        return value;
+                    }
+                })
+            };
+        }
+    }
     return {
         [Symbol.iterator](): Iterator<T> {
+            let finished: boolean;
             return {
                 next(): IteratorResult<T> {
-                    return i.next(); //??? Not really possible :(
+                    if (finished) {
+                        return {value: undefined, done: true};
+                    }
+                    finished = true;
+                    return {value, done: false};
                 }
             };
         }
