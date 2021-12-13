@@ -81,43 +81,43 @@ Function [pipe] takes an iterable, applies all specified operators to it, and re
 
 All standard operators implement the same logic as [Array] does:
 
-* [concat](http://vitaly-t.github.io/iter-ops/modules.html#concat) - merges current iterable with multiple values,
+* [concat](http://vitaly-t.github.io/iter-ops/index.html#concat) - merges current iterable with multiple values,
   iterators or iterables.
-* [filter](http://vitaly-t.github.io/iter-ops/modules.html#filter) - standard filter processor, extended for [state]
+* [filter](http://vitaly-t.github.io/iter-ops/index.html#filter) - standard filter processor, extended for [state]
   support.
-* [map](http://vitaly-t.github.io/iter-ops/modules.html#map) - standard mapping processor, extended for [state] support.
-* [reduce](http://vitaly-t.github.io/iter-ops/modules.html#reduce) - `reduce` processor (with [state] support), which
+* [map](http://vitaly-t.github.io/iter-ops/index.html#map) - standard mapping processor, extended for [state] support.
+* [reduce](http://vitaly-t.github.io/iter-ops/index.html#reduce) - `reduce` processor (with [state] support), which
   produces a one-value iterable.
 
 #### <i>Extended operators:</i>
 
-* [aggregate](http://vitaly-t.github.io/iter-ops/modules.html#aggregate) - executes an aggregate on accumulated values -
+* [aggregate](http://vitaly-t.github.io/iter-ops/index.html#aggregate) - executes an aggregate on accumulated values -
   see [Aggregates].
-* [catchError](http://vitaly-t.github.io/iter-ops/modules.html#catchError) - catches iteration errors -
+* [catchError](http://vitaly-t.github.io/iter-ops/index.html#catchError) - catches iteration errors -
   see [Error Handling].
-* [count](http://vitaly-t.github.io/iter-ops/modules.html#count) - counts values, and produces a one-value iterable.
-* [defaultEmpty](http://vitaly-t.github.io/iter-ops/modules.html#defaultEmpty) - adds default to an empty iterable.
-* [distinct](http://vitaly-t.github.io/iter-ops/modules.html#distinct) - emits unique values, with optional key
+* [count](http://vitaly-t.github.io/iter-ops/index.html#count) - counts values, and produces a one-value iterable.
+* [defaultEmpty](http://vitaly-t.github.io/iter-ops/index.html#defaultEmpty) - adds default to an empty iterable.
+* [distinct](http://vitaly-t.github.io/iter-ops/index.html#distinct) - emits unique values, with optional key
   selector.
-* [empty](http://vitaly-t.github.io/iter-ops/modules.html#empty) - produces an empty iterable.
-* [isEmpty](http://vitaly-t.github.io/iter-ops/modules.html#isEmpty) - produces a one-value iterable, indicating if the
+* [empty](http://vitaly-t.github.io/iter-ops/index.html#empty) - produces an empty iterable.
+* [isEmpty](http://vitaly-t.github.io/iter-ops/index.html#isEmpty) - produces a one-value iterable, indicating if the
   source is empty.
-* [last](http://vitaly-t.github.io/iter-ops/modules.html#last) - produces a one-value iterable, with the last emitted
+* [last](http://vitaly-t.github.io/iter-ops/index.html#last) - produces a one-value iterable, with the last emitted
   value.
-* [page](http://vitaly-t.github.io/iter-ops/modules.html#page) - splits values into pages of fixed size (last page can
+* [page](http://vitaly-t.github.io/iter-ops/index.html#page) - splits values into pages of fixed size (last page can
   be smaller).
-* [repeat](http://vitaly-t.github.io/iter-ops/modules.html#repeat) - repeats iterable values.
-* [skip](http://vitaly-t.github.io/iter-ops/modules.html#skip) - starts emitting values after certain count.
-* [split](http://vitaly-t.github.io/iter-ops/modules.html#split) - splits values into separate lists - see [Split].
-* [spread](http://vitaly-t.github.io/iter-ops/modules.html#spread) - spreads iterable values.
-* [start](http://vitaly-t.github.io/iter-ops/modules.html#start) - starts emitting, once the predicate returns a truthy
+* [repeat](http://vitaly-t.github.io/iter-ops/index.html#repeat) - repeats iterable values.
+* [skip](http://vitaly-t.github.io/iter-ops/index.html#skip) - starts emitting values after certain count.
+* [split](http://vitaly-t.github.io/iter-ops/index.html#split) - splits values into separate lists - see [Split].
+* [spread](http://vitaly-t.github.io/iter-ops/index.html#spread) - spreads iterable values.
+* [start](http://vitaly-t.github.io/iter-ops/index.html#start) - starts emitting, once the predicate returns a truthy
   value.
-* [stop](http://vitaly-t.github.io/iter-ops/modules.html#stop) - stops emitting, once the predicate returns a truthy
+* [stop](http://vitaly-t.github.io/iter-ops/index.html#stop) - stops emitting, once the predicate returns a truthy
   value.
-* [take](http://vitaly-t.github.io/iter-ops/modules.html#take) - emits up to certain number of values.
-* [takeLast](http://vitaly-t.github.io/iter-ops/modules.html#takeLast) - emits up to certain number of the last values.
-* [tap](http://vitaly-t.github.io/iter-ops/modules.html#tap) - taps into each value, without changing the output.
-* [toArray](http://vitaly-t.github.io/iter-ops/modules.html#toArray) - accumulates values into an array.
+* [take](http://vitaly-t.github.io/iter-ops/index.html#take) - emits up to certain number of values.
+* [takeLast](http://vitaly-t.github.io/iter-ops/index.html#takeLast) - emits up to certain number of the last values.
+* [tap](http://vitaly-t.github.io/iter-ops/index.html#tap) - taps into each value, without changing the output.
+* [toArray](http://vitaly-t.github.io/iter-ops/index.html#toArray) - accumulates values into an array.
 
 #### <i>See also:</i>
 
