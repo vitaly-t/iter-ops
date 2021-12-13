@@ -59,5 +59,13 @@ export function pipe(i: any, ...p: any[]): IterableExt<any> | AsyncIterableExt<a
     if (i[Symbol.iterator]) {
         return extendIterable(p.reduce((c, a) => a(c), optimizeIterable(i)));
     }
-    return extendAsyncIterable(p.reduce((c, a) => a(c), i));
+    if (i[Symbol.asyncIterator]) {
+        return extendAsyncIterable(p.reduce((c, a) => a(c), i));
+    }
+    if (typeof i?.next !== 'function') {
+        throw new TypeError(`Value not iterable: ${JSON.stringify(i)}`);
+    }
+    // process as iterator...
+
+    // but how?
 }
