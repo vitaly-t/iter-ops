@@ -13,6 +13,24 @@ export interface IErrorContext<T> {
     lastValue?: T;
 
     /**
+     * Number of times the error has been repeated (starts with 0).
+     *
+     * It helps detecting when an iterator starts throwing the same error
+     * in a loop, so a different error-handling strategy can be applied,
+     * such as (for example) re-throwing only when the error is repeated.
+     *
+     * ```ts
+     * .catch((e, ctx) => {
+     *     console.log(e?.message || e);
+     *     if(ctx.repeats) {
+     *         throw e; // re-throw when repeated
+     *     }
+     * });
+     * ```
+     */
+    repeats: number;
+
+    /**
      * Alternative value emitter, to replace what we failed to retrieve.
      * Without this call, the errored value is skipped from iteration.
      */
