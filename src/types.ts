@@ -21,10 +21,10 @@ export interface IErrorContext<T> {
      *
      * ```ts
      * .catch((e, ctx) => {
-     *     console.log(e?.message || e);
      *     if(ctx.repeats) {
      *         throw e; // re-throw when repeated
      *     }
+     *     console.log(e?.message || e); // report the error
      * });
      * ```
      */

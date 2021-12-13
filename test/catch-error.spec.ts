@@ -11,13 +11,32 @@ describe('sync catchError', () => {
                     throw new Error(`ops-${value}`);
                 }
             }),
-            catchError((err, info) => {
-                reports.push({err: err?.message, index: info.index, lastValue: info.lastValue});
+            catchError((err, ctx) => {
+                reports.push({err: err?.message, index: ctx.index, lastValue: ctx.lastValue, repeats: ctx.repeats});
             })
         );
         const result = [...i];
         expect(result).to.eql([1, 2, 4, 5]);
-        expect(reports).to.eql([{err: 'ops-3', index: 2, lastValue: 2}]);
+        expect(reports).to.eql([{err: 'ops-3', index: 2, lastValue: 2, repeats: 0}]);
+    });
+    it('must report repeated errors', () => {
+        const repeatCounts: number[] = [];
+        const i = pipe([1, 2, 3, 4, 5], tap(a => {
+            throw 'ops!';
+        })).catch((e, ctx) => {
+            if (ctx.repeats > 2) {
+                throw 'stop';
+            }
+            repeatCounts.push(ctx.repeats);
+        });
+        let err: any;
+        try {
+            [...i];
+        } catch (e) {
+            err = e;
+        }
+        expect(err).to.eql('stop');
+        expect(repeatCounts).to.eql([0, 1, 2]);
     });
     it('must inject a manually emitted value', () => {
         const i = pipe(
@@ -60,13 +79,32 @@ describe('async catchError', () => {
                     throw new Error(`ops-${value}`);
                 }
             }),
-            catchError((err, info) => {
-                reports.push({err: err?.message, index: info.index, lastValue: info.lastValue});
+            catchError((err, ctx) => {
+                reports.push({err: err?.message, index: ctx.index, lastValue: ctx.lastValue, repeats: ctx.repeats});
             })
         );
         const result = await _asyncValues(i);
         expect(result).to.eql([1, 2, 4, 5]);
-        expect(reports).to.eql([{err: 'ops-3', index: 2, lastValue: 2}]);
+        expect(reports).to.eql([{err: 'ops-3', index: 2, lastValue: 2, repeats: 0}]);
+    });
+    it('must report repeated errors', async () => {
+        const repeatCounts: number[] = [];
+        const i = pipe(_async([1, 2, 3, 4, 5]), tap(a => {
+            throw 'ops!';
+        })).catch((e, ctx) => {
+            if (ctx.repeats > 2) {
+                throw 'stop';
+            }
+            repeatCounts.push(ctx.repeats);
+        });
+        let err: any;
+        try {
+            await _asyncValues(i);
+        } catch (e) {
+            err = e;
+        }
+        expect(err).to.eql('stop');
+        expect(repeatCounts).to.eql([0, 1, 2]);
     });
     it('must inject a manually emitted value', async () => {
         const i = pipe(
