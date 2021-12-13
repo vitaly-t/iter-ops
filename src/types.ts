@@ -47,7 +47,7 @@ export interface IterableExt<T> extends Iterable<T> {
      *
      * It is to simplify use of one-value iterables.
      */
-    readonly first?: T;
+    readonly first: T | undefined;
 
     /**
      * Appends [[catchError]] operator to the pipeline.
@@ -60,12 +60,12 @@ export interface IterableExt<T> extends Iterable<T> {
  */
 export interface AsyncIterableExt<T> extends AsyncIterable<T> {
     /**
-     * - first element produced by the iterable;
-     * - `undefined`, if the iterable produced nothing.
+     * - first element/`Promise` produced by the iterable;
+     * - `Promise<undefined>`, if the iterable produced nothing.
      *
      * It is to simplify use of one-value iterables.
      */
-    readonly first?: T;
+    readonly first: Promise<T | undefined>;
 
     /**
      * Appends catchError operator to the pipeline.
