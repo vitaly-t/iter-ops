@@ -92,6 +92,6 @@ function catchErrorAsync<T>(iterable: AsyncIterable<T>, cb: (error: any, ctx: IE
 /**
  * Helper for determining when we are looking at the same error.
  */
-function sameError(err1: any, err2: any): boolean {
-    return err1 === err2 || (err1?.message && (err1?.message === (err2 as any)?.message));
+function sameError(a: any, b: any): boolean {
+    return a === b || (a?.message && a.message === b?.message);
 }
