@@ -32,6 +32,8 @@ export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
  *
  * Note that a correct iterator can only be determined by starting the iteration, which is what this method does.
  * So if getting the first iterator value throws an error, it will occur outside the pipeline.
+ *
+ * @category Core
  */
 export function toIterable<T>(i: Iterator<T>): Iterable<T>;
 
@@ -40,11 +42,29 @@ export function toIterable<T>(i: Iterator<T>): Iterable<T>;
  *
  * Note that a correct iterator can only be determined by starting the iteration, which is what this method does.
  * So if getting the first iterator value throws an error, it will occur outside the pipeline.
+ *
+ * @category Core
  */
 export function toIterable<T>(i: AsyncIterator<T>): AsyncIterable<T>;
 
 /**
+ * Synchronous type casting helper.
+ *
+ * @hidden
+ */
+export function toIterable<T>(i: { next: () => ({ value: T | undefined }) }): Iterable<T>;
+
+/**
+ * Asynchronous type casting helper.
+ *
+ * @hidden
+ */
+export function toIterable<T>(i: { next: () => (Promise<{ value: T | undefined }>) }): AsyncIterable<T>;
+
+/**
  * Converts a random value into a synchronous iterable, so it can be used as a pipeline input.
+ *
+ * @category Core
  */
 export function toIterable<T>(i: T): Iterable<T>;
 
@@ -73,4 +93,3 @@ export function toIterable<T>(i: any): any {
     }
     return [i];
 }
-
