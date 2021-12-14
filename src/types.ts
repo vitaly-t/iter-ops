@@ -47,7 +47,7 @@ export interface IterableExt<T> extends Iterable<T> {
      *
      * It is to simplify use of one-value iterables.
      *
-     * _IMPORTANT:_ It creates a new iterator from the iterable.
+     * _IMPORTANT:_ It is a getter that creates a new iterator from the iterable.
      */
     readonly first: T | undefined;
 
@@ -67,7 +67,7 @@ export interface AsyncIterableExt<T> extends AsyncIterable<T> {
      *
      * It is to simplify use of one-value iterables.
      *
-     * _IMPORTANT:_ It creates a new iterator from the iterable.
+     * _IMPORTANT:_ It is a getter that creates a new iterator from the iterable.
      */
     readonly first: Promise<T | undefined>;
 
