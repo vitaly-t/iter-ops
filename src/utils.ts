@@ -54,27 +54,47 @@ export function extendAsyncIterable(i: any): AsyncIterableExt<any> {
  * when accessed via index, rather than iterable interface.
  */
 export function optimizeIterable(input: any): Iterable<any> {
-    if (isIndexed(input)) {
-        // wrap the input, to use index internally;
-        return {
-            [Symbol.iterator](): Iterator<any> {
-                const len = input.length;
-                let i = 0;
-                return {
-                    next(): IteratorResult<any> {
-                        return i < len ? {value: input[i++], done: false} : {value: undefined, done: true};
-                    }
-                };
-            }
-        };
-    }
-    return input;
+    return isIndexed(input) ? indexedIterable(input) : input;
+}
+
+/**
+ * Wraps an indexed iterable into an Iterable<T> object
+ */
+export function indexedIterable<T>(input: any): Iterable<T> {
+    return {
+        [Symbol.iterator](): Iterator<T> {
+            const len = input.length;
+            let i = 0;
+            return {
+                next(): IteratorResult<T> {
+                    return i < len ? {value: input[i++], done: false} : {value: undefined, done: true};
+                }
+            };
+        }
+    };
+}
+
+/**
+ * Wraps an indexed iterable into an AsyncIterable<T> object
+ */
+export function indexedAsyncIterable<T>(input: any): AsyncIterable<T> {
+    return {
+        [Symbol.asyncIterator](): AsyncIterator<T> {
+            const len = input.length;
+            let i = 0;
+            return {
+                next(): Promise<IteratorResult<T>> {
+                    return Promise.resolve(i < len ? {value: input[i++], done: false} : {value: undefined, done: true});
+                }
+            };
+        }
+    };
 }
 
 /**
  * Checks for indexed types.
  */
-function isIndexed(input: any): boolean {
+export function isIndexed(input: any): boolean {
     return Array.isArray(input) ||
         (input?.buffer instanceof ArrayBuffer && input.BYTES_PER_ELEMENT) || // Buffer or Typed Array
         typeof input === 'string' ||

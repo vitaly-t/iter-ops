@@ -1,3 +1,5 @@
+import {isIndexed, indexedAsyncIterable} from './utils';
+
 /**
  * Converts any synchronous iterable into asynchronous one.
  *
@@ -18,6 +20,9 @@
 export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
     if (typeof (i as any)[Symbol.asyncIterator] === 'function') {
         return i as any; // must be a run-time safe-check, no need converting
+    }
+    if (isIndexed(i)) {
+        return indexedAsyncIterable(i);
     }
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
