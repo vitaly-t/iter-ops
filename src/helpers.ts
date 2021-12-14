@@ -59,7 +59,7 @@ export function toIterable<T>(i: { next: () => ({ value: T | undefined }) }): It
  *
  * @hidden
  */
-export function toIterable<T>(i: { next: () => (Promise<{ value: T | undefined }>) }): AsyncIterable<T>;
+export function toIterable<T>(i: { next: () => PromiseLike<{ value: T | undefined }> }): AsyncIterable<T>;
 
 /**
  * Converts a random value into a synchronous iterable, so it can be used as a pipeline input.
