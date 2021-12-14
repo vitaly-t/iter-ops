@@ -49,21 +49,28 @@ export function toIterable<T>(i: AsyncIterator<T>): AsyncIterable<T>;
 export function toIterable<T>(i: T): Iterable<T>;
 
 export function toIterable<T>(i: any): any {
-    let value = i?.next;
-    if (typeof value === 'function') {
-        value = value.call(i); // this line may throw (outside the pipeline)
+    const next = i?.next;
+    if (typeof next === 'function') {
+        const value = next.call(i); // this line may throw (outside the pipeline)
         let s: any = typeof value?.then === 'function' && Symbol.asyncIterator;
         if (s || (typeof value === 'object' && 'value' in (value ?? {}))) {
-            s = s ?? Symbol.iterator;
+            s = s || Symbol.iterator;
             return {
-                [s]: () => ({
-                    next() {
-                        this.next = i.next.bind(i); // redirecting into the original iterator
-                        return value;
-                    }
-                })
+                [s]() {
+                    let started: boolean;
+                    return {
+                        next() {
+                            if (started) {
+                                return i.next();
+                            }
+                            started = true;
+                            return value;
+                        }
+                    };
+                }
             };
         }
     }
-    return [value];
+    return [i];
 }
+
