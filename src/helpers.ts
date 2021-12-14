@@ -30,7 +30,7 @@ export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
 /**
  * Converts a synchronous iterator into a synchronous iterable, so it can be used as a pipeline input.
  *
- * Note that a correct iterator can only be determined by starting the iteration, which is what this method does.
+ * Note that an iterator type can only be determined by starting the iteration, which is what this method does.
  * So if getting the first iterator value throws an error, it will occur outside the pipeline.
  *
  * @category Core
@@ -40,7 +40,7 @@ export function toIterable<T>(i: Iterator<T>): Iterable<T>;
 /**
  * Converts an asynchronous iterator into asynchronous iterable, so it can be used as a pipeline input.
  *
- * Note that a correct iterator can only be determined by starting the iteration, which is what this method does.
+ * Note that an iterator type can only be determined by starting the iteration, which is what this method does.
  * So if getting the first iterator value throws an error, it will occur outside the pipeline.
  *
  * @category Core
