@@ -49,6 +49,5 @@ describe('toIterable', () => {
             }
         };
         expect(await _asyncValues(toIterable(i2))).to.eql([i2]);
-
     });
 });

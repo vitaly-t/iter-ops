@@ -48,14 +48,14 @@ export function toIterable<T>(i: Iterator<T>): Iterable<T>;
 export function toIterable<T>(i: AsyncIterator<T>): AsyncIterable<T>;
 
 /**
- * Synchronous type casting helper.
+ * Synchronous type inference helper.
  *
  * @hidden
  */
 export function toIterable<T>(i: { next: () => ({ value: T | undefined }) }): Iterable<T>;
 
 /**
- * Asynchronous type casting helper.
+ * Asynchronous type inference helper.
  *
  * @hidden
  */
