@@ -37,17 +37,22 @@ describe('toIterable', () => {
                 return {value: 555, done: false};
             }
         };
-        expect([...toIterable(i2)]).to.eql([i2]);
+        expect([...toIterable(i2)]).to.eql([555]);
     });
     it('must convert any async iterator', async () => {
         const i1 = toIterable(toAsync([1, 2, 3])[Symbol.asyncIterator]());
         expect(await _asyncValues(i1)).to.eql([1, 2, 3]);
 
+        let finished = false;
         const i2 = {
             next() {
+                if (finished) {
+                    return Promise.resolve({value: undefined, done: true});
+                }
+                finished = true;
                 return Promise.resolve({value: 555, done: false});
             }
         };
-        expect(await _asyncValues(toIterable(i2))).to.eql([i2]);
+        expect(await _asyncValues(toIterable(i2))).to.eql([555]);
     });
 });
