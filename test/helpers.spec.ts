@@ -1,7 +1,22 @@
 import {_asyncValues, expect} from './header';
 import {toIterable, toAsync} from '../src';
 
+describe('toAsync', () => {
+    it('must reuse async iterables', () => {
+        const i = toAsync('hello');
+        expect(toAsync(i as any)).to.eq(i);
+    });
+});
+
 describe('toIterable', () => {
+    it('must reuse sync iterables', () => {
+        const i = [1, 2, 3];
+        expect(toIterable(i)).to.eq(i);
+    });
+    it('must reuse async iterables', () => {
+        const i = toAsync('hello');
+        expect(toIterable(i)).to.eq(i);
+    });
     it('must convert a random value', () => {
         const i1 = toIterable(123);
         expect([...i1]).to.eql([123]);

@@ -16,6 +16,9 @@
  * @category Core
  */
 export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
+    if (typeof (i as any)[Symbol.asyncIterator] === 'function') {
+        return i as any; // must be a run-time safe-check, no need converting
+    }
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const it = i[Symbol.iterator]();
@@ -73,6 +76,9 @@ export function toIterable<T>(i: { next: () => PromiseLike<{ value: T | undefine
 export function toIterable<T>(i: T): Iterable<T>;
 
 export function toIterable<T>(i: any): any {
+    if (typeof i?.[Symbol.iterator] === 'function' || typeof i?.[Symbol.asyncIterator] === 'function') {
+        return i; // must be a run-time safe-check, no need converting
+    }
     const next = i?.next;
     if (typeof next === 'function') {
         const value = next.call(i); // this line may throw (outside the pipeline)
