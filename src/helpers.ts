@@ -12,6 +12,7 @@
  * );
  * ```
  *
+ * @see [[toIterable]]
  * @category Core
  */
 export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
@@ -33,6 +34,7 @@ export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
  * Note that an iterator type can only be determined by starting the iteration, which is what this method does.
  * So if getting the first iterator value throws an error, it will occur outside the pipeline.
  *
+ * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators]], [[toAsync]]
  * @category Core
  */
 export function toIterable<T>(i: Iterator<T>): Iterable<T>;
@@ -43,6 +45,7 @@ export function toIterable<T>(i: Iterator<T>): Iterable<T>;
  * Note that an iterator type can only be determined by starting the iteration, which is what this method does.
  * So if getting the first iterator value throws an error, it will occur outside the pipeline.
  *
+ * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators]], [[toAsync]]
  * @category Core
  */
 export function toIterable<T>(i: AsyncIterator<T>): AsyncIterable<T>;
@@ -64,6 +67,7 @@ export function toIterable<T>(i: { next: () => PromiseLike<{ value: T | undefine
 /**
  * Converts a random value into a synchronous iterable, so it can be used as a pipeline input.
  *
+ * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators]], [[toAsync]]
  * @category Core
  */
 export function toIterable<T>(i: T): Iterable<T>;

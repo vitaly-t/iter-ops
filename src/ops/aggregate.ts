@@ -9,7 +9,7 @@ import {createOperation} from '../utils';
  *
  * It basically repeats the logic of combining [[toArray]] + [[map]].
  *
- * @see {@link https://github.com/vitaly-t/iter-ops/wiki/Aggregates Aggregates}
+ * @see [[https://github.com/vitaly-t/iter-ops/wiki/Aggregates Aggregates]]
  * @category Sync+Async
  */
 export function aggregate<T, R>(cb: (arr: T[]) => R): Operation<T, R> {
