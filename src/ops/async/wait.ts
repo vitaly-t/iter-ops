@@ -33,6 +33,7 @@ import {createOperation, throwOnSync} from '../../utils';
  *     toAsync(userIds), // make pipeline asynchronous
  *     map(id => myService.getUserData(id)), // map into promises
  *     aggregate(list => Promise.all(list)), // resolve all promises
+ *     wait(), // resolve the list
  *     spread() // emit each resolved value
  * );
  *
