@@ -3,7 +3,7 @@ Benchmarks
 
 Testing `iter-ops` versus the latest `rxjs`:
 
-* We use an array of numbers as the input (`1e7` items for synchronous test and `1e6` for asynchronous)
+* We use an array of numbers as the input (`1e7` items)
 * We first `filter` out all even numbers
 * Then we `map` each value into an object
 * Collecting all values into an array
@@ -26,20 +26,30 @@ Running tests separately is recommended, or else results may become skewed.
 
 ![image](https://user-images.githubusercontent.com/5108906/146110938-246e612a-8e38-45f4-bf85-c10e2e100fc7.png)
 
-* Testing against `rxjs` synchronous pipeline - we get ~2.3x times better performance
+* Testing against `rxjs` synchronous pipeline - we get ~2.5x times better performance
 * Testing against `rxjs` with a single empty subscription - we get ~4.9x better performance
 
 ![image](https://user-images.githubusercontent.com/5108906/146110969-d436a200-4f94-4a20-9336-8db0e6306336.png)
 
-* Testing against `rxjs` asynchronous pipeline, we get roughly the same performance
-* Testing against `rxjs` with a single empty subscription - we get ~2x better performance
+Testing against an asynchronous source produce the result that for the most part depends on how fast the source iterable
+is. This makes it difficult to test objectively. On one hand, `iter-ops`
+has embedded optimization for wrapping an asynchronous iterable, so if we test that against a standard async iterable
+for `rxjs`, we get the result as above:
+
+* Testing against `rxjs` asynchronous pipeline, we get ~6.3x times better performance
+* Testing against `rxjs` with a single empty subscription - we get ~14x better performance
+
+However, if we optimize the source iterable similar to how `iter-ops` does it, then figures become very comparative.
 
 ### Conclusions
 
-This library performs about 2x faster than `rxjs` synchronous pipeline. However, just as you add a single subscription in `rxjs` (
-which is inevitable with `rxjs`), it drops performance further 2.5 times. So ultimately, this library can process
-syncronous iterables about 5 times faster than synchronous `rxjs`.
+This library performs about 2.5x faster than `rxjs` synchronous pipeline. However, just as you add a single subscription
+in `rxjs` (
+which is inevitable with `rxjs`), then `iter-ops` performance is about 5x times. So ultimately, this library can process
+synchronous iterables about 5x times faster than synchronous `rxjs`.
 
-For asycnronous iterables, we get about the same performance against `rxjs` asyncronous pipeline, and ~2x times better real-world performance,
-when we use subscriptions.
+For the asynchronous test, even though we do have very impressive results versus `rxjs`, those for the most part depend
+on how fast the source iterable is. Library `iter-ops` does come with some good performance optimization for wrapping
+asynchronous iterables, which we achieve by using [toAsync]. However, it is possible to optimize an iterable for `rxjs`
+separately. Therefore, it is nearly impossible to draw the line, in how to define an objective test for this.
 
