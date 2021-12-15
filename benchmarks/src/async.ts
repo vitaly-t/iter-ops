@@ -1,18 +1,23 @@
 import {testIterOps} from './tests/iter-ops';
 import {testRXJS} from './tests/rxjs';
+import {toAsync} from '../../dist';
 
 // tslint:disable:no-console
 
-const maxItems = 1e6;
+const maxItems = 1e7;
+
+const data: number[] = [];
+for (let i = 0; i < maxItems; i++) {
+    data.push(i);
+}
+
+// regular/popular way of wrapping into asynchronous iterable
 const input: AsyncIterable<number> = {
     [Symbol.asyncIterator](): AsyncIterator<number> {
-        let count = maxItems;
+        const i = data.values();
         return {
             async next(): Promise<IteratorResult<number>> {
-                if (count > 0) {
-                    return {value: count--};
-                }
-                return {value: undefined, done: true};
+                return i.next();
             }
         };
     }
@@ -20,7 +25,7 @@ const input: AsyncIterable<number> = {
 
 (async function testAsync() {
     const result = {
-        ...await testIterOps(input),
+        ...await testIterOps(toAsync(data)),
         ...await testRXJS(input),
         ...await testRXJS(input, true)
     };

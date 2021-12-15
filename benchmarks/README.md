@@ -12,7 +12,7 @@ Testing `iter-ops` versus the latest `rxjs`:
 
 * NodeJS v16.13.1
 * rxjs v7.4.0
-* iter-ops v0.7.4
+* iter-ops v0.9.3
 
 ### Running Tests
 

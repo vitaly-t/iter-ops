@@ -10,5 +10,5 @@ export async function testIterOps(input: AnyIterable<number>) {
     );
     const {length} = (await i.first)!;
     const duration = Date.now() - start;
-    return {'iter-ops': {duration, length}};
+    return {'iter-ops': {duration, length: length}};
 }

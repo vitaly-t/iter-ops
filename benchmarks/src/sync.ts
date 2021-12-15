@@ -4,6 +4,7 @@ import {testRXJS} from './tests/rxjs';
 // tslint:disable:no-console
 
 const maxItems = 1e7;
+
 const input: number[] = [];
 for (let i = 0; i < maxItems; i++) {
     input.push(i);
