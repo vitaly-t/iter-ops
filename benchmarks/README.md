@@ -24,12 +24,12 @@ Running tests separately is recommended, or else results may become skewed.
 
 ### Test Results
 
-![image](https://user-images.githubusercontent.com/5108906/145146801-59b8c576-54a5-4913-8482-b2b4cb4b4259.png)
+![image](https://user-images.githubusercontent.com/5108906/146110938-246e612a-8e38-45f4-bf85-c10e2e100fc7.png)
 
 * Testing against `rxjs` synchronous pipeline - we get ~2.3x times better performance
 * Testing against `rxjs` with a single empty subscription - we get ~4.9x better performance
 
-![image](https://user-images.githubusercontent.com/5108906/145146437-ae121032-058b-4adb-a500-5d2f28a79883.png)
+![image](https://user-images.githubusercontent.com/5108906/146110969-d436a200-4f94-4a20-9336-8db0e6306336.png)
 
 * Testing against `rxjs` asynchronous pipeline, we get roughly the same performance
 * Testing against `rxjs` with a single empty subscription - we get ~2x better performance
