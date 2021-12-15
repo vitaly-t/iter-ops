@@ -5,6 +5,21 @@ import {createOperation, throwOnSync} from '../../utils';
  * Delays each value by the specified timeout.
  * When the timeout is a negative number, it is not added.
  *
+ * ```ts
+ * import {pipe, toAsync, delay} from 'iter-ops';
+ *
+ * const data = [1, 2, 3, 4, 5]; // some synchronous data
+ *
+ * const i = pipe(
+ *     toAsync(data), // make asynchronous
+ *     delay(1000)
+ * );
+ *
+ * for await(const a of i) {
+ *     console.log(a); //=> 1, 2, 3, 4, 5 (with 1s delay)
+ * }
+ * ```
+ *
  * Throws an error during iteration, if inside a synchronous pipeline.
  *
  * @see [[throttle]]

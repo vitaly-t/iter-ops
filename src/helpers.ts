@@ -3,7 +3,7 @@ import {isIndexed, indexedAsyncIterable} from './utils';
 /**
  * Converts any synchronous iterable into asynchronous one.
  *
- * It makes possible use of asynchronous-only operators downstream,
+ * It makes possible to use asynchronous-only operators downstream,
  * while also correctly casting all types in the pipeline, avoiding
  * any ambiguity between synchronous and asynchronous iterables.
  *
@@ -13,6 +13,9 @@ import {isIndexed, indexedAsyncIterable} from './utils';
  *     delay(500) // now can use asynchronous operators
  * );
  * ```
+ *
+ * - Passing it an already asynchronous iterable will just reuse it.
+ * - All indexed types are well optimized for performance.
  *
  * @see [[toIterable]]
  * @category Core
@@ -42,6 +45,8 @@ export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
  * Note that an iterator type can only be determined by starting the iteration, which is what this method does.
  * So if getting the first iterator value throws an error, it will occur outside the pipeline.
  *
+ * Passing it an already iterable object will just reuse it.
+ *
  * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators]], [[toAsync]]
  * @category Core
  */
@@ -52,6 +57,8 @@ export function toIterable<T>(i: Iterator<T>): Iterable<T>;
  *
  * Note that an iterator type can only be determined by starting the iteration, which is what this method does.
  * So if getting the first iterator value throws an error, it will occur outside the pipeline.
+ *
+ * Passing it an already iterable object will just reuse it.
  *
  * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators]], [[toAsync]]
  * @category Core
