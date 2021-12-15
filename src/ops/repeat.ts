@@ -15,8 +15,8 @@ export function repeat<T>(count: number): Operation<T, T>;
  * - `count` - repeats count thus far (starts with 0)
  * - `state` - iteration state
  *
- * Note that the promise version works only inside an asynchronous pipeline, or else
- * the promise will be treated as a simple value.
+ * Note that the `Promise`-returning version can only work correctly inside an asynchronous pipeline,
+ * or else the `Promise` itself will be treated as a truthy value.
  *
  * @see [[retry]]
  * @category Sync+Async
