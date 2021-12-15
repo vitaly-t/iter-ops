@@ -6,6 +6,19 @@ describe('toAsync', () => {
         const i = toAsync('hello');
         expect(toAsync(i as any)).to.eq(i);
     });
+    it('must correctly wrap non-indexed iterables', async () => {
+        const i: Iterable<number> = {
+            [Symbol.iterator]() {
+                let idx = 5;
+                return {
+                    next() {
+                        return idx ? {value: idx--} : {value: undefined, done: true};
+                    }
+                };
+            }
+        };
+        expect(await _asyncValues(toAsync(i))).to.eql([5, 4, 3, 2, 1]);
+    });
 });
 
 describe('toIterable', () => {
