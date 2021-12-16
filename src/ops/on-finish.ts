@@ -1,9 +1,12 @@
 import {Operation} from '../types';
 import {createOperation} from '../utils';
 
-export interface IIteratorSummary {
+/**
+ * Iteration summary, produced by [[onFinish]] operator.
+ */
+export interface IIterationSummary<T> {
     /**
-     * Total count of items iterated through.
+     * Number of items iterated.
      */
     count: number;
 
@@ -13,34 +16,44 @@ export interface IIteratorSummary {
     duration: number;
 
     /**
-     * Indication whether the iteration is synchronous.
+     * Last emitted value, if there was any (`undefined` otherwise).
+     */
+    lastValue: T | undefined;
+
+    /**
+     * Indication whether the iteration was synchronous.
      */
     sync: boolean;
 }
 
 /**
+ * Notifies of the end of iteration, with a summary.
+ *
+ * @see [[IIterationSummary]]
  * @category Sync+Async
  */
-export function onFinish<T>(cb: (s: IIteratorSummary) => void): Operation<T, T> {
+export function onFinish<T>(cb: (s: IIterationSummary<T>) => void): Operation<T, T> {
     return createOperation(onFinishSync, onFinishAsync, arguments);
 }
 
-function onFinishSync<T>(iterable: Iterable<T>, cb: (s: IIteratorSummary) => void): Iterable<T> {
+function onFinishSync<T>(iterable: Iterable<T>, cb: (s: IIterationSummary<T>) => void): Iterable<T> {
     return {
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
-            let start: number, finished: boolean, count = 0;
+            let start: number, finished: boolean, lastValue: T, count = 0;
             return {
                 next(): IteratorResult<T> {
-                    if (!start) {
-                        start = Date.now();
-                    }
+                    start = start || Date.now();
                     const a = i.next();
-                    if (a.done && !finished) {
-                        finished = true;
-                        cb({count, duration: Date.now() - start, sync: true});
+                    if (a.done) {
+                        if (!finished) {
+                            finished = true;
+                            cb({count, duration: Date.now() - start, lastValue, sync: true});
+                        }
+                    } else {
+                        lastValue = a.value;
+                        count++;
                     }
-                    count++;
                     return a;
                 }
             };
@@ -48,13 +61,26 @@ function onFinishSync<T>(iterable: Iterable<T>, cb: (s: IIteratorSummary) => voi
     };
 }
 
-function onFinishAsync<T>(iterable: AsyncIterable<T>, cb: (s: IIteratorSummary) => void): AsyncIterable<T> {
+function onFinishAsync<T>(iterable: AsyncIterable<T>, cb: (s: IIterationSummary<T>) => void): AsyncIterable<T> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
+            let start: number, finished: boolean, lastValue: T, count = 0;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    return i.next();
+                    return i.next().then(a => {
+                        start = start || Date.now();
+                        if (a.done) {
+                            if (!finished) {
+                                finished = true;
+                                cb({count, duration: Date.now() - start, lastValue, sync: true});
+                            }
+                        } else {
+                            lastValue = a.value;
+                            count++;
+                        }
+                        return a;
+                    });
                 }
             };
         }
