@@ -6,10 +6,10 @@ import {createOperation} from '../utils';
  *
  * What you can do inside the error handler:
  *
- * - nothing (we let it skip the value);
- * - provide a new/alternative value (via `ctx.emit(value)`);
- * - re-throw the original error;
- * - throw a new error.
+ * - nothing (we let it skip the value)
+ * - provide a new/alternative value (via `ctx.emit(value)`)
+ * - re-throw the original error
+ * - throw a new error
  *
  * @see [[https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling]]
  * @category Sync+Async

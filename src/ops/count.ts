@@ -5,6 +5,8 @@ import {createOperation} from '../utils';
  * Goes through the entire iterable, counting the values, and produces a one-value iterable with the count.
  *
  * ```ts
+ * import {pipe, count} from 'iter-ops';
+ *
  * const i = pipe(
  *     'hello world!',
  *     count()

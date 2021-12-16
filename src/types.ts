@@ -1,9 +1,11 @@
 /**
  * Iteration Error Context.
+ *
+ * It is passed into every error handler as the second parameter.
  */
 export interface IErrorContext<T> {
     /**
-     * Value Index.
+     * Index of the value that threw an error.
      */
     index: number;
 
@@ -53,6 +55,8 @@ export interface IterableExt<T> extends Iterable<T> {
 
     /**
      * Appends [[catchError]] operator to the pipeline.
+     *
+     * @see [[https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling]]
      */
     catch(cb: (error: any, ctx: IErrorContext<T>) => void): IterableExt<T>;
 }
@@ -73,17 +77,19 @@ export interface AsyncIterableExt<T> extends AsyncIterable<T> {
 
     /**
      * Appends [[catchError]] operator to the pipeline.
+     *
+     * @see [[https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling]]
      */
     catch(cb: (error: any, ctx: IErrorContext<T>) => void): AsyncIterableExt<T>;
 }
 
 /**
- * Any Iterable Type.
+ * Any-Iterable Type.
  */
 export type AnyIterable<T> = AsyncIterable<T> | Iterable<T>;
 
 /**
- * Any Iterator Type.
+ * Any-Iterator Type.
  */
 export type AnyIterator<T> = Iterator<T> | AsyncIterator<T>;
 
