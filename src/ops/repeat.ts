@@ -29,6 +29,17 @@ export function repeat<T>(count: number): Operation<T, T>;
  * Note that the `Promise`-returning version can only work correctly inside an asynchronous pipeline,
  * or else the `Promise` itself will be treated as a truthy value.
  *
+ * ```ts
+ * import {pipe, repeat} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5, 6, 7],
+ *     repeat((a, idx, c) => a % 2 === 0 && c < 2) // repeat even numbers 2 times
+ * );
+ *
+ * console.log([...i]); //=> [1, 2, 2, 2, 3, 4, 4, 4, 5, 6, 6, 6, 7]
+ * ```
+ *
  * @see [[retry]]
  * @category Sync+Async
  */

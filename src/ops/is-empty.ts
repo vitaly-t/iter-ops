@@ -4,6 +4,17 @@ import {createOperation} from '../utils';
 /**
  * Checks if the iterable can produce any value, and returns a one-value iterable with the boolean flag.
  *
+ * ```ts
+ * import {pipe, isEmpty} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [],
+ *     isEmpty()
+ * );
+ *
+ * console.log(i.first); //=> true
+ * ```
+ *
  * @see [[empty]], [[defaultEmpty]]
  * @category Sync+Async
  */

@@ -4,7 +4,18 @@ import {createOperation} from '../utils';
 /**
  * Emits up to `count` number of the last values.
  *
- * @see [[take]]
+ * ```ts
+ * import {pipe, takeLast} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5],
+ *     takeLast(2)
+ * );
+ *
+ * console.log([...i]); //=> [4, 5]
+ * ```
+ *
+ * @see [[last]], [[take]]
  * @category Sync+Async
  */
 export function takeLast<T>(count: number): Operation<T, T> {

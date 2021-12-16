@@ -4,8 +4,31 @@ import {createOperation} from '../utils';
 /**
  * Produces a one-value iterable, with the last emitted value.
  *
+ * ```ts
+ * import {pipe, last} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3],
+ *     last()
+ * );
+ *
+ * console.log(i.first); //=> 3
+ * ```
+ *
  * When optional predicate is provided, the last value satisfying it will be emitted.
  *
+ * ```ts
+ * import {pipe, last} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5, 6, 7, 8, 9],
+ *     last(a => a % 2 === 0) // last even number
+ * );
+ *
+ * console.log(i.first); //=> 8
+ * ```
+ *
+ * @see [[takeLast]]
  * @category Sync+Async
  */
 export function last<T>(cb?: (value: T, index: number) => boolean): Operation<T, T> {

@@ -4,6 +4,17 @@ import {createOperation} from '../utils';
 /**
  * Emits up to `count` number of values.
  *
+ * ```ts
+ * import {pipe, take} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5],
+ *     take(2)
+ * );
+ *
+ * console.log([...i]); //=> [1, 2]
+ * ```
+ *
  * @see [[takeLast]]
  * @category Sync+Async
  */

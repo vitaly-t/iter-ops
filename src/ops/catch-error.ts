@@ -2,7 +2,7 @@ import {IErrorContext, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Catches iteration errors.
+ * Catches iteration errors (see [[https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling]]).
  *
  * What you can do inside the error handler:
  *
