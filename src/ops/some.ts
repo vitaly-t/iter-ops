@@ -56,11 +56,18 @@ function someAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, 
             return {
                 next(): Promise<IteratorResult<boolean>> {
                     return i.next().then(a => {
-                        if (!finished && !a.done && cb(a.value, index++, state)) {
+                        if (!finished) {
+                            if (!a.done) {
+                                if (cb(a.value, index++, state)) {
+                                    finished = true;
+                                    return {value: true, done: false};
+                                }
+                                return this.next();
+                            }
                             finished = true;
-                            return {value: true, done: false};
+                            return {value: false, done: false};
                         }
-                        return finished || a.done ? {value: undefined, done: true} : this.next();
+                        return {value: undefined, done: true};
                     });
                 }
             };
