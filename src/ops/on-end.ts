@@ -31,7 +31,12 @@ export interface IIterationSummary<T> {
 }
 
 /**
- * Notifies of the end of iteration, for the immediately preceding operator, and provides a summary.
+ * Notifies of the end of a successful iteration, for the immediately preceding operator, and provides a summary.
+ *
+ * It doesn't handle or affect any upstream errors, and should they occur, it may never reach the end,
+ * and thus never trigger the notification.
+ *
+ * The operator doesn't affect the iteration, unless the callback function throws an error.
  *
  * ```ts
  * import {pipe, map, wait, onEnd, catchError} from 'iter-ops';
