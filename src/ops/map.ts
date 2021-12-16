@@ -2,7 +2,7 @@ import {IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Standard map logic for the iterable, extended for supporting iteration state.
+ * Standard `Array.map` logic for the iterable, extended for supporting iteration state.
  *
  * @see [Array.map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
  *
