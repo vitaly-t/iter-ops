@@ -3,7 +3,8 @@ import {createOperation} from '../utils';
 
 /**
  * Merges current iterable with a list of values, iterators or iterables.
- * Merged inputs are iterated over after depleting the current iterable.
+ * Merged inputs are iterated over after depleting the current iterable, in the order in which they were specified,
+ * i.e. the standard `Array.concat` logic.
  *
  * @see: [Array.concat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat)
  *

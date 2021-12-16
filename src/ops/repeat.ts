@@ -4,6 +4,17 @@ import {createOperation} from '../utils';
 /**
  * Repeats every value specified number of times.
  *
+ * ```ts
+ * import {pipe, repeat} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3],
+ *     repeat(2)
+ * );
+ *
+ * console.log([...i]); //=> [1, 1, 1, 2, 2, 2, 3, 3, 3]
+ * ```
+ *
  * @see [[retry]]
  * @category Sync+Async
  */

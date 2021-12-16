@@ -25,7 +25,7 @@ import {createOperation, throwOnSync} from '../../utils';
  * In case you want all promises resolved before emitting values:
  *
  * ```ts
- * import {pipe, toAsync, map, aggregate, spread} from 'iter-ops';
+ * import {pipe, toAsync, map, aggregate, wait, spread} from 'iter-ops';
  *
  * const userIds = [1, 2, 3, 4, 5]; // synchronous list of user id-s
  *

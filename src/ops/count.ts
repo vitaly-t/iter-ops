@@ -2,8 +2,16 @@ import {Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Goes through the entire iterable, counting the values,
- * and produces a one-value iterable with the count.
+ * Goes through the entire iterable, counting the values, and produces a one-value iterable with the count.
+ *
+ * ```ts
+ * const i = pipe(
+ *     'hello world!',
+ *     count()
+ * );
+ *
+ * console.log(i.first); //=> 12
+ * ```
  *
  * @category Sync+Async
  */

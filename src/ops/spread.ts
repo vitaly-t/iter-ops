@@ -4,8 +4,18 @@ import {createOperation} from '../utils';
 /**
  * Spreads iterable values.
  *
- * It requires that the input iterable emits iterable values only,
- * or else it will throw an error.
+ * It requires that the input iterable emits iterable values only, or else it will throw an error.
+ *
+ * ```ts
+ * import {pipe, spread} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     ['first', 'second'],
+ *     spread()
+ * );
+ *
+ * console.log([...i]); //=> ['f', 'i', 'r', 's', 't', 's', 'e', 'c', 'o', 'n', 'd']
+ * ```
  *
  * @category Sync+Async
  */
