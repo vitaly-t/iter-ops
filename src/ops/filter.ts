@@ -2,7 +2,7 @@ import {IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Standard filter logic for the iterable, extended for supporting iteration state.
+ * Standard `Array.filter` logic for the iterable, extended for supporting iteration state.
  *
  * @see [Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
  *

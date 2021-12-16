@@ -88,6 +88,7 @@ All standard operators implement the same logic as [Array] does:
 * [map](http://vitaly-t.github.io/iter-ops/index.html#map) - standard mapping processor, extended for [state] support.
 * [reduce](http://vitaly-t.github.io/iter-ops/index.html#reduce) - `reduce` processor (with [state] support), which
   produces a one-value iterable.
+* [some](http://vitaly-t.github.io/iter-ops/index.html#some) - checks if any element passes the predicate test.
 
 #### <i>Extended operators:</i>
 

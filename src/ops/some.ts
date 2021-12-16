@@ -6,7 +6,20 @@ import {createOperation} from '../utils';
  *
  * It emits a boolean, indicating whether at least one element passes the predicate test.
  *
- * @see [Array.some](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some Array.some)
+ * ```ts
+ * import {pipe, some} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3],
+ *     some(a => a % 2 === 0) // checks if even numbers are present
+ * );
+ *
+ * console.log([...i]); //=> [true]
+ *
+ * console.log(i.first); //=> true
+ * ```
+ *
+ * @see [Array.some](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some)
  * @category Sync+Async
  */
 export function some<T>(cb: (value: T, index: number, state: IterationState) => boolean): Operation<T, boolean> {
@@ -23,7 +36,7 @@ function someSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state:
                 next(): IteratorResult<boolean> {
                     if (!finished) {
                         let a;
-                        while (!(a = i.next()).done && !cb(a.value, index++, state)) ;
+                        while (!(a = i.next()).done && !cb(a.value, index++, state));
                         finished = true;
                         return {value: !a.done, done: false};
                     }
