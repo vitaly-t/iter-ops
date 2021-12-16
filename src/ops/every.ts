@@ -19,7 +19,7 @@ import {createOperation} from '../utils';
  * console.log(i.first); //=> false
  * ```
  *
- * @see [Array.every](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every)
+ * @see [Array.every](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every), [[some]]
  * @category Sync+Async
  */
 export function every<T>(cb: (value: T, index: number, state: IterationState) => boolean): Operation<T, boolean> {

@@ -19,7 +19,7 @@ import {createOperation} from '../utils';
  * console.log(i.first); //=> true
  * ```
  *
- * @see [Array.some](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some)
+ * @see [Array.some](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some), [[every]]
  * @category Sync+Async
  */
 export function some<T>(cb: (value: T, index: number, state: IterationState) => boolean): Operation<T, boolean> {
