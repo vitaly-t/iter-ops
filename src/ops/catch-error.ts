@@ -1,4 +1,4 @@
-import {IErrorContext, Operation} from '../types';
+import {IErrorContext, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -22,6 +22,7 @@ function catchErrorSync<T>(iterable: Iterable<T>, cb: (error: any, ctx: IErrorCo
     return {
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
+            const state: IterationState = {};
             let index = 0, repeats: number, last: IteratorResult<T>, lastError: any;
             return {
                 next(): IteratorResult<T> {
@@ -40,6 +41,7 @@ function catchErrorSync<T>(iterable: Iterable<T>, cb: (error: any, ctx: IErrorCo
                                 index: index++,
                                 lastValue: last?.value,
                                 repeats,
+                                state,
                                 emit(v) {
                                     value = v;
                                     emitted = true;
@@ -61,6 +63,7 @@ function catchErrorAsync<T>(iterable: AsyncIterable<T>, cb: (error: any, ctx: IE
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
+            const state: IterationState = {};
             let index = 0, repeats: number, last: IteratorResult<T>, lastError: any;
             return {
                 next(): Promise<IteratorResult<T>> {
@@ -76,6 +79,7 @@ function catchErrorAsync<T>(iterable: AsyncIterable<T>, cb: (error: any, ctx: IE
                             index: index++,
                             lastValue: last?.value,
                             repeats,
+                            state,
                             emit(v) {
                                 value = v;
                                 emitted = true;

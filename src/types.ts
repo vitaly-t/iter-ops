@@ -33,6 +33,13 @@ export interface IErrorContext<T> {
     repeats: number;
 
     /**
+     * Iteration state/session.
+     *
+     * You can chose error-handling strategy, based on the entire iteration.
+     */
+    state: IterationState;
+
+    /**
      * Alternative value emitter, to replace what we failed to retrieve.
      * Without this call, the errored value is skipped from iteration.
      */
