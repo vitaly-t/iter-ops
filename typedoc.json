@@ -1,5 +1,5 @@
 {
-  "name": "ITER-OPS v0.9.4",
+  "name": "ITER-OPS v0.9.5",
   "out": "../iter-ops-docs",
   "excludeExternals": true,
   "excludePrivate": true,

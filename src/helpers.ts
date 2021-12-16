@@ -40,7 +40,7 @@ export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
 }
 
 /**
- * Converts a synchronous iterator into a synchronous iterable, so it can be used as a pipeline input.
+ * Converts a synchronous iterator into a synchronous iterable, so it can be used as a pipeline source/input.
  *
  * Note that an iterator type can only be determined by starting the iteration, which is what this method does.
  * So if getting the first iterator value throws an error, it will occur outside the pipeline.
@@ -53,7 +53,7 @@ export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
 export function toIterable<T>(i: Iterator<T>): Iterable<T>;
 
 /**
- * Converts an asynchronous iterator into asynchronous iterable, so it can be used as a pipeline input.
+ * Converts an asynchronous iterator into asynchronous iterable, so it can be used as a pipeline source/input.
  *
  * Note that an iterator type can only be determined by starting the iteration, which is what this method does.
  * So if getting the first iterator value throws an error, it will occur outside the pipeline.
@@ -80,7 +80,15 @@ export function toIterable<T>(i: { next: () => ({ value: T | undefined }) }): It
 export function toIterable<T>(i: { next: () => PromiseLike<{ value: T | undefined }> }): AsyncIterable<T>;
 
 /**
- * Converts a random value into a synchronous iterable, so it can be used as a pipeline input.
+ * Converts a `Promise` into a one-value asynchronous iterable, so it can be used as a pipeline source/input.
+ *
+ * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators]], [[toAsync]]
+ * @category Core
+ */
+export function toIterable<T>(i: Promise<T>): AsyncIterable<T>;
+
+/**
+ * Converts a simple value into a one-value synchronous iterable, so it can be used as a pipeline source/input.
  *
  * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators]], [[toAsync]]
  * @category Core
@@ -113,5 +121,21 @@ export function toIterable<T>(i: any): any {
             };
         }
     }
-    return [i];
+    if (typeof i?.then === 'function') {
+        return {
+            [Symbol.asyncIterator](): AsyncIterator<T> {
+                let finished: boolean;
+                return {
+                    next(): Promise<IteratorResult<T>> {
+                        if (finished) {
+                            return Promise.resolve({value: undefined, done: true});
+                        }
+                        finished = true;
+                        return i.then((value: T) => ({value, done: false}));
+                    }
+                };
+            }
+        };
+    }
+    return [i]; // a simple value
 }

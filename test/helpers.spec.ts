@@ -37,6 +37,10 @@ describe('toIterable', () => {
         const i2 = toIterable(null);
         expect([...i2]).to.eql([null]);
     });
+    it('must covert a Promise', async () => {
+        const i = toIterable(Promise.resolve(123));
+        expect(await _asyncValues(i)).to.eql([123]);
+    });
     it('must treat an invalid iterable as value', () => {
         const i1 = {
             next() {
