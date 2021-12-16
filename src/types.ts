@@ -33,9 +33,7 @@ export interface IErrorContext<T> {
     repeats: number;
 
     /**
-     * Iteration state/session.
-     *
-     * You can chose error-handling strategy, based on the entire iteration.
+     * Iteration state, persisted through entire iteration session.
      */
     state: IterationState;
 
