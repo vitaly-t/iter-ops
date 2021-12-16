@@ -7,7 +7,28 @@ import {createOperation, throwOnSync} from '../../utils';
  * Note that retries deplete values prior the operator that threw the error,
  * and so it is often used in combination with operator [[repeat]].
  *
- * Throws an error during iteration, if inside a synchronous pipeline.
+ * ```ts
+ * import {pipe, toAsync, tap, retry} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     toAsync([1, 2, 3, 4, 5, 6, 7, 8, 9]),
+ *     tap(value => {
+ *         if (value % 2 === 0) {
+ *             throw new Error(`fail-${value}`); // throw for all even numbers
+ *         }
+ *     }),
+ *     retry(1) // retry 1 time
+ * );
+ *
+ * for await(const a of i) {
+ *     console.log(a); // 1, 3, 5, 7, 9
+ * }
+ * ```
+ *
+ * Above, we end up with just odd numbers, because we do not provide any [[repeat]] logic,
+ * and as a result, the `retry` simply jumps to the next value on each error.
+ *
+ * The method throws an error during iteration, if inside a synchronous pipeline.
  *
  * @see [[repeat]]
  * @category Async-only

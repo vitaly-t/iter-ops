@@ -82,6 +82,21 @@ export function toIterable<T>(i: { next: () => PromiseLike<{ value: T | undefine
 /**
  * Converts a `Promise` into a one-value asynchronous iterable, so it can be used as a pipeline source/input.
  *
+ * ```ts
+ * import {pipe, toIterable, spread} from 'iter-ops';
+ *
+ * const input = Promise.resolve([1, 2, 3, 4, 5]);
+ *
+ * const i = pipe(
+ *     toIterable(input),
+ *     spread()
+ * ); // = AsyncIterableExt<number>
+ *
+ * for await(const a of i) {
+ *     console.log(a); // 1, 2, 3, 4, 5
+ * }
+ * ```
+ *
  * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators]], [[toAsync]]
  * @category Core
  */
