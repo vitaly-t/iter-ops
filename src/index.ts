@@ -10,6 +10,7 @@ export {defaultEmpty} from './ops/default-empty';
 export {delay} from './ops/async/delay';
 export {distinct} from './ops/distinct';
 export {empty} from './ops/empty';
+export {every} from './ops/every';
 export {filter} from './ops/filter';
 export {isEmpty} from './ops/is-empty';
 export {last} from './ops/last';

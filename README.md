@@ -83,11 +83,10 @@ All standard operators implement the same logic as [Array] does:
 
 * [concat](http://vitaly-t.github.io/iter-ops/index.html#concat) - merges current iterable with multiple values,
   iterators or iterables.
-* [filter](http://vitaly-t.github.io/iter-ops/index.html#filter) - standard filter processor, extended for [state]
-  support.
-* [map](http://vitaly-t.github.io/iter-ops/index.html#map) - standard mapping processor, extended for [state] support.
-* [reduce](http://vitaly-t.github.io/iter-ops/index.html#reduce) - `reduce` processor (with [state] support), which
-  produces a one-value iterable.
+* [every](http://vitaly-t.github.io/iter-ops/index.html#every) - checks if all elements pass the predicate test.
+* [filter](http://vitaly-t.github.io/iter-ops/index.html#filter) - standard filter processor, filtering by predicate.
+* [map](http://vitaly-t.github.io/iter-ops/index.html#map) - standard mapping processor, remapping by predicate.
+* [reduce](http://vitaly-t.github.io/iter-ops/index.html#reduce) - standard reduce processor.
 * [some](http://vitaly-t.github.io/iter-ops/index.html#some) - checks if any element passes the predicate test.
 
 #### <i>Extended operators:</i>
