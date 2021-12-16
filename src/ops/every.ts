@@ -51,12 +51,19 @@ function everyAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number,
     return {
         [Symbol.asyncIterator](): AsyncIterator<boolean> {
             const i = iterable[Symbol.asyncIterator]();
-            //const state: IterationState = {};
-            //let index = 0, finished: boolean;
+            const state: IterationState = {};
+            let index = 0, finished: boolean;
             return {
                 next(): Promise<IteratorResult<boolean>> {
                     return i.next().then(a => {
-                        return {value: false};
+                        if (!finished) {
+                            if (!a.done && cb(a.value, index++, state)) {
+                                return this.next();
+                            }
+                            finished = true;
+                            return {value: !!a.done, done: false};
+                        }
+                        return {value: undefined, done: true};
                     });
                 }
             };

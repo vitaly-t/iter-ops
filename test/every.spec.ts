@@ -12,7 +12,6 @@ describe('sync every', () => {
     });
 });
 
-/*
 describe('async every', () => {
     it('must signal when all passed', async () => {
         const i = pipe(_async([1, 2, 3]), every(a => a < 5));
@@ -22,4 +21,4 @@ describe('async every', () => {
         const i = pipe(_async([1, 2, 3]), every(a => a > 5));
         expect(await _asyncValues(i)).to.eql([false]);
     });
-});*/
+});
