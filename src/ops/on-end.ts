@@ -18,6 +18,13 @@ export interface IIterationSummary<T> {
     duration: number;
 
     /**
+     * Average duration, for processing one value:
+     *  - = `duration` / `count`, if `count` > 0
+     *  - = 0, if `count` = 0
+     */
+    avgDuration: number;
+
+    /**
      * Last emitted value, if there was any (`undefined` otherwise).
      */
     lastValue: T | undefined;
@@ -42,13 +49,13 @@ export interface IIterationSummary<T> {
  * import {pipe, map, wait, onEnd, catchError} from 'iter-ops';
  *
  * const i = pipe(
- *     iterable,
+ *     asyncIterable,
  *     map(a => myService.getValues(a)), // remap into requests-promises
  *     wait(), // resolve requests
  *     onEnd(s => {
- *         if(s.duration > 5000) {
- *             // took more than 5s to resolve all requests;
- *             throw new Error(`Performance issues in getValues requests, took ${s.duration}ms`);
+ *         if(s.avgDuration > 1000) {
+ *             // took longer than 1s per value on average;
+ *             throw new Error('Method getValues is too slow');
  *         }
  *     }),
  *     catchError((err, ctx) => {
@@ -77,7 +84,9 @@ function onEndSync<T>(iterable: Iterable<T>, cb: (s: IIterationSummary<T>) => vo
                     if (a.done) {
                         if (!finished) {
                             finished = true;
-                            cb({count, duration: Date.now() - start, lastValue, sync: true});
+                            const duration = Date.now() - start;
+                            const avgDuration = count > 0 ? duration / count : 0;
+                            cb({count, duration, avgDuration, lastValue, sync: true});
                         }
                     } else {
                         lastValue = a.value;
@@ -102,7 +111,9 @@ function onEndAsync<T>(iterable: AsyncIterable<T>, cb: (s: IIterationSummary<T>)
                         if (a.done) {
                             if (!finished) {
                                 finished = true;
-                                cb({count, duration: Date.now() - start, lastValue, sync: false});
+                                const duration = Date.now() - start;
+                                const avgDuration = count > 0 ? duration / count : 0;
+                                cb({count, duration, avgDuration, lastValue, sync: false});
                             }
                         } else {
                             lastValue = a.value;

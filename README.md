@@ -104,6 +104,7 @@ All standard operators implement the same logic as [Array] does:
   source is empty.
 * [last](http://vitaly-t.github.io/iter-ops/index.html#last) - produces a one-value iterable, with the last emitted
   value.
+* [onEnd](http://vitaly-t.github.io/iter-ops/index.html#onEnd) - notifies of the end of a successful iteration.
 * [page](http://vitaly-t.github.io/iter-ops/index.html#page) - splits values into pages of fixed size (last page can
   be smaller).
 * [repeat](http://vitaly-t.github.io/iter-ops/index.html#repeat) - repeats iterable values.
