@@ -12,6 +12,7 @@ export {distinct} from './ops/distinct';
 export {empty} from './ops/empty';
 export {every} from './ops/every';
 export {filter} from './ops/filter';
+export {indexBy, IIndexedValue} from './ops/index-by';
 export {isEmpty} from './ops/is-empty';
 export {last} from './ops/last';
 export {map} from './ops/map';
