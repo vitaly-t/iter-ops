@@ -20,6 +20,8 @@ export interface IIndexedValue<T> {
  * Emits indexed values that pass the predicate test.
  *
  * ```ts
+ * import {pipe, indexBy} from 'iter-ops';
+ *
  * const i = pipe(
  *     [12, 7, 30, 9],
  *     indexBy(a => a % 2 === 0) // index even numbers
