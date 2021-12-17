@@ -9,6 +9,20 @@ import {createOperation} from '../utils';
  *
  * It basically repeats the logic of combining [[toArray]] + [[map]].
  *
+ * ```ts
+ * import {pipe, aggregate, spread} from 'iter-ops';
+ *
+ * const input = [7, 4, 3, 8, 2, 1]; // unsorted list
+ *
+ * const i = pipe(
+ *     input,
+ *     aggregate(values => values.sort()), // sort the values
+ *     spread() // spread aggregation result
+ * );
+ *
+ * console.log([...i]); //=> [ 1, 2, 3, 4, 7, 8 ]
+ * ```
+ *
  * @see [[https://github.com/vitaly-t/iter-ops/wiki/Aggregates Aggregates]]
  * @category Sync+Async
  */
