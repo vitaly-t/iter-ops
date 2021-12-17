@@ -100,6 +100,7 @@ All standard operators implement the same logic as [Array] does:
 * [distinct](http://vitaly-t.github.io/iter-ops/index.html#distinct) - emits unique values, with optional key
   selector.
 * [empty](http://vitaly-t.github.io/iter-ops/index.html#empty) - produces an empty iterable.
+* [indexBy](http://vitaly-t.github.io/iter-ops/index.html#indexBy) - emits indexed values that pass the predicate test.
 * [isEmpty](http://vitaly-t.github.io/iter-ops/index.html#isEmpty) - produces a one-value iterable, indicating if the
   source is empty.
 * [last](http://vitaly-t.github.io/iter-ops/index.html#last) - produces a one-value iterable, with the last emitted
