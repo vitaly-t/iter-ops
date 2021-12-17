@@ -21,7 +21,7 @@ import {createOperation} from '../utils';
  * );
  *
  * // Below, even though we trigger iteration just for the first value,
- * // `onEnd` will still be triggerred, because we drain the iterable;
+ * // onEnd will still be triggerred, because we drain the iterable;
  *
  * await i.first; // triggers iteration
  * ```
