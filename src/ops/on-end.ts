@@ -31,8 +31,8 @@ export interface IIterationSummary<T> {
 
     /**
      * Iteration concurrency flag:
-     *  - `true` - iteration was synchronous
-     *  - `false` - iteration was asynchronous
+     *  - `true` - synchronous iteration
+     *  - `false` - asynchronous iteration
      */
     sync: boolean;
 }
