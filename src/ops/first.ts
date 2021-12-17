@@ -2,35 +2,37 @@ import {Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Produces a one-value iterable, with the last emitted value.
+ * Produces a one-value iterable, with the first emitted value.
+ *
+ * Without the optional predicate, it is the same as `take(1)`.
  *
  * ```ts
- * import {pipe, last} from 'iter-ops';
+ * import {pipe, first} from 'iter-ops';
  *
  * const i = pipe(
- *     [1, 2, 3],
- *     last()
+ *     [10, 20, 30],
+ *     first()
  * );
  *
- * console.log([...i]); //=> [3]
+ * console.log([...i]); //=> [10]
  *
- * console.log(i.first); //=> 3
+ * console.log(i.first); //=> 10
  * ```
  *
- * When optional predicate is provided, the last value satisfying it will be emitted.
+ * When the optional predicate is provided, the first value satisfying it will be emitted.
  *
  * ```ts
- * import {pipe, last} from 'iter-ops';
+ * import {pipe, first} from 'iter-ops';
  *
  * const i = pipe(
- *     [1, 2, 3, 4, 5, 6, 7, 8, 9],
- *     last(a => a % 2 === 0) // last even number
+ *     [1, 2, 3, 4, 5],
+ *     first(a => a % 2 === 0) // first even number
  * );
  *
- * console.log(i.first); //=> 8
+ * console.log([...i]); //=> [2]
  * ```
  *
- * @see [[takeLast]]
+ * @see [[last]], [[take]], [[takeLast]]
  * @category Sync+Async
  */
 export function first<T>(cb?: (value: T, index: number) => boolean): Operation<T, T> {
@@ -49,7 +51,7 @@ function firstSync<T>(iterable: Iterable<T>, cb?: (value: T, index: number) => b
                         return {value: undefined, done: true};
                     }
                     let a;
-                    while (!(a = i.next()).done && test && !test(a.value, index++)) ;
+                    while (!(a = i.next()).done && test && !test(a.value, index++));
                     finished = true;
                     return a;
                 }

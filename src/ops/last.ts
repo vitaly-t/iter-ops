@@ -17,7 +17,7 @@ import {createOperation} from '../utils';
  * console.log(i.first); //=> 3
  * ```
  *
- * When optional predicate is provided, the last value satisfying it will be emitted.
+ * When the optional predicate is provided, the last value satisfying it will be emitted.
  *
  * ```ts
  * import {pipe, last} from 'iter-ops';
@@ -30,7 +30,7 @@ import {createOperation} from '../utils';
  * console.log(i.first); //=> 8
  * ```
  *
- * @see [[takeLast]]
+ * @see [[takeLast]], [[first]]
  * @category Sync+Async
  */
 export function last<T>(cb?: (value: T, index: number) => boolean): Operation<T, T> {
