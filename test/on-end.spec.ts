@@ -1,16 +1,16 @@
 import {_async, _asyncValues, expect} from './header';
-import {pipe, onEnd, IIterationSummary} from '../src';
+import {pipe, delay, onEnd, IIterationSummary} from '../src';
 
 describe('sync onEnd', () => {
     it('must notify for non-empty iterables', () => {
         let s: IIterationSummary<any> = {} as any;
-        const i = pipe([1, 2, 3], onEnd(info => {
+        const i = pipe([10, 20, 30], onEnd(info => {
             s = info;
         }));
-        expect([...i]).to.eql([1, 2, 3]);
+        expect([...i]).to.eql([10, 20, 30]);
         expect(s.sync).to.be.true;
         expect(s.count).to.eql(3);
-        expect(s.lastValue).to.eq(3);
+        expect(s.lastValue).to.eq(30);
         expect(s.duration).to.be.greaterThanOrEqual(0);
     });
     it('must notify for empty iterables', () => {
@@ -38,14 +38,14 @@ describe('sync onEnd', () => {
 describe('async onEnd', () => {
     it('must notify for non-empty iterables', async () => {
         let s: IIterationSummary<any> = {} as any;
-        const i = pipe(_async([1, 2, 3]), onEnd(info => {
+        const i = pipe(_async([10, 20, 30]), delay(10), onEnd(info => {
             s = info;
         }));
-        expect(await _asyncValues(i)).to.eql([1, 2, 3]);
+        expect(await _asyncValues(i)).to.eql([10, 20, 30]);
         expect(s.sync).to.be.false;
         expect(s.count).to.eql(3);
-        expect(s.lastValue).to.eq(3);
-        expect(s.duration).to.be.greaterThanOrEqual(0);
+        expect(s.lastValue).to.eq(30);
+        expect(s.duration).to.be.greaterThanOrEqual(10);
     });
     it('must notify for empty iterables', async () => {
         let s: IIterationSummary<any> = {} as any;
