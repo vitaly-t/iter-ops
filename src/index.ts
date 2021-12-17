@@ -9,6 +9,7 @@ export {count} from './ops/count';
 export {defaultEmpty} from './ops/default-empty';
 export {delay} from './ops/async/delay';
 export {distinct} from './ops/distinct';
+export {drain} from './ops/drain';
 export {empty} from './ops/empty';
 export {every} from './ops/every';
 export {filter} from './ops/filter';

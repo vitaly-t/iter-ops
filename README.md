@@ -95,8 +95,8 @@ All standard operators implement the same logic as [Array] does:
   see [Error Handling].
 * [count](http://vitaly-t.github.io/iter-ops/index.html#count) - counts values, and produces a one-value iterable.
 * [defaultEmpty](http://vitaly-t.github.io/iter-ops/index.html#defaultEmpty) - adds default to an empty iterable.
-* [distinct](http://vitaly-t.github.io/iter-ops/index.html#distinct) - emits unique values, with optional key
-  selector.
+* [distinct](http://vitaly-t.github.io/iter-ops/index.html#distinct) - emits unique values, with optional key selector.
+* [drain](http://vitaly-t.github.io/iter-ops/index.html#drain) - drains the iterable, and then ends it.
 * [empty](http://vitaly-t.github.io/iter-ops/index.html#empty) - produces an empty iterable.
 * [indexBy](http://vitaly-t.github.io/iter-ops/index.html#indexBy) - emits indexed values that pass the predicate test.
 * [isEmpty](http://vitaly-t.github.io/iter-ops/index.html#isEmpty) - produces a one-value iterable, indicating if the
@@ -104,8 +104,8 @@ All standard operators implement the same logic as [Array] does:
 * [last](http://vitaly-t.github.io/iter-ops/index.html#last) - produces a one-value iterable, with the last emitted
   value.
 * [onEnd](http://vitaly-t.github.io/iter-ops/index.html#onEnd) - notifies of the end of a successful iteration.
-* [page](http://vitaly-t.github.io/iter-ops/index.html#page) - splits values into pages of fixed size (last page can
-  be smaller).
+* [page](http://vitaly-t.github.io/iter-ops/index.html#page) - splits values into pages of fixed size (last page can be
+  smaller).
 * [repeat](http://vitaly-t.github.io/iter-ops/index.html#repeat) - repeats iterable values.
 * [skip](http://vitaly-t.github.io/iter-ops/index.html#skip) - starts emitting values after certain count.
 * [split](http://vitaly-t.github.io/iter-ops/index.html#split) - splits values into separate lists - see [Split].
