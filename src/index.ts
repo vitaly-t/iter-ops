@@ -13,6 +13,7 @@ export {drain} from './ops/drain';
 export {empty} from './ops/empty';
 export {every} from './ops/every';
 export {filter} from './ops/filter';
+export {first} from './ops/first';
 export {indexBy, IIndexedValue} from './ops/index-by';
 export {isEmpty} from './ops/is-empty';
 export {last} from './ops/last';
