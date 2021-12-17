@@ -8,6 +8,8 @@ import {createOperation} from '../utils';
  * The operator doesn't change type of the previous iterable.
  *
  * ```ts
+ * import {pipe, map, wait, drain, onEnd} from 'iter-ops';
+ *
  * const i = pipe(
  *     iterable,
  *     map(a => myService.request(a)), // map into promise

@@ -1,4 +1,4 @@
-import {_async, _asyncValues, expect} from './header';
+import {_async, expect} from './header';
 import {pipe, drain, tap} from '../src';
 
 describe('sync drain', () => {
