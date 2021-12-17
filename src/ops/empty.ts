@@ -2,9 +2,12 @@ import {Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Produces an empty iterable.
+ * Produces an empty iterable, without pulling any values from the iterable,
+ * i.e. it simply replaces the iterable with an empty one.
  *
- * @see [[isEmpty]], [[defaultEmpty]]
+ * The operator doesn't change type of the previous iterable.
+ *
+ * @see [[drain]], [[isEmpty]], [[defaultEmpty]]
  * @category Sync+Async
  */
 export function empty<T>(): Operation<T, T> {
