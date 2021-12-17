@@ -35,7 +35,7 @@ export interface IValueTiming<T> {
 }
 
 /**
- * Measures timings for each value, and provides a notification.
+ * Measures timings for each value, and provides a notification callback.
  *
  * It is mainly to help evaluate performance of asynchronous lengthy iterables,
  * though it works synchronously also.

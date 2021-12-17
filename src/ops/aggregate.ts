@@ -3,7 +3,8 @@ import {createOperation} from '../utils';
 
 /**
  * Aggregates/accumulates all values into array, passes it into the callback/aggregate,
- * to process the data and return the result.
+ * to process the data and return the result. It is to simplify integration into the pipeline,
+ * of external functions that can only operate on a complete data set.
  *
  * If the callback result is an iterable that you want to emit values, follow it up with the [[spread]] operator.
  *
