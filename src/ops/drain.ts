@@ -37,7 +37,7 @@ function drainSync<T>(iterable: Iterable<T>): Iterable<T> {
             const i = iterable[Symbol.iterator]();
             return {
                 next(): IteratorResult<T> {
-                    while (!i.next().done) ;
+                    while (!i.next().done);
                     return {value: undefined, done: true};
                 }
             };
