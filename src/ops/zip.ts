@@ -29,7 +29,7 @@ function zipSync<T>(iterable: Iterable<T>, values: (Iterator<T> | Iterable<T>)[]
         [Symbol.iterator](): Iterator<Array<any>> {
             const list: Iterator<any>[] = [
                 iterable[Symbol.iterator](),
-                ...values.map(v => typeof v?.[Symbol.iterator] === 'function' ? v[Symbol.iterator]() : v)
+                ...values.map(v => typeof v[Symbol.iterator] === 'function' ? v[Symbol.iterator]() : v)
             ];
             let finished: boolean;
             return {
@@ -56,10 +56,27 @@ function zipSync<T>(iterable: Iterable<T>, values: (Iterator<T> | Iterable<T>)[]
 function zipAsync<T>(iterable: AsyncIterable<T>, values: AnyIterable<T>[]): AsyncIterable<Array<any>> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<Array<T>> {
-            // const i = iterable[Symbol.asyncIterator]();
-            // let index = 0;
+            const list: (Iterator<any> | AsyncIterator<any>)[] = [
+                iterable[Symbol.asyncIterator](),
+                ...values.map(v => typeof v[Symbol.iterator] === 'function' ? v[Symbol.iterator]() :
+                    (typeof v[Symbol.asyncIterator] === 'function' ? v[Symbol.asyncIterator]() : v))
+            ];
+            let finished: boolean;
             return {
                 next(): Promise<IteratorResult<Array<any>>> {
+                    if (!finished) {
+                        return Promise.all(list.map(i => i.next())).then(a => {
+                            const value = [];
+                            for (let i = 0; i < a.length; i++) {
+                                if (a[i].done) {
+                                    finished = true;
+                                    return {value: undefined, done: true};
+                                }
+                                value.push(a[i].value);
+                            }
+                            return {value, done: false};
+                        });
+                    }
                     return Promise.resolve({value: undefined, done: true});
                 }
             };
