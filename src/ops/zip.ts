@@ -2,7 +2,7 @@ import {AnyIterable, AnyIterator, AnyIterableIterator, Operation} from '../types
 import {createOperation} from '../utils';
 
 /**
- * Zips values together by index, into an array, while all iterables continue emitting.
+ * Zips values together by index, into an array, while all sources continue emitting.
  *
  * ```ts
  * import {pipe, zip} from 'iter-ops';
@@ -17,9 +17,11 @@ import {createOperation} from '../utils';
  *
  * The operator takes any number of `Iterable` + `Iterator` arguments.
  *
+ * @see [[combine]]
  * @category Sync+Async
  */
 export function zip<T>(): Operation<T, [T]>;
+
 /** @hidden */
 export function zip<T, A>(v0: AnyIterableIterator<A>): Operation<T, [T, A]>;
 /** @hidden */
