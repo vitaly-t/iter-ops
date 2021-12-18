@@ -36,3 +36,4 @@ export {throttle} from './ops/async/throttle';
 export {timing, IValueTiming} from './ops/timing';
 export {toArray} from './ops/to-array';
 export {wait} from './ops/async/wait';
+export {zip} from './ops/zip';

@@ -1,4 +1,4 @@
-import {AnyIterable, Operation} from '../types';
+import {AnyIterable, AnyIterator, Operation} from '../types';
 import {createOperation} from '../utils';
 
 type IT<T> = Iterator<T> | AsyncIterator<T> | Iterable<T> | AsyncIterable<T>;
@@ -24,12 +24,12 @@ export function zip<T>(...values: IT<T>[]): Operation<T, Array<any>> {
     return createOperation(zipSync, zipAsync, arguments);
 }
 
-function zipSync<T>(iterable: Iterable<T>, values: (Iterator<T> | Iterable<T>)[]): Iterable<Array<any>> {
+function zipSync<T>(iterable: Iterable<T>, ...values: (Iterator<T> | Iterable<T>)[]): Iterable<Array<any>> {
     return {
         [Symbol.iterator](): Iterator<Array<any>> {
             const list: Iterator<any>[] = [
                 iterable[Symbol.iterator](),
-                ...values.map(v => typeof v[Symbol.iterator] === 'function' ? v[Symbol.iterator]() : v)
+                ...values.map((v: any) => typeof v[Symbol.iterator] === 'function' ? v[Symbol.iterator]() : v)
             ];
             let finished: boolean;
             return {
@@ -53,12 +53,12 @@ function zipSync<T>(iterable: Iterable<T>, values: (Iterator<T> | Iterable<T>)[]
     };
 }
 
-function zipAsync<T>(iterable: AsyncIterable<T>, values: AnyIterable<T>[]): AsyncIterable<Array<any>> {
+function zipAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]): AsyncIterable<Array<any>> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<Array<T>> {
-            const list: (Iterator<any> | AsyncIterator<any>)[] = [
+            const list: AnyIterator<any>[] = [
                 iterable[Symbol.asyncIterator](),
-                ...values.map(v => typeof v[Symbol.iterator] === 'function' ? v[Symbol.iterator]() :
+                ...values.map((v: any) => typeof v[Symbol.iterator] === 'function' ? v[Symbol.iterator]() :
                     (typeof v[Symbol.asyncIterator] === 'function' ? v[Symbol.asyncIterator]() : v))
             ];
             let finished: boolean;
