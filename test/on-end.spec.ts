@@ -47,6 +47,14 @@ describe('async onEnd', () => {
         expect(s.lastValue).to.eq(30);
         expect(s.duration).to.be.greaterThanOrEqual(10);
     });
+    it('must measure timing from start', async () => {
+        let s: IIterationSummary<any> = {} as any;
+        const i = pipe(_async([1]), delay(10), onEnd(info => {
+            s = info;
+        }));
+        expect(await _asyncValues(i)).to.eql([1]);
+        expect(s.duration).to.be.greaterThanOrEqual(10);
+    });
     it('must notify for empty iterables', async () => {
         let s: IIterationSummary<any> = {} as any;
         const i = pipe(_async(), onEnd(info => {
