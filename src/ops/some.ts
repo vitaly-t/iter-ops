@@ -14,7 +14,7 @@ import {createOperation} from '../utils';
  *     some(a => a % 2 === 0) // checks if even numbers are present
  * );
  *
- * console.log([...i]); //=> [true]
+ * console.log(...i); //=> true
  *
  * console.log(i.first); //=> true
  * ```

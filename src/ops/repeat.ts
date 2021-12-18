@@ -12,7 +12,7 @@ import {createOperation} from '../utils';
  *     repeat(2)
  * );
  *
- * console.log([...i]); //=> [1, 1, 1, 2, 2, 2, 3, 3, 3]
+ * console.log(...i); //=> 1, 1, 1, 2, 2, 2, 3, 3, 3
  * ```
  *
  * @see [[retry]]
@@ -37,7 +37,7 @@ export function repeat<T>(count: number): Operation<T, T>;
  *     repeat((a, idx, c) => a % 2 === 0 && c < 2) // repeat even numbers 2 times
  * );
  *
- * console.log([...i]); //=> [1, 2, 2, 2, 3, 4, 4, 4, 5, 6, 6, 6, 7]
+ * console.log(...i); //=> 1, 2, 2, 2, 3, 4, 4, 4, 5, 6, 6, 6, 7
  * ```
  *
  * @see [[retry]]

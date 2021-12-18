@@ -12,7 +12,7 @@ import {createOperation} from '../utils';
  *     take(2)
  * );
  *
- * console.log([...i]); //=> [1, 2]
+ * console.log(...i); //=> 1, 2
  * ```
  *
  * @see [[takeLast]]

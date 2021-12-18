@@ -21,7 +21,7 @@ import {createOperation} from '../utils';
  *     spread() // spread aggregation result
  * );
  *
- * console.log([...i]); //=> [ 1, 2, 3, 4, 7, 8 ]
+ * console.log(...i); //=> 1, 2, 3, 4, 7, 8
  * ```
  *
  * @see [[https://github.com/vitaly-t/iter-ops/wiki/Aggregates Aggregates]]

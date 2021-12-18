@@ -12,7 +12,7 @@ import {createOperation} from '../utils';
  *     count()
  * );
  *
- * console.log([...i]); //=> [12]
+ * console.log(...i); //=> 12
  *
  * console.log(i.first); //=> 12
  * ```

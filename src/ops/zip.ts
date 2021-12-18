@@ -18,6 +18,17 @@ export function zip<T, A, B, C, D, E, F, G, H, I, J>(v0: IT<A>, v1: IT<B>, v2: I
 /**
  * Zips values together by index, into an array, while all iterables continue emitting.
  *
+ * ```ts
+ * import {pipe, zip} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3],
+ *     zip('hello')
+ * );
+ *
+ * console.log(...i); //=> [1, 'h'], [2, 'e'], [3, 'l']
+ * ```
+ *
  * @category Sync+Async
  */
 export function zip<T>(...values: IT<T>[]): Operation<T, Array<any>> {

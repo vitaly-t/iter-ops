@@ -14,7 +14,7 @@ import {createOperation} from '../utils';
  *     first()
  * );
  *
- * console.log([...i]); //=> [10]
+ * console.log(...i); //=> 10
  *
  * console.log(i.first); //=> 10
  * ```
@@ -29,7 +29,7 @@ import {createOperation} from '../utils';
  *     first(a => a % 2 === 0) // first even number
  * );
  *
- * console.log([...i]); //=> [2]
+ * console.log(...i); //=> 2
  * ```
  *
  * @see [[last]], [[take]], [[takeLast]]

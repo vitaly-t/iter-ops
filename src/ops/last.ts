@@ -12,7 +12,7 @@ import {createOperation} from '../utils';
  *     last()
  * );
  *
- * console.log([...i]); //=> [3]
+ * console.log(...i); //=> 3
  *
  * console.log(i.first); //=> 3
  * ```
