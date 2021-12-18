@@ -1,19 +1,5 @@
-import {AnyIterable, AnyIterator, Operation} from '../types';
+import {AnyIterable, AnyIterator, AnyIterableIterator, Operation} from '../types';
 import {createOperation} from '../utils';
-
-type IT<T> = Iterator<T> | AsyncIterator<T> | Iterable<T> | AsyncIterable<T>;
-
-export function zip<T>(): Operation<T, [T]>;
-export function zip<T, A>(v0: IT<A>): Operation<T, [T, A]>;
-export function zip<T, A, B>(v0: IT<A>, v1: IT<B>): Operation<T, [T, A, B]>;
-export function zip<T, A, B, C>(v0: IT<A>, v1: IT<B>, v2: IT<C>): Operation<T, [T, A, B, C]>;
-export function zip<T, A, B, C, D>(v0: IT<A>, v1: IT<B>, v2: IT<C>, v3: IT<D>): Operation<T, [T, A, B, C, D]>;
-export function zip<T, A, B, C, D, E>(v0: IT<A>, v1: IT<B>, v2: IT<C>, v3: IT<D>, v4: IT<E>): Operation<T, [T, A, B, C, D, E]>;
-export function zip<T, A, B, C, D, E, F>(v0: IT<A>, v1: IT<B>, v2: IT<C>, v3: IT<D>, v4: IT<E>, v5: IT<F>): Operation<T, [T, A, B, C, D, E, F]>;
-export function zip<T, A, B, C, D, E, F, G>(v0: IT<A>, v1: IT<B>, v2: IT<C>, v3: IT<D>, v4: IT<E>, v5: IT<F>, v6: IT<G>): Operation<T, [T, A, B, C, D, E, F, G]>;
-export function zip<T, A, B, C, D, E, F, G, H>(v0: IT<A>, v1: IT<B>, v2: IT<C>, v3: IT<D>, v4: IT<E>, v5: IT<F>, v6: IT<G>, v7: IT<H>): Operation<T, [T, A, B, C, D, E, F, G, H]>;
-export function zip<T, A, B, C, D, E, F, G, H, I>(v0: IT<A>, v1: IT<B>, v2: IT<C>, v3: IT<D>, v4: IT<E>, v5: IT<F>, v6: IT<G>, v7: IT<H>, v8: IT<I>): Operation<T, [T, A, B, C, D, E, F, G, H, I]>;
-export function zip<T, A, B, C, D, E, F, G, H, I, J>(v0: IT<A>, v1: IT<B>, v2: IT<C>, v3: IT<D>, v4: IT<E>, v5: IT<F>, v6: IT<G>, v7: IT<H>, v8: IT<I>, v9: IT<J>): Operation<T, [T, A, B, C, D, E, F, G, H, I, J]>;
 
 /**
  * Zips values together by index, into an array, while all iterables continue emitting.
@@ -23,15 +9,39 @@ export function zip<T, A, B, C, D, E, F, G, H, I, J>(v0: IT<A>, v1: IT<B>, v2: I
  *
  * const i = pipe(
  *     [1, 2, 3],
- *     zip('hello')
+ *     zip('hello') // <- any number of arguments
  * );
  *
  * console.log(...i); //=> [1, 'h'], [2, 'e'], [3, 'l']
  * ```
  *
+ * The operator takes any number of `Iterable` + `Iterator` arguments.
+ *
  * @category Sync+Async
  */
-export function zip<T>(...values: IT<T>[]): Operation<T, Array<any>> {
+export function zip<T>(): Operation<T, [T]>;
+/** @hidden */
+export function zip<T, A>(v0: AnyIterableIterator<A>): Operation<T, [T, A]>;
+/** @hidden */
+export function zip<T, A, B>(v0: AnyIterableIterator<A>, v1: AnyIterableIterator<B>): Operation<T, [T, A, B]>;
+/** @hidden */
+export function zip<T, A, B, C>(v0: AnyIterableIterator<A>, v1: AnyIterableIterator<B>, v2: AnyIterableIterator<C>): Operation<T, [T, A, B, C]>;
+/** @hidden */
+export function zip<T, A, B, C, D>(v0: AnyIterableIterator<A>, v1: AnyIterableIterator<B>, v2: AnyIterableIterator<C>, v3: AnyIterableIterator<D>): Operation<T, [T, A, B, C, D]>;
+/** @hidden */
+export function zip<T, A, B, C, D, E>(v0: AnyIterableIterator<A>, v1: AnyIterableIterator<B>, v2: AnyIterableIterator<C>, v3: AnyIterableIterator<D>, v4: AnyIterableIterator<E>): Operation<T, [T, A, B, C, D, E]>;
+/** @hidden */
+export function zip<T, A, B, C, D, E, F>(v0: AnyIterableIterator<A>, v1: AnyIterableIterator<B>, v2: AnyIterableIterator<C>, v3: AnyIterableIterator<D>, v4: AnyIterableIterator<E>, v5: AnyIterableIterator<F>): Operation<T, [T, A, B, C, D, E, F]>;
+/** @hidden */
+export function zip<T, A, B, C, D, E, F, G>(v0: AnyIterableIterator<A>, v1: AnyIterableIterator<B>, v2: AnyIterableIterator<C>, v3: AnyIterableIterator<D>, v4: AnyIterableIterator<E>, v5: AnyIterableIterator<F>, v6: AnyIterableIterator<G>): Operation<T, [T, A, B, C, D, E, F, G]>;
+/** @hidden */
+export function zip<T, A, B, C, D, E, F, G, H>(v0: AnyIterableIterator<A>, v1: AnyIterableIterator<B>, v2: AnyIterableIterator<C>, v3: AnyIterableIterator<D>, v4: AnyIterableIterator<E>, v5: AnyIterableIterator<F>, v6: AnyIterableIterator<G>, v7: AnyIterableIterator<H>): Operation<T, [T, A, B, C, D, E, F, G, H]>;
+/** @hidden */
+export function zip<T, A, B, C, D, E, F, G, H, I>(v0: AnyIterableIterator<A>, v1: AnyIterableIterator<B>, v2: AnyIterableIterator<C>, v3: AnyIterableIterator<D>, v4: AnyIterableIterator<E>, v5: AnyIterableIterator<F>, v6: AnyIterableIterator<G>, v7: AnyIterableIterator<H>, v8: AnyIterableIterator<I>): Operation<T, [T, A, B, C, D, E, F, G, H, I]>;
+/** @hidden */
+export function zip<T, A, B, C, D, E, F, G, H, I, J>(v0: AnyIterableIterator<A>, v1: AnyIterableIterator<B>, v2: AnyIterableIterator<C>, v3: AnyIterableIterator<D>, v4: AnyIterableIterator<E>, v5: AnyIterableIterator<F>, v6: AnyIterableIterator<G>, v7: AnyIterableIterator<H>, v8: AnyIterableIterator<I>, v9: AnyIterableIterator<J>): Operation<T, [T, A, B, C, D, E, F, G, H, I, J]>;
+
+export function zip<T>(...values: AnyIterableIterator<T>[]): Operation<T, Array<any>> {
     return createOperation(zipSync, zipAsync, arguments);
 }
 

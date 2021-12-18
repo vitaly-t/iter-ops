@@ -24,6 +24,10 @@ describe('sync zip', () => {
         i.next() && i.next() && i.next() && i.next(); // iteration over here
         expect(i.next()).to.eql({value: undefined, done: true});
     });
+    it('must work without arguments', () => {
+        const i = pipe([1, 2, 3], zip());
+        expect([...i]).to.eql([[1], [2], [3]]);
+    });
 });
 
 describe('async zip', () => {
@@ -35,5 +39,9 @@ describe('async zip', () => {
         const i = pipe(_async([1, 2, 3]), zip('here'))[Symbol.asyncIterator]();
         await Promise.all([i.next(), i.next(), i.next(), i.next()]); // iteration over here
         expect(await i.next()).to.eql({value: undefined, done: true});
+    });
+    it('must work without arguments', async () => {
+        const i = pipe(_async([1, 2, 3]), zip());
+        expect(await _asyncValues(i)).to.eql([[1], [2], [3]]);
     });
 });

@@ -121,6 +121,7 @@ All standard operators implement the same logic as [Array] does:
 * [tap](http://vitaly-t.github.io/iter-ops/index.html#tap) - taps into each value, without changing the output.
 * [timing](http://vitaly-t.github.io/iter-ops/index.html#timing) - measures timings for each value.
 * [toArray](http://vitaly-t.github.io/iter-ops/index.html#toArray) - accumulates values into an array.
+* [zip](http://vitaly-t.github.io/iter-ops/index.html#zip) - zips values together, into an array.
 
 #### <i>See also:</i>
 
