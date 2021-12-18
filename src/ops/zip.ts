@@ -24,13 +24,28 @@ export function zip<T>(...values: IT<T>[]): Operation<T, Array<any>> {
     return createOperation(zipSync, zipAsync, arguments);
 }
 
-function zipSync<T>(iterable: Iterable<T>, values: Iterator<T> | Iterable<T>[]): Iterable<Array<any>> {
+function zipSync<T>(iterable: Iterable<T>, values: (Iterator<T> | Iterable<T>)[]): Iterable<Array<any>> {
     return {
         [Symbol.iterator](): Iterator<Array<any>> {
-            // const i = iterable[Symbol.iterator]();
-            // let index = 0;
+            const list: Iterator<any>[] = [
+                iterable[Symbol.iterator](),
+                ...values.map(v => typeof v?.[Symbol.iterator] === 'function' ? v[Symbol.iterator]() : v)
+            ];
+            let finished: boolean;
             return {
                 next(): IteratorResult<Array<any>> {
+                    if (!finished) {
+                        const value = [];
+                        for (let i = 0; i < list.length; i++) {
+                            const v = list[i].next();
+                            if (v.done) {
+                                finished = true;
+                                return {value: undefined, done: true};
+                            }
+                            value.push(v.value);
+                        }
+                        return {value, done: false};
+                    }
                     return {value: undefined, done: true};
                 }
             };
@@ -38,7 +53,7 @@ function zipSync<T>(iterable: Iterable<T>, values: Iterator<T> | Iterable<T>[]):
     };
 }
 
-function zipAsync<T>(iterable: AsyncIterable<T>, values: AnyIterable<T>): AsyncIterable<Array<any>> {
+function zipAsync<T>(iterable: AsyncIterable<T>, values: AnyIterable<T>[]): AsyncIterable<Array<any>> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<Array<T>> {
             // const i = iterable[Symbol.asyncIterator]();
