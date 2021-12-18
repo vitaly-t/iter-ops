@@ -2,7 +2,7 @@ import {AnyIterable, AnyIterator, AnyIterableIterator, Operation} from '../types
 import {createOperation} from '../utils';
 
 /**
- * Zips values together by index, into an array, while all iterables continue emitting.
+ * Zips values together by index, into an array, while all sources continue emitting.
  *
  * ```ts
  * import {pipe, zip} from 'iter-ops';
@@ -17,9 +17,11 @@ import {createOperation} from '../utils';
  *
  * The operator takes any number of `Iterable` + `Iterator` arguments.
  *
+ * @see [[combine]]
  * @category Sync+Async
  */
 export function zip<T>(): Operation<T, [T]>;
+
 /** @hidden */
 export function zip<T, A>(v0: AnyIterableIterator<A>): Operation<T, [T, A]>;
 /** @hidden */
@@ -61,7 +63,7 @@ function zipSync<T>(iterable: Iterable<T>, ...values: (Iterator<T> | Iterable<T>
                             const v = list[i].next();
                             if (v.done) {
                                 finished = true;
-                                return {value: undefined, done: true};
+                                return v;
                             }
                             value.push(v.value);
                         }
@@ -91,7 +93,7 @@ function zipAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]): A
                             for (let i = 0; i < a.length; i++) {
                                 if (a[i].done) {
                                     finished = true;
-                                    return {value: undefined, done: true};
+                                    return a[i];
                                 }
                                 value.push(a[i].value);
                             }
