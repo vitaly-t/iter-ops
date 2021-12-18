@@ -106,8 +106,8 @@ function onEndAsync<T>(iterable: AsyncIterable<T>, cb: (s: IIterationSummary<T>)
             let start: number, finished: boolean, lastValue: T, count = 0;
             return {
                 next(): Promise<IteratorResult<T>> {
+                    start = start || Date.now();
                     return i.next().then(a => {
-                        start = start || Date.now();
                         if (a.done) {
                             if (!finished) {
                                 finished = true;
