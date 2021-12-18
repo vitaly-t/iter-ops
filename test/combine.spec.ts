@@ -1,4 +1,4 @@
-import {expect} from './header';
+import {_async, expect} from './header';
 import {pipe, combine} from '../src';
 
 function createIterator() {
@@ -35,4 +35,15 @@ describe('sync combine', () => {
 });
 
 describe('async combine', () => {
+    // TODO: This is temporary, until implemented.
+    it('must throw an error on any iteration attempt', async () => {
+        const i = pipe(_async([1, 2, 3]), combine('ops'));
+        let err: any;
+        try {
+            await i.first;
+        } catch (e) {
+            err = e;
+        }
+        expect(err.message).to.eql('Asynchronous version of operator "combine" does not exist');
+    });
 });

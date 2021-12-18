@@ -1,4 +1,4 @@
-import {AnyIterable, AnyIterableIterator, AnyIterator, Operation} from '../types';
+import {AnyIterable, AnyIterableIterator, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -6,6 +6,9 @@ import {createOperation} from '../utils';
  *
  * The first emit happens after all sources emit at least one value. After that,
  * any source emit will produce a new combination that will be emitted.
+ *
+ * _**NOTE:** The current version is missing asynchronous version, and will throw an error,
+ * if you try to use inside an asynchronous pipeline. Help is needed to implement it!_
  *
  * ```ts
  * import {pipe, combine} from 'iter-ops';
@@ -21,7 +24,7 @@ import {createOperation} from '../utils';
  * The operator takes any number of `Iterable` + `Iterator` arguments.
  *
  * @see [[zip]]
- * @category Sync+Async
+ * @category Sync-Only
  */
 export function combine<T>(): Operation<T, [T]>;
 
@@ -103,53 +106,15 @@ function combineSync<T>(iterable: Iterable<T>, ...values: (Iterator<T> | Iterabl
 function combineAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]): AsyncIterable<Array<any>> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<Array<T>> {
-            const list: Array<any> = [
-                iterable[Symbol.asyncIterator](),
-                ...values.map((v: any) => typeof v[Symbol.iterator] === 'function' ? v[Symbol.iterator]() :
-                    (typeof v[Symbol.asyncIterator] === 'function' ? v[Symbol.asyncIterator]() : v))
-            ];
-            let start: Promise<IteratorResult<Array<any>>>, finished: boolean, latest: Array<any>;
             return {
                 next(): Promise<IteratorResult<Array<any>>> {
-                    if (!start) {
-                        start = Promise.all(list.map(a => a.next())).then(all => {
-                            const value = [];
-                            for (let i = 0; i < all.length; i++) {
-                                const m = all[i];
-                                if (m.done) {
-                                    finished = true;
-                                    return m;
-                                }
-                                value.push(m.value);
-                            }
-                            latest = [...value];
-                            return {value, done: false};
-                        });
-                        return start;
-                    }
-                    if (!finished) {
-                        // TODO: This block needs rewriting
-                        const vals = list.map((a: any, idx: number) => {
-                            const p = a.next();
-                            const it = typeof p?.then === 'function' ? p : Promise.resolve(p);
-                            return it.then((v: any) => {
-                                if (v.done) {
-                                    list[idx] = null; // stop requesting values;
-                                    return false;
-                                }
-                                latest[idx] = v.value; // TODO: issue - we can get many of these, need caching
-                                return true;
-                            });
-                        });
-                        return start.then(() => Promise.race(vals).then(res => {
-                            if (res) {
-                                return res;
-                            }
-                            finished = true;
-                            return {value: undefined, done: true};
-                        }));
-                    }
-                    return Promise.resolve({value: undefined, done: true});
+                    // TODO: Asynchronous logic for this operator is by far the most complex piece
+                    //  in the entire library, and my first attempts at implementing it were unsuccessful.
+                    //  The logic here is very different from the synchronous version, and requires
+                    //  the use of Promise.race() + forward value caching.
+                    //  See what I tried within the "combine" branch.
+                    //  Any help here would be much appreciated!
+                    throw new Error('Asynchronous version of operator "combine" does not exist');
                 }
             };
         }
