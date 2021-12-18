@@ -4,7 +4,7 @@ import {createOperation} from '../utils';
 /**
  * Standard `Array.some` logic for the iterable, extended for supporting iteration state.
  *
- * It emits a boolean, indicating whether at least one element passes the predicate test.
+ * It emits a `boolean`, indicating whether at least one element passes the predicate test.
  *
  * ```ts
  * import {pipe, some} from 'iter-ops';

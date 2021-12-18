@@ -4,7 +4,7 @@ import {createOperation} from '../utils';
 /**
  * Standard `Array.every` logic for the iterable, extended for supporting iteration state.
  *
- * It emits a boolean, indicating whether all elements pass the predicate test.
+ * It emits a `boolean`, indicating whether all elements pass the predicate test.
  *
  * ```ts
  * import {pipe, every} from 'iter-ops';

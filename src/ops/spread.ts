@@ -4,7 +4,7 @@ import {createOperation} from '../utils';
 /**
  * Spreads iterable values.
  *
- * It requires that the input iterable emits iterable values only, or else it will throw an error.
+ * The source iterable is expected to emit iterable values only.
  *
  * ```ts
  * import {pipe, spread} from 'iter-ops';
@@ -16,6 +16,8 @@ import {createOperation} from '../utils';
  *
  * console.log([...i]); //=> ['f', 'i', 'r', 's', 't', 's', 'e', 'c', 'o', 'n', 'd']
  * ```
+ *
+ * It will throw an iteration-time error, if a non-iterable value is encountered.
  *
  * @category Sync+Async
  */

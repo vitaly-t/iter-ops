@@ -2,7 +2,7 @@ import {Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Drains the iterable of all emitted values, and then produces an empty iterable.
+ * Drains the iterable of all emitted values, and then emits an empty iterable.
  * Therefore, it cannot be used for infinite sequences.
  *
  * The operator doesn't change type of the previous iterable.
@@ -21,9 +21,9 @@ import {createOperation} from '../utils';
  * );
  *
  * // Below, even though we trigger iteration just for the first value,
- * // onEnd will still be triggerred, because we drain the iterable;
+ * // onEnd will still be triggerred, because we drain the iterable:
  *
- * await i.first; // triggers iteration
+ * await i.first; // iterates to the first item
  * ```
  *
  * @see [[empty]], [[isEmpty]], [[defaultEmpty]]
