@@ -4,6 +4,7 @@ export {pipe} from './pipe';
 
 export {aggregate} from './ops/aggregate';
 export {catchError} from './ops/catch-error';
+export {combine} from './ops/combine';
 export {concat} from './ops/concat';
 export {count} from './ops/count';
 export {defaultEmpty} from './ops/default-empty';

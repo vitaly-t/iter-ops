@@ -94,6 +94,7 @@ All standard operators implement the same logic as [Array] does:
 * [catchError](http://vitaly-t.github.io/iter-ops/index.html#catchError) - catches iteration errors -
   see [Error Handling].
 * [count](http://vitaly-t.github.io/iter-ops/index.html#count) - counts values, and produces a one-value iterable.
+* [combine](http://vitaly-t.github.io/iter-ops/index.html#combine) - emits combinations of the latest values from all sources.
 * [defaultEmpty](http://vitaly-t.github.io/iter-ops/index.html#defaultEmpty) - adds default to an empty iterable.
 * [distinct](http://vitaly-t.github.io/iter-ops/index.html#distinct) - emits unique values, with optional key selector.
 * [drain](http://vitaly-t.github.io/iter-ops/index.html#drain) - drains the iterable, and then ends it.

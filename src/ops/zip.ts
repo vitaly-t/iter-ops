@@ -63,7 +63,7 @@ function zipSync<T>(iterable: Iterable<T>, ...values: (Iterator<T> | Iterable<T>
                             const v = list[i].next();
                             if (v.done) {
                                 finished = true;
-                                return {value: undefined, done: true};
+                                return v;
                             }
                             value.push(v.value);
                         }
@@ -93,7 +93,7 @@ function zipAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]): A
                             for (let i = 0; i < a.length; i++) {
                                 if (a[i].done) {
                                     finished = true;
-                                    return {value: undefined, done: true};
+                                    return a[i];
                                 }
                                 value.push(a[i].value);
                             }

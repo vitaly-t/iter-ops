@@ -53,17 +53,46 @@ export function combine<T>(...values: AnyIterableIterator<T>[]): Operation<T, Ar
 function combineSync<T>(iterable: Iterable<T>, ...values: (Iterator<T> | Iterable<T>)[]): Iterable<Array<any>> {
     return {
         [Symbol.iterator](): Iterator<Array<any>> {
-            /*
-            const list: Iterator<any>[] = [
+            const list: Array<any> = [
                 iterable[Symbol.iterator](),
                 ...values.map((v: any) => typeof v[Symbol.iterator] === 'function' ? v[Symbol.iterator]() : v)
             ];
-            let finished: boolean;*/
+            let started: boolean, finished: boolean, latest: Array<any>;
             return {
                 next(): IteratorResult<Array<any>> {
-                    // TODO: logic here is clear - keep getting values from all sources,
-                    //  and emit the combinations while at least source keeps going.
-                    //  And we start after all emitted at least once.
+                    if (!started) {
+                        started = true;
+                        const value = [];
+                        for (let i = 0; i < list.length; i++) {
+                            const a = list[i].next();
+                            if (a.done) {
+                                finished = true;
+                                return a;
+                            }
+                            value.push(a.value);
+                        }
+                        latest = [...value];
+                        return {value, done: false};
+                    }
+                    if (!finished) {
+                        let hasValues = false;
+                        for (let k = 0; k < list.length; k++) {
+                            const m = list[k];
+                            if (m) {
+                                const a = m.next();
+                                if (a.done) {
+                                    list[k] = null; // stop requesting values
+                                } else {
+                                    hasValues = true;
+                                    latest[k] = a.value;
+                                }
+                            }
+                        }
+                        if (hasValues) {
+                            return {value: [...latest], done: false};
+                        }
+                        finished = true;
+                    }
                     return {value: undefined, done: true};
                 }
             };
@@ -83,6 +112,7 @@ function combineAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]
             let finished: boolean;*/
             // TODO: Parking, because logic for asynchronous "combine" isn't clear.
             //  This needs some thinking.
+            //  UPDATE: It is doable, but tricky :)
             return {
                 next(): Promise<IteratorResult<Array<any>>> {
                     return Promise.resolve({value: undefined, done: true});
