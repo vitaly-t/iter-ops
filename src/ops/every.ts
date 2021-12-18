@@ -14,7 +14,7 @@ import {createOperation} from '../utils';
  *     every(a => a % 2 === 0) // checks if every number is even
  * );
  *
- * console.log([...i]); //=> [false]
+ * console.log(...i); //=> false
  *
  * console.log(i.first); //=> false
  * ```

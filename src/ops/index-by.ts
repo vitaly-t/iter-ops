@@ -27,7 +27,7 @@ export interface IIndexedValue<T> {
  *     indexBy(a => a % 2 === 0) // index even numbers
  * );
  *
- * console.log([...i]); //=> [{index: 0, value: 12}, {index: 2, value: 30}]
+ * console.log(...i); //=> {index: 0, value: 12}, {index: 2, value: 30}
  * ```
  *
  * @see [[IIndexedValue]]

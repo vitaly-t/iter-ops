@@ -14,7 +14,7 @@ import {createOperation} from '../utils';
  *     spread()
  * );
  *
- * console.log([...i]); //=> ['f', 'i', 'r', 's', 't', 's', 'e', 'c', 'o', 'n', 'd']
+ * console.log(...i); //=> 'f', 'i', 'r', 's', 't', 's', 'e', 'c', 'o', 'n', 'd'
  * ```
  *
  * It will throw an iteration-time error, if a non-iterable value is encountered.

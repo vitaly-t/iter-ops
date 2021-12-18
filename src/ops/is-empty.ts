@@ -12,7 +12,7 @@ import {createOperation} from '../utils';
  *     isEmpty()
  * );
  *
- * console.log([...i]); //=> [true]
+ * console.log(...i); //=> true
  *
  * console.log(i.first); //=> true
  * ```
