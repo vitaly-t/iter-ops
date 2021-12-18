@@ -1,4 +1,4 @@
-import {AnyIterable, AnyIterableIterator, Operation} from '../types';
+import {AnyIterable, AnyIterableIterator, AnyIterator, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -103,18 +103,52 @@ function combineSync<T>(iterable: Iterable<T>, ...values: (Iterator<T> | Iterabl
 function combineAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]): AsyncIterable<Array<any>> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<Array<T>> {
-            /*
-            const list: AnyIterator<any>[] = [
+            const list: Array<any> = [
                 iterable[Symbol.asyncIterator](),
                 ...values.map((v: any) => typeof v[Symbol.iterator] === 'function' ? v[Symbol.iterator]() :
                     (typeof v[Symbol.asyncIterator] === 'function' ? v[Symbol.asyncIterator]() : v))
             ];
-            let finished: boolean;*/
-            // TODO: Parking, because logic for asynchronous "combine" isn't clear.
-            //  This needs some thinking.
-            //  UPDATE: It is doable, but tricky :)
+            let start: Promise<IteratorResult<Array<any>>>, finished: boolean, latest: Array<any>;
             return {
                 next(): Promise<IteratorResult<Array<any>>> {
+                    if (!start) {
+                        start = Promise.all(list.map(a => a.next())).then(all => {
+                            const value = [];
+                            for (let i = 0; i < all.length; i++) {
+                                const m = all[i];
+                                if (m.done) {
+                                    finished = true;
+                                    return m;
+                                }
+                                value.push(m.value);
+                            }
+                            latest = [...value];
+                            return {value, done: false};
+                        });
+                        return start;
+                    }
+                    if (!finished) {
+                        // TODO: This block needs rewriting
+                        const vals = list.map((a: any, idx: number) => {
+                            const p = a.next();
+                            const it = typeof p?.then === 'function' ? p : Promise.resolve(p);
+                            return it.then((v: any) => {
+                                if (v.done) {
+                                    list[idx] = null; // stop requesting values;
+                                    return false;
+                                }
+                                latest[idx] = v.value; // TODO: issue - we can get many of these, need caching
+                                return true;
+                            });
+                        });
+                        return start.then(() => Promise.race(vals).then(res => {
+                            if (res) {
+                                return res;
+                            }
+                            finished = true;
+                            return {value: undefined, done: true};
+                        }));
+                    }
                     return Promise.resolve({value: undefined, done: true});
                 }
             };
