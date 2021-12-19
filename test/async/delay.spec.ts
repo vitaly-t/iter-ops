@@ -17,7 +17,7 @@ describe('delay', () => {
         expect(duration).to.be.greaterThan(50);
     });
     it('must not add delay for empty iterables', async () => {
-        const output = pipe(_async(), delay(100));
+        const output = pipe(_async([]), delay(100));
         const start = Date.now();
         await _asyncValues(output);
         const duration = Date.now() - start;

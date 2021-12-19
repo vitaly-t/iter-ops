@@ -57,7 +57,7 @@ describe('async onEnd', () => {
     });
     it('must notify for empty iterables', async () => {
         let s: IIterationSummary<any> = {} as any;
-        const i = pipe(_async(), onEnd(info => {
+        const i = pipe(_async([]), onEnd(info => {
             s = info;
         }));
         expect(await _asyncValues(i)).to.eql([]);
@@ -68,7 +68,7 @@ describe('async onEnd', () => {
     });
     it('must emit only once', async () => {
         let count = 0;
-        const i = pipe(_async(), onEnd(() => {
+        const i = pipe(_async([]), onEnd(() => {
             count++;
         }))[Symbol.asyncIterator]();
         await i.next();

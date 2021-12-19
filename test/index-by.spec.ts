@@ -28,7 +28,7 @@ describe('sync indexBy', () => {
 
 describe('async indexBy', () => {
     it('must work for an empty list', async () => {
-        const i = pipe(_async(), indexBy(() => true));
+        const i = pipe(_async([]), indexBy(() => true));
         expect(await _asyncValues(i)).to.eql([]);
     });
     it('must work for partial match', async () => {

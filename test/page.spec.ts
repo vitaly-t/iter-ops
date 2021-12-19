@@ -54,7 +54,7 @@ describe('async page', () => {
         expect(await _asyncValues(i2), 'less then 1 page').to.eql([[1, 2]]);
     });
     it('must handle empty iterables', async () => {
-        const i = pipe(_async(), page(3));
+        const i = pipe(_async([]), page(3));
         expect(await _asyncValues(i)).to.eql([]);
     });
     it('must handle page size of 1', async () => {
@@ -65,19 +65,19 @@ describe('async page', () => {
         const errMsg = (value: any) => `Page size >= 1 is required: ${JSON.stringify(value)}`;
         let err: any;
         try {
-            await _asyncValues(pipe(_async(), page(0)));
+            await _asyncValues(pipe(_async([]), page(0)));
         } catch (e) {
             err = e;
         }
         expect(err.message).to.eq(errMsg(0));
         try {
-            await _asyncValues(pipe(_async(), page(-1)));
+            await _asyncValues(pipe(_async([]), page(-1)));
         } catch (e) {
             err = e;
         }
         expect(err.message).to.eq(errMsg(-1));
         try {
-            await _asyncValues(pipe(_async(), page('bla' as any)));
+            await _asyncValues(pipe(_async([]), page('bla' as any)));
         } catch (e) {
             err = e;
         }

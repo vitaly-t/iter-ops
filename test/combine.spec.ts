@@ -35,8 +35,27 @@ describe('sync combine', () => {
 });
 
 describe('async combine', () => {
-    it('must combine all values', async () => {
-        const i = pipe(_async([1, 2, 3]), combine(_async('here!'), createIterator()));
+    it('must combine all sync values', async () => {
+        const i = pipe(_async([1, 2, 3]), combine('here!', createIterator()));
         expect(await _asyncValues(i)).to.eql([[1, 'h', true], [2, 'e', false], [3, 'r', true], [3, 'e', false], [3, '!', false]]);
+    });
+    it('must combine all async values', async () => {
+        const i = pipe(_async([1, 2, 3]), combine(_async('here!'), _async(createIterator())));
+        expect(await _asyncValues(i)).to.eql([[1, 'h', true], [2, 'e', false], [3, 'r', true], [3, 'e', false], [3, '!', false]]);
+    });
+    it('must allow non-starters', async () => {
+        const i = pipe(_async([1, 2, 3]), combine([]));
+        expect(await _asyncValues(i)).to.eql([]);
+    });
+    it('must work without arguments', async () => {
+        const i = pipe(_async([1, 2, 3]), combine());
+        expect(await _asyncValues(i)).to.eql([[1], [2], [3]]);
+    });
+    it('must not retry once finished', async () => {
+        const i = pipe(_async([1, 2, 3]), combine('here'))[Symbol.asyncIterator]();
+        for (let k = 0; k < 5; k++) {
+            await i.next();
+        }
+        expect(await i.next()).to.eql({value: undefined, done: true});
     });
 });
