@@ -1,6 +1,9 @@
 import {Any, AnySync, Operation} from '../types';
 import {createOperation} from '../utils';
 
+/** @hidden */
+export function concat<T>(): Operation<T, T>;
+
 /**
  * Merges current iterable with a list of values, iterators or iterables.
  * Merged inputs are iterated over after depleting the current iterable, in the order in which they were specified,
@@ -10,9 +13,8 @@ import {createOperation} from '../utils';
  *
  * @category Sync+Async
  */
-export function concat<T>(): Operation<T, T>;
-/** @hidden */
 export function concat<T, A>(v0: Any<A>): Operation<T, T | A>;
+
 /** @hidden */
 export function concat<T, A, B>(v0: Any<A>, v1: Any<B>): Operation<T, T | A | B>;
 /** @hidden */

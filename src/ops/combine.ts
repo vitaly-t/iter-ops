@@ -1,6 +1,9 @@
 import {AnyIterable, AnyIterableIterator, AnyIterator, Operation} from '../types';
 import {createOperation} from '../utils';
 
+/** @hidden */
+export function combine<T>(): Operation<T, [T]>;
+
 /**
  * Emits combinations of the latest values from all sources, till all sources end.
  *
@@ -23,10 +26,8 @@ import {createOperation} from '../utils';
  * @see [[zip]]
  * @category Sync+Async
  */
-export function combine<T>(): Operation<T, [T]>;
-
-/** @hidden */
 export function combine<T, A>(v0: AnyIterableIterator<A>): Operation<T, [T, A]>;
+
 /** @hidden */
 export function combine<T, A, B>(v0: AnyIterableIterator<A>, v1: AnyIterableIterator<B>): Operation<T, [T, A, B]>;
 /** @hidden */

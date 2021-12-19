@@ -1,14 +1,16 @@
 import {AnyIterable, AsyncIterableExt, IterableExt, Operation} from './types';
 import {extendAsyncIterable, extendIterable, optimizeIterable} from './utils';
 
+/** @hidden */
+export function pipe<T>(i: Iterable<T>): IterableExt<T>;
+
 /**
  * Pipes a synchronous iterable through the list of operators, and returns an extended synchronous iterable.
  *
  * @category Core
  */
-export function pipe<T>(i: Iterable<T>): IterableExt<T>;
-/** @hidden */
 export function pipe<T, A>(i: Iterable<T>, p0: Operation<T, A>): IterableExt<A>;
+
 /** @hidden */
 export function pipe<T, A, B>(i: Iterable<T>, p0: Operation<T, A>, p1: Operation<A, B>): IterableExt<B>;
 /** @hidden */
@@ -28,14 +30,16 @@ export function pipe<T, A, B, C, D, E, F, G, H, I>(i: Iterable<T>, p0: Operation
 /** @hidden */
 export function pipe<T, A, B, C, D, E, F, G, H, I, J>(i: Iterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>, p3: Operation<C, D>, p4: Operation<D, E>, p5: Operation<E, F>, p6: Operation<F, G>, p7: Operation<G, H>, p8: Operation<H, I>, p9: Operation<I, J>): IterableExt<J>;
 
+/** @hidden */
+export function pipe<T>(i: AnyIterable<T>): AsyncIterableExt<T>;
+
 /**
  * Pipes an asynchronous iterable through the list of operators, and returns an extended asynchronous iterable.
  *
  * @category Core
  */
-export function pipe<T>(i: AnyIterable<T>): AsyncIterableExt<T>;
-/** @hidden */
 export function pipe<T, A>(i: AnyIterable<T>, p0: Operation<T, A>): AsyncIterableExt<A>;
+
 /** @hidden */
 export function pipe<T, A, B>(i: AnyIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>): AsyncIterableExt<B>;
 /** @hidden */
