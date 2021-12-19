@@ -20,7 +20,6 @@ export function zip<T>(): Operation<T, [T]>;
  *
  * The operator takes any number of `Iterable` + `Iterator` arguments.
  *
- * @see [[combine]]
  * @category Sync+Async
  */
 export function zip<T, A>(v0: AnyIterableIterator<A>): Operation<T, [T, A]>;
