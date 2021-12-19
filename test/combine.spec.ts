@@ -58,4 +58,41 @@ describe('async combine', () => {
         }
         expect(await i.next()).to.eql({value: undefined, done: true});
     });
+    describe('with errors', () => {
+        it('must handle sync start errors', async () => {
+            let err: any;
+            const problem: AsyncIterator<any> = {
+                next() {
+                    return Promise.reject('ops');
+                }
+            };
+            const i = pipe(_async([1, 2, 3]), combine(problem));
+            try {
+                await _asyncValues(i);
+            } catch (e) {
+                err = e;
+            }
+            expect(err).to.eql('ops');
+        });
+        it('must handle sync after-start errors', async () => {
+            let err: any, emitted: boolean;
+            const problem: AsyncIterator<any> = {
+                async next() {
+                    if (!emitted) {
+                        emitted = true;
+                        return {value: 'hi', done: false};
+                    }
+                    return Promise.reject('ops');
+                }
+            };
+            const i = pipe(_async([1, 2, 3]), combine(problem));
+            try {
+                await _asyncValues(i);
+            } catch (e) {
+                err = e;
+            }
+            expect(err).to.eql('ops');
+        });
+
+    });
 });

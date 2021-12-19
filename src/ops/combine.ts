@@ -113,7 +113,7 @@ function combineAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]
                 // forever-pending promise
             });
             let start: Promise<IteratorResult<any[]>>, finished: boolean, latest: any[] = new Array(list.length),
-                changed = false, error: any, finishedCount = 0;
+                changed = false, finishedCount = 0, lastError: { err: any } | null;
             return {
                 next(): Promise<IteratorResult<any>> {
                     if (!start) {
@@ -149,15 +149,15 @@ function combineAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]
                                 }
                                 latest[index] = v.value;
                                 changed = true;
-                            }).catch((e: any) => {
-                                error = error || e;
+                            }).catch((err: any) => {
+                                lastError = lastError || {err};
                             });
                         });
                         return start
                             .then(() => {
-                                if (error) {
-                                    const r = Promise.reject(error);
-                                    error = null;
+                                if (lastError) {
+                                    const r = Promise.reject(lastError.err);
+                                    lastError = null;
                                     return r;
                                 }
                                 if (changed) {
@@ -171,9 +171,6 @@ function combineAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]
                                     }
                                     changed = false;
                                     return {value: [...latest], done: false};
-                                }).catch(err => {
-                                    finished = true;
-                                    throw err;
                                 });
                             });
                     }
