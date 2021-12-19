@@ -46,29 +46,29 @@ describe('async concat', () => {
     describe('with iterators', () => {
         it('must support sync ones', async () => {
             const input = [1, 2, 3][Symbol.iterator]();
-            const result = pipe(_async(), concat(input));
+            const result = pipe(_async([]), concat(input));
             expect(await _asyncValues(result)).to.eql([1, 2, 3]);
         });
         it('must support async ones', async () => {
             const input = _async([1, 2, 3])[Symbol.asyncIterator]();
-            const result = pipe(_async(), concat(input));
+            const result = pipe(_async([]), concat(input));
             expect(await _asyncValues(result)).to.eql([1, 2, 3]);
         });
         it('must treat "next" property as value', async () => {
             const input = {next: 123};
-            const result = pipe(_async(), concat(input));
+            const result = pipe(_async([]), concat(input));
             expect(await _asyncValues(result)).to.eql([input]);
         });
     });
     describe('with iterables', () => {
         it('must support sync ones', async () => {
             const input = [1, 2, 3];
-            const result = pipe(_async(), concat(input));
+            const result = pipe(_async([]), concat(input));
             expect(await _asyncValues(result)).to.eql([1, 2, 3]);
         });
         it('must support async ones', async () => {
             const input = _async([1, 2, 3]);
-            const result = pipe(_async(), concat(input));
+            const result = pipe(_async([]), concat(input));
             expect(await _asyncValues(result)).to.eql([1, 2, 3]);
         });
     });
@@ -78,13 +78,13 @@ describe('async concat', () => {
             expect(await _asyncValues(result)).to.eql([1, 2, 3]);
         });
         it('must produce nothing', async () => {
-            const result = pipe(_async(), concat());
+            const result = pipe(_async([]), concat());
             expect(await _asyncValues(result)).to.eql([]);
         });
     });
     describe('with empty source', () => {
         it('must append inputs', async () => {
-            const result = pipe(_async(), concat(1, [2, 3]));
+            const result = pipe(_async([]), concat(1, [2, 3]));
             expect(await _asyncValues(result)).to.eql([1, 2, 3]);
         });
     });

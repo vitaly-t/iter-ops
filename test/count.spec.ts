@@ -27,7 +27,7 @@ describe('async count', () => {
         expect(await output.first).to.eql(input.length);
     });
     it('must handle empty iterables', async () => {
-        const output = pipe(_async(), count());
+        const output = pipe(_async([]), count());
         expect(await output.first).to.eql(0);
     });
     it('must not generate more than one value', async () => {

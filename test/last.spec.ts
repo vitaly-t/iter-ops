@@ -37,7 +37,7 @@ describe('async last', () => {
             expect(await _asyncValues(i)).to.eql([3]);
         });
         it('must emit nothing for empty iterables', async () => {
-            const output = pipe(_async(), last());
+            const output = pipe(_async([]), last());
             expect(await _asyncValues(output)).to.eql([]);
         });
     });

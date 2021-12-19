@@ -29,13 +29,13 @@ describe('async aggregate', () => {
         expect(await _asyncValues(output)).to.eql([6]);
     });
     it('must handle empty iterables', async () => {
-        const output = pipe(_async(), aggregate(arr => {
+        const output = pipe(_async([]), aggregate(arr => {
             return arr;
         }));
         expect(await _asyncValues(output)).to.eql([[]]);
     });
     it('must allow return of nothing', async () => {
-        const output = pipe(_async(), aggregate(arr => {
+        const output = pipe(_async([]), aggregate(arr => {
         }));
         expect(await _asyncValues(output)).to.eql([undefined]);
     });

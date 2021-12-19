@@ -71,7 +71,7 @@ describe('async defaultEmpty', () => {
     });
     describe('for an empty source', () => {
         it('must add values', async () => {
-            const output = pipe(_async(), defaultEmpty(123));
+            const output = pipe(_async([]), defaultEmpty(123));
             expect(await _asyncValues(output)).to.eql([123]);
         });
         it('must add iterators', async () => {
@@ -84,15 +84,15 @@ describe('async defaultEmpty', () => {
                     return {value: undefined, done: true};
                 }
             };
-            const output = pipe(_async(), defaultEmpty(input));
+            const output = pipe(_async([]), defaultEmpty(input));
             expect(await _asyncValues(output)).to.eql([3, 2, 1, 0]);
         });
         it('must treat "next" property as value', async () => {
-            const output = pipe(_async(), defaultEmpty({next: 123}));
+            const output = pipe(_async([]), defaultEmpty({next: 123}));
             expect(await _asyncValues(output)).to.eql([{next: 123}]);
         });
         it('must add iterables', async () => {
-            const output = pipe(_async(), defaultEmpty([1, 2]));
+            const output = pipe(_async([]), defaultEmpty([1, 2]));
             expect(await _asyncValues(output)).to.eql([1, 2]);
         });
     });
