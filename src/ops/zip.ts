@@ -18,7 +18,7 @@ export function zip<T>(): Operation<T, [T]>;
  * console.log(...i); //=> [1, 'h'], [2, 'e'], [3, 'l']
  * ```
  *
- * The operator takes any number of `Iterable` + `Iterator` arguments.
+ * The operator takes any number of iterable or iterator arguments.
  *
  * @category Sync+Async
  */
