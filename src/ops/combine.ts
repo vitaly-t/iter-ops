@@ -1,14 +1,11 @@
-import {AnyIterable, AnyIterableIterator, Operation} from '../types';
+import {AnyIterable, AnyIterableIterator, AnyIterator, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Emits combinations of the latest values from all sources.
+ * Emits combinations of the latest values from all sources, till all sources end.
  *
  * The first emit happens after all sources emit at least one value. After that,
  * any source emit will produce a new combination that will be emitted.
- *
- * _**NOTE:** The current version is missing asynchronous version, and will throw an error,
- * if you try to use inside an asynchronous pipeline. Help is needed to implement it!_
  *
  * ```ts
  * import {pipe, combine} from 'iter-ops';
@@ -21,10 +18,10 @@ import {createOperation} from '../utils';
  * console.log(...i); //=> [1, 'h'], [2, 'e'], [3, 'l'], [3, 'l'], [3, 'o']
  * ```
  *
- * The operator takes any number of `Iterable` + `Iterator` arguments.
+ * The operator takes any number of sync/async iterable or iterator arguments.
  *
  * @see [[zip]]
- * @category Sync-Only
+ * @category Sync+Async
  */
 export function combine<T>(): Operation<T, [T]>;
 
@@ -103,18 +100,83 @@ function combineSync<T>(iterable: Iterable<T>, ...values: (Iterator<T> | Iterabl
     };
 }
 
-function combineAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]): AsyncIterable<Array<any>> {
+function combineAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]): AsyncIterable<any[]> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<Array<T>> {
+        [Symbol.asyncIterator](): AsyncIterator<T[]> {
+            const list: AnyIterator<any>[] = [
+                iterable[Symbol.asyncIterator](),
+                ...values.map((v: any) => typeof v[Symbol.iterator] === 'function' ? v[Symbol.iterator]() :
+                    (typeof v[Symbol.asyncIterator] === 'function' ? v[Symbol.asyncIterator]() : v))
+            ];
+            const pending = new Promise(() => {
+                // forever-pending promise
+            });
+            let start: Promise<IteratorResult<any[]>>, finished: boolean, latest: any[] = new Array(list.length),
+                changed = false, error: any, finishedCount = 0;
             return {
-                next(): Promise<IteratorResult<Array<any>>> {
-                    // TODO: Asynchronous logic for this operator is by far the most complex piece
-                    //  in the entire library, and my first attempts at implementing it were unsuccessful.
-                    //  The logic here is very different from the synchronous version, and requires
-                    //  the use of Promise.race() + forward value caching.
-                    //  See what I tried within the "combine" branch.
-                    //  Any help here would be much appreciated!
-                    throw new Error('Asynchronous version of operator "combine" does not exist');
+                next(): Promise<IteratorResult<any>> {
+                    if (!start) {
+                        start = Promise.all(list.map(a => a.next())).then(all => {
+                            const value = [];
+                            for (let i = 0; i < all.length; i++) {
+                                const m = all[i];
+                                if (m.done) {
+                                    finished = true;
+                                    return m;
+                                }
+                                value.push(m.value);
+                            }
+                            latest = [...value];
+                            return {value, done: false};
+                        });
+                        return start;
+                    }
+                    if (!finished) {
+                        const getValues = () => list.map((a, index) => {
+                            if (!a) {
+                                return pending;
+                            }
+                            const p = a.next() as any;
+                            const it = typeof p.then === 'function' ? p : Promise.resolve(p);
+                            return it.then((v: any) => {
+                                if (v.done) {
+                                    list[index] = null as any; // stop requesting values;
+                                    if (++finishedCount === list.length) {
+                                        return Promise.resolve(true); // the end;
+                                    }
+                                    return pending;
+                                }
+                                latest[index] = v.value;
+                                changed = true;
+                            }).catch((e: any) => {
+                                error = error || e;
+                            });
+                        });
+                        return start
+                            .then(() => {
+                                if (error) {
+                                    const r = Promise.reject(error);
+                                    error = null;
+                                    return r;
+                                }
+                                if (changed) {
+                                    changed = false;
+                                    return {value: [...latest], done: false};
+                                }
+                                return Promise.race(getValues()).then(end => {
+                                    if (end) {
+                                        finished = true;
+                                        return {value: undefined, done: true};
+                                    }
+                                    changed = false;
+                                    return {value: [...latest], done: false};
+                                }).catch(err => {
+                                    finished = true;
+                                    throw err;
+                                });
+                            });
+                    }
+                    return Promise.resolve({value: undefined, done: true});
                 }
             };
         }
