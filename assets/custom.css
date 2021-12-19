@@ -1,17 +1,5 @@
-:root {
-    --code-bg: #F0F0F0;
-}
-
-code {
+p > code {
     color: crimson;
     font-size: 0.9em;
-    background-color: var(--code-bg);
-}
-
-pre > code {
-    background-color: var(--code-bg);
-}
-
-pre {
-    background-color: var(--code-bg);
+    text-shadow: 1px 1px 1px lightgray;
 }
