@@ -1,4 +1,4 @@
-import {AnyIterable, AnyIterableIterator, Operation} from '../types';
+import {AnyIterable, AnyIterableIterator, AnyIterator, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -103,7 +103,7 @@ function combineSync<T>(iterable: Iterable<T>, ...values: (Iterator<T> | Iterabl
 function combineAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]): AsyncIterable<any[]> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<T[]> {
-            const list: any[] = [
+            const list: AnyIterator<any>[] = [
                 iterable[Symbol.asyncIterator](),
                 ...values.map((v: any) => typeof v[Symbol.iterator] === 'function' ? v[Symbol.iterator]() :
                     (typeof v[Symbol.asyncIterator] === 'function' ? v[Symbol.asyncIterator]() : v))
@@ -132,15 +132,15 @@ function combineAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]
                         return start;
                     }
                     if (!finished) {
-                        const getValues = () => list.map((a: any, index: number) => {
+                        const getValues = () => list.map((a, index) => {
                             if (!a) {
                                 return pending;
                             }
-                            const p = a.next();
-                            const it = typeof p?.then === 'function' ? p : Promise.resolve(p);
+                            const p = a.next() as any;
+                            const it = typeof p.then === 'function' ? p : Promise.resolve(p);
                             return it.then((v: any) => {
                                 if (v.done) {
-                                    list[index] = null; // stop requesting values;
+                                    list[index] = null as any; // stop requesting values;
                                     if (++finishedCount === list.length) {
                                         return Promise.resolve(true); // the end;
                                     }
@@ -155,8 +155,9 @@ function combineAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]
                         return start
                             .then(() => {
                                 if (error) {
+                                    const r = Promise.reject(error);
                                     error = null;
-                                    return Promise.reject(error);
+                                    return r;
                                 }
                                 if (changed) {
                                     changed = false;

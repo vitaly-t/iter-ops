@@ -36,7 +36,7 @@ describe('sync combine', () => {
 
 describe('async combine', () => {
     it('must combine all values', async () => {
-        const i = pipe(_async([1, 2, 3]), combine('here!', createIterator()));
+        const i = pipe(_async([1, 2, 3]), combine(_async('here!'), createIterator()));
         expect(await _asyncValues(i)).to.eql([[1, 'h', true], [2, 'e', false], [3, 'r', true], [3, 'e', false], [3, '!', false]]);
     });
 });
