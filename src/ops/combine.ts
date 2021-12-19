@@ -1,4 +1,4 @@
-import {AnyIterable, AnyIterableIterator, AnyIterator, Operation} from '../types';
+import {AnyIterable, AnyIterableIterator, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -100,17 +100,21 @@ function combineSync<T>(iterable: Iterable<T>, ...values: (Iterator<T> | Iterabl
     };
 }
 
-function combineAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]): AsyncIterable<Array<any>> {
+function combineAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]): AsyncIterable<any[]> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<Array<T>> {
-            const list: Array<any> = [
+        [Symbol.asyncIterator](): AsyncIterator<T[]> {
+            const list: any[] = [
                 iterable[Symbol.asyncIterator](),
                 ...values.map((v: any) => typeof v[Symbol.iterator] === 'function' ? v[Symbol.iterator]() :
                     (typeof v[Symbol.asyncIterator] === 'function' ? v[Symbol.asyncIterator]() : v))
             ];
-            let start: Promise<IteratorResult<Array<any>>>, finished: boolean, latest: Array<any>;
+            const pending = new Promise(() => {
+                // forever-pending promise
+            });
+            let start: Promise<IteratorResult<any[]>>, finished: boolean, latest: any[] = new Array(list.length),
+                changed = false, error: any, finishedCount = 0;
             return {
-                next(): Promise<IteratorResult<Array<any>>> {
+                next(): Promise<IteratorResult<any>> {
                     if (!start) {
                         start = Promise.all(list.map(a => a.next())).then(all => {
                             const value = [];
@@ -128,26 +132,48 @@ function combineAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]
                         return start;
                     }
                     if (!finished) {
-                        // TODO: This block needs rewriting
-                        const vals = list.map((a: any, idx: number) => {
+                        const getValues = () => list.map((a: any, index: number) => {
+                            if (!a) {
+                                return pending;
+                            }
                             const p = a.next();
                             const it = typeof p?.then === 'function' ? p : Promise.resolve(p);
                             return it.then((v: any) => {
                                 if (v.done) {
-                                    list[idx] = null; // stop requesting values;
-                                    return false;
+                                    list[index] = null; // stop requesting values;
+                                    if (++finishedCount === list.length) {
+                                        return Promise.resolve(true); // the end;
+                                    }
+                                    return pending;
                                 }
-                                latest[idx] = v.value; // TODO: issue - we can get many of these, need caching
-                                return true;
+                                latest[index] = v.value;
+                                changed = true;
+                            }).catch((e: any) => {
+                                error = error || e;
                             });
                         });
-                        return start.then(() => Promise.race(vals).then(res => {
-                            if (res) {
-                                return res;
-                            }
-                            finished = true;
-                            return {value: undefined, done: true};
-                        }));
+                        return start
+                            .then(() => {
+                                if (error) {
+                                    error = null;
+                                    return Promise.reject(error);
+                                }
+                                if (changed) {
+                                    changed = false;
+                                    return {value: [...latest], done: false};
+                                }
+                                return Promise.race(getValues()).then(end => {
+                                    if (end) {
+                                        finished = true;
+                                        return {value: undefined, done: true};
+                                    }
+                                    changed = false;
+                                    return {value: [...latest], done: false};
+                                }).catch(err => {
+                                    finished = true;
+                                    throw err;
+                                });
+                            });
                     }
                     return Promise.resolve({value: undefined, done: true});
                 }

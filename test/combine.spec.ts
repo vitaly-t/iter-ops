@@ -1,4 +1,4 @@
-import {expect} from './header';
+import {_async, _asyncValues, expect} from './header';
 import {pipe, combine} from '../src';
 
 function createIterator() {
@@ -35,4 +35,8 @@ describe('sync combine', () => {
 });
 
 describe('async combine', () => {
+    it('must combine all values', async () => {
+        const i = pipe(_async([1, 2, 3]), combine('here!', createIterator()));
+        expect(await _asyncValues(i)).to.eql([[1, 'h', true], [2, 'e', false], [3, 'r', true], [3, 'e', false], [3, '!', false]]);
+    });
 });
