@@ -142,7 +142,7 @@ function combineAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]
                                 if (v.done) {
                                     list[index] = null as any; // stop requesting values;
                                     if (++finishedCount === list.length) {
-                                        return Promise.resolve(true); // the end;
+                                        return true; // the end;
                                     }
                                     return pending;
                                 }
