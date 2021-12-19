@@ -2,7 +2,7 @@ import {AnyIterable, AnyIterableIterator, AnyIterator, Operation} from '../types
 import {createOperation} from '../utils';
 
 /**
- * Emits combinations of the latest values from all sources.
+ * Emits combinations of the latest values from all sources, till all sources end.
  *
  * The first emit happens after all sources emit at least one value. After that,
  * any source emit will produce a new combination that will be emitted.
@@ -18,7 +18,7 @@ import {createOperation} from '../utils';
  * console.log(...i); //=> [1, 'h'], [2, 'e'], [3, 'l'], [3, 'l'], [3, 'o']
  * ```
  *
- * The operator takes any number of `Iterable` + `Iterator` arguments.
+ * The operator takes any number of sync/async iterable or iterator arguments.
  *
  * @see [[zip]]
  * @category Sync+Async
