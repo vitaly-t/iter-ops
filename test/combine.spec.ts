@@ -58,6 +58,28 @@ describe('async combine', () => {
         }
         expect(await i.next()).to.eql({value: undefined, done: true});
     });
+    /*
+    // TODO: Doesn't work, just hangs (test only)
+    it('must handle complex race scenarios', async () => {
+        const p1 = _async([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+        const p2 = async function* evenNumbers(maxEven: number): AsyncIterableIterator<number> {
+            for (let i = 2; i <= maxEven; i += 2) {
+                yield new Promise<number>(resolve => {
+                    setTimeout(() => resolve(i), 10);
+                });
+            }
+        };
+        const p3 = async function* oddNumbers(maxOdd: number): AsyncIterableIterator<number> {
+            for (let i = 1; i <= maxOdd; i += 2) {
+                yield new Promise<number>(resolve => {
+                    setTimeout(() => resolve(i), 5);
+                });
+            }
+        };
+        const i = pipe(p1, combine(p2(12), p3(9)));
+        expect(await _asyncValues(i)).to.eql([]);
+    }).timeout(5_000);
+    */
     describe('with errors', () => {
         it('must handle sync start errors', async () => {
             let err: any;
