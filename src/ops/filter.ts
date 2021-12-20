@@ -4,8 +4,25 @@ import {createOperation} from '../utils';
 /**
  * Standard `Array.filter` logic for the iterable, extended for supporting iteration state.
  *
- * @see [Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+ * In the example below, we take advantage of the [[IterationState]], to detect and remove repeated
+ * values (do not confuse with [[distinct]], which removes all duplicates).
  *
+ * ```ts
+ * import {pipe, filter} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     iterable,
+ *     filter((value, index, state) => {
+ *         if(value === state.previousValue) {
+ *             return false;
+ *         }
+ *         state.previousValue = value;
+ *         return true;
+ *     })
+ * );
+ * ```
+ *
+ * @see [Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
  * @category Sync+Async
  */
 export function filter<T>(cb: (value: T, index: number, state: IterationState) => boolean): Operation<T, T> {

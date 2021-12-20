@@ -4,6 +4,17 @@ import {createOperation} from '../utils';
 /**
  * Stops emitting values, once the predicate returns a truthy value.
  *
+ * ```ts
+ * import {pipe, stop} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5, 6, 7, 8, 9],
+ *     stop(a => a === 5) // stop emitting once 5 is encountered
+ * );
+ *
+ * console.log(...i); //=> 1, 2, 3, 4
+ * ```
+ *
  * @category Sync+Async
  */
 export function stop<T>(cb: (value: T, index: number, state: IterationState) => boolean): Operation<T, T> {

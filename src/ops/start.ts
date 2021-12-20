@@ -4,6 +4,17 @@ import {createOperation} from '../utils';
 /**
  * Starts emitting values, once the predicate returns a truthy value.
  *
+ * ```ts
+ * import {pipe, start} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5, 6, 7, 8, 9],
+ *     start(a => a === 5) // start emitting when 5 is encountered
+ * );
+ *
+ * console.log(...i); //=> 5, 6, 7, 8, 9
+ * ```
+ *
  * @see [[stop]]
  * @category Sync+Async
  */
