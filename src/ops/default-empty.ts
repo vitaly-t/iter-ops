@@ -4,6 +4,17 @@ import {createOperation} from '../utils';
 /**
  * Adds a default iterable to an empty pipeline.
  *
+ * ```ts
+ * import {pipe, defaultEmpty} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [], // empty iterable/pipeline
+ *     defaultEmpty([1, 2, 3]) // default for an empty pipeline
+ * );
+ *
+ * console.log(...i); //=> 1, 2, 3
+ * ```
+ *
  * @see [[empty]], [[isEmpty]]
  * @category Sync+Async
  */
