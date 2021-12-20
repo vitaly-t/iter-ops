@@ -27,15 +27,15 @@ function startSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
             const state: IterationState = {};
-            let index = 0, finished = false;
+            let index = 0, started: boolean;
             return {
                 next(): IteratorResult<T> {
                     let a = i.next();
-                    if (!finished) {
+                    if (!started) {
                         while (!a.done && !cb(a.value, index++, state)) {
                             a = i.next();
                         }
-                        finished = true;
+                        started = true;
                     }
                     return a;
                 }
@@ -49,14 +49,14 @@ function startAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number,
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
             const state: IterationState = {};
-            let index = 0, finished = false;
+            let index = 0, started: boolean;
             return {
                 next(): Promise<IteratorResult<T>> {
                     return i.next().then(a => {
-                        if (!finished) {
-                            finished = a.done || cb(a.value, index++, state);
+                        if (!started) {
+                            started = a.done || cb(a.value, index++, state);
                         }
-                        return finished ? a : this.next();
+                        return started ? a : this.next();
                     });
                 }
             };
