@@ -2,7 +2,23 @@ import {IterationState, Operation} from '../../types';
 import {createOperation, throwOnSync} from '../../utils';
 
 /**
- * Emits each value after the callback result resolves. The resolved value itself is ignored.
+ * Emits each value after the callback result resolves, to control/mitigate the processing flow.
+ *
+ * The resolved value itself is ignored.
+ *
+ * ```ts
+ * import {pipe, toAsync, tap, throttle} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     toAsync([1, 2, 3, 4, 5]),
+ *     throttle(async (value, index, state) => {
+ *         await processValue(value);
+ *     }),
+ *     tap(value => {
+ *         // value = 1, 2, 3, 4, 5 (each delayed by processing time)
+ *     })
+ * );
+ * ```
  *
  * Throws an error during iteration, if inside a synchronous pipeline.
  *

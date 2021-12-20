@@ -2,7 +2,7 @@ import {IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Taps into each value, without changing the output.
+ * Taps into each value, without changing the output, for logging or debugging.
  *
  * @category Sync+Async
  */
