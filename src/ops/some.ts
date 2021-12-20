@@ -55,19 +55,19 @@ function someAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, 
             let index = 0, finished: boolean;
             return {
                 next(): Promise<IteratorResult<boolean>> {
+                    if (finished) {
+                        return Promise.resolve({value: undefined, done: true});
+                    }
                     return i.next().then(a => {
-                        if (!finished) {
-                            if (!a.done) {
-                                if (cb(a.value, index++, state)) {
-                                    finished = true;
-                                    return {value: true, done: false};
-                                }
-                                return this.next();
+                        if (!a.done) {
+                            if (cb(a.value, index++, state)) {
+                                finished = true;
+                                return {value: true, done: false};
                             }
-                            finished = true;
-                            return {value: false, done: false};
+                            return this.next();
                         }
-                        return {value: undefined, done: true};
+                        finished = true;
+                        return {value: false, done: false};
                     });
                 }
             };
