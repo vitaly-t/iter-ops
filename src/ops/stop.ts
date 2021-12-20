@@ -2,14 +2,14 @@ import {IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Stops emitting values, once the predicate returns a truthy value.
+ * Stops iteration, once the predicate returns a truthy value.
  *
  * ```ts
  * import {pipe, stop} from 'iter-ops';
  *
  * const i = pipe(
  *     [1, 2, 3, 4, 5, 6, 7, 8, 9],
- *     stop(a => a === 5) // stop emitting once 5 is encountered
+ *     stop(a => a === 5) // stop when 5 is encountered
  * );
  *
  * console.log(...i); //=> 1, 2, 3, 4
@@ -26,17 +26,17 @@ function stopSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state:
         [Symbol.iterator](): Iterator<T> {
             const i = iterable[Symbol.iterator]();
             const state: IterationState = {};
-            let index = 0, finished = false;
+            let index = 0, stopped: boolean;
             return {
                 next(): IteratorResult<T> {
-                    const a = i.next();
-                    if (!finished) {
-                        finished = a.done || cb(a.value, index++, state);
+                    if (!stopped) {
+                        const a = i.next();
+                        stopped = a.done || cb(a.value, index++, state);
+                        if (!stopped) {
+                            return a;
+                        }
                     }
-                    if (finished || a.done) {
-                        return {value: undefined, done: true};
-                    }
-                    return a;
+                    return {value: undefined, done: true};
                 }
             };
         }
@@ -48,17 +48,15 @@ function stopAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, 
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
             const state: IterationState = {};
-            let index = 0, finished = false;
+            let index = 0, stopped: boolean;
             return {
                 next(): Promise<IteratorResult<T>> {
+                    if (stopped) {
+                        return Promise.resolve({value: undefined, done: true});
+                    }
                     return i.next().then(a => {
-                        if (!finished) {
-                            finished = a.done || cb(a.value, index++, state);
-                        }
-                        if (finished || a.done) {
-                            return {value: undefined, done: true};
-                        }
-                        return a;
+                        stopped = a.done || cb(a.value, index++, state);
+                        return stopped ? {value: undefined, done: true} : a;
                     });
                 }
             };
