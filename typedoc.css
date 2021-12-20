@@ -1,4 +1,32 @@
+.tsd-page-title {
+    display: none;
+}
+
+footer {
+    display: none;
+}
+
 p > code {
-    color: crimson;
     font-size: 0.9em;
+}
+
+@media (prefers-color-scheme: light) {
+    p > code {
+        color: crimson;
+        background-color: #F0F0F0;
+    }
+
+    code {
+        color: crimson;
+        font-size: 0.9em;
+        background-color: #F0F0F0;
+    }
+
+    pre > code {
+        background-color: #F0F0F0;
+    }
+
+    pre {
+        background-color: #F0F0F0;
+    }
 }

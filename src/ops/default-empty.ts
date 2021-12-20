@@ -2,23 +2,23 @@ import {Any, AnySync, AnyIterable, AnyIterator, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Adds a default `iterable` to an empty pipeline.
+ * Adds a default iterable to an empty pipeline.
  *
  * @see [[empty]], [[isEmpty]]
  * @category Sync+Async
  */
-export function defaultEmpty<T, D>(value: AnyIterable<D>): Operation<T, T | D>;
+export function defaultEmpty<T, D>(iterable: AnyIterable<D>): Operation<T, T | D>;
 
 /**
- * Adds a default `iterator` to an empty pipeline.
+ * Adds a default iterator to an empty pipeline.
  *
  * @see [[empty]], [[isEmpty]]
  * @category Sync+Async
  */
-export function defaultEmpty<T, D>(value: AnyIterator<D>): Operation<T, T | D>;
+export function defaultEmpty<T, D>(iterator: AnyIterator<D>): Operation<T, T | D>;
 
 /**
- * Adds a default `value` to an empty pipeline.
+ * Adds a default value to an empty pipeline.
  *
  * @see [[empty]], [[isEmpty]]
  * @category Sync+Async
