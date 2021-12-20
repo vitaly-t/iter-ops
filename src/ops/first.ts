@@ -72,11 +72,8 @@ function firstAsync<T>(iterable: AsyncIterable<T>, cb?: (value: T, index: number
                         return Promise.resolve({value: undefined, done: true});
                     }
                     return i.next().then(a => {
-                        if (a.done || !test || test(a.value, index++)) {
-                            finished = true;
-                            return a;
-                        }
-                        return this.next();
+                        finished = a.done || !test || test(a.value, index++);
+                        return finished ? a : this.next();
                     });
                 }
             };
