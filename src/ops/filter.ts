@@ -4,9 +4,6 @@ import {createOperation, isPromise} from '../utils';
 /**
  * Standard `Array.filter` logic for the iterable, extended with iteration state + async.
  *
- * Note that the predicate can only return a `Promise` inside asynchronous pipeline,
- * or else the `Promise` will be treated as a truthy value.
- *
  * In the example below, we take advantage of the [[IterationState]], to detect and remove repeated
  * values (do not confuse with [[distinct]], which removes all duplicates).
  *
@@ -24,6 +21,9 @@ import {createOperation, isPromise} from '../utils';
  *     })
  * );
  * ```
+ *
+ * Note that the predicate can only return a `Promise` inside asynchronous pipeline,
+ * or else the `Promise` will be treated as a truthy value.
  *
  * @see [Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
  * @category Sync+Async
@@ -61,8 +61,9 @@ function filterAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number
                         if (a.done) {
                             return a;
                         }
-                        const r = cb(a.value, index++, state) as any;
-                        return isPromise(r) ? r.then((b: boolean) => b ? a : this.next()) : (r ? a : this.next());
+                        const r = cb(a.value, index++, state) as Promise<boolean>;
+                        const out = (flag: any) => flag ? a : this.next();
+                        return isPromise(r) ? r.then(out) : out(r);
                     });
                 }
             };
