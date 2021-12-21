@@ -1,5 +1,5 @@
 import {Operation} from '../types';
-import {createOperation} from '../utils';
+import {createOperation, isPromise} from '../utils';
 
 /**
  * Produces a one-value iterable, with the last emitted value.
@@ -30,10 +30,13 @@ import {createOperation} from '../utils';
  * console.log(i.first); //=> 8
  * ```
  *
+ * Note that the predicate can only return a `Promise` inside asynchronous pipeline,
+ * or else the `Promise` will be treated as a truthy value.
+ *
  * @see [[takeLast]], [[first]]
  * @category Sync+Async
  */
-export function last<T>(cb?: (value: T, index: number) => boolean): Operation<T, T> {
+export function last<T>(cb?: (value: T, index: number) => boolean | Promise<boolean>): Operation<T, T> {
     return createOperation(lastSync, lastAsync, arguments);
 }
 
@@ -58,7 +61,7 @@ function lastSync<T>(iterable: Iterable<T>, cb?: (value: T, index: number) => bo
     };
 }
 
-function lastAsync<T>(iterable: AsyncIterable<T>, cb?: (value: T, index: number) => boolean): AsyncIterable<T> {
+function lastAsync<T>(iterable: AsyncIterable<T>, cb?: (value: T, index: number) => boolean | Promise<boolean>): AsyncIterable<T> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
@@ -67,17 +70,16 @@ function lastAsync<T>(iterable: AsyncIterable<T>, cb?: (value: T, index: number)
             return {
                 next(): Promise<IteratorResult<T>> {
                     return i.next().then(a => {
-                        if (a.done) {
-                            if (finished || !value) {
-                                return a;
-                            }
-                            finished = true;
-                            return value;
+                        if (finished) {
+                            return {value: undefined, done: true};
                         }
-                        if (!test || test(a.value, index++)) {
-                            value = a;
-                        }
-                        return this.next();
+                        const r = (a.done || !test || test(a.value, index++)) as Promise<boolean>;
+                        const out = (flag: any) => {
+                            finished = !!a.done;
+                            value = flag && !a.done ? a : value || a;
+                            return finished ? value : this.next();
+                        };
+                        return isPromise(r) ? r.then(out) : out(r);
                     });
                 }
             };
