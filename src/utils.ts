@@ -19,14 +19,31 @@ export function createOperation<T, R>(
  */
 export function throwOnSync<T>(operatorName: string) {
     return () => ({
-        [Symbol.iterator]() {
-            return {
-                next() {
-                    throw new Error(`Operator "${operatorName}" requires asynchronous pipeline`);
-                }
-            };
+        [Symbol.iterator](): Iterator<T> {
+            return iterateOnce(true, () => {
+                throw new Error(`Operator "${operatorName}" requires asynchronous pipeline`);
+            }) as Iterator<T>;
         }
     });
+}
+
+/**
+ * Creates a once-off iterator with a callback.
+ *
+ * It is to help throwing errors only when the iteration starts.
+ */
+export function iterateOnce(sync: boolean, cb: () => void) {
+    const value = undefined;
+    let done = false;
+    return {
+        next() {
+            if (!done) {
+                done = true;
+                cb();
+            }
+            return sync ? {value, done} : Promise.resolve({value, done});
+        }
+    };
 }
 
 /**

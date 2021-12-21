@@ -32,6 +32,7 @@ describe('sync catchError', () => {
         let err: any;
         try {
             [...i];
+            YSNP();
         } catch (e) {
             err = e;
         }
