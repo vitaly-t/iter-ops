@@ -1,5 +1,5 @@
 import {Operation} from '../../types';
-import {createOperation, throwOnSync} from '../../utils';
+import {createOperation, isPromise, throwOnSync} from '../../utils';
 
 /**
  * When the value is a `Promise`, it is resolved, or else returned as is,
@@ -61,7 +61,7 @@ export function waitAsync<T>(iterable: AsyncIterable<Promise<T> | T>): AsyncIter
                             return a as any;
                         }
                         const p = a.value as Promise<T>;
-                        return typeof p?.then === 'function' ? p?.then(value => ({value, done: false})) : a;
+                        return isPromise(p) ? p?.then(value => ({value, done: false})) : a;
                     });
                 }
             };

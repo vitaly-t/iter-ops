@@ -27,7 +27,7 @@ export function repeat<T>(count: number): Operation<T, T>;
  * - `count` - repeats count thus far (starts with 0)
  * - `state` - iteration state
  *
- * Note that the `Promise`-returning version works only inside an asynchronous pipeline,
+ * Note that the predicate can only return a `Promise` inside asynchronous pipeline,
  * or else the `Promise` will be treated as a truthy value.
  *
  * ```ts

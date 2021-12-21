@@ -4,7 +4,7 @@ import {createOperation, isPromise} from '../utils';
 /**
  * Standard `Array.filter` logic for the iterable, extended with iteration state + async.
  *
- * Note that the `Promise`-returning version works only inside an asynchronous pipeline,
+ * Note that the predicate can only return a `Promise` inside asynchronous pipeline,
  * or else the `Promise` will be treated as a truthy value.
  *
  * In the example below, we take advantage of the [[IterationState]], to detect and remove repeated
@@ -41,7 +41,7 @@ function filterSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, stat
             return {
                 next(): IteratorResult<T> {
                     let a;
-                    while (!(a = i.next()).done && !cb(a.value, index++, state)) ;
+                    while (!(a = i.next()).done && !cb(a.value, index++, state));
                     return a;
                 }
             };
@@ -61,8 +61,8 @@ function filterAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number
                         if (a.done) {
                             return a;
                         }
-                        const r = cb(a.value, index++, state) as Promise<boolean>;
-                        return isPromise(r) ? r.then(b => b ? a : this.next()) : (!!r ? a : this.next());
+                        const r = cb(a.value, index++, state) as any;
+                        return isPromise(r) ? r.then((b: boolean) => b ? a : this.next()) : (r ? a : this.next());
                     });
                 }
             };

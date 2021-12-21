@@ -1,5 +1,5 @@
 import {IterationState, Operation} from '../../types';
-import {createOperation, throwOnSync} from '../../utils';
+import {createOperation, isPromise, throwOnSync} from '../../utils';
 
 /**
  * When the iterable rejects, retries getting the value specified number of times.
@@ -81,7 +81,7 @@ function retryAsync<T>(iterable: AsyncIterable<T>, retry: number | ((index: numb
                             if (cb) {
                                 const b = (f: any) => f ? this.next() : Promise.reject(e);
                                 const r = cb(index, attempts++, state) as Promise<boolean>;
-                                return typeof r?.then === 'function' ? r.then(b) : b(r);
+                                return isPromise(r) ? r.then(b) : b(r);
                             }
                             if (leftTries) {
                                 leftTries--;
