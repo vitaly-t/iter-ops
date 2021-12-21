@@ -1,5 +1,5 @@
 import {IterationState, Operation} from '../types';
-import {createOperation} from '../utils';
+import {createOperation, isPromise} from '../utils';
 
 /**
  * Standard `Array.every` logic for the iterable, extended with iteration state + async.
@@ -58,15 +58,16 @@ function everyAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number,
             let index = 0, finished: boolean;
             return {
                 next(): Promise<IteratorResult<boolean>> {
+                    if (finished) {
+                        return Promise.resolve({value: undefined, done: true});
+                    }
                     return i.next().then(a => {
-                        if (!finished) {
-                            if (!a.done && cb(a.value, index++, state)) {
-                                return this.next();
-                            }
-                            finished = true;
-                            return {value: !!a.done, done: false};
-                        }
-                        return {value: undefined, done: true};
+                        const r = (a.done || cb(a.value, index++, state)) as Promise<boolean>;
+                        const out = (flag: any) => {
+                            finished = a.done || !flag;
+                            return finished ? {value: !!a.done, done: false} : this.next();
+                        };
+                        return isPromise(r) ? r.then(out) : out(r);
                     });
                 }
             };
