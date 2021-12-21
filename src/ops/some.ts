@@ -1,5 +1,5 @@
 import {IterationState, Operation} from '../types';
-import {createOperation} from '../utils';
+import {createOperation, isPromise} from '../utils';
 
 /**
  * Standard `Array.some` logic for the iterable, extended with iteration state + async.
@@ -39,7 +39,7 @@ function someSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state:
                 next(): IteratorResult<boolean> {
                     if (!finished) {
                         let a;
-                        while (!(a = i.next()).done && !cb(a.value, index++, state)) ;
+                        while (!(a = i.next()).done && !cb(a.value, index++, state));
                         finished = true;
                         return {value: !a.done, done: false};
                     }
@@ -58,20 +58,16 @@ function someAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, 
             let index = 0, finished: boolean;
             return {
                 next(): Promise<IteratorResult<boolean>> {
-                    // TODO: This still needs to be implemented for Promise<boolean>
                     if (finished) {
                         return Promise.resolve({value: undefined, done: true});
                     }
                     return i.next().then(a => {
-                        if (!a.done) {
-                            if (cb(a.value, index++, state)) {
-                                finished = true;
-                                return {value: true, done: false};
-                            }
-                            return this.next();
-                        }
-                        finished = true;
-                        return {value: false, done: false};
+                        const r = (a.done || cb(a.value, index++, state)) as Promise<boolean>;
+                        const out = (flag: any) => {
+                            finished = flag;
+                            return finished ? {value: !a.done, done: false} : this.next();
+                        };
+                        return isPromise(r) ? r.then(out) : out(r);
                     });
                 }
             };
