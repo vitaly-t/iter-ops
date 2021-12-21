@@ -100,3 +100,10 @@ export function isIndexed(input: any): boolean {
         typeof input === 'string' ||
         input instanceof String;
 }
+
+/**
+ * Verifies if value is a promise.
+ */
+export function isPromise(a: any): boolean {
+    return a && typeof a.then === 'function';
+}

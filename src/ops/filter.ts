@@ -1,8 +1,11 @@
 import {IterationState, Operation} from '../types';
-import {createOperation} from '../utils';
+import {createOperation, isPromise} from '../utils';
 
 /**
- * Standard `Array.filter` logic for the iterable, extended for supporting iteration state.
+ * Standard `Array.filter` logic for the iterable, extended with iteration state + async.
+ *
+ * Note that the `Promise`-returning version works only inside an asynchronous pipeline,
+ * or else the `Promise` will be treated as a truthy value.
  *
  * In the example below, we take advantage of the [[IterationState]], to detect and remove repeated
  * values (do not confuse with [[distinct]], which removes all duplicates).
@@ -25,7 +28,7 @@ import {createOperation} from '../utils';
  * @see [Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
  * @category Sync+Async
  */
-export function filter<T>(cb: (value: T, index: number, state: IterationState) => boolean): Operation<T, T> {
+export function filter<T>(cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T> {
     return createOperation(filterSync, filterAsync, arguments);
 }
 
@@ -38,7 +41,7 @@ function filterSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, stat
             return {
                 next(): IteratorResult<T> {
                     let a;
-                    while (!(a = i.next()).done && !cb(a.value, index++, state));
+                    while (!(a = i.next()).done && !cb(a.value, index++, state)) ;
                     return a;
                 }
             };
@@ -46,7 +49,7 @@ function filterSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, stat
     };
 }
 
-function filterAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => boolean): AsyncIterable<T> {
+function filterAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): AsyncIterable<T> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
@@ -54,7 +57,13 @@ function filterAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number
             let index = 0;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    return i.next().then(a => a.done ? a : (cb(a.value, index++, state) ? a : this.next()));
+                    return i.next().then(a => {
+                        if (a.done) {
+                            return a;
+                        }
+                        const r = cb(a.value, index++, state) as Promise<boolean>;
+                        return isPromise(r) ? r.then(b => b ? a : this.next()) : (!!r ? a : this.next());
+                    });
                 }
             };
         }
