@@ -1,4 +1,4 @@
-import {isIndexed, indexedAsyncIterable} from './utils';
+import {isIndexed, indexedAsyncIterable, isPromise} from './utils';
 
 /**
  * Converts any synchronous iterable into asynchronous one.
@@ -117,7 +117,7 @@ export function toIterable<T>(i: any): any {
     const next = i?.next;
     if (typeof next === 'function') {
         const value = next.call(i); // this line may throw (outside the pipeline)
-        let s: any = typeof value?.then === 'function' && Symbol.asyncIterator;
+        let s: any = isPromise(value) && Symbol.asyncIterator;
         if (s || (typeof value === 'object' && 'value' in (value ?? {}))) {
             s = s || Symbol.iterator;
             return {
@@ -136,7 +136,7 @@ export function toIterable<T>(i: any): any {
             };
         }
     }
-    if (typeof i?.then === 'function') {
+    if (isPromise(i)) {
         return {
             [Symbol.asyncIterator](): AsyncIterator<T> {
                 let finished: boolean;

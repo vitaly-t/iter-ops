@@ -1,5 +1,5 @@
 import {IterationState, Operation} from '../types';
-import {createOperation} from '../utils';
+import {createOperation, isPromise} from '../utils';
 
 /**
  * Pair of `{index, value}` that passed predicate test of [[indexBy]] operator.
@@ -30,10 +30,13 @@ export interface IIndexedValue<T> {
  * console.log(...i); //=> {index: 0, value: 12}, {index: 2, value: 30}
  * ```
  *
+ * Note that the predicate can only return a `Promise` inside asynchronous pipeline,
+ * or else the `Promise` will be treated as a truthy value.
+ *
  * @see [[IIndexedValue]]
  * @category Sync+Async
  */
-export function indexBy<T>(cb: (value: T, index: number, state: IterationState) => boolean): Operation<T, IIndexedValue<T>> {
+export function indexBy<T>(cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, IIndexedValue<T>> {
     return createOperation(indexBySync, indexByAsync, arguments);
 }
 
@@ -54,7 +57,7 @@ function indexBySync<T>(iterable: Iterable<T>, cb: (value: T, index: number, sta
     };
 }
 
-function indexByAsync<T, R>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => boolean): AsyncIterable<IIndexedValue<T>> {
+function indexByAsync<T, R>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): AsyncIterable<IIndexedValue<T>> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<IIndexedValue<T>> {
             const i = iterable[Symbol.asyncIterator]();
@@ -66,10 +69,9 @@ function indexByAsync<T, R>(iterable: AsyncIterable<T>, cb: (value: T, index: nu
                         if (a.done) {
                             return a;
                         }
-                        return cb(a.value, ++index, state) ? {
-                            value: {index, value: a.value},
-                            done: false
-                        } : this.next();
+                        const r = cb(a.value, ++index, state) as Promise<boolean>;
+                        const out = (flag: any) => flag ? {value: {index, value: a.value}, done: false} : this.next();
+                        return isPromise(r) ? r.then(out) : out(r);
                     });
                 }
             };

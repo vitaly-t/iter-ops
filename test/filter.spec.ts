@@ -27,6 +27,11 @@ describe('async filter', () => {
         const output = pipe(input, filter(a => a < 3));
         expect(await _asyncValues(output)).to.eql([1, 2, 0]);
     });
+    it('must emit async condition', async () => {
+        const input = _async([1, 2, 3, 4, 5, 0]);
+        const output = pipe(input, filter(async a => a < 3));
+        expect(await _asyncValues(output)).to.eql([1, 2, 0]);
+    });
     it('must reuse the state object', async () => {
         const input = _async('hello!');
         const arr: number[] = [];

@@ -21,13 +21,11 @@ import {createOperation} from '../utils';
 export function repeat<T>(count: number): Operation<T, T>;
 
 /**
- * Repeats every value, while the callback is returning `true` (or resolves with `true`).
+ * Repeats values while passing predicate test.
+ * - `value` - repeated value
  * - `index` - original value index
  * - `count` - repeats count thus far (starts with 0)
  * - `state` - iteration state
- *
- * Note that the `Promise`-returning version can only work correctly inside an asynchronous pipeline,
- * or else the `Promise` itself will be treated as a truthy value.
  *
  * ```ts
  * import {pipe, repeat} from 'iter-ops';
@@ -39,6 +37,9 @@ export function repeat<T>(count: number): Operation<T, T>;
  *
  * console.log(...i); //=> 1, 2, 2, 2, 3, 4, 4, 4, 5, 6, 6, 6, 7
  * ```
+ *
+ * Note that the predicate can only return a `Promise` inside asynchronous pipeline,
+ * or else the `Promise` will be treated as a truthy value.
  *
  * @see [[retry]]
  * @category Sync+Async
