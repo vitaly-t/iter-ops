@@ -1,6 +1,6 @@
 {
   "name": "iter-ops",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "Basic operations on iterables",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
