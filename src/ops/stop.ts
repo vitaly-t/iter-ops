@@ -1,8 +1,8 @@
 import {IterationState, Operation} from '../types';
-import {createOperation} from '../utils';
+import {createOperation, isPromise} from '../utils';
 
 /**
- * Stops iteration, once the predicate returns a truthy value.
+ * Stops iteration, once the predicate test passes.
  *
  * ```ts
  * import {pipe, stop} from 'iter-ops';
@@ -15,9 +15,12 @@ import {createOperation} from '../utils';
  * console.log(...i); //=> 1, 2, 3, 4
  * ```
  *
+ * Note that the predicate can only return a `Promise` inside asynchronous pipeline,
+ * or else the `Promise` will be treated as a truthy value.
+ *
  * @category Sync+Async
  */
-export function stop<T>(cb: (value: T, index: number, state: IterationState) => boolean): Operation<T, T> {
+export function stop<T>(cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T> {
     return createOperation(stopSync, stopAsync, arguments);
 }
 
@@ -43,7 +46,7 @@ function stopSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state:
     };
 }
 
-function stopAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => boolean): AsyncIterable<T> {
+function stopAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): AsyncIterable<T> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
@@ -55,8 +58,12 @@ function stopAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, 
                         return Promise.resolve({value: undefined, done: true});
                     }
                     return i.next().then(a => {
-                        stopped = a.done || cb(a.value, index++, state);
-                        return stopped ? {value: undefined, done: true} : a;
+                        const r = (a.done || cb(a.value, index++, state)) as Promise<boolean>;
+                        const out = (flag: any): IteratorResult<T> => {
+                            stopped = flag;
+                            return stopped ? {value: undefined, done: true} : a;
+                        };
+                        return isPromise(r) ? r.then(out) : out(r);
                     });
                 }
             };
