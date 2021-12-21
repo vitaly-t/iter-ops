@@ -44,10 +44,20 @@ describe('async first', () => {
         });
     });
     describe('with the predicate', () => {
-        it('must call the predicate correctly', async () => {
+        it('must call predicate correctly', async () => {
             const input = [1, 2, 3, 4, 5];
             const indexes: number[] = [];
             const i = pipe(_async(input), first((value, index) => {
+                indexes.push(index);
+                return value % 2 === 0;
+            }));
+            expect(await _asyncValues(i)).to.eql([2]);
+            expect(indexes).to.eql([0, 1]);
+        });
+        it('must call async predicate correctly', async () => {
+            const input = [1, 2, 3, 4, 5];
+            const indexes: number[] = [];
+            const i = pipe(_async(input), first(async (value, index) => {
                 indexes.push(index);
                 return value % 2 === 0;
             }));

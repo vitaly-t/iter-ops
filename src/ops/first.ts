@@ -1,5 +1,5 @@
 import {Operation} from '../types';
-import {createOperation} from '../utils';
+import {createOperation, isPromise} from '../utils';
 
 /**
  * Produces a one-value iterable, with the first emitted value.
@@ -32,10 +32,13 @@ import {createOperation} from '../utils';
  * console.log(...i); //=> 2
  * ```
  *
+ * Note that the predicate can only return a `Promise` inside asynchronous pipeline,
+ * or else the `Promise` will be treated as a truthy value.
+ *
  * @see [[last]], [[take]], [[takeLast]]
  * @category Sync+Async
  */
-export function first<T>(cb?: (value: T, index: number) => boolean): Operation<T, T> {
+export function first<T>(cb?: (value: T, index: number) => boolean | Promise<boolean>): Operation<T, T> {
     return createOperation(firstSync, firstAsync, arguments);
 }
 
@@ -60,7 +63,7 @@ function firstSync<T>(iterable: Iterable<T>, cb?: (value: T, index: number) => b
     };
 }
 
-function firstAsync<T>(iterable: AsyncIterable<T>, cb?: (value: T, index: number) => boolean): AsyncIterable<T> {
+function firstAsync<T>(iterable: AsyncIterable<T>, cb?: (value: T, index: number) => boolean | Promise<boolean>): AsyncIterable<T> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
@@ -72,8 +75,12 @@ function firstAsync<T>(iterable: AsyncIterable<T>, cb?: (value: T, index: number
                         return Promise.resolve({value: undefined, done: true});
                     }
                     return i.next().then(a => {
-                        finished = a.done || !test || test(a.value, index++);
-                        return finished ? a : this.next();
+                        const r = (a.done || !test || test(a.value, index++)) as Promise<boolean>;
+                        const out = (flag: any) => {
+                            finished = flag;
+                            return finished ? a : this.next();
+                        };
+                        return isPromise(r) ? r.then(out) : out(r);
                     });
                 }
             };
