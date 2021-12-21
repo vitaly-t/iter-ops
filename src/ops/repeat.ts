@@ -38,7 +38,7 @@ export function repeat<T>(count: number): Operation<T, T>;
  * console.log(...i); //=> 1, 2, 2, 2, 3, 4, 4, 4, 5, 6, 6, 6, 7
  * ```
  *
- * Note that the predicate can only return a `Promise` inside asynchronous pipeline,
+ * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
  * or else the `Promise` will be treated as a truthy value.
  *
  * @see [[retry]]
