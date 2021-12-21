@@ -32,9 +32,19 @@ describe('async start', () => {
         const output = pipe(input, start(a => a > 3));
         expect(await _asyncValues(output)).to.eql([4, 5]);
     });
+    it('must trigger on async condition', async () => {
+        const input = _async([1, 2, 3, 4, 5]);
+        const output = pipe(input, start(async a => a > 3));
+        expect(await _asyncValues(output)).to.eql([4, 5]);
+    });
     it('must support non-starters', async () => {
         const input = _async([1, 2, 3, 4, 5]);
         const output = pipe(input, start(a => a > 5));
+        expect(await _asyncValues(output)).to.eql([]);
+    });
+    it('must support async non-starters', async () => {
+        const input = _async([1, 2, 3, 4, 5]);
+        const output = pipe(input, start(async a => a > 5));
         expect(await _asyncValues(output)).to.eql([]);
     });
     it('must reuse the state object', async () => {
