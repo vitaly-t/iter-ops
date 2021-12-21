@@ -2,7 +2,7 @@ import {IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Standard `Array.every` logic for the iterable, extended for supporting iteration state.
+ * Standard `Array.every` logic for the iterable, extended with iteration state + async.
  *
  * It emits a `boolean`, indicating whether all elements pass the predicate test.
  *
@@ -19,10 +19,13 @@ import {createOperation} from '../utils';
  * console.log(i.first); //=> false
  * ```
  *
+ * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
+ * or else the `Promise` will be treated as a truthy value.
+ *
  * @see [Array.every](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every), [[some]]
  * @category Sync+Async
  */
-export function every<T>(cb: (value: T, index: number, state: IterationState) => boolean): Operation<T, boolean> {
+export function every<T>(cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, boolean> {
     return createOperation(everySync, everyAsync, arguments);
 }
 
@@ -47,7 +50,7 @@ function everySync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state
     };
 }
 
-function everyAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => boolean): AsyncIterable<boolean> {
+function everyAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): AsyncIterable<boolean> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<boolean> {
             const i = iterable[Symbol.asyncIterator]();

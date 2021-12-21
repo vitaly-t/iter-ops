@@ -15,7 +15,7 @@ import {createOperation, isPromise} from '../utils';
  * console.log(...i); //=> 5, 6, 7, 8, 9
  * ```
  *
- * Note that the predicate can only return a `Promise` inside asynchronous pipeline,
+ * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
  * or else the `Promise` will be treated as a truthy value.
  *
  * @see [[stop]]
