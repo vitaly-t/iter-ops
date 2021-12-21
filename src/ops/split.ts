@@ -83,8 +83,11 @@ export enum SplitValueCarry {
 }
 
 /**
- * Splits values into separate lists when predicate returns true.
+ * Splits values into separate lists when predicate returns `true` (or resolves with `true`).
  * When option `toggle` is set, the split uses the toggle start/end logic.
+ *
+ * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
+ * or else the `Promise` will be treated as a truthy value.
  *
  * When you know only the split value of each block, you can use the default split mode,
  * with `carryEnd` set to `1/forward` (in case you do not want it skipped);
@@ -92,18 +95,18 @@ export enum SplitValueCarry {
  * When you know only the end value of each block, you can use the default split mode,
  * with `carryEnd` set to `-1/back` (in case you do not want it skipped);
  *
- * When you know both start and end values of each block, you can use the toggle mode,
+ * When you know both start and end values of each block, you can use the `toggle` mode,
  * with `carryStart` set to `1/forward`, and `carryEnd` set to `-1/back`, unless you want
  * either of those skipped, then leave them at `0/none`.
  *
- * Note that in toggle mode, you cannot use `carryStart=back` (it will be ignored),
+ * Note that in `toggle` mode, you cannot use `carryStart=back` (it will be ignored),
  * because it would delay emission of the current block indefinitely, plus carrying
  * block start backward doesn't make much sense anyway.
  *
  * @see [[https://github.com/vitaly-t/iter-ops/wiki/Split Split WiKi]], [[page]]
  * @category Sync+Async
  */
-export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): Operation<T, T[]> {
+export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean | Promise<boolean>, options?: ISplitOptions): Operation<T, T[]> {
     return createOperation(splitSync, splitAsync, arguments);
 }
 
@@ -187,7 +190,7 @@ function splitSync<T>(iterable: Iterable<T>, cb: (value: T, index: ISplitIndex, 
     };
 }
 
-function splitAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): AsyncIterable<T[]> {
+function splitAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: ISplitIndex, state: IterationState) => boolean | Promise<boolean>, options?: ISplitOptions): AsyncIterable<T[]> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<T[]> {
             const i = iterable[Symbol.asyncIterator]();
@@ -225,7 +228,7 @@ function splitAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: ISplitI
                                 list: listIndex,
                                 split: splitIndex
                             };
-                            if (cb(v.value, index, state)) {
+                            if (await cb(v.value, index, state)) {
                                 // split/toggle has been triggerred;
                                 const carry = collecting ? carryEnd : carryStart;
                                 if (carry) {

@@ -186,6 +186,10 @@ describe('async split', () => {
             const i = pipe(_async('one two three'), split(a => a === ' '));
             expect(await _asyncValues(i)).to.eql([['o', 'n', 'e'], ['t', 'w', 'o'], ['t', 'h', 'r', 'e', 'e']]);
         });
+        it('must do regular async split', async () => {
+            const i = pipe(_async('one two three'), split(async a => a === ' '));
+            expect(await _asyncValues(i)).to.eql([['o', 'n', 'e'], ['t', 'w', 'o'], ['t', 'h', 'r', 'e', 'e']]);
+        });
         it('must process gaps correctly', async () => {
             const i = pipe(_async([0, 1, 2, 0, 3, 4, 0, 0]), split(a => a === 0));
             expect(await _asyncValues(i)).to.eql([[], [1, 2], [3, 4], [], []]);
