@@ -10,9 +10,11 @@ describe('wait', () => {
         const i = pipe(_async([1, 2, 3]), wait());
         expect(await _asyncValues(i)).to.eql([1, 2, 3]);
     });
-    it('must throw on synchronous pipeline', () => {
+    it('must throw on synchronous pipeline once', () => {
+        const i = pipe([], wait())[Symbol.iterator]();
         expect(() => {
-            pipe([], wait()).first;
+            i.next();
         }).to.throw('Operator "wait" requires asynchronous pipeline');
+        expect(i.next()).to.eql({value: undefined, done: true});
     });
 });

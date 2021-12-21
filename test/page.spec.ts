@@ -61,15 +61,17 @@ describe('async page', () => {
         const i = pipe(_async([1, 2, 3]), page(1));
         expect(await _asyncValues(i)).to.eql([[1], [2], [3]]);
     });
-    it('must throw during iteration when page size < 1 or invalid', async () => {
+    it('must throw once during iteration when page size < 1 or invalid', async () => {
         const errMsg = (value: any) => `Page size >= 1 is required: ${JSON.stringify(value)}`;
+        const i = pipe(_async([]), page(0))[Symbol.asyncIterator]();
         let err: any;
         try {
-            await _asyncValues(pipe(_async([]), page(0)));
+            i.next();
         } catch (e) {
             err = e;
         }
         expect(err.message).to.eq(errMsg(0));
+        expect(await i.next()).to.eql({value: undefined, done: true});
         try {
             await _asyncValues(pipe(_async([]), page(-1)));
         } catch (e) {
