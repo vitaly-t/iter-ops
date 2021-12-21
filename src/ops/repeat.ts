@@ -22,12 +22,13 @@ export function repeat<T>(count: number): Operation<T, T>;
 
 /**
  * Repeats every value, while the callback is returning `true` (or resolves with `true`).
+ * - `value` - repeated value
  * - `index` - original value index
  * - `count` - repeats count thus far (starts with 0)
  * - `state` - iteration state
  *
- * Note that the `Promise`-returning version can only work correctly inside an asynchronous pipeline,
- * or else the `Promise` itself will be treated as a truthy value.
+ * Note that the `Promise`-returning version works only inside an asynchronous pipeline,
+ * or else the `Promise` will be treated as a truthy value.
  *
  * ```ts
  * import {pipe, repeat} from 'iter-ops';
