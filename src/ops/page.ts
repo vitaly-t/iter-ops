@@ -1,5 +1,5 @@
 import {Operation} from '../types';
-import {createOperation} from '../utils';
+import {createOperation, iterateOnce} from '../utils';
 
 /**
  * Splits values into pages of fixed size (last page can be smaller).
@@ -27,16 +27,14 @@ export function page<T>(size: number): Operation<T, T[]> {
 function pageSync<T>(iterable: Iterable<T>, size: number): Iterable<T[]> {
     return {
         [Symbol.iterator](): Iterator<T[]> {
+            if (typeof size !== 'number' || size < 1) {
+                return iterateOnce(true, () => {
+                    throw new TypeError(`Page size >= 1 is required: ${JSON.stringify(size)}`);
+                }) as any;
+            }
             const i = iterable[Symbol.iterator]();
-            let start = true;
             return {
                 next(): IteratorResult<T[]> {
-                    if (start) {
-                        if (typeof size !== 'number' || size < 1) {
-                            throw new TypeError(`Page size >= 1 is required: ${JSON.stringify(size)}`);
-                        }
-                        start = false;
-                    }
                     const value = [];
                     let a, c = 0;
                     while (c++ < size && !(a = i.next()).done) {
@@ -55,16 +53,14 @@ function pageSync<T>(iterable: Iterable<T>, size: number): Iterable<T[]> {
 function pageAsync<T>(iterable: AsyncIterable<T>, size: number): AsyncIterable<T[]> {
     return {
         [Symbol.asyncIterator](): AsyncIterator<T[]> {
+            if (typeof size !== 'number' || size < 1) {
+                return iterateOnce(false, () => {
+                    throw new TypeError(`Page size >= 1 is required: ${JSON.stringify(size)}`);
+                }) as any;
+            }
             const i = iterable[Symbol.asyncIterator]();
-            let start = true;
             return {
                 async next(): Promise<IteratorResult<T[]>> {
-                    if (start) {
-                        if (typeof size !== 'number' || size < 1) {
-                            throw new TypeError(`Page size >= 1 is required: ${JSON.stringify(size)}`);
-                        }
-                        start = false;
-                    }
                     const value = [];
                     let a, c = 0;
                     while (c++ < size && !(a = await i.next()).done) {
