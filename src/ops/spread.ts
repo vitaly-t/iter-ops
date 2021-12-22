@@ -1,5 +1,5 @@
 import {Operation} from '../types';
-import {createOperation, isPromise} from '../utils';
+import {createOperation} from '../utils';
 
 /**
  * Spreads iterable values.
@@ -64,19 +64,19 @@ function spreadAsync<T>(iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>)
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
-            let k: any, start = true, index = 0;
+            let k: any, start = true, index = 0, sync: boolean;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    const nextValue = (): Promise<IteratorResult<T>> => {
-                        const out = (v: IteratorResult<T>, p: boolean) => {
+                    const nextValue = (wrap: boolean): Promise<IteratorResult<T>> => {
+                        const out = (v: IteratorResult<T>) => {
                             if (!v.done) {
-                                return p ? Promise.resolve(v) : v;
+                                return sync && wrap ? Promise.resolve(v) : v;
                             }
                             start = true;
                             return this.next();
                         };
                         const r = k.next();
-                        return isPromise(r) ? r.then(out) : out(r, true);
+                        return sync ? out(r) : r.then(out);
                     };
                     if (start) {
                         start = false;
@@ -84,15 +84,20 @@ function spreadAsync<T>(iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>)
                             if (a.done) {
                                 return a;
                             }
-                            k = a.value?.[Symbol.iterator]?.() || a.value?.[Symbol.asyncIterator]?.();
+                            sync = true;
+                            k = a.value?.[Symbol.iterator]?.();
+                            if (!k) {
+                                sync = false;
+                                k = a.value?.[Symbol.asyncIterator]?.();
+                            }
                             if (!k) {
                                 throw new TypeError(`Value at index ${index} is not iterable: ${JSON.stringify(a.value)}`);
                             }
                             index++;
-                            return nextValue();
+                            return nextValue(false);
                         });
                     }
-                    return nextValue();
+                    return nextValue(true);
                 }
             };
         }
