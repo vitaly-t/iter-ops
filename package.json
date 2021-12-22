@@ -1,6 +1,6 @@
 {
   "name": "iter-ops",
-  "version": "1.5.0-beta.0",
+  "version": "1.5.0-beta.1",
   "description": "Basic operations on iterables",
   "sideEffects": false,
   "exports": {
@@ -15,7 +15,7 @@
     "clean": "del /s/q .\\test\\*.js && del /s/q .\\src\\*.js && rd /s/q .\\dist",
     "build": "rollup -c",
     "doc": "typedoc --readme none",
-    "lint": "tslint --fix ./src/**/*.ts ./test/**/*.ts",
+    "lint": "tslint --fix *.ts ./src/**/*.ts ./test/**/*.ts",
     "test": "cross-env TS_NODE_PROJECT=tsconfig.test.json nyc mocha -r ts-node/register 'test/**/*.spec.ts'"
   },
   "files": [

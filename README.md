@@ -33,8 +33,6 @@ _See also..._
 * [Recipes], for additional operations
 * [Benchmarks], for performance comparison
 
-For web usage, either bundle it properly, or see [web](./web) folder.
-
 ### JavaScript
 
 Simple filtering + mapping an iterable:

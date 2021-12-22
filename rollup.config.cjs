@@ -1,8 +1,8 @@
-require("ts-node").register({
-  compilerOptions: {
-    module: "CommonJS",
-  },
+require('ts-node').register({
+    compilerOptions: {
+        module: 'CommonJS'
+    },
 });
 
 // @ts-ignore
-module.exports = require("./rollup.config.ts");
+module.exports = require('./rollup.config.ts');

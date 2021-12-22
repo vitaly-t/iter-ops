@@ -2,43 +2,43 @@
  * Rollup Config.
  */
 
-import rollupPluginNodeResolve from "@rollup/plugin-node-resolve";
-import rollupPluginTypescript from "@rollup/plugin-typescript";
-import rollupPluginAutoExternal from "rollup-plugin-auto-external";
-// @ts-ignore
-import { terser as rollupPluginTerser } from "rollup-plugin-terser";
-import rollupPluginGzip from "rollup-plugin-gzip";
+import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
+import rollupPluginTypescript from '@rollup/plugin-typescript';
+import rollupPluginAutoExternal from 'rollup-plugin-auto-external';
 
-import pkg from "./package.json";
+import {terser as rollupPluginTerser} from 'rollup-plugin-terser';
+import rollupPluginGzip from 'rollup-plugin-gzip';
+
+import pkg from './package.json';
 
 const common = {
-  input: "src/index.ts",
+    input: 'src/index.ts',
 
-  output: {
-    sourcemap: false,
-  },
+    output: {
+        sourcemap: false,
+    },
 
-  external: [],
+    external: [],
 
-  treeshake: {
-    annotations: true,
-    moduleSideEffects: [],
-    propertyReadSideEffects: false,
-    unknownGlobalSideEffects: false,
-  },
+    treeshake: {
+        annotations: true,
+        moduleSideEffects: [],
+        propertyReadSideEffects: false,
+        unknownGlobalSideEffects: false,
+    },
 };
 
 /**
  * Get new instances of all the common plugins.
  */
-function getPlugins(tsconfig = "tsconfig.build.json") {
-  return [
-    rollupPluginAutoExternal(),
-    rollupPluginNodeResolve(),
-    rollupPluginTypescript({
-      tsconfig,
-    }),
-  ];
+function getPlugins(tsconfig = 'tsconfig.build.json') {
+    return [
+        rollupPluginAutoExternal(),
+        rollupPluginNodeResolve(),
+        rollupPluginTypescript({
+            tsconfig,
+        }),
+    ];
 }
 
 const copyright = `/*!
@@ -53,79 +53,79 @@ const copyright = `/*!
  * The common JS build.
  */
 const cjs = {
-  ...common,
+    ...common,
 
-  output: {
-    ...common.output,
-    file: pkg.main,
-    format: "cjs",
-  },
+    output: {
+        ...common.output,
+        file: pkg.main,
+        format: 'cjs',
+    },
 
-  plugins: getPlugins(),
+    plugins: getPlugins(),
 };
 
 /**
  * The esm build.
  */
 const esm = {
-  ...common,
+    ...common,
 
-  output: {
-    ...common.output,
-    file: pkg.module,
-    format: "esm",
-  },
+    output: {
+        ...common.output,
+        file: pkg.module,
+        format: 'esm',
+    },
 
-  plugins: getPlugins(),
+    plugins: getPlugins(),
 };
 
 /**
  * The web script build.
  */
 const web = {
-  ...common,
+    ...common,
 
-  output: {
-    ...common.output,
-    sourcemap: true,
-    file: "dist/web/iter-ops.min.js",
-    format: "iife",
-    name: "iterOps",
-    banner: copyright,
-  },
+    output: {
+        ...common.output,
+        sourcemap: true,
+        file: 'dist/web/iter-ops.min.js',
+        format: 'iife',
+        name: 'iterOps',
+        banner: copyright,
+    },
 
-  plugins: [
-    ...getPlugins("tsconfig.build.web.json"),
-    rollupPluginTerser({
-      output: {
-        comments: "some",
-      },
-    }),
-    rollupPluginGzip(),
-  ],
+    plugins: [
+        ...getPlugins('tsconfig.build.web.json'),
+        rollupPluginTerser({
+            output: {
+                comments: 'some',
+            },
+        }),
+        rollupPluginGzip(),
+    ],
 };
 
 /**
  * The web module build.
  */
 const webModule = {
-  ...web,
+    ...web,
 
-  output: {
-    ...web.output,
-    file: "dist/web/iter-ops.min.mjs",
-    format: "esm",
-  },
+    output: {
+        ...web.output,
+        file: 'dist/web/iter-ops.min.mjs',
+        format: 'esm',
+    },
 
-  plugins: [
-    ...getPlugins("tsconfig.build.web.json"),
-    rollupPluginTerser({
-      output: {
-        comments: "some",
-      },
-    }),
-    rollupPluginGzip(),
-  ],
+    plugins: [
+        ...getPlugins('tsconfig.build.web.json'),
+        rollupPluginTerser({
+            output: {
+                comments: 'some',
+            },
+        }),
+        rollupPluginGzip(),
+    ],
 };
 
 export default [cjs, esm, web, webModule];
