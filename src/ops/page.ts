@@ -62,13 +62,13 @@ function pageAsync<T>(iterable: AsyncIterable<T>, size: number): AsyncIterable<T
             return {
                 next(): Promise<IteratorResult<T[]>> {
                     const value: T[] = [];
-                    let c = 1;
+                    let c = 0;
                     const nextValue = (): any => i.next().then(a => {
                         if (a.done) {
                             return value.length ? {value, done: false} : a;
                         }
                         value.push(a.value);
-                        return c++ < size ? nextValue() : {value, done: false};
+                        return ++c < size ? nextValue() : {value, done: false};
                     });
                     return nextValue();
                 }

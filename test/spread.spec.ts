@@ -38,7 +38,8 @@ describe('async spread', () => {
         expect(await _asyncValues(output)).to.eql(['o', 'n', 'e', 't', 'w', 'o']);
     });
     it('must split arrays', async () => {
-        const output = pipe(_async([[1, 2], [3, 4]]), spread());
+        const second = _async([3, 4]);
+        const output = pipe(_async([[1, 2], second]), spread());
         expect(await _asyncValues(output)).to.eql([1, 2, 3, 4]);
     });
     it('must handle empty iterables', async () => {

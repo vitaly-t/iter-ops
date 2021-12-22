@@ -1,5 +1,5 @@
 import {Operation} from '../types';
-import {createOperation} from '../utils';
+import {createOperation, isPromise} from '../utils';
 
 /**
  * Spreads iterable values.
@@ -64,32 +64,36 @@ function spreadAsync<T>(iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>)
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
-            let a: IteratorResult<any>, k: Iterator<T> | AsyncIterator<T>,
-                v: IteratorResult<T>,
+            let k: Iterator<T> | AsyncIterator<T>,
                 start = true, index = 0;
             return {
-                async next(): Promise<IteratorResult<T>> {
-                    do {
-                        if (start) {
-                            a = await i.next();
-                            start = false;
-                            if (!a.done) {
-                                k = a.value?.[Symbol.iterator]?.() || a.value?.[Symbol.asyncIterator]?.();
-                                if (!k) {
-                                    throw new TypeError(`Value at index ${index} is not iterable: ${JSON.stringify(a.value)}`);
-                                }
-                            }
-                            index++;
-                        }
-                        if (!a.done) {
-                            v = await k.next();
+                next(): Promise<IteratorResult<T>> {
+                    const work = () => {
+                        const out = (v: any, p: boolean) => {
                             if (!v.done) {
-                                return v;
+                                return p ? Promise.resolve(v) : v;
                             }
                             start = true;
-                        }
-                    } while (!a.done);
-                    return a;
+                            return this.next();
+                        };
+                        const r = k.next() as any;
+                        return isPromise(r) ? r.then(out) : out(r, true);
+                    };
+                    if (start) {
+                        start = false;
+                        return i.next().then((a: any) => {
+                            if (a.done) {
+                                return a;
+                            }
+                            k = a.value?.[Symbol.iterator]?.() || a.value?.[Symbol.asyncIterator]?.();
+                            if (!k) {
+                                throw new TypeError(`Value at index ${index} is not iterable: ${JSON.stringify(a.value)}`);
+                            }
+                            index++;
+                            return work();
+                        });
+                    }
+                    return work();
                 }
             };
         }
