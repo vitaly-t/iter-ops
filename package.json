@@ -1,6 +1,6 @@
 {
   "name": "iter-ops",
-  "version": "1.5.0-beta.1",
+  "version": "1.5.0",
   "description": "Basic operations on iterables",
   "sideEffects": false,
   "exports": {
@@ -48,7 +48,7 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">=10.3.0"
+    "node": ">=14"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "13.1.1",
