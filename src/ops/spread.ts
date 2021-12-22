@@ -64,32 +64,40 @@ function spreadAsync<T>(iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>)
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
-            let a: IteratorResult<any>, k: Iterator<T> | AsyncIterator<T>,
-                v: IteratorResult<T>,
-                start = true, index = 0;
+            let k: any, start = true, index = 0, sync: boolean;
             return {
-                async next(): Promise<IteratorResult<T>> {
-                    do {
-                        if (start) {
-                            a = await i.next();
-                            start = false;
-                            if (!a.done) {
-                                k = a.value?.[Symbol.iterator]?.() || a.value?.[Symbol.asyncIterator]?.();
-                                if (!k) {
-                                    throw new TypeError(`Value at index ${index} is not iterable: ${JSON.stringify(a.value)}`);
-                                }
-                            }
-                            index++;
-                        }
-                        if (!a.done) {
-                            v = await k.next();
+                next(): Promise<IteratorResult<T>> {
+                    const nextValue = (wrap: boolean): Promise<IteratorResult<T>> => {
+                        const out = (v: IteratorResult<T>) => {
                             if (!v.done) {
-                                return v;
+                                return sync && wrap ? Promise.resolve(v) : v;
                             }
                             start = true;
-                        }
-                    } while (!a.done);
-                    return a;
+                            return this.next();
+                        };
+                        const r = k.next();
+                        return sync ? out(r) : r.then(out);
+                    };
+                    if (start) {
+                        start = false;
+                        return i.next().then((a: IteratorResult<any>) => {
+                            if (a.done) {
+                                return a;
+                            }
+                            sync = true;
+                            k = a.value?.[Symbol.iterator]?.();
+                            if (!k) {
+                                sync = false;
+                                k = a.value?.[Symbol.asyncIterator]?.();
+                            }
+                            if (!k) {
+                                throw new TypeError(`Value at index ${index} is not iterable: ${JSON.stringify(a.value)}`);
+                            }
+                            index++;
+                            return nextValue(false);
+                        });
+                    }
+                    return nextValue(true);
                 }
             };
         }
