@@ -93,8 +93,8 @@ function repeatAsync<T>(iterable: AsyncIterable<T>, count: number | ((value: T, 
             const i = iterable[Symbol.asyncIterator]();
             const state: IterationState = {};
             const cb = typeof count === 'function' && count;
-            const getCopyCount = () => !cb && count > 0 ? count as number : 0;
-            let copyCount = getCopyCount();
+            const initialCount = !cb && count > 0 ? count : 0;
+            let copyCount = initialCount;
             let index = -1, copied = 0, start = true, a: IteratorResult<T>;
             return {
                 async next(): Promise<IteratorResult<T>> {
@@ -103,7 +103,7 @@ function repeatAsync<T>(iterable: AsyncIterable<T>, count: number | ((value: T, 
                         start = false;
                         index++;
                         copied = 0;
-                        copyCount = getCopyCount();
+                        copyCount = initialCount;
                     }
                     if (a.done) {
                         return a;
