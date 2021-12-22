@@ -64,24 +64,23 @@ function spreadAsync<T>(iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>)
     return {
         [Symbol.asyncIterator](): AsyncIterator<T> {
             const i = iterable[Symbol.asyncIterator]();
-            let k: Iterator<T> | AsyncIterator<T>,
-                start = true, index = 0;
+            let k: any, start = true, index = 0;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    const work = () => {
-                        const out = (v: any, p: boolean) => {
+                    const nextValue = (): Promise<IteratorResult<T>> => {
+                        const out = (v: IteratorResult<T>, p: boolean) => {
                             if (!v.done) {
                                 return p ? Promise.resolve(v) : v;
                             }
                             start = true;
                             return this.next();
                         };
-                        const r = k.next() as any;
+                        const r = k.next();
                         return isPromise(r) ? r.then(out) : out(r, true);
                     };
                     if (start) {
                         start = false;
-                        return i.next().then((a: any) => {
+                        return i.next().then((a: IteratorResult<any>) => {
                             if (a.done) {
                                 return a;
                             }
@@ -90,10 +89,10 @@ function spreadAsync<T>(iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>)
                                 throw new TypeError(`Value at index ${index} is not iterable: ${JSON.stringify(a.value)}`);
                             }
                             index++;
-                            return work();
+                            return nextValue();
                         });
                     }
-                    return work();
+                    return nextValue();
                 }
             };
         }

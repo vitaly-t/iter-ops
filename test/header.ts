@@ -20,12 +20,21 @@ export function _async<T>(i: any): any {
     };
 }
 
-export async function _asyncValues<T>(input: AsyncIterable<T>): Promise<T[]> {
-    const res = [];
-    for await(const a of input) {
-        res.push(a);
-    }
-    return res;
+/**
+ * It is important to rely on native promises below, to make sure that all
+ * async iterators return promises when expected, and never values directly.
+ */
+export function _asyncValues<T>(input: AsyncIterable<T>): Promise<T[]> {
+    const res: T[] = [];
+    const i = input[Symbol.asyncIterator]();
+    const getValues = (): Promise<T[]> => i.next().then(a => {
+        if (a.done) {
+            return res;
+        }
+        res.push(a.value);
+        return getValues();
+    });
+    return getValues();
 }
 
 export function YSNP() {
