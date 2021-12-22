@@ -15,7 +15,7 @@
     "build": "rollup -c",
     "doc": "typedoc --readme none",
     "lint": "tslint --fix ./src/**/*.ts ./test/**/*.ts",
-    "test": "cross-env TS_NODE_PROJECT=tsconfig.test.json nyc mocha -r ts-node/register test/**/*.spec.ts"
+    "test": "cross-env TS_NODE_PROJECT=tsconfig.test.json nyc mocha -r ts-node/register 'test/**/*.spec.ts'"
   },
   "files": [
     "dist"
