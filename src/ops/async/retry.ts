@@ -66,15 +66,15 @@ function retryAsync<T>(iterable: AsyncIterable<T>, retry: number | ((index: numb
             let index = 0;
             const cb = typeof retry === 'function' && retry;
             let attempts = 0;
-            const getLeftTries = () => !cb && retry > 0 ? retry as number : 0;
-            let leftTries = getLeftTries();
+            const retriesNumber = !cb && retry > 0 ? retry : 0;
+            let leftTries = retriesNumber;
             return {
                 next(): Promise<IteratorResult<T>> {
                     return i.next()
                         .then(a => {
                             index++;
                             attempts = 0;
-                            leftTries = getLeftTries();
+                            leftTries = retriesNumber;
                             return a;
                         })
                         .catch(e => {
