@@ -1,5 +1,5 @@
 import {Operation} from '../types';
-import {createOperation} from '../utils';
+import {createOperation} from '../shared';
 
 /**
  * Emits unique values, with optional key selector.

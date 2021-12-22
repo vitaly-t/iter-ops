@@ -1,5 +1,5 @@
 import {IterationState, Operation} from '../types';
-import {createOperation} from '../utils';
+import {createOperation} from '../shared';
 
 /**
  * Value index details, during [[split]] operation.

@@ -1,5 +1,5 @@
 import {IErrorContext, IterationState, Operation} from '../types';
-import {createOperation} from '../utils';
+import {createOperation} from '../shared';
 
 /**
  * Catches iteration errors (see [[https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling]]).

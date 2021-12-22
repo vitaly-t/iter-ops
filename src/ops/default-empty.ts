@@ -1,5 +1,5 @@
 import {Any, AnySync, AnyIterable, AnyIterator, Operation} from '../types';
-import {createOperation} from '../utils';
+import {createOperation} from '../shared';
 
 /**
  * Adds a default iterable to an empty pipeline.

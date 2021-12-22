@@ -1,5 +1,5 @@
 import {AnyIterable, AnyIterator, AnyIterableIterator, Operation} from '../types';
-import {createOperation} from '../utils';
+import {createOperation} from '../shared';
 
 /** @hidden */
 export function zip<T>(): Operation<T, [T]>;

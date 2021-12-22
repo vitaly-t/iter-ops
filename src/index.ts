@@ -1,4 +1,15 @@
-export * from './types';
+export {
+    Any,
+    AnyIterable,
+    AnyIterator,
+    AnyIterableIterator,
+    AnySync,
+    AsyncIterableExt,
+    IErrorContext,
+    IterableExt,
+    IterationState,
+    Operation,
+} from './types';
 export {toAsync, toIterable} from './helpers';
 export {pipe} from './pipe';
 

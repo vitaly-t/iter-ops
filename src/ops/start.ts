@@ -1,5 +1,6 @@
 import {IterationState, Operation} from '../types';
-import {createOperation, isPromise} from '../utils';
+import {createOperation} from '../shared';
+import {isPromise} from '../utils';
 
 /**
  * Starts emitting values, once the predicate test passes.

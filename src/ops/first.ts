@@ -1,5 +1,6 @@
 import {Operation} from '../types';
-import {createOperation, isPromise} from '../utils';
+import {createOperation} from '../shared';
+import {isPromise} from '../utils';
 
 /**
  * Produces a one-value iterable, with the first emitted value.

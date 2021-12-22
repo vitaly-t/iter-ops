@@ -1,5 +1,6 @@
 import {Operation} from '../types';
-import {createOperation, iterateOnce} from '../utils';
+import {createOperation} from '../shared';
+import {iterateOnce} from '../utils';
 
 /**
  * Splits values into pages of fixed size (last page can be smaller).

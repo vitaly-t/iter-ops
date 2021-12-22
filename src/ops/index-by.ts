@@ -1,5 +1,6 @@
 import {IterationState, Operation} from '../types';
-import {createOperation, isPromise} from '../utils';
+import {createOperation} from '../shared';
+import {isPromise} from '../utils';
 
 /**
  * Pair of `{index, value}` that passed predicate test of [[indexBy]] operator.

@@ -2,6 +2,7 @@
   "name": "iter-ops",
   "version": "1.4.8",
   "description": "Basic operations on iterables",
+  "sideEffects": false,
   "exports": {
     "import": "./dist/index.mjs",
     "require": "./dist/index.js",
