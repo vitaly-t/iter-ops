@@ -56,8 +56,8 @@ function repeatSync<T>(iterable: Iterable<T>, count: number | ((value: T, index:
             const i = iterable[Symbol.iterator]();
             const state: IterationState = {};
             const cb = typeof count === 'function' && count;
-            const getCopyCount = () => !cb && count > 0 ? count as number : 0;
-            let copyCount = getCopyCount();
+            const initialCount = !cb && count > 0 ? count : 0;
+            let copyCount = initialCount;
             let index = -1, copied = 0, start = true, a: IteratorResult<T>;
             return {
                 next(): IteratorResult<T> {
@@ -66,7 +66,7 @@ function repeatSync<T>(iterable: Iterable<T>, count: number | ((value: T, index:
                         start = false;
                         index++;
                         copied = 0;
-                        copyCount = getCopyCount();
+                        copyCount = initialCount;
                     }
                     if (a.done) {
                         return a;
