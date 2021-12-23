@@ -1,6 +1,6 @@
 {
   "name": "iter-ops",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Basic operations on iterables",
   "sideEffects": false,
   "exports": {
@@ -56,7 +56,7 @@
     "@rollup/plugin-typescript": "8.3.0",
     "@types/chai": "4.3.0",
     "@types/mocha": "9.0.0",
-    "@types/node": "17.0.2",
+    "@types/node": "17.0.4",
     "@types/rollup-plugin-auto-external": "2.0.2",
     "chai": "4.3.4",
     "cross-env": "7.0.3",
