@@ -1,5 +1,5 @@
 import {Operation} from '../types';
-import {createOperation} from '../shared';
+import {createOperation} from '../utils';
 
 /**
  * Accumulates all values and emits an array.

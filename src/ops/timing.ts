@@ -1,5 +1,5 @@
 import {IterationState, Operation} from '../types';
-import {createOperation} from '../shared';
+import {createOperation} from '../utils';
 
 /**
  * Value timing details, produced by the [[timing]] operator.

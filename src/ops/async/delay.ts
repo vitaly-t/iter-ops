@@ -1,6 +1,5 @@
 import {IterationState, Operation} from '../../types';
-import {createOperation} from '../../shared';
-import {throwOnSync} from '../../utils';
+import {createOperation, throwOnSync} from '../../utils';
 
 /**
  * Delays each value by the specified timeout.

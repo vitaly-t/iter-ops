@@ -1,5 +1,17 @@
-import {IterableExt, AsyncIterableExt} from './types';
-import {catchError} from './ops/catch-error';
+import {Operation} from './types';
+
+/**
+ * Wraps operator signature.
+ */
+export function createOperation<T, R>(
+    syncFunc: (i: Iterable<T>, ...args: any[]) => Iterable<R>,
+    asyncFunc: (i: AsyncIterable<T>, ...args: any[]) => AsyncIterable<R>,
+    args?: IArguments): Operation<T, T> {
+    return (i: any) => {
+        const func: any = i[Symbol.iterator] ? syncFunc : asyncFunc;
+        return func.apply(null, [i, ...args || []]);
+    };
+}
 
 /**
  * Creates a generic synchronous operator that throws an error during iteration.
@@ -30,24 +42,6 @@ export function iterateOnce(sync: boolean, cb: () => void) {
             return sync ? {value, done} : Promise.resolve({value, done});
         }
     };
-}
-
-/**
- * Extends an Iterable object into IterableExt type.
- */
-export function extendIterable(i: any): IterableExt<any> {
-    Object.defineProperty(i, 'first', ({get: () => i[Symbol.iterator]().next().value}));
-    i.catch = (cb: any) => extendIterable(catchError(cb)(i));
-    return i;
-}
-
-/**
- * Extends an AsyncIterable object into AsyncIterableExt type.
- */
-export function extendAsyncIterable(i: any): AsyncIterableExt<any> {
-    Object.defineProperty(i, 'first', ({get: () => i[Symbol.asyncIterator]().next().then((a: any) => a.value)}));
-    i.catch = (cb: any) => extendAsyncIterable(catchError(cb)(i));
-    return i;
 }
 
 /**

@@ -1,5 +1,6 @@
 import {AnyIterable, AsyncIterableExt, IterableExt, Operation} from './types';
-import {extendAsyncIterable, extendIterable, optimizeIterable} from './utils';
+import {catchError} from './ops/catch-error';
+import {optimizeIterable} from './utils';
 
 /** @hidden */
 export function pipe<T>(i: Iterable<T>): IterableExt<T>;
@@ -64,4 +65,22 @@ export function pipe(i: any, ...p: any[]): IterableExt<any> | AsyncIterableExt<a
         return extendIterable(p.reduce((c, a) => a(c), optimizeIterable(i)));
     }
     return extendAsyncIterable(p.reduce((c, a) => a(c), i));
+}
+
+/**
+ * Extends an Iterable object into IterableExt type.
+ */
+function extendIterable(i: any): IterableExt<any> {
+    Object.defineProperty(i, 'first', ({get: () => i[Symbol.iterator]().next().value}));
+    i.catch = (cb: any) => extendIterable(catchError(cb)(i));
+    return i;
+}
+
+/**
+ * Extends an AsyncIterable object into AsyncIterableExt type.
+ */
+function extendAsyncIterable(i: any): AsyncIterableExt<any> {
+    Object.defineProperty(i, 'first', ({get: () => i[Symbol.asyncIterator]().next().then((a: any) => a.value)}));
+    i.catch = (cb: any) => extendAsyncIterable(catchError(cb)(i));
+    return i;
 }

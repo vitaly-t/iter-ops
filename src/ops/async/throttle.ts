@@ -1,6 +1,5 @@
 import {IterationState, Operation} from '../../types';
-import {createOperation} from '../../shared';
-import {throwOnSync} from '../../utils';
+import {createOperation, throwOnSync} from '../../utils';
 
 /**
  * Emits each value after the callback result resolves, to control/mitigate the processing flow.

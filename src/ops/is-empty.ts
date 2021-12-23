@@ -1,5 +1,5 @@
 import {Operation} from '../types';
-import {createOperation} from '../shared';
+import {createOperation} from '../utils';
 
 /**
  * Checks if the iterable is empty, and emits a boolean flag.

@@ -1,5 +1,5 @@
 import {Operation} from '../types';
-import {createOperation} from '../shared';
+import {createOperation} from '../utils';
 
 /**
  * Aggregates/accumulates all values into array, passes it into the callback/aggregate,

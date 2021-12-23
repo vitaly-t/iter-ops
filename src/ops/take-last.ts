@@ -1,5 +1,5 @@
 import {Operation} from '../types';
-import {createOperation} from '../shared';
+import {createOperation} from '../utils';
 
 /**
  * Emits up to `count` number of the last values.

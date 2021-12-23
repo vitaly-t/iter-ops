@@ -1,6 +1,5 @@
 import {Operation} from '../../types';
-import {createOperation} from '../../shared';
-import {isPromise, throwOnSync} from '../../utils';
+import {createOperation, isPromise, throwOnSync} from '../../utils';
 
 /**
  * When the value is a `Promise`, it is resolved, or else returned as is,

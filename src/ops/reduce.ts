@@ -1,5 +1,5 @@
 import {IterationState, Operation} from '../types';
-import {createOperation} from '../shared';
+import {createOperation} from '../utils';
 
 /**
  * Standard reducer for the iterable, extended for supporting iteration state.

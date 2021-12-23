@@ -1,5 +1,5 @@
 import {Operation} from '../types';
-import {createOperation} from '../shared';
+import {createOperation} from '../utils';
 
 /**
  * Goes through the entire iterable, counting the values, and produces a one-value iterable with the count.

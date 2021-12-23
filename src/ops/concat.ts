@@ -1,5 +1,5 @@
 import {Any, AnySync, Operation} from '../types';
-import {createOperation} from '../shared';
+import {createOperation} from '../utils';
 
 /** @hidden */
 export function concat<T>(): Operation<T, T>;

@@ -1,6 +1,5 @@
 import {IterationState, Operation} from '../types';
-import {createOperation} from '../shared';
-import {isPromise} from '../utils';
+import {createOperation, isPromise} from '../utils';
 
 /**
  * Stops iteration, once the predicate test passes.

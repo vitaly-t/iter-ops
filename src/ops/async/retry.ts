@@ -1,6 +1,5 @@
 import {IterationState, Operation} from '../../types';
-import {createOperation} from '../../shared';
-import {isPromise, throwOnSync} from '../../utils';
+import {createOperation, isPromise, throwOnSync} from '../../utils';
 
 /**
  * When the iterable rejects, retries getting the value specified number of times.

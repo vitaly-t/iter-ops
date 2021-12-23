@@ -1,5 +1,5 @@
 import {IterationState, Operation} from '../types';
-import {createOperation} from '../shared';
+import {createOperation} from '../utils';
 
 /**
  * Taps into each value, without changing the output, for logging or debugging.
