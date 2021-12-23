@@ -5,7 +5,7 @@
 import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
 import rollupPluginTypescript from '@rollup/plugin-typescript';
 import rollupPluginAutoExternal from 'rollup-plugin-auto-external';
-
+import rollupPluginDts from "rollup-plugin-dts";
 import {terser as rollupPluginTerser} from 'rollup-plugin-terser';
 import rollupPluginGzip from 'rollup-plugin-gzip';
 
@@ -128,4 +128,18 @@ const webModule = {
     ],
 };
 
-export default [cjs, esm, web, webModule];
+/**
+ * The types.
+ */
+const dts = {
+    ...common,
+
+    output: {
+        file: pkg.types,
+        format: "esm",
+    },
+
+    plugins: [rollupPluginDts()],
+};
+
+export default [cjs, esm, web, webModule, dts];
