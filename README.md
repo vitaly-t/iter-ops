@@ -4,8 +4,6 @@ iter-ops
 * [About](#about)
 * [Installation](#installation)
 * [Usage](#usage)
-    * [JavaScript](#javascript)
-    * [TypeScript](#typescript)
 * [API]
 
 ## About
@@ -25,20 +23,8 @@ $ npm i iter-ops
 
 ## Usage
 
-Follow the usage examples below, based on your development environment.
-
-_See also..._
-
-* [API List] below, plus [Full API]
-* [Recipes], for additional operations
-* [Benchmarks], for performance comparison
-
-### JavaScript
-
-Simple filtering + mapping an iterable:
-
-```js
-const {pipe, filter, map} = require('iter-ops');
+```ts
+import {pipe, filter, map} from 'iter-ops';
 
 const a = [1, 2, 3, 4, 5];
 
@@ -51,23 +37,11 @@ const i = pipe(
 const result = [...i]; //=> [{value: 2}, {value: 4}]
 ```
 
-### TypeScript
+_See also..._
 
-Calculating the sum of unique numbers:
-
-```ts
-import {pipe, distinct, reduce} from 'iter-ops';
-
-const a = [1, 2, 2, 3, 3, 4];
-
-const i = pipe(
-    a,
-    distinct(), // emit unique numbers
-    reduce((p, c) => p + c) // sum up the numbers
-); //=> one-value iterable
-
-const result = i.first; //=> 10
-```
+* [API List] below, plus [Full API]
+* [Recipes], for additional operations
+* [Benchmarks], for performance comparison
 
 ## API
 
