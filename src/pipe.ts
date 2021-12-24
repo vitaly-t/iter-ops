@@ -1,4 +1,4 @@
-import {AnyIterable, AsyncIterableExt, IterableExt, Operation} from './types';
+import {$A, $S, AnyIterable, AsyncIterableExt, IterableExt, Operation} from './types';
 import {catchError} from './ops/catch-error';
 import {optimizeIterable} from './utils';
 
@@ -61,7 +61,7 @@ export function pipe<T, A, B, C, D, E, F, G, H, I>(i: AnyIterable<T>, p0: Operat
 export function pipe<T, A, B, C, D, E, F, G, H, I, J>(i: AnyIterable<T>, p0: Operation<T, A>, p1: Operation<A, B>, p2: Operation<B, C>, p3: Operation<C, D>, p4: Operation<D, E>, p5: Operation<E, F>, p6: Operation<F, G>, p7: Operation<G, H>, p8: Operation<H, I>, p9: Operation<I, J>): AsyncIterableExt<J>;
 
 export function pipe(i: any, ...p: any[]): IterableExt<any> | AsyncIterableExt<any> {
-    if (i[Symbol.iterator]) {
+    if (i[$S]) {
         return extendIterable(p.reduce((c, a) => a(c), optimizeIterable(i)));
     }
     return extendAsyncIterable(p.reduce((c, a) => a(c), i));
@@ -71,7 +71,7 @@ export function pipe(i: any, ...p: any[]): IterableExt<any> | AsyncIterableExt<a
  * Extends an Iterable object into IterableExt type.
  */
 function extendIterable(i: any): IterableExt<any> {
-    Object.defineProperty(i, 'first', ({get: () => i[Symbol.iterator]().next().value}));
+    Object.defineProperty(i, 'first', ({get: () => i[$S]().next().value}));
     i.catch = (cb: any) => extendIterable(catchError(cb)(i));
     return i;
 }
@@ -80,7 +80,7 @@ function extendIterable(i: any): IterableExt<any> {
  * Extends an AsyncIterable object into AsyncIterableExt type.
  */
 function extendAsyncIterable(i: any): AsyncIterableExt<any> {
-    Object.defineProperty(i, 'first', ({get: () => i[Symbol.asyncIterator]().next().then((a: any) => a.value)}));
+    Object.defineProperty(i, 'first', ({get: () => i[$A]().next().then((a: any) => a.value)}));
     i.catch = (cb: any) => extendAsyncIterable(catchError(cb)(i));
     return i;
 }

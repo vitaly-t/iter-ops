@@ -1,4 +1,5 @@
 import {isIndexed, indexedAsyncIterable, isPromise} from './utils';
+import {$A, $S} from './types';
 
 /**
  * Converts any synchronous iterable into asynchronous one.
@@ -21,15 +22,15 @@ import {isIndexed, indexedAsyncIterable, isPromise} from './utils';
  * @category Core
  */
 export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
-    if (typeof (i as any)[Symbol.asyncIterator] === 'function') {
+    if (typeof (i as any)[$A] === 'function') {
         return i as any; // must be a run-time safe-check, no need converting
     }
     if (isIndexed(i)) {
         return indexedAsyncIterable(i);
     }
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T> {
-            const it = i[Symbol.iterator]();
+        [$A](): AsyncIterator<T> {
+            const it = i[$S]();
             return {
                 next(): Promise<IteratorResult<T>> {
                     return Promise.resolve(it.next());
@@ -111,15 +112,15 @@ export function toIterable<T>(i: Promise<T>): AsyncIterable<T>;
 export function toIterable<T>(i: T): Iterable<T>;
 
 export function toIterable<T>(i: any): any {
-    if (typeof i?.[Symbol.iterator] === 'function' || typeof i?.[Symbol.asyncIterator] === 'function') {
+    if (typeof i?.[$S] === 'function' || typeof i?.[$A] === 'function') {
         return i; // must be a run-time safe-check, no need converting
     }
     const next = i?.next;
     if (typeof next === 'function') {
         const value = next.call(i); // this line may throw (outside the pipeline)
-        let s: any = isPromise(value) && Symbol.asyncIterator;
+        let s: any = isPromise(value) && $A;
         if (s || (typeof value === 'object' && 'value' in (value ?? {}))) {
-            s = s || Symbol.iterator;
+            s = s || $S;
             return {
                 [s]() {
                     let started: boolean;
@@ -138,7 +139,7 @@ export function toIterable<T>(i: any): any {
     }
     if (isPromise(i)) {
         return {
-            [Symbol.asyncIterator](): AsyncIterator<T> {
+            [$A](): AsyncIterator<T> {
                 let finished: boolean;
                 return {
                     next(): Promise<IteratorResult<T>> {

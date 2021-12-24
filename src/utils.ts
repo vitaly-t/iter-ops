@@ -1,4 +1,4 @@
-import {Operation} from './types';
+import {$A, $S, Operation} from './types';
 
 /**
  * Wraps operator signature.
@@ -8,7 +8,7 @@ export function createOperation<T, R>(
     asyncFunc: (i: AsyncIterable<T>, ...args: any[]) => AsyncIterable<R>,
     args?: IArguments): Operation<T, T> {
     return (i: any) => {
-        const func: any = i[Symbol.iterator] ? syncFunc : asyncFunc;
+        const func: any = i[$S] ? syncFunc : asyncFunc;
         return func.apply(null, [i, ...args || []]);
     };
 }
@@ -18,7 +18,7 @@ export function createOperation<T, R>(
  */
 export function throwOnSync<T>(operatorName: string) {
     return () => ({
-        [Symbol.iterator](): Iterator<T> {
+        [$S](): Iterator<T> {
             return iterateOnce(true, () => {
                 throw new Error(`Operator "${operatorName}" requires asynchronous pipeline`);
             }) as Iterator<T>;
@@ -59,7 +59,7 @@ export function optimizeIterable(input: any): Iterable<any> {
  */
 export function indexedIterable<T>(input: any): Iterable<T> {
     return {
-        [Symbol.iterator](): Iterator<T> {
+        [$S](): Iterator<T> {
             const len = input.length;
             let i = 0;
             return {
@@ -76,7 +76,7 @@ export function indexedIterable<T>(input: any): Iterable<T> {
  */
 export function indexedAsyncIterable<T>(input: any): AsyncIterable<T> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T> {
+        [$A](): AsyncIterator<T> {
             const len = input.length;
             let i = 0;
             return {

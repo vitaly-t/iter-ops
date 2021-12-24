@@ -129,3 +129,9 @@ export type Any<T> = AnySync<T> | AsyncIterator<T> | AsyncIterable<T>;
  * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iteration-State Iteration State WiKi]]
  */
 export type IterationState = { [name: string]: any };
+
+/**
+ * These are for code abbreviation + smaller bundles:
+ */
+export const $S: typeof Symbol.iterator = Symbol.iterator;
+export const $A: typeof Symbol.asyncIterator = Symbol.asyncIterator;
