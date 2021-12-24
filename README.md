@@ -10,7 +10,7 @@ iter-ops
 
 Basic operations on [synchronous] + [asynchronous] iterables, strictly for JavaScript native types.
 
-![image](https://user-images.githubusercontent.com/5108906/142058291-b39d7226-56a4-4df0-8dc1-2ff2c6c18f10.png)
+![image](https://user-images.githubusercontent.com/5108906/147329472-38caa349-1baa-4ab0-945e-5cf618ce0dd9.png)
 
 We do not use any synthetic types / wrappers here, like `Observable` in RXJS, etc. It is strictly an iterable on the
 input, and an iterable on the output, for maximum performance, simplicity and compatibility (see [Rationale]).
