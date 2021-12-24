@@ -117,7 +117,7 @@ All standard operators implement the same logic as [Array] does:
 
 [WiKi]:https://github.com/vitaly-t/iter-ops/wiki
 
-[pipe]:https://github.com/vitaly-t/iter-ops/blob/main/src/pipe.ts
+[pipe]:http://vitaly-t.github.io/iter-ops/index.html#pipe
 
 [Recipes]:https://github.com/vitaly-t/iter-ops/wiki/Recipes
 
