@@ -18,7 +18,7 @@ import {$A, $S} from './types';
  * - Passing it an already asynchronous iterable will just reuse it.
  * - All indexed types are well optimized for performance.
  *
- * @see [[toIterable]]
+ * @see [[toIterable]], [[pipe]]
  * @category Core
  */
 export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
@@ -41,27 +41,27 @@ export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
 }
 
 /**
- * Converts a synchronous iterator into a synchronous iterable, so it can be used as a pipeline source/input.
+ * Converts a synchronous `Iterator` into a synchronous `Iterable`, so it can be used as a pipeline source/input.
  *
  * Note that an iterator type can only be determined by starting the iteration, which is what this method does.
  * So if getting the first iterator value throws an error, it will occur outside the pipeline.
  *
  * Passing it an already iterable object will just reuse it.
  *
- * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators]], [[toAsync]]
+ * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators]], [[toAsync]], [[pipe]]
  * @category Core
  */
 export function toIterable<T>(i: Iterator<T>): Iterable<T>;
 
 /**
- * Converts an asynchronous iterator into asynchronous iterable, so it can be used as a pipeline source/input.
+ * Converts an asynchronous `AsyncIterator` into asynchronous `AsyncIterable`, so it can be used as a pipeline source/input.
  *
  * Note that an iterator type can only be determined by starting the iteration, which is what this method does.
  * So if getting the first iterator value throws an error, it will occur outside the pipeline.
  *
  * Passing it an already iterable object will just reuse it.
  *
- * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators]], [[toAsync]]
+ * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators]], [[toAsync]], [[pipe]]
  * @category Core
  */
 export function toIterable<T>(i: AsyncIterator<T>): AsyncIterable<T>;
@@ -81,7 +81,7 @@ export function toIterable<T>(i: { next: () => ({ value: T | undefined }) }): It
 export function toIterable<T>(i: { next: () => PromiseLike<{ value: T | undefined }> }): AsyncIterable<T>;
 
 /**
- * Converts a `Promise` into a one-value asynchronous iterable, so it can be used as a pipeline source/input.
+ * Converts a `Promise` into a one-value `AsyncIterable`, so it can be used as a pipeline source/input.
  *
  * ```ts
  * import {pipe, toIterable, spread} from 'iter-ops';
@@ -98,7 +98,7 @@ export function toIterable<T>(i: { next: () => PromiseLike<{ value: T | undefine
  * }
  * ```
  *
- * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators]], [[toAsync]]
+ * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators]], [[toAsync]], [[pipe]]
  * @category Core
  */
 export function toIterable<T>(i: Promise<T>): AsyncIterable<T>;
@@ -106,7 +106,7 @@ export function toIterable<T>(i: Promise<T>): AsyncIterable<T>;
 /**
  * Converts a simple value into a one-value synchronous iterable, so it can be used as a pipeline source/input.
  *
- * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators]], [[toAsync]]
+ * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators]], [[toAsync]], [[pipe]]
  * @category Core
  */
 export function toIterable<T>(i: T): Iterable<T>;
