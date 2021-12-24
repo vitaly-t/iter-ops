@@ -1,4 +1,4 @@
-import {IterationState, Operation} from '../types';
+import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation, isPromise} from '../utils';
 
 /**
@@ -27,8 +27,8 @@ export function start<T>(cb: (value: T, index: number, state: IterationState) =>
 
 function startSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state: IterationState) => boolean): Iterable<T> {
     return {
-        [Symbol.iterator](): Iterator<T> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<T> {
+            const i = iterable[$S]();
             const state: IterationState = {};
             let index = 0, started: boolean;
             return {
@@ -49,8 +49,8 @@ function startSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state
 
 function startAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): AsyncIterable<T> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<T> {
+            const i = iterable[$A]();
             const state: IterationState = {};
             let index = 0, started: boolean;
             return {

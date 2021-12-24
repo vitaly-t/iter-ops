@@ -1,4 +1,4 @@
-import {Operation} from '../types';
+import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -12,8 +12,8 @@ export function skip<T>(count: number): Operation<T, T> {
 
 function skipSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
     return {
-        [Symbol.iterator](): Iterator<T> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<T> {
+            const i = iterable[$S]();
             let index = 0, finished = false;
             return {
                 next(): IteratorResult<T> {
@@ -33,8 +33,8 @@ function skipSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
 
 function skipAsync<T>(iterable: AsyncIterable<T>, count: number): AsyncIterable<T> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<T> {
+            const i = iterable[$A]();
             let index = 0, finished = false;
             return {
                 next(): Promise<IteratorResult<T>> {

@@ -1,4 +1,4 @@
-import {IterationState, Operation} from '../types';
+import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -71,8 +71,8 @@ export function timing<T>(cb: (t: IValueTiming<T>) => void): Operation<T, T> {
 
 function timingSync<T>(iterable: Iterable<T>, cb: (t: IValueTiming<T>) => void): Iterable<T> {
     return {
-        [Symbol.iterator](): Iterator<T> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<T> {
+            const i = iterable[$S]();
             const state: IterationState = {};
             let index = 0;
             return {
@@ -92,8 +92,8 @@ function timingSync<T>(iterable: Iterable<T>, cb: (t: IValueTiming<T>) => void):
 
 function timingAsync<T>(iterable: AsyncIterable<T>, cb: (t: IValueTiming<T>) => void): AsyncIterable<T> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<T> {
+            const i = iterable[$A]();
             const state: IterationState = {};
             let index = 0;
             return {

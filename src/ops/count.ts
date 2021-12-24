@@ -1,4 +1,4 @@
-import {Operation} from '../types';
+import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -25,8 +25,8 @@ export function count<T>(): Operation<T, number> {
 
 function countSync<T>(iterable: Iterable<T>): Iterable<number> {
     return {
-        [Symbol.iterator](): Iterator<number> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<number> {
+            const i = iterable[$S]();
             let value = 0, finished = false, a: IteratorResult<any>;
             return {
                 next(): IteratorResult<number> {
@@ -47,8 +47,8 @@ function countSync<T>(iterable: Iterable<T>): Iterable<number> {
 
 function countAsync<T>(iterable: AsyncIterable<T>): AsyncIterable<number> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<number> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<number> {
+            const i = iterable[$A]();
             let value = 0, finished = false;
             return {
                 next(): Promise<IteratorResult<number>> {

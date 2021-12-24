@@ -1,4 +1,4 @@
-import {IterationState, Operation} from '../../types';
+import {$A, IterationState, Operation} from '../../types';
 import {createOperation, isPromise, throwOnSync} from '../../utils';
 
 /**
@@ -60,8 +60,8 @@ export function retry<T>(retry: number | ((index: number, attempts: number, stat
 
 function retryAsync<T>(iterable: AsyncIterable<T>, retry: number | ((index: number, attempts: number, state: IterationState) => boolean | Promise<boolean>)): AsyncIterable<T> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<T> {
+            const i = iterable[$A]();
             const state: IterationState = {};
             let index = 0;
             const cb = typeof retry === 'function' && retry;

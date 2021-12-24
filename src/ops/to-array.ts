@@ -1,4 +1,4 @@
-import {Operation} from '../types';
+import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -13,8 +13,8 @@ export function toArray<T>(): Operation<T, T[]> {
 
 function toArraySync<T>(iterable: Iterable<T>): Iterable<T[]> {
     return {
-        [Symbol.iterator](): Iterator<T[]> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<T[]> {
+            const i = iterable[$S]();
             let done = false;
             return {
                 next(): IteratorResult<T[]> {
@@ -36,8 +36,8 @@ function toArraySync<T>(iterable: Iterable<T>): Iterable<T[]> {
 
 function toArrayAsync<T>(iterable: AsyncIterable<T>): AsyncIterable<T[]> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T[]> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<T[]> {
+            const i = iterable[$A]();
             const value: T[] = [];
             let finished = false;
             return {

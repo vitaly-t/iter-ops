@@ -1,4 +1,4 @@
-import {IterationState, Operation} from '../../types';
+import {$A, IterationState, Operation} from '../../types';
 import {createOperation, throwOnSync} from '../../utils';
 
 /**
@@ -47,8 +47,8 @@ export function delay<T>(timeout: number | ((value: T, index: number, state: Ite
 
 function delayAsync<T>(iterable: AsyncIterable<T>, timeout: number | ((value: T, index: number, state: IterationState) => number)): AsyncIterable<T> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<T> {
+            const i = iterable[$A]();
             const cb = typeof timeout === 'function' && timeout;
             const state: IterationState = {};
             let index = 0;

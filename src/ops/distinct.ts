@@ -1,4 +1,4 @@
-import {Operation} from '../types';
+import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -36,8 +36,8 @@ export function distinct<T, K>(keySelector?: (value: T, index: number) => K): Op
 
 function distinctSync<T, K>(iterable: Iterable<T>, keySelector?: (value: T, index: number) => K): Iterable<T> {
     return {
-        [Symbol.iterator](): Iterator<T> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<T> {
+            const i = iterable[$S]();
             const ks = typeof keySelector === 'function' && keySelector;
             const keySet = new Set();
             let index = 0;
@@ -64,8 +64,8 @@ function distinctSync<T, K>(iterable: Iterable<T>, keySelector?: (value: T, inde
 
 function distinctAsync<T, K>(iterable: AsyncIterable<T>, keySelector?: (value: T, index: number) => K): AsyncIterable<T> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<T> {
+            const i = iterable[$A]();
             const ks = typeof keySelector === 'function' && keySelector;
             const keySet = new Set();
             let index = 0;

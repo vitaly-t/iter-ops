@@ -1,4 +1,4 @@
-import {Any, AnySync, AnyIterable, AnyIterator, Operation} from '../types';
+import {Any, AnySync, AnyIterable, AnyIterator, Operation, $S, $A} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -42,8 +42,8 @@ export function defaultEmpty<T, D>(value: Any<D>): Operation<T, T | D> {
 
 function defaultEmptySync<T, D>(iterable: Iterable<T>, value: AnySync<D>): Iterable<T | D> {
     return {
-        [Symbol.iterator](): Iterator<T | D> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<T | D> {
+            const i = iterable[$S]();
             let k: Iterator<T>, v: any, start = true, empty = true, done = false;
             return {
                 next(): IteratorResult<T> {
@@ -56,7 +56,7 @@ function defaultEmptySync<T, D>(iterable: Iterable<T>, value: AnySync<D>): Itera
                         if (empty) {
                             if (start) {
                                 v = value;
-                                k = typeof v?.next === 'function' ? v : v?.[Symbol.iterator]?.();
+                                k = typeof v?.next === 'function' ? v : v?.[$S]?.();
                                 start = false;
                             }
                             if (k) {
@@ -77,8 +77,8 @@ function defaultEmptySync<T, D>(iterable: Iterable<T>, value: AnySync<D>): Itera
 
 function defaultEmptyAsync<T, D>(iterable: AsyncIterable<T>, value: Any<D>): AsyncIterable<T | D> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T | D> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<T | D> {
+            const i = iterable[$A]();
             let k: AsyncIterator<T>, v: any, start = true, empty = true, done = false;
             return {
                 async next(): Promise<IteratorResult<T>> {
@@ -91,7 +91,7 @@ function defaultEmptyAsync<T, D>(iterable: AsyncIterable<T>, value: Any<D>): Asy
                         if (empty) {
                             if (start) {
                                 v = value;
-                                k = typeof v?.next === 'function' ? v : (v?.[Symbol.iterator]?.() || v?.[Symbol.asyncIterator]?.());
+                                k = typeof v?.next === 'function' ? v : (v?.[$S]?.() || v?.[$A]?.());
                                 start = false;
                             }
                             if (k) {

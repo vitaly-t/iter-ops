@@ -1,4 +1,4 @@
-import {Operation} from '../types';
+import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -33,8 +33,8 @@ export function aggregate<T, R>(cb: (arr: T[]) => R): Operation<T, R> {
 
 function aggregateSync<T, R>(iterable: Iterable<T>, cb: (arr: T[]) => R): Iterable<R> {
     return {
-        [Symbol.iterator](): Iterator<R> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<R> {
+            const i = iterable[$S]();
             let finished = false;
             return {
                 next(): IteratorResult<R> {
@@ -56,8 +56,8 @@ function aggregateSync<T, R>(iterable: Iterable<T>, cb: (arr: T[]) => R): Iterab
 
 function aggregateAsync<T, R>(iterable: AsyncIterable<T>, cb: (arr: T[]) => R): AsyncIterable<R> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<R> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<R> {
+            const i = iterable[$A]();
             const arr: T[] = [];
             let finished = false;
             return {

@@ -1,4 +1,4 @@
-import {IterationState, Operation} from '../types';
+import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -14,8 +14,8 @@ export function map<T, R>(cb: (value: T, index: number, state: IterationState) =
 
 function mapSync<T, R>(iterable: Iterable<T>, cb: (value: T, index: number, state: IterationState) => R): Iterable<R> {
     return {
-        [Symbol.iterator](): Iterator<R> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<R> {
+            const i = iterable[$S]();
             const state: IterationState = {};
             let index = 0;
             return {
@@ -33,8 +33,8 @@ function mapSync<T, R>(iterable: Iterable<T>, cb: (value: T, index: number, stat
 
 function mapAsync<T, R>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => R): AsyncIterable<R> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<R> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<R> {
+            const i = iterable[$A]();
             const state: IterationState = {};
             let index = 0;
             return {

@@ -1,6 +1,6 @@
 {
   "name": "iter-ops",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Basic operations on iterables",
   "sideEffects": false,
   "exports": {
@@ -62,7 +62,7 @@
     "cross-env": "7.0.3",
     "mocha": "9.1.3",
     "nyc": "15.1.0",
-    "rollup": "2.61.1",
+    "rollup": "2.62.0",
     "rollup-plugin-auto-external": "2.0.0",
     "rollup-plugin-dts": "4.0.1",
     "rollup-plugin-gzip": "3.0.0",

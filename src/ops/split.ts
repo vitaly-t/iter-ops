@@ -1,4 +1,4 @@
-import {IterationState, Operation} from '../types';
+import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -112,8 +112,8 @@ export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationStat
 
 function splitSync<T>(iterable: Iterable<T>, cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): Iterable<T[]> {
     return {
-        [Symbol.iterator](): Iterator<T[]> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<T[]> {
+            const i = iterable[$S]();
             const state: IterationState = {};
 
             // quick access to the options:
@@ -192,8 +192,8 @@ function splitSync<T>(iterable: Iterable<T>, cb: (value: T, index: ISplitIndex, 
 
 function splitAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: ISplitIndex, state: IterationState) => boolean | Promise<boolean>, options?: ISplitOptions): AsyncIterable<T[]> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T[]> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<T[]> {
+            const i = iterable[$A]();
             const state: IterationState = {};
 
             // quick access to the options:

@@ -1,4 +1,4 @@
-import {Operation} from '../types';
+import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -26,8 +26,8 @@ export function isEmpty<T>(): Operation<T, boolean> {
 
 function isEmptySync<T>(iterable: Iterable<T>): Iterable<boolean> {
     return {
-        [Symbol.iterator](): Iterator<boolean> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<boolean> {
+            const i = iterable[$S]();
             let finished = false;
             return {
                 next(): IteratorResult<boolean> {
@@ -45,8 +45,8 @@ function isEmptySync<T>(iterable: Iterable<T>): Iterable<boolean> {
 
 function isEmptyAsync<T>(iterable: AsyncIterable<T>): AsyncIterable<boolean> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<boolean> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<boolean> {
+            const i = iterable[$A]();
             let finished = false;
             return {
                 next(): Promise<IteratorResult<boolean>> {

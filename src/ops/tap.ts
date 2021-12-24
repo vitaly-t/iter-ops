@@ -1,4 +1,4 @@
-import {IterationState, Operation} from '../types';
+import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -12,8 +12,8 @@ export function tap<T>(cb: (value: T, index: number, state: IterationState) => v
 
 function tapSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state: IterationState) => void): Iterable<T> {
     return {
-        [Symbol.iterator](): Iterator<T> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<T> {
+            const i = iterable[$S]();
             const state: IterationState = {};
             let index = 0;
             return {
@@ -31,8 +31,8 @@ function tapSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state: 
 
 function tapAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => void): AsyncIterable<T> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<T> {
+            const i = iterable[$A]();
             const state: IterationState = {};
             let index = 0;
             return {

@@ -1,4 +1,4 @@
-import {IterationState, Operation} from '../../types';
+import {$A, IterationState, Operation} from '../../types';
 import {createOperation, throwOnSync} from '../../utils';
 
 /**
@@ -31,8 +31,8 @@ export function throttle<T>(cb: (value: T, index: number, state: IterationState)
 
 function throttleAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => Promise<any>): AsyncIterable<T> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<T> {
+            const i = iterable[$A]();
             const state: IterationState = {};
             let index = 0;
             return {

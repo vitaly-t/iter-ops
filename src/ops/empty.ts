@@ -1,4 +1,4 @@
-import {Operation} from '../types';
+import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -16,13 +16,13 @@ export function empty<T>(): Operation<T, T> {
 
 function emptySync<T>(): Iterable<T> {
     return {
-        [Symbol.iterator]: () => ({next: () => ({value: undefined, done: true})})
+        [$S]: () => ({next: () => ({value: undefined, done: true})})
     };
 }
 
 function emptyAsync<T>(): AsyncIterable<T> {
     return {
-        [Symbol.asyncIterator]: () => ({
+        [$A]: () => ({
             next() {
                 return Promise.resolve({value: undefined, done: true});
             }

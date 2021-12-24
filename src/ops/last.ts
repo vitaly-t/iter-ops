@@ -1,4 +1,4 @@
-import {Operation} from '../types';
+import {$A, $S, Operation} from '../types';
 import {createOperation, isPromise} from '../utils';
 
 /**
@@ -42,8 +42,8 @@ export function last<T>(cb?: (value: T, index: number) => boolean | Promise<bool
 
 function lastSync<T>(iterable: Iterable<T>, cb?: (value: T, index: number) => boolean): Iterable<T> {
     return {
-        [Symbol.iterator](): Iterator<T> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<T> {
+            const i = iterable[$S]();
             const test = typeof cb === 'function' && cb;
             let index = 0;
             return {
@@ -63,8 +63,8 @@ function lastSync<T>(iterable: Iterable<T>, cb?: (value: T, index: number) => bo
 
 function lastAsync<T>(iterable: AsyncIterable<T>, cb?: (value: T, index: number) => boolean | Promise<boolean>): AsyncIterable<T> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<T> {
+            const i = iterable[$A]();
             const test = typeof cb === 'function' && cb;
             let finished = false, index = 0, value: IteratorResult<T>;
             return {

@@ -1,4 +1,4 @@
-import {Operation} from '../types';
+import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -74,8 +74,8 @@ export function onEnd<T>(cb: (s: IIterationSummary<T>) => void): Operation<T, T>
 
 function onEndSync<T>(iterable: Iterable<T>, cb: (s: IIterationSummary<T>) => void): Iterable<T> {
     return {
-        [Symbol.iterator](): Iterator<T> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<T> {
+            const i = iterable[$S]();
             let start: number, finished: boolean, lastValue: T, count = 0;
             return {
                 next(): IteratorResult<T> {
@@ -101,8 +101,8 @@ function onEndSync<T>(iterable: Iterable<T>, cb: (s: IIterationSummary<T>) => vo
 
 function onEndAsync<T>(iterable: AsyncIterable<T>, cb: (s: IIterationSummary<T>) => void): AsyncIterable<T> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<T> {
+            const i = iterable[$A]();
             let start: number, finished: boolean, lastValue: T, count = 0;
             return {
                 next(): Promise<IteratorResult<T>> {

@@ -1,4 +1,4 @@
-import {Operation} from '../../types';
+import {$A, Operation} from '../../types';
 import {createOperation, isPromise, throwOnSync} from '../../utils';
 
 /**
@@ -52,8 +52,8 @@ export function wait<T>() {
 
 export function waitAsync<T>(iterable: AsyncIterable<Promise<T> | T>): AsyncIterable<T> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<T> {
+            const i = iterable[$A]();
             return {
                 next(): Promise<IteratorResult<T>> {
                     return i.next().then(a => {

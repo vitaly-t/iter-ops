@@ -1,4 +1,4 @@
-import {IterationState, Operation} from '../types';
+import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -14,8 +14,8 @@ export function reduce<T>(cb: (previousValue: T, currentValue: T, index: number,
 
 function reduceSync<T>(iterable: Iterable<T>, cb: (previousValue: T, currentValue: T, index: number, state: IterationState) => T, initialValue?: T): Iterable<T> {
     return {
-        [Symbol.iterator](): Iterator<T> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<T> {
+            const i = iterable[$S]();
             const state: IterationState = {};
             let done = false;
             return {
@@ -43,8 +43,8 @@ function reduceSync<T>(iterable: Iterable<T>, cb: (previousValue: T, currentValu
 
 function reduceAsync<T>(iterable: AsyncIterable<T>, cb: (previousValue: T, currentValue: T, index: number, state: IterationState) => T, initialValue?: T): AsyncIterable<T> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<T> {
+            const i = iterable[$A]();
             const state: IterationState = {};
             let finished = false, index = 0, value = initialValue as T;
             return {

@@ -1,4 +1,4 @@
-import {IterationState, Operation} from '../types';
+import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -52,8 +52,8 @@ export function repeat<T>(count: number | ((value: T, index: number, count: numb
 
 function repeatSync<T>(iterable: Iterable<T>, count: number | ((value: T, index: number, count: number, state: IterationState) => boolean)): Iterable<T> {
     return {
-        [Symbol.iterator](): Iterator<T> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<T> {
+            const i = iterable[$S]();
             const state: IterationState = {};
             const cb = typeof count === 'function' && count;
             const initialCount = !cb && count > 0 ? count : 0;
@@ -89,8 +89,8 @@ function repeatSync<T>(iterable: Iterable<T>, count: number | ((value: T, index:
 
 function repeatAsync<T>(iterable: AsyncIterable<T>, count: number | ((value: T, index: number, count: number, state: IterationState) => boolean | Promise<boolean>)): AsyncIterable<T> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<T> {
+            const i = iterable[$A]();
             const state: IterationState = {};
             const cb = typeof count === 'function' && count;
             const initialCount = !cb && count > 0 ? count : 0;

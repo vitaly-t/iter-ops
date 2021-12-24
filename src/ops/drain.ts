@@ -1,4 +1,4 @@
-import {Operation} from '../types';
+import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -35,8 +35,8 @@ export function drain<T>(): Operation<T, T> {
 
 function drainSync<T>(iterable: Iterable<T>): Iterable<T> {
     return {
-        [Symbol.iterator](): Iterator<T> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<T> {
+            const i = iterable[$S]();
             return {
                 next(): IteratorResult<T> {
                     while (!i.next().done);
@@ -49,8 +49,8 @@ function drainSync<T>(iterable: Iterable<T>): Iterable<T> {
 
 function drainAsync<T>(iterable: AsyncIterable<T>): AsyncIterable<T> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<T> {
+            const i = iterable[$A]();
             return {
                 next(): Promise<IteratorResult<T>> {
                     return i.next().then(a => a.done ? a : this.next());

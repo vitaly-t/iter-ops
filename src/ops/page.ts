@@ -1,4 +1,4 @@
-import {Operation} from '../types';
+import {$A, $S, Operation} from '../types';
 import {createOperation, iterateOnce} from '../utils';
 
 /**
@@ -26,13 +26,13 @@ export function page<T>(size: number): Operation<T, T[]> {
 
 function pageSync<T>(iterable: Iterable<T>, size: number): Iterable<T[]> {
     return {
-        [Symbol.iterator](): Iterator<T[]> {
+        [$S](): Iterator<T[]> {
             if (typeof size !== 'number' || size < 1) {
                 return iterateOnce(true, () => {
                     throw new TypeError(`Page size >= 1 is required: ${JSON.stringify(size)}`);
                 }) as any;
             }
-            const i = iterable[Symbol.iterator]();
+            const i = iterable[$S]();
             return {
                 next(): IteratorResult<T[]> {
                     const value = [];
@@ -52,13 +52,13 @@ function pageSync<T>(iterable: Iterable<T>, size: number): Iterable<T[]> {
 
 function pageAsync<T>(iterable: AsyncIterable<T>, size: number): AsyncIterable<T[]> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T[]> {
+        [$A](): AsyncIterator<T[]> {
             if (typeof size !== 'number' || size < 1) {
                 return iterateOnce(false, () => {
                     throw new TypeError(`Page size >= 1 is required: ${JSON.stringify(size)}`);
                 }) as any;
             }
-            const i = iterable[Symbol.asyncIterator]();
+            const i = iterable[$A]();
             return {
                 next(): Promise<IteratorResult<T[]>> {
                     const value: T[] = [];

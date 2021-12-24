@@ -1,4 +1,4 @@
-import {Operation} from '../types';
+import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -24,8 +24,8 @@ export function takeLast<T>(count: number): Operation<T, T> {
 
 function takeLastSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
     return {
-        [Symbol.iterator](): Iterator<T> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<T> {
+            const i = iterable[$S]();
             const buffer: IteratorResult<T>[] = [];
             let ready = false, done = false, index = 0;
             return {
@@ -55,8 +55,8 @@ function takeLastSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
 
 function takeLastAsync<T>(iterable: AsyncIterable<T>, count: number): AsyncIterable<T> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<T> {
+            const i = iterable[$A]();
             const buffer: IteratorResult<T>[] = [];
             let done = false, index = 0;
             return {

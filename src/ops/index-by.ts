@@ -1,4 +1,4 @@
-import {IterationState, Operation} from '../types';
+import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation, isPromise} from '../utils';
 
 /**
@@ -42,8 +42,8 @@ export function indexBy<T>(cb: (value: T, index: number, state: IterationState) 
 
 function indexBySync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state: IterationState) => boolean): Iterable<IIndexedValue<T>> {
     return {
-        [Symbol.iterator](): Iterator<IIndexedValue<T>> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<IIndexedValue<T>> {
+            const i = iterable[$S]();
             const state: IterationState = {};
             let index = -1;
             return {
@@ -59,8 +59,8 @@ function indexBySync<T>(iterable: Iterable<T>, cb: (value: T, index: number, sta
 
 function indexByAsync<T, R>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): AsyncIterable<IIndexedValue<T>> {
     return {
-        [Symbol.asyncIterator](): AsyncIterator<IIndexedValue<T>> {
-            const i = iterable[Symbol.asyncIterator]();
+        [$A](): AsyncIterator<IIndexedValue<T>> {
+            const i = iterable[$A]();
             const state: IterationState = {};
             let index = -1;
             return {
