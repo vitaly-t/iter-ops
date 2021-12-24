@@ -13,7 +13,7 @@ for (let i = 0; i < maxItems; i++) {
 
 // regular/popular way of wrapping into asynchronous iterable
 const input: AsyncIterable<number> = {
-    [$A](): AsyncIterator<number> {
+    [Symbol.asyncIterator](): AsyncIterator<number> {
         const i = data.values();
         return {
             async next(): Promise<IteratorResult<number>> {

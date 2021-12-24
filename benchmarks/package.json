@@ -1,6 +1,6 @@
 {
   "name": "iter-ops-benchmarks",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Benchmarks for iter-ops library",
   "scripts": {
     "test": "tsc -p src && node ./src/sync.js && node ./src/async.js",
