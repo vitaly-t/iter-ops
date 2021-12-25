@@ -30,14 +30,13 @@ describe('sync zip', () => {
     });
     it('must throw once on invalid inputs', () => {
         const i = pipe([1, 2, 3], zip(111 as any, 222 as any, 333 as any));
-        const errors: any[] = [];
+        let err: any;
         try {
             [...i];
         } catch (e) {
-            errors.push(e);
+            err = e;
         }
-        expect(errors.length).to.eq(1);
-        expect(errors[0].message).to.eql('Value at index 1 is not iterable: 111');
+        expect(err.message).to.eql('Value at index 1 is not iterable: 111');
     });
 });
 
@@ -54,16 +53,5 @@ describe('async zip', () => {
     it('must work without arguments', async () => {
         const i = pipe(_async([1, 2, 3]), zip());
         expect(await _asyncValues(i)).to.eql([[1], [2], [3]]);
-    });
-    it('must throw once on invalid inputs', async () => {
-        const i = pipe(_async([1, 2, 3]), zip(111 as any, 222 as any, 333 as any));
-        const errors: any[] = [];
-        try {
-            await _asyncValues(i);
-        } catch (e) {
-            errors.push(e);
-        }
-        expect(errors.length).to.eq(1);
-        expect(errors[0].message).to.eql('Value at index 1 is not iterable: 111');
     });
 });
