@@ -1,5 +1,5 @@
 import {AnyIterable, AnyIterator, AnyIterableIterator, Operation, $S, $A} from '../types';
-import {createOperation} from '../utils';
+import {createOperation, iterateOnce} from '../utils';
 
 /** @hidden */
 export function zip<T>(): Operation<T, [T]>;
@@ -56,17 +56,14 @@ function zipSync<T>(iterable: Iterable<T>, ...values: (Iterator<T> | Iterable<T>
                 iterable[$S](),
                 ...values.map((v: any) => typeof v[$S] === 'function' ? v[$S]() : v)
             ];
+            const errIterator = validateZipIterators(true, list);
             let finished: boolean;
-            return {
+            return errIterator || {
                 next(): IteratorResult<Array<any>> {
                     if (!finished) {
                         const value = [];
                         for (let i = 0; i < list.length; i++) {
-                            const v = list[i]?.next?.();
-                            if (!v && i > 0) {
-                                // not Iterable/Iterator (simple value or AsyncIterable/AsyncIterator)
-                                throw new TypeError(`Value at index ${i - 1} is not iterable: ${JSON.stringify(list[i])}`);
-                            }
+                            const v = list[i].next();
                             if (v.done) {
                                 finished = true;
                                 return v;
@@ -90,8 +87,9 @@ function zipAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]): A
                 ...values.map((v: any) => typeof v[$S] === 'function' ? v[$S]() :
                     (typeof v[$A] === 'function' ? v[$A]() : v))
             ];
+            const errIterator = validateZipIterators(false, list);
             let finished: boolean;
-            return {
+            return errIterator || {
                 next(): Promise<IteratorResult<Array<any>>> {
                     if (!finished) {
                         return Promise.all(list.map(i => i.next())).then(a => {
@@ -111,4 +109,15 @@ function zipAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]): A
             };
         }
     };
+}
+
+function validateZipIterators<T>(sync: boolean, inputs: AnyIterator<T>[]) {
+    for (let i = 1; i < inputs.length; i++) {
+        const a = inputs[i];
+        if (!a || typeof a.next !== 'function') {
+            return iterateOnce(sync, () => {
+                throw new TypeError(`Value at index ${i - 1} is not iterable: ${JSON.stringify(a)}`);
+            }) as any;
+        }
+    }
 }

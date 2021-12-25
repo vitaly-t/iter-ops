@@ -54,4 +54,14 @@ describe('async zip', () => {
         const i = pipe(_async([1, 2, 3]), zip());
         expect(await _asyncValues(i)).to.eql([[1], [2], [3]]);
     });
+    it('must throw once on invalid inputs', async () => {
+        const i = pipe(_async([1, 2, 3]), zip([111], [222], 333 as any));
+        let err: any;
+        try {
+            await _asyncValues(i);
+        } catch (e) {
+            err = e;
+        }
+        expect(err.message).to.eql('Value at index 2 is not iterable: 333');
+    });
 });
