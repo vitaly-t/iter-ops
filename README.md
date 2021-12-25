@@ -28,10 +28,10 @@ $ npm i iter-ops
 ```ts
 import {pipe, filter, map} from 'iter-ops';
 
-const a = [1, 2, 3, 4, 5];
+const input = [1, 2, 3, 4, 5];
 
 const i = pipe(
-    a,
+    input,
     filter(a => a % 2 === 0), // find even numbers
     map(value => ({value})) // remap into objects
 );
@@ -44,18 +44,18 @@ console.log(...i); //=> {value: 2}, {value: 4}
 ```ts
 import {pipe, toAsync, distinct, delay} from 'iter-ops';
 
-const a = [1, 2, 2, 3, 3, 4];
+const input = [1, 2, 2, 3, 3, 4];
 
 const i = pipe(
-    toAsync(a), // make asynchronous
+    toAsync(input), // make asynchronous
     distinct(), // emit unique numbers
-    delay(1000) // delay by 1s
+    delay(1000) // delay each value by 1s
 );
 
 (async function () {
-  for await(const a of i) {
-    console.log(a); //=> 1, 2, 3, 4 (with 1s delay)
-  }
+    for await(const a of i) {
+        console.log(a); //=> 1, 2, 3, 4 (with 1s delay)
+    }
 })();
 ```
 
