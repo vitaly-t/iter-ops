@@ -63,9 +63,9 @@ function zipSync<T>(iterable: Iterable<T>, ...values: (Iterator<T> | Iterable<T>
                         const value = [];
                         for (let i = 0; i < list.length; i++) {
                             const v = list[i]?.next?.();
-                            if (!v) {
+                            if (!v && i > 0) {
                                 // not Iterable/Iterator (simple value or AsyncIterable/AsyncIterator)
-                                throw new TypeError(`Value at index ${i} is not iterable: ${JSON.stringify(list[i])}`);
+                                throw new TypeError(`Value at index ${i - 1} is not iterable: ${JSON.stringify(list[i])}`);
                             }
                             if (v.done) {
                                 finished = true;

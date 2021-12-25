@@ -36,7 +36,7 @@ describe('sync zip', () => {
         } catch (e) {
             err = e;
         }
-        expect(err.message).to.eql('Value at index 1 is not iterable: 111');
+        expect(err.message).to.eql('Value at index 0 is not iterable: 111');
     });
 });
 
