@@ -52,7 +52,11 @@ const i = pipe(
     delay(1000) // delay by 1s
 );
 
-console.log(...i); //=> 1, 2, 3, 4 (with 1s delay)
+(async function () {
+  for await(const a of i) {
+    console.log(a); //=> 1, 2, 3, 4 (with 1s delay)
+  }
+})();
 ```
 
 _See also..._
