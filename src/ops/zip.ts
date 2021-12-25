@@ -20,6 +20,9 @@ export function zip<T>(): Operation<T, [T]>;
  *
  * The operator takes any number of iterable or iterator arguments.
  *
+ * Note that if you try zipping asynchronous iterables into a synchronous pipeline,
+ * or pass in non-iterable values, an error will be thrown.
+ *
  * @category Sync+Async
  */
 export function zip<T, A>(v0: AnyIterableIterator<A>): Operation<T, [T, A]>;
@@ -59,6 +62,8 @@ function zipSync<T>(iterable: Iterable<T>, ...values: (Iterator<T> | Iterable<T>
                     if (!finished) {
                         const value = [];
                         for (let i = 0; i < list.length; i++) {
+                            // the line below will throw, if you pass in a non-iterable value,
+                            // or when zipping an asynchronous iterable into a synchronous pipeline;
                             const v = list[i].next();
                             if (v.done) {
                                 finished = true;

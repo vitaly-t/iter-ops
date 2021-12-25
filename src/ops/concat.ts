@@ -9,6 +9,8 @@ export function concat<T>(): Operation<T, T>;
  * Merged inputs are iterated over after depleting the current iterable, in the order in which they were specified,
  * i.e. the standard `Array.concat` logic.
  *
+ * Note that if you concatenate asynchronous iterables with a synchronous pipeline, they will be processed as simple values.
+ *
  * @see: [Array.concat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat)
  *
  * @category Sync+Async

@@ -15,6 +15,8 @@ import {createOperation} from '../utils';
  * console.log(...i); //=> 1, 2, 3
  * ```
  *
+ * Note that if you add asynchronous defaults into a synchronous pipeline, they will be processed as simple values.
+ *
  * @see [[empty]], [[isEmpty]]
  * @category Sync+Async
  */
