@@ -1,5 +1,5 @@
 import {AnyIterable, AnyIterator, AnyIterableIterator, Operation, $S, $A} from '../types';
-import {createOperation} from '../utils';
+import {createOperation, iterateOnce} from '../utils';
 
 /** @hidden */
 export function zip<T>(): Operation<T, [T]>;
@@ -19,9 +19,6 @@ export function zip<T>(): Operation<T, [T]>;
  * ```
  *
  * The operator takes any number of iterable or iterator arguments.
- *
- * Note that if you try zipping asynchronous iterables into a synchronous pipeline,
- * or pass in non-iterable values, an error will be thrown.
  *
  * @category Sync+Async
  */
@@ -56,14 +53,13 @@ function zipSync<T>(iterable: Iterable<T>, ...values: (Iterator<T> | Iterable<T>
                 iterable[$S](),
                 ...values.map((v: any) => typeof v[$S] === 'function' ? v[$S]() : v)
             ];
+            const errIterator = validateIterables(false, list) as Iterator<Array<any>>;
             let finished: boolean;
-            return {
+            return errIterator || {
                 next(): IteratorResult<Array<any>> {
                     if (!finished) {
                         const value = [];
                         for (let i = 0; i < list.length; i++) {
-                            // the line below will throw, if you pass in a non-iterable value,
-                            // or when zipping an asynchronous iterable into a synchronous pipeline;
                             const v = list[i].next();
                             if (v.done) {
                                 finished = true;
@@ -88,8 +84,9 @@ function zipAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]): A
                 ...values.map((v: any) => typeof v[$S] === 'function' ? v[$S]() :
                     (typeof v[$A] === 'function' ? v[$A]() : v))
             ];
+            const errIterator = validateIterables(false, list) as AsyncIterator<Array<any>>;
             let finished: boolean;
-            return {
+            return errIterator || {
                 next(): Promise<IteratorResult<Array<any>>> {
                     if (!finished) {
                         return Promise.all(list.map(i => i.next())).then(a => {
@@ -109,4 +106,15 @@ function zipAsync<T>(iterable: AsyncIterable<T>, ...values: AnyIterable<T>[]): A
             };
         }
     };
+}
+
+function validateIterables<T>(sync: boolean, list: any[]): Iterator<T> | AsyncIterator<T> | null {
+    for (let i = 0; i < list.length; i++) {
+        if (typeof list[i]?.next !== 'function') {
+            return iterateOnce(sync, () => {
+                throw new TypeError(`Value at index ${i} is not iterable: ${JSON.stringify(list[i])}`);
+            }) as any;
+        }
+    }
+    return null;
 }
