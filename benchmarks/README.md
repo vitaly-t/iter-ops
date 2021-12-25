@@ -36,8 +36,8 @@ iterable is. This makes it difficult to test objectively. On one hand, `iter-ops
 has embedded optimization for wrapping an asynchronous iterable, so if we test that against a standard async iterable
 for `rxjs`, we get the result as above:
 
-* Testing against `rxjs` asynchronous pipeline, we get ~6.3x times better performance
-* Testing against `rxjs` with a single empty subscription - we get ~14x better performance
+* Testing against `rxjs` asynchronous pipeline, we get ~7x times better performance
+* Testing against `rxjs` with a single empty subscription - we get ~15x better performance
 
 However, if we optimize the source iterable similar to how `iter-ops` does it, then figures become very comparative.
 
