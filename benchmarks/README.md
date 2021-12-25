@@ -24,12 +24,12 @@ Running tests separately is recommended, or else results may become skewed.
 
 ### Test Results
 
-![image](https://user-images.githubusercontent.com/5108906/146110938-246e612a-8e38-45f4-bf85-c10e2e100fc7.png)
+![image](https://user-images.githubusercontent.com/5108906/147379838-cdc83d60-68e9-44c5-9a57-fda6d9be3737.png)
 
 * Testing against `rxjs` synchronous pipeline - we get ~2.5x times better performance
 * Testing against `rxjs` with a single empty subscription - we get ~5x better performance
 
-![image](https://user-images.githubusercontent.com/5108906/147379838-cdc83d60-68e9-44c5-9a57-fda6d9be3737.png)
+![image](https://user-images.githubusercontent.com/5108906/147379881-637d3acf-5f29-4679-9147-4e026ddb2561.png)
 
 Testing against an asynchronous source produces the result that for the most part depends on how fast the source
 iterable is. This makes it difficult to test objectively. On one hand, `iter-ops`
