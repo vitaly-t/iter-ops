@@ -23,6 +23,8 @@ $ npm i iter-ops
 
 ## Usage
 
+* Synchronous pipeline:
+
 ```ts
 import {pipe, filter, map} from 'iter-ops';
 
@@ -34,7 +36,23 @@ const i = pipe(
     map(value => ({value})) // remap into objects
 );
 
-const result = [...i]; //=> [{value: 2}, {value: 4}]
+console.log(...i); //=> {value: 2}, {value: 4}
+```
+
+* Asynchronous pipeline:
+
+```ts
+import {pipe, toAsync, distinct, delay} from 'iter-ops';
+
+const a = [1, 2, 2, 3, 3, 4];
+
+const i = pipe(
+    toAsync(a), // make asynchronous
+    distinct(), // emit unique numbers
+    delay(1000) // delay by 1s
+);
+
+console.log(...i); //=> 1, 2, 3, 4 (with 1s delay)
 ```
 
 _See also..._
