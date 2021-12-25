@@ -64,9 +64,14 @@ export function pipe<T, A, B, C, D, E, F, G, H, I, J>(i: AnyIterable<T>, p0: Ope
 
 export function pipe(i: any, ...p: any[]): IterableExt<any> | AsyncIterableExt<any> {
     if (i[$S]) {
+        // create synchronous pipeline:
         return extendIterable(p.reduce((c, a) => a(c), optimizeIterable(i)));
     }
-    return extendAsyncIterable(p.reduce((c, a) => a(c), i));
+    if (i[$A]) {
+        // create asynchronous pipeline:
+        return extendAsyncIterable(p.reduce((c, a) => a(c), i));
+    }
+    throw new TypeError(`An iterable object was expected: ${JSON.stringify(i)}`);
 }
 
 /**

@@ -29,4 +29,11 @@ describe('pipe', () => {
             expect(a.catch(dummy).catch(dummy).first).to.eql(1);
         });
     });
+    describe('with invalid inputs', () => {
+        it('must throw an error', () => {
+            expect(() => {
+                pipe(123 as any);
+            }).to.throw('An iterable object was expected: 123');
+        });
+    });
 });
