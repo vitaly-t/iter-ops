@@ -1,4 +1,4 @@
-import {$A, $S, Operation} from '../types';
+import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -17,16 +17,35 @@ import {createOperation} from '../utils';
  * console.log(i.first); //=> 12
  * ```
  *
+ * When the optional predicate is specified, only values that satisfy the predicate are counted.
+ *
+ * ```ts
+ * import {pipe, count} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     'hello world!',
+ *     count(a => a === 'l')
+ * );
+ *
+ * console.log(...i); //=> 3
+ *
+ * console.log(i.first); //=> 3
+ * ```
+ *
+ * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
+ * or else the `Promise` will be treated as a truthy value.
+ *
  * @category Sync+Async
  */
-export function count<T>(): Operation<T, number> {
+export function count<T>(cb?: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, number> {
     return createOperation(countSync, countAsync);
 }
 
-function countSync<T>(iterable: Iterable<T>): Iterable<number> {
+function countSync<T>(iterable: Iterable<T>, cb?: (value: T, index: number, state: IterationState) => boolean): Iterable<number> {
     return {
         [$S](): Iterator<number> {
             const i = iterable[$S]();
+            const test = typeof cb === 'function' && cb;
             let value = 0, finished = false, a: IteratorResult<any>;
             return {
                 next(): IteratorResult<number> {
@@ -45,10 +64,11 @@ function countSync<T>(iterable: Iterable<T>): Iterable<number> {
     };
 }
 
-function countAsync<T>(iterable: AsyncIterable<T>): AsyncIterable<number> {
+function countAsync<T>(iterable: AsyncIterable<T>, cb?: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): AsyncIterable<number> {
     return {
         [$A](): AsyncIterator<number> {
             const i = iterable[$A]();
+            const test = typeof cb === 'function' && cb;
             let value = 0, finished = false;
             return {
                 next(): Promise<IteratorResult<number>> {
