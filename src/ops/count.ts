@@ -1,5 +1,5 @@
 import {$A, $S, IterationState, Operation} from '../types';
-import {createOperation} from '../utils';
+import {createOperation, isPromise} from '../utils';
 
 /**
  * Goes through the entire iterable, counting the values, and produces a one-value iterable with the count.
@@ -46,7 +46,8 @@ function countSync<T>(iterable: Iterable<T>, cb?: (value: T, index: number, stat
         [$S](): Iterator<number> {
             const i = iterable[$S]();
             const test = typeof cb === 'function' && cb;
-            let value = 0, finished = false, a: IteratorResult<any>;
+            const state: IterationState = {};
+            let value = 0, index = 0, finished = false, a: IteratorResult<any>;
             return {
                 next(): IteratorResult<number> {
                     while (!finished) {
@@ -55,7 +56,9 @@ function countSync<T>(iterable: Iterable<T>, cb?: (value: T, index: number, stat
                             finished = true;
                             return {value, done: false};
                         }
-                        value++;
+                        if (!test || test(a.value, index++, state)) {
+                            value++;
+                        }
                     }
                     return a;
                 }
@@ -69,7 +72,8 @@ function countAsync<T>(iterable: AsyncIterable<T>, cb?: (value: T, index: number
         [$A](): AsyncIterator<number> {
             const i = iterable[$A]();
             const test = typeof cb === 'function' && cb;
-            let value = 0, finished = false;
+            const state: IterationState = {};
+            let value = 0, index = 0, finished = false;
             return {
                 next(): Promise<IteratorResult<number>> {
                     return i.next().then(a => {
@@ -80,8 +84,12 @@ function countAsync<T>(iterable: AsyncIterable<T>, cb?: (value: T, index: number
                             finished = true;
                             return {value, done: false};
                         }
-                        value++;
-                        return this.next();
+                        const r: any = !test || test(a.value, index++, state);
+                        const out = (flag: any) => {
+                            value += flag ? 1 : 0;
+                            return this.next();
+                        };
+                        return isPromise(r) ? r.then(out) : out(r);
                     });
                 }
             };
