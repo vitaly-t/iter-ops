@@ -13,7 +13,8 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "clean": "del /s/q .\\test\\*.js && del /s/q .\\src\\*.js && rd /s/q .\\dist",
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
     "build": "rollup -c",
     "doc": "typedoc --readme none",
     "lint": "tslint --fix *.ts ./src/**/*.ts ./test/**/*.ts",
@@ -62,6 +63,7 @@
     "cross-env": "7.0.3",
     "mocha": "9.1.3",
     "nyc": "15.1.0",
+    "rimraf": "3.0.2",
     "rollup": "2.62.0",
     "rollup-plugin-auto-external": "2.0.0",
     "rollup-plugin-dts": "4.1.0",
