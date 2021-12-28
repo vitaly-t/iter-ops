@@ -38,7 +38,7 @@ describe('async timing', () => {
         const c: IValueTiming<number>[] = [];
         const i = pipe(
             _async([10, 20, 30]),
-            delay(3),
+            delay(4),
             timing((t) => {
                 c.push(t);
             })

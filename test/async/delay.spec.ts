@@ -7,7 +7,7 @@ describe('delay', () => {
         const start = Date.now();
         await _asyncValues(output);
         const duration = Date.now() - start;
-        expect(duration).to.be.greaterThan(50);
+        expect(duration).to.be.greaterThanOrEqual(50);
     });
     it('must emit after callback count', async () => {
         const output = pipe(
@@ -17,7 +17,7 @@ describe('delay', () => {
         const start = Date.now();
         await _asyncValues(output);
         const duration = Date.now() - start;
-        expect(duration).to.be.greaterThan(50);
+        expect(duration).to.be.greaterThanOrEqual(50);
     });
     it('must not add delay for empty iterables', async () => {
         const output = pipe(_async([]), delay(100));
