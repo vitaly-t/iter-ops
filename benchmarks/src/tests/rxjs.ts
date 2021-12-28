@@ -1,11 +1,14 @@
 import {AnyIterable} from '../../../dist';
 import {filter, firstValueFrom, from, map, toArray} from 'rxjs';
 
-export async function testRXJS(input: AnyIterable<number>, withSubscription?: boolean) {
+export async function testRXJS(
+    input: AnyIterable<number>,
+    withSubscription?: boolean
+) {
     const start = Date.now();
     const i = from(input).pipe(
-        filter(a => a % 2 === 0),
-        map(b => ({value: b})),
+        filter((a) => a % 2 === 0),
+        map((b) => ({value: b})),
         toArray()
     );
     if (withSubscription) {
@@ -17,5 +20,5 @@ export async function testRXJS(input: AnyIterable<number>, withSubscription?: bo
     if (withSubscription) {
         return {'rxjs + sub': {duration, length}};
     }
-    return {'rxjs': {duration, length}};
+    return {rxjs: {duration, length}};
 }

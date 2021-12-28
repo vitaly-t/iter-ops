@@ -52,13 +52,28 @@ export function retry<T>(attempts: number): Operation<T, T>;
  * @see [[repeat]]
  * @category Async-only
  */
-export function retry<T>(cb: (index: number, attempts: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T>;
+export function retry<T>(
+    cb: (
+        index: number,
+        attempts: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
+): Operation<T, T>;
 
 export function retry(...args: unknown[]) {
     return createOperation(throwOnSync('retry'), retryAsync, args);
 }
 
-function retryAsync<T>(iterable: AsyncIterable<T>, retry: number | ((index: number, attempts: number, state: IterationState) => boolean | Promise<boolean>)): AsyncIterable<T> {
+function retryAsync<T>(
+    iterable: AsyncIterable<T>,
+    retry:
+        | number
+        | ((
+              index: number,
+              attempts: number,
+              state: IterationState
+          ) => boolean | Promise<boolean>)
+): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
@@ -70,17 +85,23 @@ function retryAsync<T>(iterable: AsyncIterable<T>, retry: number | ((index: numb
             let leftTries = retriesNumber;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    return i.next()
-                        .then(a => {
+                    return i
+                        .next()
+                        .then((a) => {
                             index++;
                             attempts = 0;
                             leftTries = retriesNumber;
                             return a;
                         })
-                        .catch(e => {
+                        .catch((e) => {
                             if (cb) {
-                                const b = (f: any) => f ? this.next() : Promise.reject(e);
-                                const r = cb(index, attempts++, state) as Promise<boolean>;
+                                const b = (f: any) =>
+                                    f ? this.next() : Promise.reject(e);
+                                const r = cb(
+                                    index,
+                                    attempts++,
+                                    state
+                                ) as Promise<boolean>;
                                 return isPromise(r) ? r.then(b) : b(r);
                             }
                             if (leftTries) {
@@ -89,8 +110,8 @@ function retryAsync<T>(iterable: AsyncIterable<T>, retry: number | ((index: numb
                             }
                             return Promise.reject(e);
                         });
-                }
+                },
             };
-        }
+        },
     };
 }

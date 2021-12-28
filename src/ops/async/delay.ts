@@ -39,13 +39,20 @@ export function delay<T>(timeout: number): Operation<T, T>;
  * @see [[throttle]]
  * @category Async-only
  */
-export function delay<T>(cb: (value: T, index: number, state: IterationState) => number): Operation<T, T>;
+export function delay<T>(
+    cb: (value: T, index: number, state: IterationState) => number
+): Operation<T, T>;
 
 export function delay(...args: unknown[]) {
     return createOperation(throwOnSync('delay'), delayAsync, args);
 }
 
-function delayAsync<T>(iterable: AsyncIterable<T>, timeout: number | ((value: T, index: number, state: IterationState) => number)): AsyncIterable<T> {
+function delayAsync<T>(
+    iterable: AsyncIterable<T>,
+    timeout:
+        | number
+        | ((value: T, index: number, state: IterationState) => number)
+): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
@@ -54,15 +61,21 @@ function delayAsync<T>(iterable: AsyncIterable<T>, timeout: number | ((value: T,
             let index = 0;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    return i.next().then(a => {
+                    return i.next().then((a) => {
                         if (a.done) {
                             return a;
                         }
-                        const delay: number = cb ? cb(a.value, index++, state) : timeout;
-                        return delay < 0 ? a : new Promise(resolve => setTimeout(() => resolve(a), delay));
+                        const delay: number = cb
+                            ? cb(a.value, index++, state)
+                            : timeout;
+                        return delay < 0
+                            ? a
+                            : new Promise((resolve) =>
+                                  setTimeout(() => resolve(a), delay)
+                              );
                     });
-                }
+                },
             };
-        }
+        },
     };
 }

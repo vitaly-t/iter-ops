@@ -12,10 +12,12 @@ describe('toAsync', () => {
                 let idx = 5;
                 return {
                     next() {
-                        return idx ? {value: idx--} : {value: undefined, done: true};
-                    }
+                        return idx
+                            ? {value: idx--}
+                            : {value: undefined, done: true};
+                    },
                 };
-            }
+            },
         };
         expect(await _asyncValues(toAsync(i))).to.eql([5, 4, 3, 2, 1]);
     });
@@ -45,13 +47,13 @@ describe('toIterable', () => {
         const i1 = {
             next() {
                 return null; // non-compliance return value
-            }
+            },
         };
         expect([...toIterable(i1)]).to.eql([i1]);
         const i2 = {
             next() {
                 return 555; // non-compliance return value
-            }
+            },
         };
         expect([...toIterable(i2)]).to.eql([i2]);
     });
@@ -67,7 +69,7 @@ describe('toIterable', () => {
                 }
                 finished = true;
                 return {value: 555, done: false};
-            }
+            },
         };
         expect([...toIterable(i2)]).to.eql([555]);
     });
@@ -83,7 +85,7 @@ describe('toIterable', () => {
                 }
                 finished = true;
                 return Promise.resolve({value: 555, done: false});
-            }
+            },
         };
         expect(await _asyncValues(toIterable(i2))).to.eql([555]);
     });

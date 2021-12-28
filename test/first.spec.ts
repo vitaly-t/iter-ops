@@ -17,10 +17,13 @@ describe('sync first', () => {
         it('must call the predicate correctly', () => {
             const input = [1, 2, 3, 4, 5];
             const indexes: number[] = [];
-            const output = pipe(input, first((value, index) => {
-                indexes.push(index);
-                return value % 2 === 0;
-            }));
+            const output = pipe(
+                input,
+                first((value, index) => {
+                    indexes.push(index);
+                    return value % 2 === 0;
+                })
+            );
             expect([...output]).to.eql([2]);
             expect(indexes).to.eql([0, 1]);
         });
@@ -47,20 +50,26 @@ describe('async first', () => {
         it('must call predicate correctly', async () => {
             const input = [1, 2, 3, 4, 5];
             const indexes: number[] = [];
-            const i = pipe(_async(input), first((value, index) => {
-                indexes.push(index);
-                return value % 2 === 0;
-            }));
+            const i = pipe(
+                _async(input),
+                first((value, index) => {
+                    indexes.push(index);
+                    return value % 2 === 0;
+                })
+            );
             expect(await _asyncValues(i)).to.eql([2]);
             expect(indexes).to.eql([0, 1]);
         });
         it('must call async predicate correctly', async () => {
             const input = [1, 2, 3, 4, 5];
             const indexes: number[] = [];
-            const i = pipe(_async(input), first(async (value, index) => {
-                indexes.push(index);
-                return value % 2 === 0;
-            }));
+            const i = pipe(
+                _async(input),
+                first(async (value, index) => {
+                    indexes.push(index);
+                    return value % 2 === 0;
+                })
+            );
             expect(await _asyncValues(i)).to.eql([2]);
             expect(indexes).to.eql([0, 1]);
         });

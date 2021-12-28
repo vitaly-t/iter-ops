@@ -20,18 +20,28 @@ import {createOperation, isPromise} from '../utils';
  *
  * @category Sync+Async
  */
-export function stop<T>(cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T>;
+export function stop<T>(
+    cb: (
+        value: T,
+        index: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
+): Operation<T, T>;
 
 export function stop(...args: unknown[]) {
     return createOperation(stopSync, stopAsync, args);
 }
 
-function stopSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state: IterationState) => boolean): Iterable<T> {
+function stopSync<T>(
+    iterable: Iterable<T>,
+    cb: (value: T, index: number, state: IterationState) => boolean
+): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             const state: IterationState = {};
-            let index = 0, stopped: boolean;
+            let index = 0,
+                stopped: boolean;
             return {
                 next(): IteratorResult<T> {
                     if (!stopped) {
@@ -42,33 +52,42 @@ function stopSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state:
                         }
                     }
                     return {value: undefined, done: true};
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function stopAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): AsyncIterable<T> {
+function stopAsync<T>(
+    iterable: AsyncIterable<T>,
+    cb: (
+        value: T,
+        index: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
+): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             const state: IterationState = {};
-            let index = 0, stopped: boolean;
+            let index = 0,
+                stopped: boolean;
             return {
                 next(): Promise<IteratorResult<T>> {
                     if (stopped) {
                         return Promise.resolve({value: undefined, done: true});
                     }
-                    return i.next().then(a => {
-                        const r = (a.done || cb(a.value, index++, state)) as Promise<boolean>;
+                    return i.next().then((a) => {
+                        const r = (a.done ||
+                            cb(a.value, index++, state)) as Promise<boolean>;
                         const out = (flag: any): IteratorResult<T> => {
                             stopped = flag;
                             return stopped ? {value: undefined, done: true} : a;
                         };
                         return isPromise(r) ? r.then(out) : out(r);
                     });
-                }
+                },
             };
-        }
+        },
     };
 }

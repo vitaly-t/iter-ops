@@ -1,4 +1,12 @@
-import {Any, AnySync, AnyIterable, AnyIterator, Operation, $S, $A} from '../types';
+import {
+    Any,
+    AnySync,
+    AnyIterable,
+    AnyIterator,
+    Operation,
+    $S,
+    $A,
+} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -20,7 +28,9 @@ import {createOperation} from '../utils';
  * @see [[empty]], [[isEmpty]]
  * @category Sync+Async
  */
-export function defaultEmpty<T, D>(iterable: AnyIterable<D>): Operation<T, T | D>;
+export function defaultEmpty<T, D>(
+    iterable: AnyIterable<D>
+): Operation<T, T | D>;
 
 /**
  * Adds a default iterator to an empty pipeline.
@@ -28,7 +38,9 @@ export function defaultEmpty<T, D>(iterable: AnyIterable<D>): Operation<T, T | D
  * @see [[empty]], [[isEmpty]]
  * @category Sync+Async
  */
-export function defaultEmpty<T, D>(iterator: AnyIterator<D>): Operation<T, T | D>;
+export function defaultEmpty<T, D>(
+    iterator: AnyIterator<D>
+): Operation<T, T | D>;
 
 /**
  * Adds a default value to an empty pipeline.
@@ -42,11 +54,18 @@ export function defaultEmpty(...args: unknown[]) {
     return createOperation(defaultEmptySync, defaultEmptyAsync, args);
 }
 
-function defaultEmptySync<T, D>(iterable: Iterable<T>, value: AnySync<D>): Iterable<T | D> {
+function defaultEmptySync<T, D>(
+    iterable: Iterable<T>,
+    value: AnySync<D>
+): Iterable<T | D> {
     return {
         [$S](): Iterator<T | D> {
             const i = iterable[$S]();
-            let k: Iterator<T>, v: any, start = true, empty = true, done = false;
+            let k: Iterator<T>,
+                v: any,
+                start = true,
+                empty = true,
+                done = false;
             return {
                 next(): IteratorResult<T> {
                     if (!done) {
@@ -58,7 +77,10 @@ function defaultEmptySync<T, D>(iterable: Iterable<T>, value: AnySync<D>): Itera
                         if (empty) {
                             if (start) {
                                 v = value;
-                                k = typeof v?.next === 'function' ? v : v?.[$S]?.();
+                                k =
+                                    typeof v?.next === 'function'
+                                        ? v
+                                        : v?.[$S]?.();
                                 start = false;
                             }
                             if (k) {
@@ -71,17 +93,24 @@ function defaultEmptySync<T, D>(iterable: Iterable<T>, value: AnySync<D>): Itera
                         }
                     }
                     return {value: undefined, done: true};
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function defaultEmptyAsync<T, D>(iterable: AsyncIterable<T>, value: Any<D>): AsyncIterable<T | D> {
+function defaultEmptyAsync<T, D>(
+    iterable: AsyncIterable<T>,
+    value: Any<D>
+): AsyncIterable<T | D> {
     return {
         [$A](): AsyncIterator<T | D> {
             const i = iterable[$A]();
-            let k: AsyncIterator<T>, v: any, start = true, empty = true, done = false;
+            let k: AsyncIterator<T>,
+                v: any,
+                start = true,
+                empty = true,
+                done = false;
             return {
                 async next(): Promise<IteratorResult<T>> {
                     if (!done) {
@@ -93,7 +122,10 @@ function defaultEmptyAsync<T, D>(iterable: AsyncIterable<T>, value: Any<D>): Asy
                         if (empty) {
                             if (start) {
                                 v = value;
-                                k = typeof v?.next === 'function' ? v : (v?.[$S]?.() || v?.[$A]?.());
+                                k =
+                                    typeof v?.next === 'function'
+                                        ? v
+                                        : v?.[$S]?.() || v?.[$A]?.();
                                 start = false;
                             }
                             if (k) {
@@ -106,8 +138,8 @@ function defaultEmptyAsync<T, D>(iterable: AsyncIterable<T>, value: Any<D>): Asy
                         }
                     }
                     return {value: undefined, done: true};
-                }
+                },
             };
-        }
+        },
     };
 }

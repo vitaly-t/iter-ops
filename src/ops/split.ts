@@ -30,7 +30,6 @@ export interface ISplitIndex {
  * Set of options that can be passed into [[split]] operator.
  */
 export interface ISplitOptions {
-
     /**
      * Strategy for carrying every `toggle-ON` value.
      * It is used only when in `toggle` mode.
@@ -79,7 +78,7 @@ export enum SplitValueCarry {
     /**
      * Split/toggle value is carried forward, to make the first value in the next list.
      */
-    forward = 1
+    forward = 1,
 }
 
 /**
@@ -106,21 +105,44 @@ export enum SplitValueCarry {
  * @see [[https://github.com/vitaly-t/iter-ops/wiki/Split Split WiKi]], [[page]]
  * @category Sync+Async
  */
-export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean | Promise<boolean>, options?: ISplitOptions): Operation<T, T[]>;
+export function split<T>(
+    cb: (
+        value: T,
+        index: ISplitIndex,
+        state: IterationState
+    ) => boolean | Promise<boolean>,
+    options?: ISplitOptions
+): Operation<T, T[]>;
 
 export function split(...args: unknown[]) {
     return createOperation(splitSync, splitAsync, args);
 }
 
-function splitSync<T>(iterable: Iterable<T>, cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): Iterable<T[]> {
+function splitSync<T>(
+    iterable: Iterable<T>,
+    cb: (value: T, index: ISplitIndex, state: IterationState) => boolean,
+    options?: ISplitOptions
+): Iterable<T[]> {
     return {
         [$S](): Iterator<T[]> {
             const i = iterable[$S]();
             const state: IterationState = {};
 
             // quick access to the options:
-            const carryStart = options?.carryStart ? (options?.carryStart < 0 ? -1 : (options?.carryStart > 0 ? 1 : 0)) : 0;
-            const carryEnd = options?.carryEnd ? (options?.carryEnd < 0 ? -1 : (options?.carryEnd > 0 ? 1 : 0)) : 0;
+            const carryStart = options?.carryStart
+                ? options?.carryStart < 0
+                    ? -1
+                    : options?.carryStart > 0
+                    ? 1
+                    : 0
+                : 0;
+            const carryEnd = options?.carryEnd
+                ? options?.carryEnd < 0
+                    ? -1
+                    : options?.carryEnd > 0
+                    ? 1
+                    : 0
+                : 0;
             const toggle = !!options?.toggle;
 
             // all indexes:
@@ -148,11 +170,13 @@ function splitSync<T>(iterable: Iterable<T>, cb: (value: T, index: ISplitIndex, 
                             const index: ISplitIndex = {
                                 start: startIndex++,
                                 list: listIndex,
-                                split: splitIndex
+                                split: splitIndex,
                             };
                             if (cb(v.value, index, state)) {
                                 // split/toggle has been triggerred;
-                                const carry = collecting ? carryEnd : carryStart;
+                                const carry = collecting
+                                    ? carryEnd
+                                    : carryStart;
                                 if (carry) {
                                     if (carry < 0) {
                                         list.push(v.value);
@@ -186,21 +210,41 @@ function splitSync<T>(iterable: Iterable<T>, cb: (value: T, index: ISplitIndex, 
                         }
                     }
                     return {value: undefined, done: true};
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function splitAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: ISplitIndex, state: IterationState) => boolean | Promise<boolean>, options?: ISplitOptions): AsyncIterable<T[]> {
+function splitAsync<T>(
+    iterable: AsyncIterable<T>,
+    cb: (
+        value: T,
+        index: ISplitIndex,
+        state: IterationState
+    ) => boolean | Promise<boolean>,
+    options?: ISplitOptions
+): AsyncIterable<T[]> {
     return {
         [$A](): AsyncIterator<T[]> {
             const i = iterable[$A]();
             const state: IterationState = {};
 
             // quick access to the options:
-            const carryStart = options?.carryStart ? (options?.carryStart < 0 ? -1 : (options?.carryStart > 0 ? 1 : 0)) : 0;
-            const carryEnd = options?.carryEnd ? (options?.carryEnd < 0 ? -1 : (options?.carryEnd > 0 ? 1 : 0)) : 0;
+            const carryStart = options?.carryStart
+                ? options?.carryStart < 0
+                    ? -1
+                    : options?.carryStart > 0
+                    ? 1
+                    : 0
+                : 0;
+            const carryEnd = options?.carryEnd
+                ? options?.carryEnd < 0
+                    ? -1
+                    : options?.carryEnd > 0
+                    ? 1
+                    : 0
+                : 0;
             const toggle = !!options?.toggle;
 
             // all indexes:
@@ -228,11 +272,13 @@ function splitAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: ISplitI
                             const index: ISplitIndex = {
                                 start: startIndex++,
                                 list: listIndex,
-                                split: splitIndex
+                                split: splitIndex,
                             };
                             if (await cb(v.value, index, state)) {
                                 // split/toggle has been triggerred;
-                                const carry = collecting ? carryEnd : carryStart;
+                                const carry = collecting
+                                    ? carryEnd
+                                    : carryStart;
                                 if (carry) {
                                     if (carry < 0) {
                                         list.push(v.value);
@@ -266,8 +312,8 @@ function splitAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: ISplitI
                         }
                     }
                     return {value: undefined, done: true};
-                }
+                },
             };
-        }
+        },
     };
 }

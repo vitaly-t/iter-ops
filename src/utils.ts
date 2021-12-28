@@ -6,10 +6,11 @@ import {$A, $S, Operation} from './types';
 export function createOperation<T, R>(
     syncFunc: (i: Iterable<T>, ...args: any[]) => Iterable<R>,
     asyncFunc: (i: AsyncIterable<T>, ...args: any[]) => AsyncIterable<R>,
-    args?: Iterable<unknown>): Operation<T, T> {
+    args?: Iterable<unknown>
+): Operation<T, T> {
     return (i: any) => {
         const func: any = i[$S] ? syncFunc : asyncFunc;
-        return func.apply(null, [i, ...args || []]);
+        return func.apply(null, [i, ...(args || [])]);
     };
 }
 
@@ -20,9 +21,11 @@ export function throwOnSync<T>(operatorName: string) {
     return () => ({
         [$S](): Iterator<T> {
             return iterateOnce(true, () => {
-                throw new Error(`Operator "${operatorName}" requires asynchronous pipeline`);
+                throw new Error(
+                    `Operator "${operatorName}" requires asynchronous pipeline`
+                );
             }) as Iterator<T>;
-        }
+        },
     });
 }
 
@@ -40,7 +43,7 @@ export function iterateOnce(sync: boolean, cb: () => void) {
                 cb();
             }
             return sync ? {value, done} : Promise.resolve({value, done});
-        }
+        },
     };
 }
 
@@ -64,10 +67,12 @@ export function indexedIterable<T>(input: any): Iterable<T> {
             let i = 0;
             return {
                 next(): IteratorResult<T> {
-                    return i < len ? {value: input[i++], done: false} : {value: undefined, done: true};
-                }
+                    return i < len
+                        ? {value: input[i++], done: false}
+                        : {value: undefined, done: true};
+                },
             };
-        }
+        },
     };
 }
 
@@ -81,10 +86,14 @@ export function indexedAsyncIterable<T>(input: any): AsyncIterable<T> {
             let i = 0;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    return Promise.resolve(i < len ? {value: input[i++], done: false} : {value: undefined, done: true});
-                }
+                    return Promise.resolve(
+                        i < len
+                            ? {value: input[i++], done: false}
+                            : {value: undefined, done: true}
+                    );
+                },
             };
-        }
+        },
     };
 }
 
@@ -92,10 +101,12 @@ export function indexedAsyncIterable<T>(input: any): AsyncIterable<T> {
  * Checks for indexed types.
  */
 export function isIndexed(input: any): boolean {
-    return Array.isArray(input) ||
+    return (
+        Array.isArray(input) ||
         (input?.buffer instanceof ArrayBuffer && input.BYTES_PER_ELEMENT) || // Buffer or Typed Array
         typeof input === 'string' ||
-        input instanceof String;
+        input instanceof String
+    );
 }
 
 /**

@@ -42,7 +42,7 @@ describe('async take', () => {
     it('must not overlap the limit', async () => {
         const output = pipe(_async(input), take(1));
         const i = output[Symbol.asyncIterator]();
-        const res = await i.next() && await i.next() && await i.next();
+        const res = (await i.next()) && (await i.next()) && (await i.next());
         expect(res).to.eql({value: undefined, done: true});
     });
 });

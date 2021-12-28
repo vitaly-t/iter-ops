@@ -28,13 +28,22 @@ import {createOperation, isPromise} from '../utils';
  * @see [Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
  * @category Sync+Async
  */
-export function filter<T>(cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T>;
+export function filter<T>(
+    cb: (
+        value: T,
+        index: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
+): Operation<T, T>;
 
 export function filter(...args: unknown[]) {
     return createOperation(filterSync, filterAsync, args);
 }
 
-function filterSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state: IterationState) => boolean): Iterable<T> {
+function filterSync<T>(
+    iterable: Iterable<T>,
+    cb: (value: T, index: number, state: IterationState) => boolean
+): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
@@ -43,15 +52,25 @@ function filterSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, stat
             return {
                 next(): IteratorResult<T> {
                     let a;
-                    while (!(a = i.next()).done && !cb(a.value, index++, state));
+                    while (
+                        !(a = i.next()).done &&
+                        !cb(a.value, index++, state)
+                    );
                     return a;
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function filterAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): AsyncIterable<T> {
+function filterAsync<T>(
+    iterable: AsyncIterable<T>,
+    cb: (
+        value: T,
+        index: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
+): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
@@ -59,16 +78,20 @@ function filterAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number
             let index = 0;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    return i.next().then(a => {
+                    return i.next().then((a) => {
                         if (a.done) {
                             return a;
                         }
-                        const r = cb(a.value, index++, state) as Promise<boolean>;
-                        const out = (flag: any) => flag ? a : this.next();
+                        const r = cb(
+                            a.value,
+                            index++,
+                            state
+                        ) as Promise<boolean>;
+                        const out = (flag: any) => (flag ? a : this.next());
                         return isPromise(r) ? r.then(out) : out(r);
                     });
-                }
+                },
             };
-        }
+        },
     };
 }

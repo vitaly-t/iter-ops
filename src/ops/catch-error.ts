@@ -14,18 +14,26 @@ import {createOperation} from '../utils';
  * @see [[https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling]]
  * @category Sync+Async
  */
-export function catchError<T>(cb: (error: any, ctx: IErrorContext<T>) => void): Operation<T, T>;
+export function catchError<T>(
+    cb: (error: any, ctx: IErrorContext<T>) => void
+): Operation<T, T>;
 
 export function catchError(...args: unknown[]) {
     return createOperation(catchErrorSync, catchErrorAsync, args);
 }
 
-function catchErrorSync<T>(iterable: Iterable<T>, cb: (error: any, ctx: IErrorContext<T>) => void): Iterable<T> {
+function catchErrorSync<T>(
+    iterable: Iterable<T>,
+    cb: (error: any, ctx: IErrorContext<T>) => void
+): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             const state: IterationState = {};
-            let index = 0, repeats: number, last: IteratorResult<T>, lastError: any;
+            let index = 0,
+                repeats: number,
+                last: IteratorResult<T>,
+                lastError: any;
             return {
                 next(): IteratorResult<T> {
                     do {
@@ -47,7 +55,7 @@ function catchErrorSync<T>(iterable: Iterable<T>, cb: (error: any, ctx: IErrorCo
                                 emit(v) {
                                     value = v;
                                     emitted = true;
-                                }
+                                },
                             });
                             if (emitted) {
                                 return {value: value!, done: false};
@@ -55,43 +63,54 @@ function catchErrorSync<T>(iterable: Iterable<T>, cb: (error: any, ctx: IErrorCo
                         }
                     } while (!last?.done);
                     return {value: undefined, done: true};
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function catchErrorAsync<T>(iterable: AsyncIterable<T>, cb: (error: any, ctx: IErrorContext<T>) => void): AsyncIterable<T> {
+function catchErrorAsync<T>(
+    iterable: AsyncIterable<T>,
+    cb: (error: any, ctx: IErrorContext<T>) => void
+): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             const state: IterationState = {};
-            let index = 0, repeats: number, last: IteratorResult<T>, lastError: any;
+            let index = 0,
+                repeats: number,
+                last: IteratorResult<T>,
+                lastError: any;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    return i.next().then(a => {
-                        last = a;
-                        index++;
-                        return a;
-                    }).catch(e => {
-                        repeats = sameError(e, lastError) ? repeats + 1 : 0;
-                        lastError = e;
-                        let value: T, emitted;
-                        cb(e, {
-                            index: index++,
-                            lastValue: last?.value,
-                            repeats,
-                            state,
-                            emit(v) {
-                                value = v;
-                                emitted = true;
-                            }
+                    return i
+                        .next()
+                        .then((a) => {
+                            last = a;
+                            index++;
+                            return a;
+                        })
+                        .catch((e) => {
+                            repeats = sameError(e, lastError) ? repeats + 1 : 0;
+                            lastError = e;
+                            let value: T, emitted;
+                            cb(e, {
+                                index: index++,
+                                lastValue: last?.value,
+                                repeats,
+                                state,
+                                emit(v) {
+                                    value = v;
+                                    emitted = true;
+                                },
+                            });
+                            return emitted
+                                ? {value: value!, done: false}
+                                : this.next();
                         });
-                        return emitted ? {value: value!, done: false} : this.next();
-                    });
-                }
+                },
             };
-        }
+        },
     };
 }
 

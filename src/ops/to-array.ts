@@ -30,9 +30,9 @@ function toArraySync<T>(iterable: Iterable<T>): Iterable<T[]> {
                     }
                     done = true;
                     return {value: arr, done: false};
-                }
+                },
             };
-        }
+        },
     };
 }
 
@@ -44,7 +44,7 @@ function toArrayAsync<T>(iterable: AsyncIterable<T>): AsyncIterable<T[]> {
             let finished = false;
             return {
                 next(): Promise<IteratorResult<T[]>> {
-                    return i.next().then(a => {
+                    return i.next().then((a) => {
                         if (a.done) {
                             if (finished) {
                                 return a;
@@ -55,8 +55,8 @@ function toArrayAsync<T>(iterable: AsyncIterable<T>): AsyncIterable<T[]> {
                         value.push(a.value);
                         return this.next();
                     });
-                }
+                },
             };
-        }
+        },
     };
 }

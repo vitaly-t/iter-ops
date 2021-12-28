@@ -25,13 +25,18 @@ import {createOperation, throwOnSync} from '../../utils';
  * @see [[delay]]
  * @category Async-only
  */
-export function throttle<T>(cb: (value: T, index: number, state: IterationState) => Promise<any>): Operation<T, T>;
+export function throttle<T>(
+    cb: (value: T, index: number, state: IterationState) => Promise<any>
+): Operation<T, T>;
 
 export function throttle(...args: unknown[]) {
     return createOperation(throwOnSync('throttle'), throttleAsync, args);
 }
 
-function throttleAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => Promise<any>): AsyncIterable<T> {
+function throttleAsync<T>(
+    iterable: AsyncIterable<T>,
+    cb: (value: T, index: number, state: IterationState) => Promise<any>
+): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
@@ -39,9 +44,15 @@ function throttleAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: numb
             let index = 0;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    return i.next().then(a => a.done ? a : cb(a.value, index++, state).then(() => a));
-                }
+                    return i
+                        .next()
+                        .then((a) =>
+                            a.done
+                                ? a
+                                : cb(a.value, index++, state).then(() => a)
+                        );
+                },
             };
-        }
+        },
     };
 }

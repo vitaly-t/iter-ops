@@ -12,9 +12,9 @@ for (let i = 0; i < maxItems; i++) {
 
 (async function testSync() {
     const result = {
-        ...await testIterOps(input),
-        ...await testRXJS(input),
-        ...await testRXJS(input, true)
+        ...(await testIterOps(input)),
+        ...(await testRXJS(input)),
+        ...(await testRXJS(input, true)),
     };
     console.log(`Synchronous test for ${maxItems.toExponential()} items:`);
     console.table(result);

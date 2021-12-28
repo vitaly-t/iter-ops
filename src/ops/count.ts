@@ -37,19 +37,31 @@ import {createOperation, isPromise} from '../utils';
  *
  * @category Sync+Async
  */
-export function count<T>(cb?: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, number>;
+export function count<T>(
+    cb?: (
+        value: T,
+        index: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
+): Operation<T, number>;
 
 export function count(...args: unknown[]) {
     return createOperation(countSync, countAsync, args);
 }
 
-function countSync<T>(iterable: Iterable<T>, cb?: (value: T, index: number, state: IterationState) => boolean): Iterable<number> {
+function countSync<T>(
+    iterable: Iterable<T>,
+    cb?: (value: T, index: number, state: IterationState) => boolean
+): Iterable<number> {
     return {
         [$S](): Iterator<number> {
             const i = iterable[$S]();
             const test = typeof cb === 'function' && cb;
             const state: IterationState = {};
-            let value = 0, index = 0, finished = false, a: IteratorResult<any>;
+            let value = 0,
+                index = 0,
+                finished = false,
+                a: IteratorResult<any>;
             return {
                 next(): IteratorResult<number> {
                     while (!finished) {
@@ -63,22 +75,31 @@ function countSync<T>(iterable: Iterable<T>, cb?: (value: T, index: number, stat
                         }
                     }
                     return a;
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function countAsync<T>(iterable: AsyncIterable<T>, cb?: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): AsyncIterable<number> {
+function countAsync<T>(
+    iterable: AsyncIterable<T>,
+    cb?: (
+        value: T,
+        index: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
+): AsyncIterable<number> {
     return {
         [$A](): AsyncIterator<number> {
             const i = iterable[$A]();
             const test = typeof cb === 'function' && cb;
             const state: IterationState = {};
-            let value = 0, index = 0, finished = false;
+            let value = 0,
+                index = 0,
+                finished = false;
             return {
                 next(): Promise<IteratorResult<number>> {
-                    return i.next().then(a => {
+                    return i.next().then((a) => {
                         if (a.done) {
                             if (finished) {
                                 return a;
@@ -93,8 +114,8 @@ function countAsync<T>(iterable: AsyncIterable<T>, cb?: (value: T, index: number
                         };
                         return isPromise(r) ? r.then(out) : out(r);
                     });
-                }
+                },
             };
-        }
+        },
     };
 }

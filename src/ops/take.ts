@@ -28,7 +28,8 @@ function takeSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
-            let index = 0, finished: boolean;
+            let index = 0,
+                finished: boolean;
             return {
                 next(): IteratorResult<T> {
                     if (!finished) {
@@ -39,28 +40,32 @@ function takeSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
                         }
                     }
                     return {value: undefined, done: true};
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function takeAsync<T>(iterable: AsyncIterable<T>, count: number): AsyncIterable<T> {
+function takeAsync<T>(
+    iterable: AsyncIterable<T>,
+    count: number
+): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
-            let index = 0, finished: boolean;
+            let index = 0,
+                finished: boolean;
             return {
                 next(): Promise<IteratorResult<T>> {
                     if (finished) {
                         return Promise.resolve({value: undefined, done: true});
                     }
-                    return i.next().then(a => {
+                    return i.next().then((a) => {
                         finished = a.done || index++ >= count;
                         return finished ? {value: undefined, done: true} : a;
                     });
-                }
+                },
             };
-        }
+        },
     };
 }

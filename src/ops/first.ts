@@ -38,54 +38,70 @@ import {createOperation, isPromise} from '../utils';
  * @see [[last]], [[take]], [[takeLast]]
  * @category Sync+Async
  */
-export function first<T>(cb?: (value: T, index: number) => boolean | Promise<boolean>): Operation<T, T>;
+export function first<T>(
+    cb?: (value: T, index: number) => boolean | Promise<boolean>
+): Operation<T, T>;
 
 export function first(...args: unknown[]) {
     return createOperation(firstSync, firstAsync, args);
 }
 
-function firstSync<T>(iterable: Iterable<T>, cb?: (value: T, index: number) => boolean): Iterable<T> {
+function firstSync<T>(
+    iterable: Iterable<T>,
+    cb?: (value: T, index: number) => boolean
+): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             const test = typeof cb === 'function' && cb;
-            let index = 0, finished: boolean;
+            let index = 0,
+                finished: boolean;
             return {
                 next(): IteratorResult<T> {
                     if (finished) {
                         return {value: undefined, done: true};
                     }
                     let a;
-                    while (!(a = i.next()).done && test && !test(a.value, index++));
+                    while (
+                        !(a = i.next()).done &&
+                        test &&
+                        !test(a.value, index++)
+                    );
                     finished = true;
                     return a;
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function firstAsync<T>(iterable: AsyncIterable<T>, cb?: (value: T, index: number) => boolean | Promise<boolean>): AsyncIterable<T> {
+function firstAsync<T>(
+    iterable: AsyncIterable<T>,
+    cb?: (value: T, index: number) => boolean | Promise<boolean>
+): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             const test = typeof cb === 'function' && cb;
-            let index = 0, finished = false;
+            let index = 0,
+                finished = false;
             return {
                 next(): Promise<IteratorResult<T>> {
                     if (finished) {
                         return Promise.resolve({value: undefined, done: true});
                     }
-                    return i.next().then(a => {
-                        const r = (a.done || !test || test(a.value, index++)) as Promise<boolean>;
+                    return i.next().then((a) => {
+                        const r = (a.done ||
+                            !test ||
+                            test(a.value, index++)) as Promise<boolean>;
                         const out = (flag: any) => {
                             finished = flag;
                             return finished ? a : this.next();
                         };
                         return isPromise(r) ? r.then(out) : out(r);
                     });
-                }
+                },
             };
-        }
+        },
     };
 }

@@ -18,33 +18,102 @@ export function concat<T>(): Operation<T, T>;
 export function concat<T, A>(v0: Any<A>): Operation<T, T | A>;
 
 /** @hidden */
-export function concat<T, A, B>(v0: Any<A>, v1: Any<B>): Operation<T, T | A | B>;
+export function concat<T, A, B>(
+    v0: Any<A>,
+    v1: Any<B>
+): Operation<T, T | A | B>;
 /** @hidden */
-export function concat<T, A, B, C>(v0: Any<A>, v1: Any<B>, v2: Any<C>): Operation<T, T | A | B | C>;
+export function concat<T, A, B, C>(
+    v0: Any<A>,
+    v1: Any<B>,
+    v2: Any<C>
+): Operation<T, T | A | B | C>;
 /** @hidden */
-export function concat<T, A, B, C, D>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>): Operation<T, T | A | B | C | D>;
+export function concat<T, A, B, C, D>(
+    v0: Any<A>,
+    v1: Any<B>,
+    v2: Any<C>,
+    v3: Any<D>
+): Operation<T, T | A | B | C | D>;
 /** @hidden */
-export function concat<T, A, B, C, D, E>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>): Operation<T, T | A | B | C | D | E>;
+export function concat<T, A, B, C, D, E>(
+    v0: Any<A>,
+    v1: Any<B>,
+    v2: Any<C>,
+    v3: Any<D>,
+    v4: Any<E>
+): Operation<T, T | A | B | C | D | E>;
 /** @hidden */
-export function concat<T, A, B, C, D, E, F>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>, v5: Any<F>): Operation<T, T | A | B | C | D | E | F>;
+export function concat<T, A, B, C, D, E, F>(
+    v0: Any<A>,
+    v1: Any<B>,
+    v2: Any<C>,
+    v3: Any<D>,
+    v4: Any<E>,
+    v5: Any<F>
+): Operation<T, T | A | B | C | D | E | F>;
 /** @hidden */
-export function concat<T, A, B, C, D, E, F, G>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>, v5: Any<F>, v6: Any<G>): Operation<T, T | A | B | C | D | E | F | G>;
+export function concat<T, A, B, C, D, E, F, G>(
+    v0: Any<A>,
+    v1: Any<B>,
+    v2: Any<C>,
+    v3: Any<D>,
+    v4: Any<E>,
+    v5: Any<F>,
+    v6: Any<G>
+): Operation<T, T | A | B | C | D | E | F | G>;
 /** @hidden */
-export function concat<T, A, B, C, D, E, F, G, H>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>, v5: Any<F>, v6: Any<G>, v7: Any<H>): Operation<T, T | A | B | C | D | E | F | G | H>;
+export function concat<T, A, B, C, D, E, F, G, H>(
+    v0: Any<A>,
+    v1: Any<B>,
+    v2: Any<C>,
+    v3: Any<D>,
+    v4: Any<E>,
+    v5: Any<F>,
+    v6: Any<G>,
+    v7: Any<H>
+): Operation<T, T | A | B | C | D | E | F | G | H>;
 /** @hidden */
-export function concat<T, A, B, C, D, E, F, G, H, I>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>, v5: Any<F>, v6: Any<G>, v7: Any<H>, v8: Any<I>): Operation<T, T | A | B | C | D | E | F | G | H | I>;
+export function concat<T, A, B, C, D, E, F, G, H, I>(
+    v0: Any<A>,
+    v1: Any<B>,
+    v2: Any<C>,
+    v3: Any<D>,
+    v4: Any<E>,
+    v5: Any<F>,
+    v6: Any<G>,
+    v7: Any<H>,
+    v8: Any<I>
+): Operation<T, T | A | B | C | D | E | F | G | H | I>;
 /** @hidden */
-export function concat<T, A, B, C, D, E, F, G, H, I, J>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>, v5: Any<F>, v6: Any<G>, v7: Any<H>, v8: Any<I>, v9: Any<J>): Operation<T, T | A | B | C | D | E | F | G | H | I | J>;
+export function concat<T, A, B, C, D, E, F, G, H, I, J>(
+    v0: Any<A>,
+    v1: Any<B>,
+    v2: Any<C>,
+    v3: Any<D>,
+    v4: Any<E>,
+    v5: Any<F>,
+    v6: Any<G>,
+    v7: Any<H>,
+    v8: Any<I>,
+    v9: Any<J>
+): Operation<T, T | A | B | C | D | E | F | G | H | I | J>;
 
 export function concat(...args: unknown[]) {
     return createOperation(concatSync, concatAsync, args);
 }
 
-function concatSync<T>(iterable: Iterable<T>, ...values: AnySync<T>[]): Iterable<any> {
+function concatSync<T>(
+    iterable: Iterable<T>,
+    ...values: AnySync<T>[]
+): Iterable<any> {
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
-            let index = -1, k: Iterator<T>, v: any, start = true;
+            let index = -1,
+                k: Iterator<T>,
+                v: any,
+                start = true;
             return {
                 next(): IteratorResult<T> {
                     if (index < 0) {
@@ -73,17 +142,23 @@ function concatSync<T>(iterable: Iterable<T>, ...values: AnySync<T>[]): Iterable
                         }
                     }
                     return {value: undefined, done: true};
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function concatAsync<T>(iterable: AsyncIterable<T>, ...values: Any<T>[]): AsyncIterable<any> {
+function concatAsync<T>(
+    iterable: AsyncIterable<T>,
+    ...values: Any<T>[]
+): AsyncIterable<any> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
-            let index = -1, k: AsyncIterator<T>, v: any, start = true;
+            let index = -1,
+                k: AsyncIterator<T>,
+                v: any,
+                start = true;
             return {
                 async next(): Promise<IteratorResult<T>> {
                     if (index < 0) {
@@ -96,7 +171,10 @@ function concatAsync<T>(iterable: AsyncIterable<T>, ...values: Any<T>[]): AsyncI
                     while (index < values.length) {
                         if (start) {
                             v = values[index];
-                            k = typeof v?.next === 'function' ? v : (v?.[$S]?.() || v?.[$A]?.());
+                            k =
+                                typeof v?.next === 'function'
+                                    ? v
+                                    : v?.[$S]?.() || v?.[$A]?.();
                             start = false;
                         }
                         if (k) {
@@ -112,8 +190,8 @@ function concatAsync<T>(iterable: AsyncIterable<T>, ...values: Any<T>[]): AsyncI
                         }
                     }
                     return {value: undefined, done: true};
-                }
+                },
             };
-        }
+        },
     };
 }

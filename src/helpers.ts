@@ -34,9 +34,9 @@ export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
             return {
                 next(): Promise<IteratorResult<T>> {
                     return Promise.resolve(it.next());
-                }
+                },
             };
-        }
+        },
     };
 }
 
@@ -71,14 +71,18 @@ export function toIterable<T>(i: AsyncIterator<T>): AsyncIterable<T>;
  *
  * @hidden
  */
-export function toIterable<T>(i: { next: () => ({ value: T | undefined }) }): Iterable<T>;
+export function toIterable<T>(i: {
+    next: () => {value: T | undefined};
+}): Iterable<T>;
 
 /**
  * Asynchronous type inference helper.
  *
  * @hidden
  */
-export function toIterable<T>(i: { next: () => PromiseLike<{ value: T | undefined }> }): AsyncIterable<T>;
+export function toIterable<T>(i: {
+    next: () => PromiseLike<{value: T | undefined}>;
+}): AsyncIterable<T>;
 
 /**
  * Converts a `Promise` into a one-value `AsyncIterable`, so it can be used as a pipeline source/input.
@@ -131,9 +135,9 @@ export function toIterable<T>(i: any): any {
                             }
                             started = true;
                             return value;
-                        }
+                        },
                     };
-                }
+                },
             };
         }
     }
@@ -144,13 +148,16 @@ export function toIterable<T>(i: any): any {
                 return {
                     next(): Promise<IteratorResult<T>> {
                         if (finished) {
-                            return Promise.resolve({value: undefined, done: true});
+                            return Promise.resolve({
+                                value: undefined,
+                                done: true,
+                            });
                         }
                         finished = true;
                         return i.then((value: T) => ({value, done: false}));
-                    }
+                    },
                 };
-            }
+            },
         };
     }
     return [i]; // a simple value

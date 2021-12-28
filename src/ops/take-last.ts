@@ -29,7 +29,9 @@ function takeLastSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             const buffer: IteratorResult<T>[] = [];
-            let ready = false, done = false, index = 0;
+            let ready = false,
+                done = false,
+                index = 0;
             return {
                 next(): IteratorResult<T> {
                     if (!done && count > 0) {
@@ -49,21 +51,25 @@ function takeLastSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
                         done = true;
                     }
                     return {value: undefined, done: true};
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function takeLastAsync<T>(iterable: AsyncIterable<T>, count: number): AsyncIterable<T> {
+function takeLastAsync<T>(
+    iterable: AsyncIterable<T>,
+    count: number
+): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             const buffer: IteratorResult<T>[] = [];
-            let done = false, index = 0;
+            let done = false,
+                index = 0;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    return i.next().then(a => {
+                    return i.next().then((a) => {
                         if (!done && count > 0) {
                             if (!a.done) {
                                 buffer.push(a);
@@ -79,8 +85,8 @@ function takeLastAsync<T>(iterable: AsyncIterable<T>, count: number): AsyncItera
                         }
                         return {value: undefined, done: true};
                     });
-                }
+                },
             };
-        }
+        },
     };
 }
