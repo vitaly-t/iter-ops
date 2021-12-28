@@ -1,1 +1,3 @@
 tsconfig.*.json linguist-language=jsonc
+*.cjs linguist-detectable=false
+*.css linguist-detectable=false
