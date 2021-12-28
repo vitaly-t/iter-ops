@@ -42,8 +42,8 @@ export function zip<T, A, B, C, D, E, F, G, H, I>(v0: AnyIterableIterator<A>, v1
 /** @hidden */
 export function zip<T, A, B, C, D, E, F, G, H, I, J>(v0: AnyIterableIterator<A>, v1: AnyIterableIterator<B>, v2: AnyIterableIterator<C>, v3: AnyIterableIterator<D>, v4: AnyIterableIterator<E>, v5: AnyIterableIterator<F>, v6: AnyIterableIterator<G>, v7: AnyIterableIterator<H>, v8: AnyIterableIterator<I>, v9: AnyIterableIterator<J>): Operation<T, [T, A, B, C, D, E, F, G, H, I, J]>;
 
-export function zip<T>(...values: AnyIterableIterator<T>[]): Operation<T, Array<any>> {
-    return createOperation(zipSync, zipAsync, arguments);
+export function zip(...args: unknown[]) {
+    return createOperation(zipSync, zipAsync, args);
 }
 
 function zipSync<T>(iterable: Iterable<T>, ...values: (Iterator<T> | Iterable<T>)[]): Iterable<Array<any>> {

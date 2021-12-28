@@ -36,8 +36,10 @@ export interface IIndexedValue<T> {
  * @see [[IIndexedValue]]
  * @category Sync+Async
  */
-export function indexBy<T>(cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, IIndexedValue<T>> {
-    return createOperation(indexBySync, indexByAsync, arguments);
+export function indexBy<T>(cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, IIndexedValue<T>>;
+
+export function indexBy(...args: unknown[]) {
+    return createOperation(indexBySync, indexByAsync, args);
 }
 
 function indexBySync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state: IterationState) => boolean): Iterable<IIndexedValue<T>> {
@@ -57,7 +59,7 @@ function indexBySync<T>(iterable: Iterable<T>, cb: (value: T, index: number, sta
     };
 }
 
-function indexByAsync<T, R>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): AsyncIterable<IIndexedValue<T>> {
+function indexByAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): AsyncIterable<IIndexedValue<T>> {
     return {
         [$A](): AsyncIterator<IIndexedValue<T>> {
             const i = iterable[$A]();

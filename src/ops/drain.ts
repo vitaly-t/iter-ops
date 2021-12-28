@@ -29,8 +29,10 @@ import {createOperation} from '../utils';
  * @see [[empty]], [[isEmpty]], [[defaultEmpty]]
  * @category Sync+Async
  */
-export function drain<T>(): Operation<T, T> {
-    return createOperation(drainSync, drainAsync, arguments);
+export function drain<T>(): Operation<T, T>;
+
+export function drain(...args: unknown[]) {
+    return createOperation(drainSync, drainAsync, args);
 }
 
 function drainSync<T>(iterable: Iterable<T>): Iterable<T> {

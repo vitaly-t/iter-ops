@@ -65,8 +65,10 @@ export interface IValueTiming<T> {
  * @see [[IValueTiming]], [[onEnd]]
  * @category Sync+Async
  */
-export function timing<T>(cb: (t: IValueTiming<T>) => void): Operation<T, T> {
-    return createOperation(timingSync, timingAsync, arguments);
+export function timing<T>(cb: (t: IValueTiming<T>) => void): Operation<T, T>;
+
+export function timing(...args: unknown[]) {
+    return createOperation(timingSync, timingAsync, args);
 }
 
 function timingSync<T>(iterable: Iterable<T>, cb: (t: IValueTiming<T>) => void): Iterable<T> {

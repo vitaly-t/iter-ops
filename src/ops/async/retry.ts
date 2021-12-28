@@ -54,8 +54,8 @@ export function retry<T>(attempts: number): Operation<T, T>;
  */
 export function retry<T>(cb: (index: number, attempts: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T>;
 
-export function retry<T>(retry: number | ((index: number, attempts: number, state: IterationState) => boolean | Promise<boolean>)): Operation<T, T> {
-    return createOperation(throwOnSync('retry'), retryAsync, arguments);
+export function retry(...args: unknown[]) {
+    return createOperation(throwOnSync('retry'), retryAsync, args);
 }
 
 function retryAsync<T>(iterable: AsyncIterable<T>, retry: number | ((index: number, attempts: number, state: IterationState) => boolean | Promise<boolean>)): AsyncIterable<T> {

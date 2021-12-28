@@ -43,25 +43,25 @@ describe('sync split', () => {
                     expect([...i3]).to.eql([[3, 4]]);
                 });
                 it('must handle no toggles', () => {
-                    const i = pipe([1, 2, 3, 4, 5], split(a => false, {toggle: true}));
+                    const i = pipe([1, 2, 3, 4, 5], split(() => false, {toggle: true}));
                     expect([...i]).to.eql([]);
                 });
                 it('must handle all toggles', () => {
                     // ending with open toggle:
-                    const i1 = pipe([1, 2, 3, 4, 5], split(a => true, {toggle: true}));
+                    const i1 = pipe([1, 2, 3, 4, 5], split(() => true, {toggle: true}));
                     expect([...i1]).to.eql([[], [], []]);
 
                     // ending with closed toggle:
-                    const i2 = pipe([1, 2, 3, 4, 5, 6], split(a => true, {toggle: true}));
+                    const i2 = pipe([1, 2, 3, 4, 5, 6], split(() => true, {toggle: true}));
                     expect([...i2]).to.eql([[], [], []]);
                 });
             });
             describe('with carrying', () => {
                 it('must work with carrying back', () => {
-                    const i1 = pipe([1, 2, 3, 4, 5], split(a => true, {toggle: true, carryStart: -1}));
+                    const i1 = pipe([1, 2, 3, 4, 5], split(() => true, {toggle: true, carryStart: -1}));
                     expect([...i1]).to.eql([[1], [3], [5]]);
 
-                    const i2 = pipe([1, 2, 3, 4, 5], split(a => true, {toggle: true, carryStart: -1, carryEnd: -1}));
+                    const i2 = pipe([1, 2, 3, 4, 5], split(() => true, {toggle: true, carryStart: -1, carryEnd: -1}));
                     expect([...i2]).to.eql([[1, 2], [3, 4], [5]]);
                 });
                 it('must work with carrying forward', () => {
@@ -229,25 +229,25 @@ describe('async split', () => {
                     expect(await _asyncValues(i3)).to.eql([[3, 4]]);
                 });
                 it('must handle no toggles', async () => {
-                    const i = pipe(_async([1, 2, 3, 4, 5]), split(a => false, {toggle: true}));
+                    const i = pipe(_async([1, 2, 3, 4, 5]), split(() => false, {toggle: true}));
                     expect(await _asyncValues(i)).to.eql([]);
                 });
                 it('must handle all toggles', async () => {
                     // ending with open toggle:
-                    const i1 = pipe(_async([1, 2, 3, 4, 5]), split(a => true, {toggle: true}));
+                    const i1 = pipe(_async([1, 2, 3, 4, 5]), split(() => true, {toggle: true}));
                     expect(await _asyncValues(i1)).to.eql([[], [], []]);
 
                     // ending with closed toggle:
-                    const i2 = pipe(_async([1, 2, 3, 4, 5, 6]), split(a => true, {toggle: true}));
+                    const i2 = pipe(_async([1, 2, 3, 4, 5, 6]), split(() => true, {toggle: true}));
                     expect(await _asyncValues(i2)).to.eql([[], [], []]);
                 });
             });
             describe('with carrying', () => {
                 it('must work with carrying back', async () => {
-                    const i1 = pipe(_async([1, 2, 3, 4, 5]), split(a => true, {toggle: true, carryStart: -1}));
+                    const i1 = pipe(_async([1, 2, 3, 4, 5]), split(() => true, {toggle: true, carryStart: -1}));
                     expect(await _asyncValues(i1)).to.eql([[1], [3], [5]]);
 
-                    const i2 = pipe(_async([1, 2, 3, 4, 5]), split(a => true, {
+                    const i2 = pipe(_async([1, 2, 3, 4, 5]), split(() => true, {
                         toggle: true,
                         carryStart: -1,
                         carryEnd: -1

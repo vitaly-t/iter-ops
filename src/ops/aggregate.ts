@@ -27,8 +27,10 @@ import {createOperation} from '../utils';
  * @see [[https://github.com/vitaly-t/iter-ops/wiki/Aggregates Aggregates]]
  * @category Sync+Async
  */
-export function aggregate<T, R>(cb: (arr: T[]) => R): Operation<T, R> {
-    return createOperation(aggregateSync, aggregateAsync, arguments);
+export function aggregate<T, R>(cb: (arr: T[]) => R): Operation<T, R>;
+
+export function aggregate(...args: unknown[]) {
+    return createOperation(aggregateSync, aggregateAsync, args);
 }
 
 function aggregateSync<T, R>(iterable: Iterable<T>, cb: (arr: T[]) => R): Iterable<R> {

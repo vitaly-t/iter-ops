@@ -28,8 +28,10 @@ import {createOperation, isPromise} from '../utils';
  * @see [Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
  * @category Sync+Async
  */
-export function filter<T>(cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T> {
-    return createOperation(filterSync, filterAsync, arguments);
+export function filter<T>(cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T>;
+
+export function filter(...args: unknown[]) {
+    return createOperation(filterSync, filterAsync, args);
 }
 
 function filterSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state: IterationState) => boolean): Iterable<T> {

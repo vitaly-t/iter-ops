@@ -10,8 +10,10 @@ import {createOperation} from '../utils';
  * @see [[drain]], [[isEmpty]], [[defaultEmpty]]
  * @category Sync+Async
  */
-export function empty<T>(): Operation<T, T> {
-    return createOperation(emptySync, emptyAsync);
+export function empty<T>(): Operation<T, T>;
+
+export function empty(...args: unknown[]) {
+    return createOperation(emptySync, emptyAsync, args);
 }
 
 function emptySync<T>(): Iterable<T> {

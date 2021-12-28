@@ -6,8 +6,10 @@ import {createOperation} from '../utils';
  *
  * @category Sync+Async
  */
-export function skip<T>(count: number): Operation<T, T> {
-    return createOperation(skipSync, skipAsync, arguments);
+export function skip<T>(count: number): Operation<T, T>;
+
+export function skip(...args: unknown[]) {
+    return createOperation(skipSync, skipAsync, args);
 }
 
 function skipSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {

@@ -15,7 +15,7 @@ describe('sync aggregate', () => {
         expect([...output]).to.eql([[]]);
     });
     it('must allow return of nothing', () => {
-        const output = pipe([], aggregate(arr => {
+        const output = pipe([], aggregate(() => {
         }));
         expect([...output]).to.eql([undefined]);
     });
@@ -35,7 +35,7 @@ describe('async aggregate', () => {
         expect(await _asyncValues(output)).to.eql([[]]);
     });
     it('must allow return of nothing', async () => {
-        const output = pipe(_async([]), aggregate(arr => {
+        const output = pipe(_async([]), aggregate(() => {
         }));
         expect(await _asyncValues(output)).to.eql([undefined]);
     });

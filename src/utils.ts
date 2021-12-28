@@ -6,7 +6,7 @@ import {$A, $S, Operation} from './types';
 export function createOperation<T, R>(
     syncFunc: (i: Iterable<T>, ...args: any[]) => Iterable<R>,
     asyncFunc: (i: AsyncIterable<T>, ...args: any[]) => AsyncIterable<R>,
-    args?: IArguments): Operation<T, T> {
+    args?: Iterable<unknown>): Operation<T, T> {
     return (i: any) => {
         const func: any = i[$S] ? syncFunc : asyncFunc;
         return func.apply(null, [i, ...args || []]);

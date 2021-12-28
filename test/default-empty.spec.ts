@@ -12,7 +12,7 @@ describe('sync defaultEmpty', () => {
             expect([...output]).to.eql([123]);
         });
         it('must add iterators', () => {
-            let value: number = 4;
+            let value = 4;
             const input: Iterator<number> = {
                 next() {
                     if (value--) {
@@ -75,7 +75,7 @@ describe('async defaultEmpty', () => {
             expect(await _asyncValues(output)).to.eql([123]);
         });
         it('must add iterators', async () => {
-            let value: number = 4;
+            let value = 4;
             const input: Iterator<number> = {
                 next() {
                     if (value--) {

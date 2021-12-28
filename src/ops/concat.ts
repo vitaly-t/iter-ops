@@ -36,8 +36,8 @@ export function concat<T, A, B, C, D, E, F, G, H, I>(v0: Any<A>, v1: Any<B>, v2:
 /** @hidden */
 export function concat<T, A, B, C, D, E, F, G, H, I, J>(v0: Any<A>, v1: Any<B>, v2: Any<C>, v3: Any<D>, v4: Any<E>, v5: Any<F>, v6: Any<G>, v7: Any<H>, v8: Any<I>, v9: Any<J>): Operation<T, T | A | B | C | D | E | F | G | H | I | J>;
 
-export function concat<T>(...values: Any<T>[]): Operation<T, any> {
-    return createOperation(concatSync, concatAsync, arguments);
+export function concat(...args: unknown[]) {
+    return createOperation(concatSync, concatAsync, args);
 }
 
 function concatSync<T>(iterable: Iterable<T>, ...values: AnySync<T>[]): Iterable<any> {

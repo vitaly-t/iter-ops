@@ -36,8 +36,10 @@ import {createOperation, isPromise} from '../utils';
  * @see [[takeLast]], [[first]]
  * @category Sync+Async
  */
-export function last<T>(cb?: (value: T, index: number) => boolean | Promise<boolean>): Operation<T, T> {
-    return createOperation(lastSync, lastAsync, arguments);
+export function last<T>(cb?: (value: T, index: number) => boolean | Promise<boolean>): Operation<T, T>;
+
+export function last(...args: unknown[]) {
+    return createOperation(lastSync, lastAsync, args);
 }
 
 function lastSync<T>(iterable: Iterable<T>, cb?: (value: T, index: number) => boolean): Iterable<T> {

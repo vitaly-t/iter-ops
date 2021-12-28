@@ -37,8 +37,10 @@ import {createOperation, isPromise} from '../utils';
  *
  * @category Sync+Async
  */
-export function count<T>(cb?: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, number> {
-    return createOperation(countSync, countAsync, arguments);
+export function count<T>(cb?: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, number>;
+
+export function count(...args: unknown[]) {
+    return createOperation(countSync, countAsync, args);
 }
 
 function countSync<T>(iterable: Iterable<T>, cb?: (value: T, index: number, state: IterationState) => boolean): Iterable<number> {

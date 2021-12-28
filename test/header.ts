@@ -9,7 +9,7 @@ export {chai, describe, expect};
 export function _async<T>(i: Iterable<T>): AsyncIterable<T>;
 export function _async<T>(i: Iterator<T>): AsyncIterator<T>;
 
-export function _async<T>(i: any): any {
+export function _async(i: any): any {
     if (typeof i[Symbol.iterator] === 'function') {
         return toAsync(i);
     }

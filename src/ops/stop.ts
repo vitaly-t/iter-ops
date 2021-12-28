@@ -20,8 +20,10 @@ import {createOperation, isPromise} from '../utils';
  *
  * @category Sync+Async
  */
-export function stop<T>(cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T> {
-    return createOperation(stopSync, stopAsync, arguments);
+export function stop<T>(cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T>;
+
+export function stop(...args: unknown[]) {
+    return createOperation(stopSync, stopAsync, args);
 }
 
 function stopSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state: IterationState) => boolean): Iterable<T> {

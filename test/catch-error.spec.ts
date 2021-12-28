@@ -21,7 +21,7 @@ describe('sync catchError', () => {
     });
     it('must report repeated errors', () => {
         const repeatCounts: number[] = [];
-        const i = pipe([1, 2, 3, 4, 5], tap(a => {
+        const i = pipe([1, 2, 3, 4, 5], tap(() => {
             throw 'ops!';
         })).catch((e, ctx) => {
             if (ctx.repeats > 2) {
@@ -90,7 +90,7 @@ describe('async catchError', () => {
     });
     it('must report repeated errors', async () => {
         const repeatCounts: number[] = [];
-        const i = pipe(_async([1, 2, 3, 4, 5]), tap(a => {
+        const i = pipe(_async([1, 2, 3, 4, 5]), tap(() => {
             throw 'ops!';
         })).catch((e, ctx) => {
             if (ctx.repeats > 2) {
@@ -132,13 +132,13 @@ describe('async catchError', () => {
                 throw new Error('handled');
             })
         );
-        let err: Error;
+        let err: Error | undefined = undefined;
         try {
             await _asyncValues(i);
             YSNP();
         } catch (e) {
             err = e as Error;
         }
-        expect(err!.message).to.eql('handled');
+        expect(err?.message).to.eql('handled');
     });
 });

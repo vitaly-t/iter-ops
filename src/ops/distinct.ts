@@ -30,8 +30,10 @@ import {createOperation} from '../utils';
  *
  * @category Sync+Async
  */
-export function distinct<T, K>(keySelector?: (value: T, index: number) => K): Operation<T, T> {
-    return createOperation(distinctSync, distinctAsync, arguments);
+export function distinct<T, K>(keySelector?: (value: T, index: number) => K): Operation<T, T>;
+
+export function distinct(...args: unknown[]) {
+    return createOperation(distinctSync, distinctAsync, args);
 }
 
 function distinctSync<T, K>(iterable: Iterable<T>, keySelector?: (value: T, index: number) => K): Iterable<T> {
