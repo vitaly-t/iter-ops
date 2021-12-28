@@ -173,7 +173,7 @@ function splitSync<T>(
                                 split: splitIndex,
                             };
                             if (cb(v.value, index, state)) {
-                                // split/toggle has been triggerred;
+                                // split/toggle has been triggered;
                                 const carry = collecting
                                     ? carryEnd
                                     : carryStart;
@@ -275,7 +275,7 @@ function splitAsync<T>(
                                 split: splitIndex,
                             };
                             if (await cb(v.value, index, state)) {
-                                // split/toggle has been triggerred;
+                                // split/toggle has been triggered;
                                 const carry = collecting
                                     ? carryEnd
                                     : carryStart;
