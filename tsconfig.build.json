@@ -2,9 +2,11 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "rootDir": "./src",
-    "outDir": "dist/",
+    "outDir": "./dist/",
+    "target": "ES2018"
   },
   "include": [
-    "src",
-  ],
+    "./src",
+    "./typings"
+  ]
 }
