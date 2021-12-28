@@ -46,7 +46,7 @@ function catchErrorSync<T>(
                         } catch (e) {
                             repeats = sameError(e, lastError) ? repeats + 1 : 0;
                             lastError = e;
-                            let value: T, emitted;
+                            let value: any, emitted;
                             cb(e, {
                                 index: index++,
                                 lastValue: last?.value,
@@ -58,7 +58,7 @@ function catchErrorSync<T>(
                                 },
                             });
                             if (emitted) {
-                                return {value: value!, done: false};
+                                return {value, done: false};
                             }
                         }
                     } while (!last?.done);
@@ -93,7 +93,7 @@ function catchErrorAsync<T>(
                         .catch((e) => {
                             repeats = sameError(e, lastError) ? repeats + 1 : 0;
                             lastError = e;
-                            let value: T, emitted;
+                            let value: any, emitted;
                             cb(e, {
                                 index: index++,
                                 lastValue: last?.value,
@@ -104,9 +104,7 @@ function catchErrorAsync<T>(
                                     emitted = true;
                                 },
                             });
-                            return emitted
-                                ? {value: value!, done: false}
-                                : this.next();
+                            return emitted ? {value, done: false} : this.next();
                         });
                 },
             };

@@ -110,7 +110,7 @@ export function isIndexed(input: any): boolean {
 }
 
 /**
- * Verifies if value is a promise.
+ * Checks for a promise-like value.
  */
 export function isPromise(a: any): boolean {
     return a && typeof a.then === 'function';
