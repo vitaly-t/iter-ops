@@ -25,9 +25,9 @@
     "alwaysStrict": true,
     "exactOptionalPropertyTypes": true,
     "noImplicitReturns": true,
-    "noUncheckedIndexedAccess": true,
+    // "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
+    // "noPropertyAccessFromIndexSignature": true,
     "pretty": true
   },
   "exclude": [
