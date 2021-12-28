@@ -18,8 +18,10 @@ import {createOperation} from '../utils';
  * @see [[takeLast]]
  * @category Sync+Async
  */
-export function take<T>(count: number): Operation<T, T> {
-    return createOperation(takeSync, takeAsync, arguments);
+export function take<T>(count: number): Operation<T, T>;
+
+export function take(...args: unknown[]) {
+    return createOperation(takeSync, takeAsync, args);
 }
 
 function takeSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {

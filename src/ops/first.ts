@@ -38,8 +38,10 @@ import {createOperation, isPromise} from '../utils';
  * @see [[last]], [[take]], [[takeLast]]
  * @category Sync+Async
  */
-export function first<T>(cb?: (value: T, index: number) => boolean | Promise<boolean>): Operation<T, T> {
-    return createOperation(firstSync, firstAsync, arguments);
+export function first<T>(cb?: (value: T, index: number) => boolean | Promise<boolean>): Operation<T, T>;
+
+export function first(...args: unknown[]) {
+    return createOperation(firstSync, firstAsync, args);
 }
 
 function firstSync<T>(iterable: Iterable<T>, cb?: (value: T, index: number) => boolean): Iterable<T> {

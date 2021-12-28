@@ -106,8 +106,10 @@ export enum SplitValueCarry {
  * @see [[https://github.com/vitaly-t/iter-ops/wiki/Split Split WiKi]], [[page]]
  * @category Sync+Async
  */
-export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean | Promise<boolean>, options?: ISplitOptions): Operation<T, T[]> {
-    return createOperation(splitSync, splitAsync, arguments);
+export function split<T>(cb: (value: T, index: ISplitIndex, state: IterationState) => boolean | Promise<boolean>, options?: ISplitOptions): Operation<T, T[]>;
+
+export function split(...args: unknown[]) {
+    return createOperation(splitSync, splitAsync, args);
 }
 
 function splitSync<T>(iterable: Iterable<T>, cb: (value: T, index: ISplitIndex, state: IterationState) => boolean, options?: ISplitOptions): Iterable<T[]> {

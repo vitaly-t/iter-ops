@@ -5,7 +5,7 @@ describe('throttle', () => {
     it('must emit after resolved', async () => {
         const params: any[] = [];
         const output = pipe(_async([1, 2, 3]), throttle(async (value, index, state) => {
-            state.sum = (state.sum || 0) + value;
+            state.sum = ((state.sum as number | undefined) || 0) + value;
             params.push({value, index, state});
             return 123;
         }));

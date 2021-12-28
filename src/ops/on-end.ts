@@ -68,8 +68,10 @@ export interface IIterationSummary<T> {
  * @see [[IIterationSummary]], [[timing]]
  * @category Sync+Async
  */
-export function onEnd<T>(cb: (s: IIterationSummary<T>) => void): Operation<T, T> {
-    return createOperation(onEndSync, onEndAsync, arguments);
+export function onEnd<T>(cb: (s: IIterationSummary<T>) => void): Operation<T, T>;
+
+export function onEnd(...args: unknown[]) {
+    return createOperation(onEndSync, onEndAsync, args);
 }
 
 function onEndSync<T>(iterable: Iterable<T>, cb: (s: IIterationSummary<T>) => void): Iterable<T> {

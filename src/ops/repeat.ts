@@ -46,8 +46,8 @@ export function repeat<T>(count: number): Operation<T, T>;
  */
 export function repeat<T>(cb: (value: T, index: number, count: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T>;
 
-export function repeat<T>(count: number | ((value: T, index: number, count: number, state: IterationState) => boolean | Promise<boolean>)): Operation<T, T> {
-    return createOperation(repeatSync, repeatAsync, arguments);
+export function repeat(...args: unknown[]) {
+    return createOperation(repeatSync, repeatAsync, args);
 }
 
 function repeatSync<T>(iterable: Iterable<T>, count: number | ((value: T, index: number, count: number, state: IterationState) => boolean)): Iterable<T> {

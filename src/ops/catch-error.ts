@@ -14,8 +14,10 @@ import {createOperation} from '../utils';
  * @see [[https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling]]
  * @category Sync+Async
  */
-export function catchError<T>(cb: (error: any, ctx: IErrorContext<T>) => void): Operation<T, T> {
-    return createOperation(catchErrorSync, catchErrorAsync, arguments);
+export function catchError<T>(cb: (error: any, ctx: IErrorContext<T>) => void): Operation<T, T>;
+
+export function catchError(...args: unknown[]) {
+    return createOperation(catchErrorSync, catchErrorAsync, args);
 }
 
 function catchErrorSync<T>(iterable: Iterable<T>, cb: (error: any, ctx: IErrorContext<T>) => void): Iterable<T> {

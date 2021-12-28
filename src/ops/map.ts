@@ -8,8 +8,10 @@ import {createOperation} from '../utils';
  *
  * @category Sync+Async
  */
-export function map<T, R>(cb: (value: T, index: number, state: IterationState) => R): Operation<T, R> {
-    return createOperation(mapSync, mapAsync, arguments);
+export function map<T, R>(cb: (value: T, index: number, state: IterationState) => R): Operation<T, R>;
+
+export function map(...args: unknown[]) {
+    return createOperation(mapSync, mapAsync, args);
 }
 
 function mapSync<T, R>(iterable: Iterable<T>, cb: (value: T, index: number, state: IterationState) => R): Iterable<R> {

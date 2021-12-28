@@ -41,8 +41,8 @@ export function delay<T>(timeout: number): Operation<T, T>;
  */
 export function delay<T>(cb: (value: T, index: number, state: IterationState) => number): Operation<T, T>;
 
-export function delay<T>(timeout: number | ((value: T, index: number, state: IterationState) => number)): Operation<T, T> {
-    return createOperation(throwOnSync('delay'), delayAsync, arguments);
+export function delay(...args: unknown[]) {
+    return createOperation(throwOnSync('delay'), delayAsync, args);
 }
 
 function delayAsync<T>(iterable: AsyncIterable<T>, timeout: number | ((value: T, index: number, state: IterationState) => number)): AsyncIterable<T> {

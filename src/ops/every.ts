@@ -25,8 +25,10 @@ import {createOperation, isPromise} from '../utils';
  * @see [Array.every](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every), [[some]]
  * @category Sync+Async
  */
-export function every<T>(cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, boolean> {
-    return createOperation(everySync, everyAsync, arguments);
+export function every<T>(cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, boolean>;
+
+export function every(...args: unknown[]) {
+    return createOperation(everySync, everyAsync, args);
 }
 
 function everySync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state: IterationState) => boolean): Iterable<boolean> {

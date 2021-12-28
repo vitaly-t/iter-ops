@@ -1,0 +1,95 @@
+{
+  "root": true,
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "extraFileExtensions": [
+      ".cjs",
+      ".mjs"
+    ],
+    "project": [
+      "./tsconfig.json"
+    ],
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  ],
+  "ignorePatterns": [
+    "/benchmarks/",
+    "/coverage/",
+    "/dist/",
+    "/**/*.cjs",
+    "/**/*.js"
+  ],
+  "rules": {
+    "@typescript-eslint/comma-dangle": [
+      "error",
+      {
+        "arrays": "only-multiline",
+        "exports": "only-multiline",
+        "functions": "ignore",
+        "imports": "only-multiline",
+        "objects": "only-multiline"
+      }
+    ],
+    "@typescript-eslint/quotes": [
+      "error",
+      "single"
+    ],
+    "@typescript-eslint/semi": [
+      "error",
+      "always"
+    ],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unsafe-argument": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-return": "off",
+    "no-console": "error",
+    "no-else-return": [
+      "error",
+      {
+        "allowElseIf": false
+      }
+    ],
+    "prefer-const": "error",
+    "semi-spacing": [
+      "error",
+      {
+        "before": false,
+        "after": true
+      }
+    ],
+    "semi-style": [
+      "error",
+      "last"
+    ]
+  },
+  "overrides": [
+    {
+      "files": "src/**",
+      "env": {
+        "node": false
+      }
+    },
+    {
+      "files": "test/**",
+      "rules": {
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/require-await": "off"
+      }
+    }
+  ]
+}

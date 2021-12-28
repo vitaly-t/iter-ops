@@ -20,8 +20,10 @@ import {createOperation, iterateOnce} from '../utils';
  * @see [[split]]
  * @category Sync+Async
  */
-export function page<T>(size: number): Operation<T, T[]> {
-    return createOperation(pageSync, pageAsync, arguments);
+export function page<T>(size: number): Operation<T, T[]>;
+
+export function page(...args: unknown[]) {
+    return createOperation(pageSync, pageAsync, args);
 }
 
 function pageSync<T>(iterable: Iterable<T>, size: number): Iterable<T[]> {

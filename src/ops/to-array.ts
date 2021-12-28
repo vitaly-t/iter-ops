@@ -7,8 +7,10 @@ import {createOperation} from '../utils';
  * @see [[aggregate]]
  * @category Sync+Async
  */
-export function toArray<T>(): Operation<T, T[]> {
-    return createOperation(toArraySync, toArrayAsync);
+export function toArray<T>(): Operation<T, T[]>;
+
+export function toArray(...args: unknown[]) {
+    return createOperation(toArraySync, toArrayAsync, args);
 }
 
 function toArraySync<T>(iterable: Iterable<T>): Iterable<T[]> {

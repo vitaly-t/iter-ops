@@ -38,8 +38,8 @@ export function defaultEmpty<T, D>(iterator: AnyIterator<D>): Operation<T, T | D
  */
 export function defaultEmpty<T, D>(value: D): Operation<T, T | D>;
 
-export function defaultEmpty<T, D>(value: Any<D>): Operation<T, T | D> {
-    return createOperation(defaultEmptySync, defaultEmptyAsync, arguments);
+export function defaultEmpty(...args: unknown[]) {
+    return createOperation(defaultEmptySync, defaultEmptyAsync, args);
 }
 
 function defaultEmptySync<T, D>(iterable: Iterable<T>, value: AnySync<D>): Iterable<T | D> {

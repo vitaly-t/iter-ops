@@ -25,8 +25,10 @@ import {createOperation, throwOnSync} from '../../utils';
  * @see [[delay]]
  * @category Async-only
  */
-export function throttle<T>(cb: (value: T, index: number, state: IterationState) => Promise<any>): Operation<T, T> {
-    return createOperation(throwOnSync('throttle'), throttleAsync, arguments);
+export function throttle<T>(cb: (value: T, index: number, state: IterationState) => Promise<any>): Operation<T, T>;
+
+export function throttle(...args: unknown[]) {
+    return createOperation(throwOnSync('throttle'), throttleAsync, args);
 }
 
 function throttleAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => Promise<any>): AsyncIterable<T> {

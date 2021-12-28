@@ -46,8 +46,8 @@ import {createOperation, isPromise, throwOnSync} from '../../utils';
  */
 export function wait<T>(): Operation<Promise<T> | T, T>;
 
-export function wait<T>() {
-    return createOperation(throwOnSync('wait'), waitAsync, arguments);
+export function wait() {
+    return createOperation(throwOnSync('wait'), waitAsync);
 }
 
 export function waitAsync<T>(iterable: AsyncIterable<Promise<T> | T>): AsyncIterable<T> {

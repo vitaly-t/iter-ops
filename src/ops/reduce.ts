@@ -8,8 +8,10 @@ import {createOperation} from '../utils';
  *
  * @category Sync+Async
  */
-export function reduce<T>(cb: (previousValue: T, currentValue: T, index: number, state: IterationState) => T, initialValue?: T): Operation<T, T> {
-    return createOperation(reduceSync, reduceAsync, arguments);
+export function reduce<T>(cb: (previousValue: T, currentValue: T, index: number, state: IterationState) => T, initialValue?: T): Operation<T, T>;
+
+export function reduce(...args: unknown[]) {
+    return createOperation(reduceSync, reduceAsync, args);
 }
 
 function reduceSync<T>(iterable: Iterable<T>, cb: (previousValue: T, currentValue: T, index: number, state: IterationState) => T, initialValue?: T): Iterable<T> {

@@ -20,8 +20,10 @@ import {createOperation} from '../utils';
  * @see [[empty]], [[defaultEmpty]]
  * @category Sync+Async
  */
-export function isEmpty<T>(): Operation<T, boolean> {
-    return createOperation(isEmptySync, isEmptyAsync);
+export function isEmpty<T>(): Operation<T, boolean>;
+
+export function isEmpty(...args: unknown[]) {
+    return createOperation(isEmptySync, isEmptyAsync, args);
 }
 
 function isEmptySync<T>(iterable: Iterable<T>): Iterable<boolean> {

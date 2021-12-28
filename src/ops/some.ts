@@ -25,8 +25,10 @@ import {createOperation, isPromise} from '../utils';
  * @see [Array.some](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some), [[every]]
  * @category Sync+Async
  */
-export function some<T>(cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, boolean> {
-    return createOperation(someSync, someAsync, arguments);
+export function some<T>(cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, boolean>;
+
+export function some(...args: unknown[]) {
+    return createOperation(someSync, someAsync, args);
 }
 
 function someSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state: IterationState) => boolean): Iterable<boolean> {

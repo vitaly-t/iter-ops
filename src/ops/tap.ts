@@ -6,8 +6,10 @@ import {createOperation} from '../utils';
  *
  * @category Sync+Async
  */
-export function tap<T>(cb: (value: T, index: number, state: IterationState) => void): Operation<T, T> {
-    return createOperation(tapSync, tapAsync, arguments);
+export function tap<T>(cb: (value: T, index: number, state: IterationState) => void): Operation<T, T>;
+
+export function tap(...args: unknown[]) {
+    return createOperation(tapSync, tapAsync, args);
 }
 
 function tapSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state: IterationState) => void): Iterable<T> {
