@@ -5,7 +5,6 @@ import {createOperation} from '../utils';
  * Value timing details, produced by the [[timing]] operator.
  */
 export interface IValueTiming<T> {
-
     /**
      * Time in ms it took to get the value.
      */
@@ -71,7 +70,10 @@ export function timing(...args: unknown[]) {
     return createOperation(timingSync, timingAsync, args);
 }
 
-function timingSync<T>(iterable: Iterable<T>, cb: (t: IValueTiming<T>) => void): Iterable<T> {
+function timingSync<T>(
+    iterable: Iterable<T>,
+    cb: (t: IValueTiming<T>) => void
+): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
@@ -83,16 +85,25 @@ function timingSync<T>(iterable: Iterable<T>, cb: (t: IValueTiming<T>) => void):
                     const a = i.next();
                     if (!a.done) {
                         const duration = Date.now() - start;
-                        cb({duration, index: index++, value: a.value, state, sync: true});
+                        cb({
+                            duration,
+                            index: index++,
+                            value: a.value,
+                            state,
+                            sync: true,
+                        });
                     }
                     return a;
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function timingAsync<T>(iterable: AsyncIterable<T>, cb: (t: IValueTiming<T>) => void): AsyncIterable<T> {
+function timingAsync<T>(
+    iterable: AsyncIterable<T>,
+    cb: (t: IValueTiming<T>) => void
+): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
@@ -101,15 +112,21 @@ function timingAsync<T>(iterable: AsyncIterable<T>, cb: (t: IValueTiming<T>) => 
             return {
                 next(): Promise<IteratorResult<T>> {
                     const start = Date.now();
-                    return i.next().then(a => {
+                    return i.next().then((a) => {
                         if (!a.done) {
                             const duration = Date.now() - start;
-                            cb({duration, index: index++, value: a.value, state, sync: false});
+                            cb({
+                                duration,
+                                index: index++,
+                                value: a.value,
+                                state,
+                                sync: false,
+                            });
                         }
                         return a;
                     });
-                }
+                },
             };
-        }
+        },
     };
 }

@@ -16,7 +16,7 @@ export function _async(i: any): any {
     return {
         async next() {
             return i.next();
-        }
+        },
     };
 }
 
@@ -27,13 +27,14 @@ export function _async(i: any): any {
 export function _asyncValues<T>(input: AsyncIterable<T>): Promise<T[]> {
     const res: T[] = [];
     const i = input[Symbol.asyncIterator]();
-    const getValues = (): Promise<T[]> => i.next().then(a => {
-        if (a.done) {
-            return res;
-        }
-        res.push(a.value);
-        return getValues();
-    });
+    const getValues = (): Promise<T[]> =>
+        i.next().then((a) => {
+            if (a.done) {
+                return res;
+            }
+            res.push(a.value);
+            return getValues();
+        });
     return getValues();
 }
 

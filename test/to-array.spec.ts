@@ -26,7 +26,7 @@ describe('async toArray', () => {
         const input = _async([1, 2]);
         const output = pipe(input, toArray());
         const i = output[Symbol.asyncIterator]();
-        const result = await i.next() && await i.next();
+        const result = (await i.next()) && (await i.next());
         expect(result).to.eql({value: undefined, done: true});
     });
 });

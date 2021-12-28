@@ -10,7 +10,10 @@ describe('delay', () => {
         expect(duration).to.be.greaterThan(50);
     });
     it('must emit after callback count', async () => {
-        const output = pipe(_async([1]), delay(() => 51));
+        const output = pipe(
+            _async([1]),
+            delay(() => 51)
+        );
         const start = Date.now();
         await _asyncValues(output);
         const duration = Date.now() - start;
@@ -33,7 +36,10 @@ describe('delay', () => {
             expect(duration).to.be.lessThan(10);
         });
         it('must not add delay for callback result', async () => {
-            const output = pipe(_async([1]), delay(() => -100));
+            const output = pipe(
+                _async([1]),
+                delay(() => -100)
+            );
             const start = Date.now();
             await _asyncValues(output);
             const duration = Date.now() - start;

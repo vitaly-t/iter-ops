@@ -6,7 +6,7 @@ describe('sync drain', () => {
         const c: number[] = [];
         const i = pipe(
             [1, 2, 3],
-            tap(a => {
+            tap((a) => {
                 c.push(a);
             }),
             drain()
@@ -21,7 +21,7 @@ describe('async drain', () => {
         const c: number[] = [];
         const i = pipe(
             _async([1, 2, 3]),
-            tap(a => {
+            tap((a) => {
                 c.push(a);
             }),
             drain()

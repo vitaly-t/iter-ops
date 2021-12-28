@@ -33,7 +33,10 @@ export function aggregate(...args: unknown[]) {
     return createOperation(aggregateSync, aggregateAsync, args);
 }
 
-function aggregateSync<T, R>(iterable: Iterable<T>, cb: (arr: T[]) => R): Iterable<R> {
+function aggregateSync<T, R>(
+    iterable: Iterable<T>,
+    cb: (arr: T[]) => R
+): Iterable<R> {
     return {
         [$S](): Iterator<R> {
             const i = iterable[$S]();
@@ -50,13 +53,16 @@ function aggregateSync<T, R>(iterable: Iterable<T>, cb: (arr: T[]) => R): Iterab
                     }
                     finished = true;
                     return {value: cb(arr), done: false};
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function aggregateAsync<T, R>(iterable: AsyncIterable<T>, cb: (arr: T[]) => R): AsyncIterable<R> {
+function aggregateAsync<T, R>(
+    iterable: AsyncIterable<T>,
+    cb: (arr: T[]) => R
+): AsyncIterable<R> {
     return {
         [$A](): AsyncIterator<R> {
             const i = iterable[$A]();
@@ -64,7 +70,7 @@ function aggregateAsync<T, R>(iterable: AsyncIterable<T>, cb: (arr: T[]) => R): 
             let finished = false;
             return {
                 next(): Promise<IteratorResult<R>> {
-                    return i.next().then(a => {
+                    return i.next().then((a) => {
                         if (a.done) {
                             if (finished) {
                                 return a;
@@ -75,8 +81,8 @@ function aggregateAsync<T, R>(iterable: AsyncIterable<T>, cb: (arr: T[]) => R): 
                         arr.push(a.value);
                         return this.next();
                     });
-                }
+                },
             };
-        }
+        },
     };
 }

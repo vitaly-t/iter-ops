@@ -31,14 +31,17 @@ function pageSync<T>(iterable: Iterable<T>, size: number): Iterable<T[]> {
         [$S](): Iterator<T[]> {
             if (typeof size !== 'number' || size < 1) {
                 return iterateOnce(true, () => {
-                    throw new TypeError(`Page size >= 1 is required: ${JSON.stringify(size)}`);
+                    throw new TypeError(
+                        `Page size >= 1 is required: ${JSON.stringify(size)}`
+                    );
                 }) as any;
             }
             const i = iterable[$S]();
             return {
                 next(): IteratorResult<T[]> {
                     const value = [];
-                    let a, c = 0;
+                    let a,
+                        c = 0;
                     while (c++ < size && !(a = i.next()).done) {
                         value.push(a.value);
                     }
@@ -46,18 +49,23 @@ function pageSync<T>(iterable: Iterable<T>, size: number): Iterable<T[]> {
                         return {value, done: false};
                     }
                     return {value: undefined, done: true};
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function pageAsync<T>(iterable: AsyncIterable<T>, size: number): AsyncIterable<T[]> {
+function pageAsync<T>(
+    iterable: AsyncIterable<T>,
+    size: number
+): AsyncIterable<T[]> {
     return {
         [$A](): AsyncIterator<T[]> {
             if (typeof size !== 'number' || size < 1) {
                 return iterateOnce(false, () => {
-                    throw new TypeError(`Page size >= 1 is required: ${JSON.stringify(size)}`);
+                    throw new TypeError(
+                        `Page size >= 1 is required: ${JSON.stringify(size)}`
+                    );
                 }) as any;
             }
             const i = iterable[$A]();
@@ -65,16 +73,19 @@ function pageAsync<T>(iterable: AsyncIterable<T>, size: number): AsyncIterable<T
                 next(): Promise<IteratorResult<T[]>> {
                     const value: T[] = [];
                     let c = 0;
-                    const nextValue = (): any => i.next().then(a => {
-                        if (a.done) {
-                            return value.length ? {value, done: false} : a;
-                        }
-                        value.push(a.value);
-                        return ++c < size ? nextValue() : {value, done: false};
-                    });
+                    const nextValue = (): any =>
+                        i.next().then((a) => {
+                            if (a.done) {
+                                return value.length ? {value, done: false} : a;
+                            }
+                            value.push(a.value);
+                            return ++c < size
+                                ? nextValue()
+                                : {value, done: false};
+                        });
                     return nextValue();
-                }
+                },
             };
-        }
+        },
     };
 }

@@ -6,13 +6,18 @@ import {createOperation} from '../utils';
  *
  * @category Sync+Async
  */
-export function tap<T>(cb: (value: T, index: number, state: IterationState) => void): Operation<T, T>;
+export function tap<T>(
+    cb: (value: T, index: number, state: IterationState) => void
+): Operation<T, T>;
 
 export function tap(...args: unknown[]) {
     return createOperation(tapSync, tapAsync, args);
 }
 
-function tapSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state: IterationState) => void): Iterable<T> {
+function tapSync<T>(
+    iterable: Iterable<T>,
+    cb: (value: T, index: number, state: IterationState) => void
+): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
@@ -25,13 +30,16 @@ function tapSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state: 
                         cb(a.value, index++, state);
                     }
                     return a;
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function tapAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => void): AsyncIterable<T> {
+function tapAsync<T>(
+    iterable: AsyncIterable<T>,
+    cb: (value: T, index: number, state: IterationState) => void
+): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
@@ -39,14 +47,14 @@ function tapAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, s
             let index = 0;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    return i.next().then(a => {
+                    return i.next().then((a) => {
                         if (!a.done) {
                             cb(a.value, index++, state);
                         }
                         return a;
                     });
-                }
+                },
             };
-        }
+        },
     };
 }

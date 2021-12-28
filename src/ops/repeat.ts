@@ -44,13 +44,30 @@ export function repeat<T>(count: number): Operation<T, T>;
  * @see [[retry]]
  * @category Sync+Async
  */
-export function repeat<T>(cb: (value: T, index: number, count: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T>;
+export function repeat<T>(
+    cb: (
+        value: T,
+        index: number,
+        count: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
+): Operation<T, T>;
 
 export function repeat(...args: unknown[]) {
     return createOperation(repeatSync, repeatAsync, args);
 }
 
-function repeatSync<T>(iterable: Iterable<T>, count: number | ((value: T, index: number, count: number, state: IterationState) => boolean)): Iterable<T> {
+function repeatSync<T>(
+    iterable: Iterable<T>,
+    count:
+        | number
+        | ((
+              value: T,
+              index: number,
+              count: number,
+              state: IterationState
+          ) => boolean)
+): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
@@ -58,7 +75,10 @@ function repeatSync<T>(iterable: Iterable<T>, count: number | ((value: T, index:
             const cb = typeof count === 'function' && count;
             const initialCount = !cb && count > 0 ? count : 0;
             let copyCount = initialCount;
-            let index = -1, copied = 0, start = true, a: IteratorResult<T>;
+            let index = -1,
+                copied = 0,
+                start = true,
+                a: IteratorResult<T>;
             return {
                 next(): IteratorResult<T> {
                     if (start) {
@@ -81,13 +101,23 @@ function repeatSync<T>(iterable: Iterable<T>, count: number | ((value: T, index:
                         start = true;
                     }
                     return a;
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function repeatAsync<T>(iterable: AsyncIterable<T>, count: number | ((value: T, index: number, count: number, state: IterationState) => boolean | Promise<boolean>)): AsyncIterable<T> {
+function repeatAsync<T>(
+    iterable: AsyncIterable<T>,
+    count:
+        | number
+        | ((
+              value: T,
+              index: number,
+              count: number,
+              state: IterationState
+          ) => boolean | Promise<boolean>)
+): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
@@ -95,7 +125,10 @@ function repeatAsync<T>(iterable: AsyncIterable<T>, count: number | ((value: T, 
             const cb = typeof count === 'function' && count;
             const initialCount = !cb && count > 0 ? count : 0;
             let copyCount = initialCount;
-            let index = -1, copied = 0, start = true, a: IteratorResult<T>;
+            let index = -1,
+                copied = 0,
+                start = true,
+                a: IteratorResult<T>;
             return {
                 async next(): Promise<IteratorResult<T>> {
                     if (start) {
@@ -109,7 +142,12 @@ function repeatAsync<T>(iterable: AsyncIterable<T>, count: number | ((value: T, 
                         return a;
                     }
                     if (cb) {
-                        start = !(await (cb(a.value, index, copied++, state) as Promise<boolean>));
+                        start = !(await (cb(
+                            a.value,
+                            index,
+                            copied++,
+                            state
+                        ) as Promise<boolean>));
                         return a;
                     }
                     if (copyCount) {
@@ -118,8 +156,8 @@ function repeatAsync<T>(iterable: AsyncIterable<T>, count: number | ((value: T, 
                         start = true;
                     }
                     return a;
-                }
+                },
             };
-        }
+        },
     };
 }

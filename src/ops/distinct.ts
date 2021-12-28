@@ -30,13 +30,18 @@ import {createOperation} from '../utils';
  *
  * @category Sync+Async
  */
-export function distinct<T, K>(keySelector?: (value: T, index: number) => K): Operation<T, T>;
+export function distinct<T, K>(
+    keySelector?: (value: T, index: number) => K
+): Operation<T, T>;
 
 export function distinct(...args: unknown[]) {
     return createOperation(distinctSync, distinctAsync, args);
 }
 
-function distinctSync<T, K>(iterable: Iterable<T>, keySelector?: (value: T, index: number) => K): Iterable<T> {
+function distinctSync<T, K>(
+    iterable: Iterable<T>,
+    keySelector?: (value: T, index: number) => K
+): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
@@ -58,13 +63,16 @@ function distinctSync<T, K>(iterable: Iterable<T>, keySelector?: (value: T, inde
                     } while (!a.done);
                     keySet.clear(); // for better memory management
                     return a;
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function distinctAsync<T, K>(iterable: AsyncIterable<T>, keySelector?: (value: T, index: number) => K): AsyncIterable<T> {
+function distinctAsync<T, K>(
+    iterable: AsyncIterable<T>,
+    keySelector?: (value: T, index: number) => K
+): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
@@ -73,7 +81,7 @@ function distinctAsync<T, K>(iterable: AsyncIterable<T>, keySelector?: (value: T
             let index = 0;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    return i.next().then(a => {
+                    return i.next().then((a) => {
                         if (a.done) {
                             keySet.clear(); // for better memory management
                             return a;
@@ -85,8 +93,8 @@ function distinctAsync<T, K>(iterable: AsyncIterable<T>, keySelector?: (value: T
                         }
                         return this.next();
                     });
-                }
+                },
             };
-        }
+        },
     };
 }

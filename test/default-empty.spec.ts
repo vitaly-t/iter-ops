@@ -19,7 +19,7 @@ describe('sync defaultEmpty', () => {
                         return {value};
                     }
                     return {value: undefined, done: true};
-                }
+                },
             };
             const output = pipe([], defaultEmpty(input));
             expect([...output]).to.eql([3, 2, 1, 0]);
@@ -36,7 +36,10 @@ describe('sync defaultEmpty', () => {
     describe('type inference', () => {
         it('must work for values', () => {
             // the actual test here is compile-time, inferring the type correctly:
-            const i: Iterable<number | string> = pipe([1, 2, 3], defaultEmpty('hello'));
+            const i: Iterable<number | string> = pipe(
+                [1, 2, 3],
+                defaultEmpty('hello')
+            );
             expect([...i]).to.eql([1, 2, 3]); // default not added
         });
         it('must work for iterators', () => {
@@ -49,16 +52,22 @@ describe('sync defaultEmpty', () => {
                         return {value};
                     }
                     return {value: undefined, done};
-                }
+                },
             };
             // the actual test here is compile-time, inferring the type correctly;
             // NOTE: This case does require casting input as Iterator<string> :|
-            const i: Iterable<number | string> = pipe([1, 2, 3], defaultEmpty(input));
+            const i: Iterable<number | string> = pipe(
+                [1, 2, 3],
+                defaultEmpty(input)
+            );
             expect([...i]).to.eql([1, 2, 3]); // default not added
         });
         it('must work for iterables', () => {
             // the actual test here is compile-time, inferring the type correctly:
-            const i: Iterable<number | string | boolean> = pipe([1, 2, 3], defaultEmpty(['hello', true]));
+            const i: Iterable<number | string | boolean> = pipe(
+                [1, 2, 3],
+                defaultEmpty(['hello', true])
+            );
             expect([...i]).to.eql([1, 2, 3]); // default not added
         });
     });
@@ -82,7 +91,7 @@ describe('async defaultEmpty', () => {
                         return {value};
                     }
                     return {value: undefined, done: true};
-                }
+                },
             };
             const output = pipe(_async([]), defaultEmpty(input));
             expect(await _asyncValues(output)).to.eql([3, 2, 1, 0]);
@@ -99,7 +108,10 @@ describe('async defaultEmpty', () => {
     describe('type inference', () => {
         it('must work for values', async () => {
             // the actual test here is compile-time, inferring the type correctly:
-            const i: AsyncIterable<number | string> = pipe(_async([1, 2, 3]), defaultEmpty('hello'));
+            const i: AsyncIterable<number | string> = pipe(
+                _async([1, 2, 3]),
+                defaultEmpty('hello')
+            );
             expect(await _asyncValues(i)).to.eql([1, 2, 3]); // default not added
         });
         it('must work for iterators', async () => {
@@ -112,16 +124,22 @@ describe('async defaultEmpty', () => {
                         return {value};
                     }
                     return {value: undefined, done};
-                }
+                },
             };
             // the actual test here is compile-time, inferring the type correctly;
             // NOTE: This case does require casting input as Iterator<string> :|
-            const i: AsyncIterable<number | string> = pipe(_async([1, 2, 3]), defaultEmpty(input));
+            const i: AsyncIterable<number | string> = pipe(
+                _async([1, 2, 3]),
+                defaultEmpty(input)
+            );
             expect(await _asyncValues(i)).to.eql([1, 2, 3]); // default not added
         });
         it('must work for iterables', async () => {
             // the actual test here is compile-time, inferring the type correctly:
-            const i: AsyncIterable<number | string | boolean> = pipe(_async([1, 2, 3]), defaultEmpty(['hello', true]));
+            const i: AsyncIterable<number | string | boolean> = pipe(
+                _async([1, 2, 3]),
+                defaultEmpty(['hello', true])
+            );
             expect(await _asyncValues(i)).to.eql([1, 2, 3]); // default not added
         });
     });

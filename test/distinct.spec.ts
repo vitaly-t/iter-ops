@@ -19,10 +19,13 @@ describe('sync distinct', () => {
     describe('with selector', () => {
         it('must emit unique values based on selector', () => {
             const indexes: any[] = [];
-            const output = pipe(objects, distinct((sel, idx) => {
-                indexes.push(idx);
-                return sel.a;
-            }));
+            const output = pipe(
+                objects,
+                distinct((sel, idx) => {
+                    indexes.push(idx);
+                    return sel.a;
+                })
+            );
             expect([...output]).to.eql([{a: 1}, {a: 2}, {a: 3}]);
             expect(indexes).to.eql([0, 1, 2, 3, 4, 5]); // index is for each original element
         });
@@ -51,10 +54,13 @@ describe('async distinct', () => {
     describe('with selector', () => {
         it('must emit unique values based on selector', async () => {
             const indexes: any[] = [];
-            const output = pipe(_async(objects), distinct((sel, idx) => {
-                indexes.push(idx);
-                return sel.a;
-            }));
+            const output = pipe(
+                _async(objects),
+                distinct((sel, idx) => {
+                    indexes.push(idx);
+                    return sel.a;
+                })
+            );
             expect(await _asyncValues(output)).to.eql([{a: 1}, {a: 2}, {a: 3}]);
             expect(indexes).to.eql([0, 1, 2, 3, 4, 5]); // index is for each original element
         });

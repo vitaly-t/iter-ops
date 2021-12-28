@@ -68,17 +68,25 @@ export interface IIterationSummary<T> {
  * @see [[IIterationSummary]], [[timing]]
  * @category Sync+Async
  */
-export function onEnd<T>(cb: (s: IIterationSummary<T>) => void): Operation<T, T>;
+export function onEnd<T>(
+    cb: (s: IIterationSummary<T>) => void
+): Operation<T, T>;
 
 export function onEnd(...args: unknown[]) {
     return createOperation(onEndSync, onEndAsync, args);
 }
 
-function onEndSync<T>(iterable: Iterable<T>, cb: (s: IIterationSummary<T>) => void): Iterable<T> {
+function onEndSync<T>(
+    iterable: Iterable<T>,
+    cb: (s: IIterationSummary<T>) => void
+): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
-            let start: number, finished: boolean, lastValue: T, count = 0;
+            let start: number,
+                finished: boolean,
+                lastValue: T,
+                count = 0;
             return {
                 next(): IteratorResult<T> {
                     start = start || Date.now();
@@ -87,35 +95,55 @@ function onEndSync<T>(iterable: Iterable<T>, cb: (s: IIterationSummary<T>) => vo
                         if (!finished) {
                             finished = true;
                             const duration = Date.now() - start;
-                            const avgDuration = count > 0 ? duration / count : 0;
-                            cb({count, duration, avgDuration, lastValue, sync: true});
+                            const avgDuration =
+                                count > 0 ? duration / count : 0;
+                            cb({
+                                count,
+                                duration,
+                                avgDuration,
+                                lastValue,
+                                sync: true,
+                            });
                         }
                     } else {
                         lastValue = a.value;
                         count++;
                     }
                     return a;
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function onEndAsync<T>(iterable: AsyncIterable<T>, cb: (s: IIterationSummary<T>) => void): AsyncIterable<T> {
+function onEndAsync<T>(
+    iterable: AsyncIterable<T>,
+    cb: (s: IIterationSummary<T>) => void
+): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
-            let start: number, finished: boolean, lastValue: T, count = 0;
+            let start: number,
+                finished: boolean,
+                lastValue: T,
+                count = 0;
             return {
                 next(): Promise<IteratorResult<T>> {
                     start = start || Date.now();
-                    return i.next().then(a => {
+                    return i.next().then((a) => {
                         if (a.done) {
                             if (!finished) {
                                 finished = true;
                                 const duration = Date.now() - start;
-                                const avgDuration = count > 0 ? duration / count : 0;
-                                cb({count, duration, avgDuration, lastValue, sync: false});
+                                const avgDuration =
+                                    count > 0 ? duration / count : 0;
+                                cb({
+                                    count,
+                                    duration,
+                                    avgDuration,
+                                    lastValue,
+                                    sync: false,
+                                });
                             }
                         } else {
                             lastValue = a.value;
@@ -123,8 +151,8 @@ function onEndAsync<T>(iterable: AsyncIterable<T>, cb: (s: IIterationSummary<T>)
                         }
                         return a;
                     });
-                }
+                },
             };
-        }
+        },
     };
 }

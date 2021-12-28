@@ -36,8 +36,20 @@ describe('sync concat', () => {
             expect([...result]).to.eql([1, 2, null, 'n', 'e', 'x', 't', true]);
         });
         it('must join iterable types', () => {
-            const result = pipe([1, 2], concat('one', [undefined, 'word', false]));
-            expect([...result]).to.eql([1, 2, 'o', 'n', 'e', undefined, 'word', false]);
+            const result = pipe(
+                [1, 2],
+                concat('one', [undefined, 'word', false])
+            );
+            expect([...result]).to.eql([
+                1,
+                2,
+                'o',
+                'n',
+                'e',
+                undefined,
+                'word',
+                false,
+            ]);
         });
     });
 });
@@ -91,11 +103,32 @@ describe('async concat', () => {
     describe('multicast', () => {
         it('must join value types', async () => {
             const result = pipe(_async([1, 2]), concat(null, 'next', true));
-            expect(await _asyncValues(result)).to.eql([1, 2, null, 'n', 'e', 'x', 't', true]);
+            expect(await _asyncValues(result)).to.eql([
+                1,
+                2,
+                null,
+                'n',
+                'e',
+                'x',
+                't',
+                true,
+            ]);
         });
         it('must join iterable types', async () => {
-            const result = pipe(_async([1, 2]), concat('one', [undefined, 'word', false]));
-            expect(await _asyncValues(result)).to.eql([1, 2, 'o', 'n', 'e', undefined, 'word', false]);
+            const result = pipe(
+                _async([1, 2]),
+                concat('one', [undefined, 'word', false])
+            );
+            expect(await _asyncValues(result)).to.eql([
+                1,
+                2,
+                'o',
+                'n',
+                'e',
+                undefined,
+                'word',
+                false,
+            ]);
         });
     });
 });

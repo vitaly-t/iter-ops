@@ -21,18 +21,28 @@ import {createOperation, isPromise} from '../utils';
  * @see [[stop]]
  * @category Sync+Async
  */
-export function start<T>(cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, T>;
+export function start<T>(
+    cb: (
+        value: T,
+        index: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
+): Operation<T, T>;
 
 export function start(...args: unknown[]) {
     return createOperation(startSync, startAsync, args);
 }
 
-function startSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state: IterationState) => boolean): Iterable<T> {
+function startSync<T>(
+    iterable: Iterable<T>,
+    cb: (value: T, index: number, state: IterationState) => boolean
+): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             const state: IterationState = {};
-            let index = 0, started: boolean;
+            let index = 0,
+                started: boolean;
             return {
                 next(): IteratorResult<T> {
                     let a = i.next();
@@ -43,33 +53,42 @@ function startSync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state
                         started = true;
                     }
                     return a;
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function startAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): AsyncIterable<T> {
+function startAsync<T>(
+    iterable: AsyncIterable<T>,
+    cb: (
+        value: T,
+        index: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
+): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             const state: IterationState = {};
-            let index = 0, started: boolean;
+            let index = 0,
+                started: boolean;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    return i.next().then(a => {
+                    return i.next().then((a) => {
                         if (started) {
                             return a;
                         }
-                        const r = (a.done || cb(a.value, index++, state)) as Promise<boolean>;
+                        const r = (a.done ||
+                            cb(a.value, index++, state)) as Promise<boolean>;
                         const out = (flag: any) => {
                             started = flag;
                             return started ? a : this.next();
                         };
                         return isPromise(r) ? r.then(out) : out(r);
                     });
-                }
+                },
             };
-        }
+        },
     };
 }

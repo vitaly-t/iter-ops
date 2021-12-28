@@ -36,13 +36,18 @@ import {createOperation, isPromise} from '../utils';
  * @see [[takeLast]], [[first]]
  * @category Sync+Async
  */
-export function last<T>(cb?: (value: T, index: number) => boolean | Promise<boolean>): Operation<T, T>;
+export function last<T>(
+    cb?: (value: T, index: number) => boolean | Promise<boolean>
+): Operation<T, T>;
 
 export function last(...args: unknown[]) {
     return createOperation(lastSync, lastAsync, args);
 }
 
-function lastSync<T>(iterable: Iterable<T>, cb?: (value: T, index: number) => boolean): Iterable<T> {
+function lastSync<T>(
+    iterable: Iterable<T>,
+    cb?: (value: T, index: number) => boolean
+): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
@@ -57,25 +62,32 @@ function lastSync<T>(iterable: Iterable<T>, cb?: (value: T, index: number) => bo
                         }
                     }
                     return r ? {value: r.value, done: false} : a;
-                }
+                },
             };
-        }
+        },
     };
 }
 
-function lastAsync<T>(iterable: AsyncIterable<T>, cb?: (value: T, index: number) => boolean | Promise<boolean>): AsyncIterable<T> {
+function lastAsync<T>(
+    iterable: AsyncIterable<T>,
+    cb?: (value: T, index: number) => boolean | Promise<boolean>
+): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             const test = typeof cb === 'function' && cb;
-            let finished = false, index = 0, value: IteratorResult<T>;
+            let finished = false,
+                index = 0,
+                value: IteratorResult<T>;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    return i.next().then(a => {
+                    return i.next().then((a) => {
                         if (finished) {
                             return {value: undefined, done: true};
                         }
-                        const r = (a.done || !test || test(a.value, index++)) as Promise<boolean>;
+                        const r = (a.done ||
+                            !test ||
+                            test(a.value, index++)) as Promise<boolean>;
                         const out = (flag: any) => {
                             finished = !!a.done;
                             value = flag && !a.done ? a : value || a;
@@ -83,8 +95,8 @@ function lastAsync<T>(iterable: AsyncIterable<T>, cb?: (value: T, index: number)
                         };
                         return isPromise(r) ? r.then(out) : out(r);
                     });
-                }
+                },
             };
-        }
+        },
     };
 }

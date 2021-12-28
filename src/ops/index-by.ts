@@ -36,13 +36,22 @@ export interface IIndexedValue<T> {
  * @see [[IIndexedValue]]
  * @category Sync+Async
  */
-export function indexBy<T>(cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): Operation<T, IIndexedValue<T>>;
+export function indexBy<T>(
+    cb: (
+        value: T,
+        index: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
+): Operation<T, IIndexedValue<T>>;
 
 export function indexBy(...args: unknown[]) {
     return createOperation(indexBySync, indexByAsync, args);
 }
 
-function indexBySync<T>(iterable: Iterable<T>, cb: (value: T, index: number, state: IterationState) => boolean): Iterable<IIndexedValue<T>> {
+function indexBySync<T>(
+    iterable: Iterable<T>,
+    cb: (value: T, index: number, state: IterationState) => boolean
+): Iterable<IIndexedValue<T>> {
     return {
         [$S](): Iterator<IIndexedValue<T>> {
             const i = iterable[$S]();
@@ -51,15 +60,27 @@ function indexBySync<T>(iterable: Iterable<T>, cb: (value: T, index: number, sta
             return {
                 next(): IteratorResult<IIndexedValue<T>> {
                     let a;
-                    while (!(a = i.next()).done && !cb(a.value, ++index, state));
-                    return a.done ? a : {value: {index, value: a.value}, done: false};
-                }
+                    while (
+                        !(a = i.next()).done &&
+                        !cb(a.value, ++index, state)
+                    );
+                    return a.done
+                        ? a
+                        : {value: {index, value: a.value}, done: false};
+                },
             };
-        }
+        },
     };
 }
 
-function indexByAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: number, state: IterationState) => boolean | Promise<boolean>): AsyncIterable<IIndexedValue<T>> {
+function indexByAsync<T>(
+    iterable: AsyncIterable<T>,
+    cb: (
+        value: T,
+        index: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
+): AsyncIterable<IIndexedValue<T>> {
     return {
         [$A](): AsyncIterator<IIndexedValue<T>> {
             const i = iterable[$A]();
@@ -67,16 +88,23 @@ function indexByAsync<T>(iterable: AsyncIterable<T>, cb: (value: T, index: numbe
             let index = -1;
             return {
                 next(): Promise<IteratorResult<IIndexedValue<T>>> {
-                    return i.next().then(a => {
+                    return i.next().then((a) => {
                         if (a.done) {
                             return a;
                         }
-                        const r = cb(a.value, ++index, state) as Promise<boolean>;
-                        const out = (flag: any) => flag ? {value: {index, value: a.value}, done: false} : this.next();
+                        const r = cb(
+                            a.value,
+                            ++index,
+                            state
+                        ) as Promise<boolean>;
+                        const out = (flag: any) =>
+                            flag
+                                ? {value: {index, value: a.value}, done: false}
+                                : this.next();
                         return isPromise(r) ? r.then(out) : out(r);
                     });
-                }
+                },
             };
-        }
+        },
     };
 }

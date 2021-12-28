@@ -50,21 +50,25 @@ export function wait() {
     return createOperation(throwOnSync('wait'), waitAsync);
 }
 
-export function waitAsync<T>(iterable: AsyncIterable<Promise<T> | T>): AsyncIterable<T> {
+export function waitAsync<T>(
+    iterable: AsyncIterable<Promise<T> | T>
+): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             return {
                 next(): Promise<IteratorResult<T>> {
-                    return i.next().then(a => {
+                    return i.next().then((a) => {
                         if (a.done) {
                             return a as any;
                         }
                         const p = a.value as Promise<T>;
-                        return isPromise(p) ? p?.then(value => ({value, done: false})) : a;
+                        return isPromise(p)
+                            ? p?.then((value) => ({value, done: false}))
+                            : a;
                     });
-                }
+                },
             };
-        }
+        },
     };
 }
