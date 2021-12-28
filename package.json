@@ -46,7 +46,10 @@
     "filter",
     "reduce"
   ],
-  "author": "Vitaly Tomilov <vitaly.tomilov@gmail.com>",
+  "author": {
+    "name": "Vitaly Tomilov",
+    "email": "vitaly.tomilov@gmail.com"
+  },
   "contributors": [
     {
       "name": "Vitaly Tomilov",
