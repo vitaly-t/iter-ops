@@ -4,7 +4,7 @@ import {pipe, tap, retry} from '../../src';
 describe('retry', () => {
     const source = pipe(
         _async([1, 2, 3, 4, 5]),
-        tap((value, index, state) => {
+        tap((value, index) => {
             if (index < 2) {
                 throw new Error(`Throw for value ${value}`);
             }
