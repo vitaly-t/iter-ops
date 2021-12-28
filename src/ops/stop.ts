@@ -1,5 +1,5 @@
 import {$A, $S, IterationState, Operation} from '../types';
-import {createOperation, isPromise} from '../utils';
+import {createOperation, isPromiseLike} from '../utils';
 
 /**
  * Stops iteration, once the predicate test passes.
@@ -84,7 +84,7 @@ function stopAsync<T>(
                             stopped = flag;
                             return stopped ? {value: undefined, done: true} : a;
                         };
-                        return isPromise(r) ? r.then(out) : out(r);
+                        return isPromiseLike(r) ? r.then(out) : out(r);
                     });
                 },
             };

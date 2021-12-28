@@ -1,4 +1,4 @@
-import {isIndexed, indexedAsyncIterable, isPromise} from './utils';
+import {isIndexed, indexedAsyncIterable, isPromiseLike} from './utils';
 import {$A, $S} from './types';
 
 /**
@@ -122,7 +122,7 @@ export function toIterable<T>(i: any): any {
     const next = i?.next;
     if (typeof next === 'function') {
         const value = next.call(i); // this line may throw (outside the pipeline)
-        let s: any = isPromise(value) && $A;
+        let s: any = isPromiseLike(value) && $A;
         if (s || (typeof value === 'object' && 'value' in (value ?? {}))) {
             s = s || $S;
             return {
@@ -141,7 +141,7 @@ export function toIterable<T>(i: any): any {
             };
         }
     }
-    if (isPromise(i)) {
+    if (isPromiseLike(i)) {
         return {
             [$A](): AsyncIterator<T> {
                 let finished: boolean;

@@ -1,5 +1,5 @@
 import {$A, IterationState, Operation} from '../../types';
-import {createOperation, isPromise, throwOnSync} from '../../utils';
+import {createOperation, isPromiseLike, throwOnSync} from '../../utils';
 
 /**
  * When the iterable rejects, retries getting the value specified number of times.
@@ -102,7 +102,7 @@ function retryAsync<T>(
                                     attempts++,
                                     state
                                 ) as Promise<boolean>;
-                                return isPromise(r) ? r.then(b) : b(r);
+                                return isPromiseLike(r) ? r.then(b) : b(r);
                             }
                             if (leftTries) {
                                 leftTries--;

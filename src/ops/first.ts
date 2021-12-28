@@ -1,5 +1,5 @@
 import {$A, $S, Operation} from '../types';
-import {createOperation, isPromise} from '../utils';
+import {createOperation, isPromiseLike} from '../utils';
 
 /**
  * Produces a one-value iterable, with the first emitted value.
@@ -98,7 +98,7 @@ function firstAsync<T>(
                             finished = flag;
                             return finished ? a : this.next();
                         };
-                        return isPromise(r) ? r.then(out) : out(r);
+                        return isPromiseLike(r) ? r.then(out) : out(r);
                     });
                 },
             };

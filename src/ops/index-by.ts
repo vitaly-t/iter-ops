@@ -1,5 +1,5 @@
 import {$A, $S, IterationState, Operation} from '../types';
-import {createOperation, isPromise} from '../utils';
+import {createOperation, isPromiseLike} from '../utils';
 
 /**
  * Pair of `{index, value}` that passed predicate test of [[indexBy]] operator.
@@ -101,7 +101,7 @@ function indexByAsync<T>(
                             flag
                                 ? {value: {index, value: a.value}, done: false}
                                 : this.next();
-                        return isPromise(r) ? r.then(out) : out(r);
+                        return isPromiseLike(r) ? r.then(out) : out(r);
                     });
                 },
             };

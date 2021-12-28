@@ -1,5 +1,5 @@
 import {$A, $S, IterationState, Operation} from '../types';
-import {createOperation, isPromise} from '../utils';
+import {createOperation, isPromiseLike} from '../utils';
 
 /**
  * Standard `Array.every` logic for the iterable, extended with iteration state + async.
@@ -93,7 +93,7 @@ function everyAsync<T>(
                                 ? {value: !!a.done, done: false}
                                 : this.next();
                         };
-                        return isPromise(r) ? r.then(out) : out(r);
+                        return isPromiseLike(r) ? r.then(out) : out(r);
                     });
                 },
             };

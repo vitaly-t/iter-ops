@@ -1,5 +1,5 @@
 import {$A, $S, IterationState, Operation} from '../types';
-import {createOperation, isPromise} from '../utils';
+import {createOperation, isPromiseLike} from '../utils';
 
 /**
  * Starts emitting values, once the predicate test passes.
@@ -85,7 +85,7 @@ function startAsync<T>(
                             started = flag;
                             return started ? a : this.next();
                         };
-                        return isPromise(r) ? r.then(out) : out(r);
+                        return isPromiseLike(r) ? r.then(out) : out(r);
                     });
                 },
             };

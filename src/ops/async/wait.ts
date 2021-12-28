@@ -1,5 +1,5 @@
 import {$A, Operation} from '../../types';
-import {createOperation, isPromise, throwOnSync} from '../../utils';
+import {createOperation, isPromiseLike, throwOnSync} from '../../utils';
 
 /**
  * When the value is a `Promise`, it is resolved, or else returned as is,
@@ -63,7 +63,7 @@ export function waitAsync<T>(
                             return a as any;
                         }
                         const p = a.value as Promise<T>;
-                        return isPromise(p)
+                        return isPromiseLike(p)
                             ? p?.then((value) => ({value, done: false}))
                             : a;
                     });

@@ -112,6 +112,6 @@ export function isIndexed(input: any): boolean {
 /**
  * Checks for a promise-like value.
  */
-export function isPromise(a: any): boolean {
+export function isPromiseLike(a: any): boolean {
     return a && typeof a.then === 'function';
 }

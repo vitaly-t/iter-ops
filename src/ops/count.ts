@@ -1,5 +1,5 @@
 import {$A, $S, IterationState, Operation} from '../types';
-import {createOperation, isPromise} from '../utils';
+import {createOperation, isPromiseLike} from '../utils';
 
 /**
  * Goes through the entire iterable, counting the values, and produces a one-value iterable with the count.
@@ -112,7 +112,7 @@ function countAsync<T>(
                             value += flag ? 1 : 0;
                             return this.next();
                         };
-                        return isPromise(r) ? r.then(out) : out(r);
+                        return isPromiseLike(r) ? r.then(out) : out(r);
                     });
                 },
             };

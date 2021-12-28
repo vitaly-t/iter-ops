@@ -1,5 +1,5 @@
 import {$A, $S, IterationState, Operation} from '../types';
-import {createOperation, isPromise} from '../utils';
+import {createOperation, isPromiseLike} from '../utils';
 
 /**
  * Standard `Array.filter` logic for the iterable, extended with iteration state + async.
@@ -88,7 +88,7 @@ function filterAsync<T>(
                             state
                         ) as Promise<boolean>;
                         const out = (flag: any) => (flag ? a : this.next());
-                        return isPromise(r) ? r.then(out) : out(r);
+                        return isPromiseLike(r) ? r.then(out) : out(r);
                     });
                 },
             };

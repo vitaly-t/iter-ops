@@ -1,5 +1,5 @@
 import {$A, $S, Operation} from '../types';
-import {createOperation, isPromise} from '../utils';
+import {createOperation, isPromiseLike} from '../utils';
 
 /**
  * Produces a one-value iterable, with the last emitted value.
@@ -93,7 +93,7 @@ function lastAsync<T>(
                             value = flag && !a.done ? a : value || a;
                             return finished ? value : this.next();
                         };
-                        return isPromise(r) ? r.then(out) : out(r);
+                        return isPromiseLike(r) ? r.then(out) : out(r);
                     });
                 },
             };
