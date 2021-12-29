@@ -6,7 +6,6 @@
     "target": "ES2018"
   },
   "include": [
-    "./src",
-    "./typings"
+    "./src"
   ]
 }
