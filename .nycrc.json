@@ -1,11 +1,10 @@
 {
-  "extension": [
-    ".ts"
-  ],
-  "require": [
-    "ts-node/register"
+  "extends": "@istanbuljs/nyc-config-typescript",
+  "include": [
+    "src/**/*"
   ],
   "reporter": [
+    "lcov",
     "text-summary",
     "html"
   ],
