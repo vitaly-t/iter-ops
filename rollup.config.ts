@@ -11,11 +11,20 @@ import rollupPluginGzip from 'rollup-plugin-gzip';
 
 import pkg from './package.json';
 
+const copyright = `/*!
+ * ${pkg.name} v${pkg.version}
+ * Copyright ${new Date().getFullYear()} ${pkg.author.name}
+ * Released under the ${pkg.license} License
+ * ${pkg.homepage}
+ */
+`;
+
 const common = {
     input: 'src/index.ts',
 
     output: {
         sourcemap: false,
+        banner: copyright,
     },
 
     external: [],
@@ -40,14 +49,6 @@ function getPlugins(tsconfig = 'tsconfig.build.json') {
         }),
     ];
 }
-
-const copyright = `/*!
- * ${pkg.name} v${pkg.version}
- * Copyright ${new Date().getFullYear()} ${pkg.author.name}
- * Released under the ${pkg.license} License
- * ${pkg.homepage}
- */
-`;
 
 /**
  * The common JS build.
@@ -91,7 +92,6 @@ const web = {
         file: 'dist/web/iter-ops.min.js',
         format: 'iife',
         name: 'iterOps',
-        banner: copyright,
     },
 
     plugins: [
