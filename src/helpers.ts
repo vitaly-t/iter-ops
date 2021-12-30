@@ -32,8 +32,9 @@ import {isIndexed, indexedAsyncIterable} from './utils';
  * @category Core
  */
 export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
-    if (typeof (i as any)[$A] === 'function') {
-        return i as any; // must be a run-time safe-check, no need converting
+    // Already an async iterable?
+    if (isAsyncIterable<typeof i, T>(i)) {
+        return i;
     }
     if (isIndexed(i)) {
         return indexedAsyncIterable(i);
