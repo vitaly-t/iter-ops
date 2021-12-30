@@ -7,7 +7,7 @@ import {
     Operation,
 } from './types';
 import {catchError} from './ops/catch-error';
-import {optimizeIterable} from './utils';
+import {isAsyncIterable, isIterable, optimizeIterable} from './utils';
 
 /** @hidden */
 export function pipe<T>(i: Iterable<T>): IterableExt<T>;
@@ -216,15 +216,15 @@ export function pipe<T, A, B, C, D, E, F, G, H, I, J>(
     p9: Operation<I, J>
 ): AsyncIterableExt<J>;
 
-export function pipe(
-    i: any,
-    ...p: any[]
-): IterableExt<any> | AsyncIterableExt<any> {
-    if (i[$S]) {
+export function pipe<T>(
+    i: AnyIterable<T>,
+    ...p: Operation<T, T>[]
+): IterableExt<T> | AsyncIterableExt<T> {
+    if (isIterable(i)) {
         // create synchronous pipeline:
         return extendIterable(p.reduce((c, a) => a(c), optimizeIterable(i)));
     }
-    if (i[$A]) {
+    if (isAsyncIterable(i)) {
         // create asynchronous pipeline:
         return extendAsyncIterable(p.reduce((c, a) => a(c), i));
     }

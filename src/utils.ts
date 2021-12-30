@@ -1,4 +1,4 @@
-import {$A, $S, Operation} from './types';
+import {$A, $S, type Operation, type AnyIterable} from './types';
 
 /**
  * Wraps operator signature.
@@ -7,7 +7,7 @@ export function createOperation<T, R>(
     syncFunc: (i: Iterable<T>, ...args: any[]) => Iterable<R>,
     asyncFunc: (i: AsyncIterable<T>, ...args: any[]) => AsyncIterable<R>,
     args?: Iterable<unknown>
-): Operation<T, T> {
+): Operation<T, R> {
     return (i: any) => {
         const func: any = i[$S] ? syncFunc : asyncFunc;
         return func.apply(null, [i, ...(args || [])]);
@@ -114,4 +114,12 @@ export function isIndexed(input: any): boolean {
  */
 export function isPromiseLike(a: any): boolean {
     return a && typeof a.then === 'function';
+}
+
+export function isIterable<T>(i: AnyIterable<T>): i is Iterable<T> {
+    return !!(<Iterable<T>>i)[$S];
+}
+
+export function isAsyncIterable<T>(i: AnyIterable<T>): i is AsyncIterable<T> {
+    return !!(<AsyncIterable<T>>i)[$A];
 }
