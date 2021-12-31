@@ -8,15 +8,15 @@ import {createOperation} from '../utils';
  *
  * @category Sync+Async
  */
-export function reduce<T>(
+export function reduce<T, R = T>(
     cb: (
-        previousValue: T,
+        previousValue: R,
         currentValue: T,
         index: number,
         state: IterationState
-    ) => T,
-    initialValue?: T
-): Operation<T, T>;
+    ) => R,
+    initialValue?: R
+): Operation<T, R>;
 
 export function reduce(...args: unknown[]) {
     return createOperation(reduceSync, reduceAsync, args);
