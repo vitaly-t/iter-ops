@@ -10,6 +10,18 @@ describe('sync filter', () => {
         );
         expect([...output]).to.eql([1, 2, 0]);
     });
+    it('must use type gaurds info to narrow type', () => {
+        const input = [1, 2, null, 4, undefined, 0];
+
+        const output: Iterable<number> = pipe(
+            input,
+            filter(
+                (value): value is NonNullable<typeof value> =>
+                    value !== null && value !== undefined
+            )
+        );
+        expect([...output]).to.eql([1, 2, 4, 0]);
+    });
     it('must reuse the state object', () => {
         const input = 'hello!';
         const arr: number[] = [];
