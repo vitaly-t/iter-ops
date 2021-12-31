@@ -109,7 +109,8 @@ export type AnyIterableIterator<T> = AnyIterable<T> | AnyIterator<T>;
  * Pipe-through type (return type for all operators)
  */
 export interface Operation<T, R> {
-    (i: AnyIterable<T>): Operation<T, R>;
+    (i: Iterable<T>): Iterable<R>;
+    (i: AsyncIterable<T>): AsyncIterable<R>;
 }
 
 /**

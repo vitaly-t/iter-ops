@@ -23,8 +23,8 @@ import {createOperation} from '../utils';
  */
 export function spread<T>(): Operation<Iterable<T> | AsyncIterable<T>, T>;
 
-export function spread(...args: unknown[]) {
-    return createOperation(spreadSync, spreadAsync, args);
+export function spread<T>(...args: unknown[]) {
+    return createOperation<Iterable<T>, T>(spreadSync, spreadAsync, args);
 }
 
 function spreadSync<T>(iterable: Iterable<Iterable<T>>): Iterable<T> {
