@@ -1,3 +1,5 @@
+import {pipeAsync, pipeSync} from './pipe';
+import {concat} from './ops/concat';
 import {
     isAsyncIterable,
     isSyncIterable,
@@ -6,7 +8,7 @@ import {
     isObject,
     isPromiseLike,
 } from './typeguards';
-import {$A, $S, UnknownIterable} from './types';
+import {$A, $S, UnknownIterable, UnknownIterableOrIterator} from './types';
 import {isIndexed, indexedAsyncIterable} from './utils';
 
 /**
@@ -217,4 +219,35 @@ function toSingleAsyncIterable<T>(
             };
         },
     };
+}
+
+/**
+ * Merge multiple iterators and/or iterables in to a single iterable.
+ * Merged inputs are iterated over in the order in which they were specified.
+ *
+ * @see [[concat]]
+ * @category Sync+Async
+ */
+export function mergeIterables<Ts extends [...unknown[]]>(
+    ...iters: {
+        [P in keyof Ts]: UnknownIterableOrIterator<Ts[P]>;
+    }
+) {
+    return pipeSync([], concat(...iters));
+}
+
+/**
+ * Merge multiple async iterators and/or async iterables in to a single async
+ * iterable. Merged inputs are iterated over in the order in which they were
+ * specified.
+ *
+ * @see [[concat]]
+ * @category Sync+Async
+ */
+export function mergeAsyncIterables<Ts extends [...unknown[]]>(
+    ...iters: {
+        [P in keyof Ts]: UnknownIterableOrIterator<Ts[P]>;
+    }
+) {
+    return pipeAsync([], concat(...iters));
 }
