@@ -77,6 +77,7 @@ All standard operators implement the same logic as [Array] does:
   iterators or iterables.
 * [every](http://vitaly-t.github.io/iter-ops/index.html#every) - checks if all elements pass the predicate test.
 * [filter](http://vitaly-t.github.io/iter-ops/index.html#filter) - standard filter processor, filtering by predicate.
+* [join](http://vitaly-t.github.io/iter-ops/index.html#join) - standard join processor, joining by separator.
 * [map](http://vitaly-t.github.io/iter-ops/index.html#map) - standard mapping processor, remapping by predicate.
 * [reduce](http://vitaly-t.github.io/iter-ops/index.html#reduce) - standard reduce processor.
 * [some](http://vitaly-t.github.io/iter-ops/index.html#some) - checks if any element passes the predicate test.
