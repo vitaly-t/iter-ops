@@ -10,7 +10,7 @@ export {
     IterationState,
     Operation,
 } from './types';
-export {toAsync, toIterable} from './helpers';
+export {mergeIterables, toAsync, toIterable} from './helpers';
 export {pipe} from './pipe';
 
 export {aggregate} from './ops/aggregate';
