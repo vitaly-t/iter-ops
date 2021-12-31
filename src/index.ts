@@ -27,6 +27,7 @@ export {filter} from './ops/filter';
 export {first} from './ops/first';
 export {indexBy, IIndexedValue} from './ops/index-by';
 export {isEmpty} from './ops/is-empty';
+export {join} from './ops/join';
 export {last} from './ops/last';
 export {map} from './ops/map';
 export {onEnd, IIterationSummary} from './ops/on-end';
