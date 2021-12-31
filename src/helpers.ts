@@ -1,5 +1,7 @@
 import {isIndexed, indexedAsyncIterable, isPromiseLike} from './utils';
-import {$A, $S} from './types';
+import {$A, $S, Any} from './types';
+import {pipe} from './pipe';
+import {concat} from './ops/concat';
 
 /**
  * Converts any synchronous iterable into asynchronous one.
@@ -161,4 +163,21 @@ export function toIterable<T>(i: any): any {
         };
     }
     return [i]; // a simple value
+}
+
+/**
+ * Merge multiple iterators or iterables in to a single iterable.
+ * Merged inputs are iterated over in the order in which they were specified.
+ *
+ * Note that if you concatenate asynchronous iterables with a synchronous pipeline, they will be processed as simple values.
+ *
+ * @see [[concat]]
+ * @category Sync+Async
+ */
+export function mergeIterables<Ts extends [...unknown[]]>(
+    ...iters: {
+        [P in keyof Ts]: Any<Ts[P]>;
+    }
+) {
+    return pipe([], concat<never, Ts>(...iters));
 }
