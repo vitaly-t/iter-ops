@@ -106,11 +106,14 @@ export type AnyIterator<T> = Iterator<T> | AsyncIterator<T>;
 export type AnyIterableIterator<T> = AnyIterable<T> | AnyIterator<T>;
 
 /**
- * Pipe-through type (return type for all operators)
+ * Pipe-through type.
  */
-export interface Operation<T, R> {
-    (i: AnyIterable<T>): Operation<T, R>;
-}
+export type OperationSync<T, R> = (i: Iterable<T>) => Iterable<R>;
+
+/**
+ * Pipe-through type.
+ */
+export type OperationAsync<T, R> = (i: AsyncIterable<T>) => AsyncIterable<R>;
 
 /**
  * Any synchronous value type.
