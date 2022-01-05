@@ -53,7 +53,7 @@ export function iterateOnce(sync: boolean, cb: () => void) {
  * Tests show that for indexed types, JavaScript performs way better
  * when accessed via index, rather than iterable interface.
  */
-export function optimizeIterable(input: any): Iterable<any> {
+export function optimizeIterable<T>(input: Iterable<T>): Iterable<T> {
     return isIndexed(input) ? indexedIterable(input) : input;
 }
 
