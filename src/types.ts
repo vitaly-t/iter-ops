@@ -123,6 +123,38 @@ export type AnySync<T> = T | Iterator<T> | Iterable<T>;
 export type Any<T> = AnySync<T> | AsyncIterator<T> | AsyncIterable<T>;
 
 /**
+ * Union of a tuple of Any<T>
+ */
+export type UnionAny<Ts extends unknown[]> = UnionAnyHelper<Ts, never>;
+
+/**
+ * Tail-recursive helper type for UnionAny.
+ */
+type UnionAnyHelper<Ts extends unknown[], Acc> = IsTuple<Ts> extends true
+    ? Ts extends readonly [infer Head, ...infer Rest]
+        ? Head extends Any<infer V1>
+            ? Rest extends unknown[]
+                ? UnionAnyHelper<Rest, Acc | V1>
+                : Acc | V1
+            : never
+        : Acc
+    : unknown;
+
+/**
+ * Is the type a tuple?
+ *
+ * Note: this returns true for non-finite tuples. e.g. `[A, B, ...C[]]`.
+ */
+export type IsTuple<T extends Readonly<readonly unknown[]>> =
+    T extends Readonly<readonly []>
+        ? true
+        : T extends Readonly<
+              readonly [unknown, ...Readonly<readonly unknown[]>]
+          >
+        ? true
+        : false;
+
+/**
  * Iteration Session State.
  *
  * An object with random properties, shared between callbacks during an iteration session,
