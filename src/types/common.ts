@@ -109,7 +109,7 @@ export type AnyIterableIterator<T> = AnyIterable<T> | AnyIterator<T>;
  * Pipe-through type (return type for all operators)
  */
 export interface Operation<T, R> {
-    (i: AnyIterable<T>): Operation<T, R>;
+    (i: AnyIterable<T>): AnyIterable<R>;
 }
 
 /**
@@ -131,9 +131,3 @@ export type Any<T> = AnySync<T> | AsyncIterator<T> | AsyncIterable<T>;
  * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iteration-State Iteration State WiKi]]
  */
 export type IterationState = {[name: string]: any};
-
-/**
- * These are for code abbreviation + smaller bundles:
- */
-export const $S: typeof Symbol.iterator = Symbol.iterator;
-export const $A: typeof Symbol.asyncIterator = Symbol.asyncIterator;
