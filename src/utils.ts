@@ -31,7 +31,7 @@ export function throwOnSync<T>(operatorName: string) {
 
 /**
  * Creates a once-off iterator with a callback.
- * It is to help throwing errors when the iteration starts.
+ * It is to help to throw errors when the iteration starts.
  */
 export function iterateOnce(sync: boolean, cb: () => void) {
     const value = undefined;

@@ -17,7 +17,7 @@ import {createOperation} from '../utils';
  * console.log(i.first); //=> true
  * ```
  *
- * @see [[empty]], [[defaultEmpty]]
+ * @see {@link empty}, {@link defaultEmpty}
  * @category Sync+Async
  */
 export function isEmpty<T>(): Operation<T, boolean>;

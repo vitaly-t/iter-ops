@@ -5,7 +5,7 @@ import {createOperation, isPromiseLike, throwOnSync} from '../../utils';
  * When the iterable rejects, retries getting the value specified number of times.
  *
  * Note that retries deplete values prior the operator that threw the error,
- * and so it is often used in combination with operator [[repeat]].
+ * and so it is often used in combination with operator {@link repeat}.
  *
  * ```ts
  * import {pipe, toAsync, tap, retry} from 'iter-ops';
@@ -25,12 +25,12 @@ import {createOperation, isPromiseLike, throwOnSync} from '../../utils';
  * }
  * ```
  *
- * Above, we end up with just odd numbers, because we do not provide any [[repeat]] logic,
+ * Above, we end up with just odd numbers, because we do not provide any {@link repeat} logic,
  * and as a result, the `retry` simply jumps to the next value on each error.
  *
  * The method throws an error during iteration, if inside a synchronous pipeline.
  *
- * @see [[repeat]]
+ * @see {@link repeat}
  * @category Async-only
  */
 export function retry<T>(attempts: number): Operation<T, T>;
@@ -45,11 +45,11 @@ export function retry<T>(attempts: number): Operation<T, T>;
  * - `state` - state for the entire iteration session
  *
  * Note that retries deplete values prior the operator that threw the error,
- * and so it is often used in combination with operator [[repeat]].
+ * and so it is often used in combination with operator {@link repeat}.
  *
  * Throws an error during iteration, if inside a synchronous pipeline.
  *
- * @see [[repeat]]
+ * @see {@link repeat}
  * @category Async-only
  */
 export function retry<T>(

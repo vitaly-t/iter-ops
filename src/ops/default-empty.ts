@@ -25,7 +25,7 @@ import {createOperation} from '../utils';
  *
  * Note that if you add asynchronous defaults into a synchronous pipeline, they will be processed as simple values.
  *
- * @see [[empty]], [[isEmpty]]
+ * @see {@link empty}, {@link isEmpty}
  * @category Sync+Async
  */
 export function defaultEmpty<T, D>(
@@ -35,7 +35,7 @@ export function defaultEmpty<T, D>(
 /**
  * Adds a default iterator to an empty pipeline.
  *
- * @see [[empty]], [[isEmpty]]
+ * @see {@link empty}, {@link isEmpty}
  * @category Sync+Async
  */
 export function defaultEmpty<T, D>(
@@ -45,7 +45,7 @@ export function defaultEmpty<T, D>(
 /**
  * Adds a default value to an empty pipeline.
  *
- * @see [[empty]], [[isEmpty]]
+ * @see {@link empty}, {@link isEmpty}
  * @category Sync+Async
  */
 export function defaultEmpty<T, D>(value: D): Operation<T, T | D>;

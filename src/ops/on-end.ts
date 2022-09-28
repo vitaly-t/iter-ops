@@ -2,7 +2,7 @@ import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Iteration summary, produced by [[onEnd]] operator.
+ * Iteration summary, produced by {@link onEnd} operator.
  */
 export interface IIterationSummary<T> {
     /**
@@ -65,7 +65,7 @@ export interface IIterationSummary<T> {
  * );
  * ```
  *
- * @see [[IIterationSummary]], [[timing]]
+ * @see {@link IIterationSummary}, {@link timing}
  * @category Sync+Async
  */
 export function onEnd<T>(

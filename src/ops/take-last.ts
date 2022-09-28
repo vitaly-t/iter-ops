@@ -15,7 +15,7 @@ import {createOperation} from '../utils';
  * console.log(...i); //=> 4, 5
  * ```
  *
- * @see [[last]], [[take]]
+ * @see {@link last}, {@link take}
  * @category Sync+Async
  */
 export function takeLast<T>(count: number): Operation<T, T>;

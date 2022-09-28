@@ -7,7 +7,7 @@ import {createOperation} from '../utils';
  *
  * The operator doesn't change type of the previous iterable.
  *
- * @see [[drain]], [[isEmpty]], [[defaultEmpty]]
+ * @see {@link drain}, {@link isEmpty}, {@link defaultEmpty}
  * @category Sync+Async
  */
 export function empty<T>(): Operation<T, T>;

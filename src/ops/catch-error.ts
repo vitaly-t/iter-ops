@@ -2,7 +2,7 @@ import {$A, $S, IErrorContext, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Catches iteration errors (see [[https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling]]).
+ * Catches iteration errors (see {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}).
  *
  * What you can do inside the error handler:
  *
@@ -11,7 +11,7 @@ import {createOperation} from '../utils';
  * - re-throw the original error
  * - throw a new error
  *
- * @see [[https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling]]
+ * @see {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}
  * @category Sync+Async
  */
 export function catchError<T>(

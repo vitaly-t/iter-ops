@@ -2,7 +2,7 @@ import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation, isPromiseLike} from '../utils';
 
 /**
- * Pair of `{index, value}` that passed predicate test of [[indexBy]] operator.
+ * Pair of `{index, value}` that passed predicate test of {@link indexBy} operator.
  */
 export interface IIndexedValue<T> {
     /**
@@ -33,7 +33,7 @@ export interface IIndexedValue<T> {
  * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
  * or else the `Promise` will be treated as a truthy value.
  *
- * @see [[IIndexedValue]]
+ * @see {@link IIndexedValue}
  * @category Sync+Async
  */
 export function indexBy<T>(

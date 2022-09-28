@@ -17,7 +17,7 @@ export interface IErrorContext<T> {
     /**
      * Number of times the error has been repeated (starts with 0).
      *
-     * It helps detecting when an iterator starts throwing the same error
+     * It helps to detect when an iterator starts throwing the same error
      * in a loop, so a different error-handling strategy can be applied,
      * such as (for example) re-throwing only when the error is repeated.
      *
@@ -60,7 +60,7 @@ export interface IterableExt<T> extends Iterable<T> {
     readonly first: T | undefined;
 
     /**
-     * Appends [[catchError]] operator to the pipeline.
+     * Appends {@link catchError} operator to the pipeline.
      *
      * @see [[https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling]]
      */
@@ -83,7 +83,7 @@ export interface AsyncIterableExt<T> extends AsyncIterable<T> {
     readonly first: Promise<T | undefined>;
 
     /**
-     * Appends [[catchError]] operator to the pipeline.
+     * Appends {@link catchError} operator to the pipeline.
      *
      * @see [[https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling]]
      */

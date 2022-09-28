@@ -2,7 +2,7 @@ import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Value index details, during [[split]] operation.
+ * Value index details, during {@link split} operation.
  */
 export interface ISplitIndex {
     /**
@@ -27,7 +27,7 @@ export interface ISplitIndex {
 }
 
 /**
- * Set of options that can be passed into [[split]] operator.
+ * Set of options that can be passed into {@link split} operator.
  */
 export interface ISplitOptions {
     /**
@@ -58,7 +58,7 @@ export interface ISplitOptions {
  * Strategy for carrying over split/toggle values.
  * It defines what to do with each value that triggers the split/toggle.
  *
- * Note that [[split]] operator treats this enum in non-strict manner:
+ * Note that {@link split} operator treats this enum in non-strict manner:
  *  - any negative number is treated as `back`
  *  - any positive number is treated as `forward`
  *  - everything else is treated as `none`
@@ -102,7 +102,7 @@ export enum SplitValueCarry {
  * because it would delay emission of the current block indefinitely, plus carrying
  * block start backward doesn't make much sense anyway.
  *
- * @see [[https://github.com/vitaly-t/iter-ops/wiki/Split Split WiKi]], [[page]]
+ * @see {@link https://github.com/vitaly-t/iter-ops/wiki/Split Split WiKi}, {@link page}
  * @category Sync+Async
  */
 export function split<T>(

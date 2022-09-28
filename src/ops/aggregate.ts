@@ -6,9 +6,9 @@ import {createOperation} from '../utils';
  * to process the data and return the result. It is to simplify integration into the pipeline,
  * of external functions that can only operate on a complete data set.
  *
- * If the callback result is an iterable that you want to emit values, follow it up with the [[spread]] operator.
+ * If the callback result is an iterable that you want to emit values, follow it up with the {@link spread} operator.
  *
- * It basically repeats the logic of combining [[toArray]] + [[map]].
+ * It basically repeats the logic of combining {@link toArray} + {@link map}.
  *
  * ```ts
  * import {pipe, aggregate, spread} from 'iter-ops';
@@ -24,7 +24,7 @@ import {createOperation} from '../utils';
  * console.log(...i); //=> 1, 2, 3, 4, 7, 8
  * ```
  *
- * @see [[https://github.com/vitaly-t/iter-ops/wiki/Aggregates Aggregates]]
+ * @see {@link https://github.com/vitaly-t/iter-ops/wiki/Aggregates Aggregates}
  * @category Sync+Async
  */
 export function aggregate<T, R>(cb: (arr: T[]) => R): Operation<T, R>;

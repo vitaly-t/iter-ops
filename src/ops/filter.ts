@@ -4,8 +4,8 @@ import {createOperation, isPromiseLike} from '../utils';
 /**
  * Standard `Array.filter` logic for the iterable, extended with iteration state + async.
  *
- * In the example below, we take advantage of the [[IterationState]], to detect and remove repeated
- * values (do not confuse with [[distinct]], which removes all duplicates).
+ * In the example below, we take advantage of the {@link IterationState}, to detect and remove repeated
+ * values (do not confuse with {@link distinct}, which removes all duplicates).
  *
  * ```ts
  * import {pipe, filter} from 'iter-ops';
