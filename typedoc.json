@@ -1,5 +1,5 @@
 {
-  "name": "ITER-OPS v1.6.3",
+  "name": "ITER-OPS v1.6.4",
   "out": "../iter-ops-docs",
   "excludeExternals": true,
   "excludePrivate": true,
@@ -8,7 +8,7 @@
   "entryPoints": [
     "src/index.ts"
   ],
-  "entryPointStrategy": "Resolve",
+  "entryPointStrategy": "resolve",
   "categoryOrder": [
     "Core",
     "Sync+Async",
