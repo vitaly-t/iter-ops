@@ -4,7 +4,7 @@ import {createOperation} from '../utils';
 /**
  * Accumulates all values and emits an array.
  *
- * @see [[aggregate]]
+ * @see {@link aggregate}
  * @category Sync+Async
  */
 export function toArray<T>(): Operation<T, T[]>;
