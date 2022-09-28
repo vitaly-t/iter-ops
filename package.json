@@ -15,7 +15,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
-    "build": "rollup -c",
+    "build": "rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "check-format": "prettier --list-different \"./**/*.ts\"",
     "check-spelling": "cspell --config=.cspell.json \"**/*.{md,ts}\"",
     "doc": "typedoc --readme none",
