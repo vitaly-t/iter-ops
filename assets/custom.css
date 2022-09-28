@@ -1,28 +1,11 @@
-footer {
-    display: none;
-}
-
 p > code {
-    font-size: 0.9em;
+    padding: 4px 8px;
+    border: 1px solid var(--color-accent);
+    border-radius: 5px;
 }
 
-@media (prefers-color-scheme: light) {
-    p > code {
-        color: crimson;
-        background-color: #F0F0F0;
-    }
-
-    code {
-        color: crimson;
-        font-size: 0.9em;
-        background-color: #F0F0F0;
-    }
-
-    pre > code {
-        background-color: #F0F0F0;
-    }
-
-    pre {
-        background-color: #F0F0F0;
-    }
+li > code {
+    padding: 2px 6px;
+    border: 1px solid var(--color-accent);
+    border-radius: 5px;
 }
