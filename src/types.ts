@@ -62,7 +62,7 @@ export interface IterableExt<T> extends Iterable<T> {
     /**
      * Appends {@link catchError} operator to the pipeline.
      *
-     * @see [[https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling]]
+     * @see {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}
      */
     catch(cb: (error: any, ctx: IErrorContext<T>) => void): IterableExt<T>;
 }
@@ -85,7 +85,7 @@ export interface AsyncIterableExt<T> extends AsyncIterable<T> {
     /**
      * Appends {@link catchError} operator to the pipeline.
      *
-     * @see [[https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling]]
+     * @see {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}
      */
     catch(cb: (error: any, ctx: IErrorContext<T>) => void): AsyncIterableExt<T>;
 }
@@ -128,7 +128,7 @@ export type Any<T> = AnySync<T> | AsyncIterator<T> | AsyncIterable<T>;
  * An object with random properties, shared between callbacks during an iteration session,
  * for any intermediate processing/tracking data that the callback logic may require.
  *
- * @see [[https://github.com/vitaly-t/iter-ops/wiki/Iteration-State Iteration State WiKi]]
+ * @see {@link https://github.com/vitaly-t/iter-ops/wiki/Iteration-State Iteration State WiKi}
  */
 export type IterationState = {[name: string]: any};
 
