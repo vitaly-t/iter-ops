@@ -98,7 +98,9 @@ export type AnyIterable<T> = Iterable<T> | AsyncIterable<T>;
 /**
  * Any-Iterator Type.
  */
-export type AnyIterator<T> = Iterator<T> | AsyncIterator<T>;
+export type AnyIterator<T, TReturn = any, TNext = undefined> =
+    | Iterator<T, TReturn, TNext>
+    | AsyncIterator<T, TReturn, TNext>;
 
 /**
  * Any Iterable Iterator.
