@@ -18,6 +18,20 @@ describe('sync reduce', () => {
         );
         expect(output.first).to.eql(45);
     });
+    it('must be able to convert the type', () => {
+        const input = [
+            [1, 2],
+            [3, 4],
+            [5, 6],
+            [7, 8],
+            [9, 0],
+        ];
+        const output = pipe(
+            input,
+            reduce((c, i) => c + i[0] * i[1], 0)
+        );
+        expect(output.first).to.eql(100);
+    });
     it('must not generate more than one value', () => {
         const input = [1, 2];
         const output = pipe(
