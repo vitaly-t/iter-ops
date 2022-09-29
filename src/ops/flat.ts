@@ -38,7 +38,7 @@ function flatSync<T>(
             let a: IteratorResult<Iterable<T>>,
                 k: Iterator<T>,
                 v: IteratorResult<T>,
-                start = true,
+                start = true, // start of the new value or iterable
                 index = 0;
             return {
                 next(): IteratorResult<T> {
@@ -49,11 +49,8 @@ function flatSync<T>(
                             if (!a.done) {
                                 k = a.value?.[$S]?.();
                                 if (!k) {
-                                    throw new TypeError(
-                                        `Value at index ${index} is not iterable: ${JSON.stringify(
-                                            a.value
-                                        )}`
-                                    );
+                                    // a.value not iterable
+                                    // return ?;
                                 }
                             }
                             index++;
