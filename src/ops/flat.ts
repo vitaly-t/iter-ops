@@ -10,9 +10,10 @@ import {createOperation} from '../utils';
  *
  * const i = pipe(
  *     ['first', 'second'],
- *     spread()
+ *     flat()
  * );
  *
+ * // TODO: What should it really be for strings?
  * console.log(...i); //=> 'f', 'i', 'r', 's', 't', 's', 'e', 'c', 'o', 'n', 'd'
  * ```
  *
