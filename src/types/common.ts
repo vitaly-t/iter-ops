@@ -91,38 +91,40 @@ export interface AsyncIterableExt<T> extends AsyncIterable<T> {
 }
 
 /**
- * Any-Iterable Type.
+ * An `Iterable` that could either be sync or async.
  */
-export type AnyIterable<T> = Iterable<T> | AsyncIterable<T>;
+export type UnknownIterable<T> = Iterable<T> | AsyncIterable<T>;
 
 /**
- * Any-Iterator Type.
+ * An `Iterator` that could either be sync or async.
  */
-export type AnyIterator<T, TReturn = any, TNext = undefined> =
+export type UnknownIterator<T, TReturn = any, TNext = undefined> =
     | Iterator<T, TReturn, TNext>
     | AsyncIterator<T, TReturn, TNext>;
 
 /**
- * Any Iterable Iterator.
+ * Either an `Iterable` or `Iterator` that could either be sync or async.
  */
-export type AnyIterableIterator<T> = AnyIterable<T> | AnyIterator<T>;
+export type UnknownIterableIterator<T> =
+    | UnknownIterable<T>
+    | UnknownIterator<T>;
 
 /**
  * Pipe-through type (return type for all operators)
  */
 export interface Operation<T, R> {
-    (i: AnyIterable<T>): AnyIterable<R>;
+    (i: UnknownIterable<T>): UnknownIterable<R>;
 }
 
 /**
  * Any synchronous value type.
  */
-export type AnySync<T> = T | Iterator<T> | Iterable<T>;
+export type SyncValue<T> = T | Iterator<T> | Iterable<T>;
 
 /**
  * Any synchronous or asynchronous value type.
  */
-export type Any<T> = AnySync<T> | AsyncIterator<T> | AsyncIterable<T>;
+export type Value<T> = SyncValue<T> | AsyncIterator<T> | AsyncIterable<T>;
 
 /**
  * Iteration Session State.

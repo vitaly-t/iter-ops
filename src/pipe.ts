@@ -1,7 +1,7 @@
 import {
     $A,
     $S,
-    AnyIterable,
+    UnknownIterable,
     AsyncIterableExt,
     IterableExt,
     Operation,
@@ -112,7 +112,7 @@ export function pipe<T, A, B, C, D, E, F, G, H, I, J>(
 ): IterableExt<J>;
 
 /** @hidden */
-export function pipe<T>(i: AnyIterable<T>): AsyncIterableExt<T>;
+export function pipe<T>(i: UnknownIterable<T>): AsyncIterableExt<T>;
 
 /**
  * Pipes an `AsyncIterable` through the list of operators, and returns {@link AsyncIterableExt}.
@@ -121,26 +121,26 @@ export function pipe<T>(i: AnyIterable<T>): AsyncIterableExt<T>;
  * @category Core
  */
 export function pipe<T, A>(
-    i: AnyIterable<T>,
+    i: UnknownIterable<T>,
     p0: Operation<T, A>
 ): AsyncIterableExt<A>;
 
 /** @hidden */
 export function pipe<T, A, B>(
-    i: AnyIterable<T>,
+    i: UnknownIterable<T>,
     p0: Operation<T, A>,
     p1: Operation<A, B>
 ): AsyncIterableExt<B>;
 /** @hidden */
 export function pipe<T, A, B, C>(
-    i: AnyIterable<T>,
+    i: UnknownIterable<T>,
     p0: Operation<T, A>,
     p1: Operation<A, B>,
     p2: Operation<B, C>
 ): AsyncIterableExt<C>;
 /** @hidden */
 export function pipe<T, A, B, C, D>(
-    i: AnyIterable<T>,
+    i: UnknownIterable<T>,
     p0: Operation<T, A>,
     p1: Operation<A, B>,
     p2: Operation<B, C>,
@@ -148,7 +148,7 @@ export function pipe<T, A, B, C, D>(
 ): AsyncIterableExt<D>;
 /** @hidden */
 export function pipe<T, A, B, C, D, E>(
-    i: AnyIterable<T>,
+    i: UnknownIterable<T>,
     p0: Operation<T, A>,
     p1: Operation<A, B>,
     p2: Operation<B, C>,
@@ -157,7 +157,7 @@ export function pipe<T, A, B, C, D, E>(
 ): AsyncIterableExt<E>;
 /** @hidden */
 export function pipe<T, A, B, C, D, E, F>(
-    i: AnyIterable<T>,
+    i: UnknownIterable<T>,
     p0: Operation<T, A>,
     p1: Operation<A, B>,
     p2: Operation<B, C>,
@@ -167,7 +167,7 @@ export function pipe<T, A, B, C, D, E, F>(
 ): AsyncIterableExt<F>;
 /** @hidden */
 export function pipe<T, A, B, C, D, E, F, G>(
-    i: AnyIterable<T>,
+    i: UnknownIterable<T>,
     p0: Operation<T, A>,
     p1: Operation<A, B>,
     p2: Operation<B, C>,
@@ -178,7 +178,7 @@ export function pipe<T, A, B, C, D, E, F, G>(
 ): AsyncIterableExt<G>;
 /** @hidden */
 export function pipe<T, A, B, C, D, E, F, G, H>(
-    i: AnyIterable<T>,
+    i: UnknownIterable<T>,
     p0: Operation<T, A>,
     p1: Operation<A, B>,
     p2: Operation<B, C>,
@@ -190,7 +190,7 @@ export function pipe<T, A, B, C, D, E, F, G, H>(
 ): AsyncIterableExt<H>;
 /** @hidden */
 export function pipe<T, A, B, C, D, E, F, G, H, I>(
-    i: AnyIterable<T>,
+    i: UnknownIterable<T>,
     p0: Operation<T, A>,
     p1: Operation<A, B>,
     p2: Operation<B, C>,
@@ -203,7 +203,7 @@ export function pipe<T, A, B, C, D, E, F, G, H, I>(
 ): AsyncIterableExt<I>;
 /** @hidden */
 export function pipe<T, A, B, C, D, E, F, G, H, I, J>(
-    i: AnyIterable<T>,
+    i: UnknownIterable<T>,
     p0: Operation<T, A>,
     p1: Operation<A, B>,
     p2: Operation<B, C>,
