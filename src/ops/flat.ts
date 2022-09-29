@@ -2,12 +2,11 @@ import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Spreads iterable values.
- *
- * The source iterable is expected to emit iterable values only.
+ * Creates a new iterable with all sub-iterable elements concatenated
+ * into it recursively up to the specified depth.
  *
  * ```ts
- * import {pipe, spread} from 'iter-ops';
+ * import {pipe, flat} from 'iter-ops';
  *
  * const i = pipe(
  *     ['first', 'second'],
@@ -17,18 +16,21 @@ import {createOperation} from '../utils';
  * console.log(...i); //=> 'f', 'i', 'r', 's', 't', 's', 'e', 'c', 'o', 'n', 'd'
  * ```
  *
- * It will throw an iteration-time error, if a non-iterable value is encountered,
- * to keep it consistent with JavaScript's native spread operator.
- *
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat Array.prototype.flat()}
  * @category Sync+Async
  */
-export function spread<T>(): Operation<Iterable<T> | AsyncIterable<T>, T>;
+export function flat<T>(
+    depth?: number
+): Operation<Iterable<T> | AsyncIterable<T>, T>;
 
-export function spread(...args: unknown[]) {
-    return createOperation(spreadSync, spreadAsync, args);
+export function flat(...args: unknown[]) {
+    return createOperation(flatSync, flatAsync, args);
 }
 
-function spreadSync<T>(iterable: Iterable<Iterable<T>>): Iterable<T> {
+function flatSync<T>(
+    iterable: Iterable<Iterable<T>>,
+    depth: number = 1
+): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
@@ -70,8 +72,9 @@ function spreadSync<T>(iterable: Iterable<Iterable<T>>): Iterable<T> {
     };
 }
 
-function spreadAsync<T>(
-    iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>
+function flatAsync<T>(
+    iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>,
+    depth: number = 1
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
