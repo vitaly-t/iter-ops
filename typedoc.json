@@ -5,18 +5,10 @@
   "excludePrivate": true,
   "excludeNotDocumented": true,
   "cleanOutputDir": false,
-  "entryPoints": [
-    "src/index.ts"
-  ],
+  "entryPoints": ["src/index.ts"],
   "entryPointStrategy": "resolve",
-  "categoryOrder": [
-    "Core",
-    "Sync+Async",
-    "*"
-  ],
+  "categoryOrder": ["Core", "Sync+Async", "*"],
   "hideGenerator": true,
   "customCss": "./typedoc.css",
-  "exclude": [
-    "./test/*.ts"
-  ]
+  "exclude": ["./test/*.ts"]
 }

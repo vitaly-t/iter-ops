@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": [
-      "ESNext"
-    ],
+    "lib": ["ESNext"],
     "module": "ESNext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
@@ -30,8 +28,5 @@
     // "noPropertyAccessFromIndexSignature": true,
     "pretty": true
   },
-  "exclude": [
-    "./benchmarks",
-    "./dist"
-  ]
+  "exclude": ["./benchmarks", "./dist"]
 }

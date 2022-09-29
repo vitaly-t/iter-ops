@@ -1,5 +1,4 @@
-Async Operators
----------------
+## Async Operators
 
 In this folder, we have operators that can only be added to an asynchronous pipeline.
 
@@ -14,11 +13,11 @@ The same task can be accomplished in a simpler way with other libraries, but tha
 
 **Task**
 
-* We have a list of URL-s, from which we want to fetch some data
-* Data from each URL must be requested in consecutive order (not in parallel)
-* When it fails for a URL, must retry 3 times for it, with delays of 1s, 3s and 5s
-* Report basic confirmation of the data received from each URL
-* Any URL that ultimately failed, must be reported
+-   We have a list of URL-s, from which we want to fetch some data
+-   Data from each URL must be requested in consecutive order (not in parallel)
+-   When it fails for a URL, must retry 3 times for it, with delays of 1s, 3s and 5s
+-   Report basic confirmation of the data received from each URL
+-   Any URL that ultimately failed, must be reported
 
 **Inputs**
 
@@ -28,7 +27,7 @@ Here we define inputs for our task:
 const urls = [
     'http://ip.jsontest.com',
     'https://api.github.com/users/mralexgray/repos',
-    'http://www.invalidaddress.ops' // this one will fail
+    'http://www.invalidaddress.ops', // this one will fail
 ];
 
 const delays = [1000, 3000, 5000]; // delays for each retry, in ms
@@ -44,19 +43,28 @@ import * as axios from 'axios';
 
 const i = pipe(
     toAsync(urls), // making asynchronous
-    map(url => ({url, data: null})), // making trackable
+    map((url) => ({url, data: null})), // making trackable
     repeat((value, _, count) => !value.data && count < delays.length), // repeating while no data and attempts left
-    map(a => a.data ? null : axios.get(a.url)
-        .then(data => {
-            a.data = data;
-            return data;
-        }) // remapping into HTTP requests
+    map(
+        (a) =>
+            a.data
+                ? null
+                : axios.get(a.url).then((data) => {
+                      a.data = data;
+                      return data;
+                  }) // remapping into HTTP requests
     ),
-    filter(a => !!a), // removing null-s from above
+    filter((a) => !!a), // removing null-s from above
     wait(), // resolving promises
-    retry((_, attempts) => new Promise(resolve => {
-        setTimeout(() => resolve(attempts < delays.length), delays[attempts]);
-    })) // set up retries from our list of delays
+    retry(
+        (_, attempts) =>
+            new Promise((resolve) => {
+                setTimeout(
+                    () => resolve(attempts < delays.length),
+                    delays[attempts]
+                );
+            })
+    ) // set up retries from our list of delays
 ).catch((err, ctx) => {
     console.log('Ultimately failed for url:', urls[ctx.index]);
     //=> Ultimately failed for url: http://www.invalidaddress.ops
@@ -66,7 +74,7 @@ const i = pipe(
 **Running**
 
 ```ts
-for await(const a of i) {
+for await (const a of i) {
     console.log(a?.data?.length || a?.data); // some URL data, for success confirmation
 }
 ```
@@ -90,4 +98,4 @@ Here's what we are doing above, step by step...
 7. `retry` - we set up our retries, from the list of `delays`
 8. We add `catch` error handler in the end - see [Error Handling].
 
-[Error Handling]:https://github.com/vitaly-t/iter-ops/wiki/Error-Handling
+[error handling]: https://github.com/vitaly-t/iter-ops/wiki/Error-Handling
