@@ -2,39 +2,6 @@
   "name": "iter-ops",
   "version": "2.0.0-beta.1",
   "description": "Basic operations on iterables",
-  "sideEffects": false,
-  "exports": {
-    "types": "./dist/index.d.ts",
-    "import": "./dist/index.mjs",
-    "require": "./dist/index.js",
-    "default": "./dist/index.js"
-  },
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "clean": "rimraf dist",
-    "prebuild": "npm run clean",
-    "build": "rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
-    "check-format": "prettier --list-different \"./**/*.ts\"",
-    "check-spelling": "cspell --config=.cspell.json \"**/*.{md,ts}\"",
-    "doc": "typedoc --readme none",
-    "format": "prettier --write \"./**/*.{json,yml,md,ts}\"",
-    "lint": "eslint .",
-    "test": "cross-env TS_NODE_PROJECT=tsconfig.test.json nyc mocha -r ts-node/register 'test/**/*.spec.ts'"
-  },
-  "files": [
-    "dist"
-  ],
-  "homepage": "https://github.com/vitaly-t/iter-ops",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/vitaly-t/iter-ops.git"
-  },
-  "bugs": {
-    "url": "https://github.com/vitaly-t/iter-ops/issues",
-    "email": "vitaly.tomilov@gmail.com"
-  },
   "keywords": [
     "typescript",
     "synchronous",
@@ -47,6 +14,16 @@
     "filter",
     "reduce"
   ],
+  "homepage": "https://github.com/vitaly-t/iter-ops",
+  "bugs": {
+    "url": "https://github.com/vitaly-t/iter-ops/issues",
+    "email": "vitaly.tomilov@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vitaly-t/iter-ops.git"
+  },
+  "license": "MIT",
   "author": {
     "name": "Vitaly Tomilov",
     "email": "vitaly.tomilov@gmail.com"
@@ -61,9 +38,29 @@
       "email": "rebecca.stevens@outlook.co.nz"
     }
   ],
-  "license": "MIT",
-  "engines": {
-    "node": ">=14"
+  "sideEffects": false,
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js",
+    "default": "./dist/index.js"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "check-format": "prettier --list-different \"./**/*.ts\"",
+    "check-spelling": "cspell --config=.cspell.json \"**/*.{md,ts}\"",
+    "clean": "rimraf dist",
+    "doc": "typedoc --readme none",
+    "format": "prettier --write \"./**/*.{json,yml,md,ts}\"",
+    "lint": "eslint .",
+    "test": "cross-env TS_NODE_PROJECT=tsconfig.test.json nyc mocha -r ts-node/register 'test/**/*.spec.ts'"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "1.0.2",
@@ -96,5 +93,8 @@
     "typedoc": "0.23.15",
     "typescript": "4.8.4"
   },
-  "packageManager": "yarn@3.2.3"
+  "packageManager": "yarn@3.2.3",
+  "engines": {
+    "node": ">=14"
+  }
 }

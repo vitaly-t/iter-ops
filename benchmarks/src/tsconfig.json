@@ -5,7 +5,5 @@
     "declaration": true,
     "strict": true
   },
-  "include": [
-    "./**/*.ts"
-  ]
+  "include": ["./**/*.ts"]
 }

@@ -7,7 +7,7 @@
     "**/dist/**",
     "**/*.{json}",
     ".cspell.json",
-    ".github/workflows/**",
+    ".github/workflows/**"
   ],
   "dictionaries": [
     "typescript",
@@ -26,17 +26,11 @@
     "\\(#.+?\\)",
     "// @ts-.*"
   ],
-  "words": [
-    "typeguard",
-    "typeguards"
-  ],
+  "words": ["typeguard", "typeguards"],
   "overrides": [
     {
       "filename": "**/*.{ts,js}",
-      "ignoreRegExpList": [
-        "/@[a-z]+/",
-        "/#(end)?region/"
-      ],
+      "ignoreRegExpList": ["/@[a-z]+/", "/#(end)?region/"],
       "includeRegExpList": [
         "/\\/\\*[\\s\\S]*?\\*\\/|([^\\\\:]|^)\\/\\/.*$/",
         "/(\\/\\/[^\\n\\r]*[\\n\\r]+)/"
