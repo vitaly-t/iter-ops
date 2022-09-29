@@ -19,7 +19,7 @@
     "check-format": "prettier --list-different \"./**/*.ts\"",
     "check-spelling": "cspell --config=.cspell.json \"**/*.{md,ts}\"",
     "doc": "typedoc --readme none",
-    "format": "prettier --write \"./**/*.ts\"",
+    "format": "prettier --write \"./**/*.{json,yml,md,ts}\"",
     "lint": "eslint .",
     "test": "cross-env TS_NODE_PROJECT=tsconfig.test.json nyc mocha -r ts-node/register 'test/**/*.spec.ts'"
   },
@@ -84,6 +84,7 @@
     "mocha": "10.0.0",
     "nyc": "15.1.0",
     "prettier": "2.7.1",
+    "prettier-plugin-packagejson": "2.2.18",
     "rimraf": "3.0.2",
     "rollup": "2.79.1",
     "rollup-plugin-auto-external": "2.0.0",

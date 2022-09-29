@@ -1,6 +1,16 @@
 {
-  "tabWidth": 4,
-  "singleQuote": true,
-  "semi": true,
-  "bracketSpacing": false
+    "$schema": "http://json.schemastore.org/prettierrc",
+    "plugins": ["prettier-plugin-packagejson"],
+    "bracketSpacing": false,
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 4,
+    "overrides": [
+        {
+            "files": "*.{json,yml}",
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ]
 }
