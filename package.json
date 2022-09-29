@@ -1,6 +1,6 @@
 {
   "name": "iter-ops",
-  "version": "1.6.4",
+  "version": "2.0.0-beta.1",
   "description": "Basic operations on iterables",
   "sideEffects": false,
   "exports": {
