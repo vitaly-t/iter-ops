@@ -1,4 +1,4 @@
-import {$A, $S, Any, AnySync, Operation} from '../types';
+import {$A, $S, Value, SyncValue, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -22,7 +22,7 @@ export function concat(...args: unknown[]) {
 
 function concatSync<T>(
     iterable: Iterable<T>,
-    ...values: AnySync<T>[]
+    ...values: SyncValue<T>[]
 ): Iterable<any> {
     return {
         [$S](): Iterator<T> {
@@ -67,7 +67,7 @@ function concatSync<T>(
 
 function concatAsync<T>(
     iterable: AsyncIterable<T>,
-    ...values: Any<T>[]
+    ...values: Value<T>[]
 ): AsyncIterable<any> {
     return {
         [$A](): AsyncIterator<T> {

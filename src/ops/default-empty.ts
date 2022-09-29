@@ -1,8 +1,8 @@
 import {
-    Any,
-    AnySync,
-    AnyIterable,
-    AnyIterator,
+    Value,
+    SyncValue,
+    UnknownIterable,
+    UnknownIterator,
     Operation,
     $S,
     $A,
@@ -29,7 +29,7 @@ import {createOperation} from '../utils';
  * @category Sync+Async
  */
 export function defaultEmpty<T, D>(
-    iterable: AnyIterable<D>
+    iterable: UnknownIterable<D>
 ): Operation<T, T | D>;
 
 /**
@@ -39,7 +39,7 @@ export function defaultEmpty<T, D>(
  * @category Sync+Async
  */
 export function defaultEmpty<T, D>(
-    iterator: AnyIterator<D>
+    iterator: UnknownIterator<D>
 ): Operation<T, T | D>;
 
 /**
@@ -56,7 +56,7 @@ export function defaultEmpty(...args: unknown[]) {
 
 function defaultEmptySync<T, D>(
     iterable: Iterable<T>,
-    value: AnySync<D>
+    value: SyncValue<D>
 ): Iterable<T | D> {
     return {
         [$S](): Iterator<T | D> {
@@ -101,7 +101,7 @@ function defaultEmptySync<T, D>(
 
 function defaultEmptyAsync<T, D>(
     iterable: AsyncIterable<T>,
-    value: Any<D>
+    value: Value<D>
 ): AsyncIterable<T | D> {
     return {
         [$A](): AsyncIterator<T | D> {

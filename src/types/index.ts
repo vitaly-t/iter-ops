@@ -2,12 +2,12 @@ export {
     IErrorContext,
     IterableExt,
     AsyncIterableExt,
-    AnyIterable,
-    AnyIterator,
-    AnyIterableIterator,
+    UnknownIterable,
+    UnknownIterator,
+    UnknownIterableIterator,
     Operation,
-    AnySync,
-    Any,
+    SyncValue,
+    Value,
     IterationState,
 } from './common';
 
