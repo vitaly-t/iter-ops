@@ -22,7 +22,7 @@ import {createOperation} from '../utils';
  */
 export function flat<T>(
     depth?: number
-): Operation<Iterable<T> | AsyncIterable<T>, T>;
+): Operation<Iterable<T | Iterable<T>> | AsyncIterable<T>, T>;
 
 export function flat(...args: unknown[]) {
     return createOperation(flatSync, flatAsync, args);
@@ -31,39 +31,34 @@ export function flat(...args: unknown[]) {
 function flatSync<T>(
     iterable: Iterable<Iterable<T>>,
     depth: number = 1
-): Iterable<T> {
+): Iterable<T | Iterable<T>> {
+    // TODO: This one now works!
     return {
-        [$S](): Iterator<T> {
-            const i = iterable[$S]();
-            let a: IteratorResult<Iterable<T>>,
-                k: Iterator<T>,
-                v: IteratorResult<T>,
-                start = true, // start of the new value or iterable
-                index = 0;
+        [$S](): Iterator<T | Iterable<T>> {
+            const d: Iterator<T | Iterable<T>>[] = new Array(depth + 1);
+            d[0] = iterable[$S]();
+            let level = 0;
+            let i: IteratorResult<T | Iterable<T>>;
             return {
-                next(): IteratorResult<T> {
+                next(): IteratorResult<T | Iterable<T>> {
                     do {
-                        if (start) {
-                            a = i.next();
-                            start = false;
-                            if (!a.done) {
-                                k = a.value?.[$S]?.();
-                                if (!k) {
-                                    // a.value not iterable
-                                    // return ?;
-                                }
+                        i = d[level].next();
+                        if (i.done) {
+                            if (!level) {
+                                return i;
                             }
-                            index++;
+                            level--;
+                            continue;
                         }
-                        if (!a.done) {
-                            v = k.next();
-                            if (!v.done) {
-                                return v;
-                            }
-                            start = true;
+                        if (level >= depth) {
+                            return {value: i.value, done: false};
                         }
-                    } while (!a.done);
-                    return a;
+                        const k = (i.value as Iterable<T>)?.[$S]?.();
+                        if (!k) {
+                            return {value: i.value, done: false};
+                        }
+                        d[++level] = k;
+                    } while (true);
                 },
             };
         },
@@ -74,6 +69,7 @@ function flatAsync<T>(
     iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>,
     depth: number = 1
 ): AsyncIterable<T> {
+    // TODO: This one is yet to be written!
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();

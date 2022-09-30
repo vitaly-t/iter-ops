@@ -18,6 +18,17 @@ describe('sync flat', () => {
         );
         expect([...output]).to.eql([1, 2, 3, 4]);
     });
+    it('must split nested arrays', () => {
+        const output = pipe(
+            [
+                [1, 2],
+                [3, [4, 5], 6],
+            ],
+            flat(3)
+        );
+        expect([...output]).to.eql([1, 2, 3, 4, 5, 6]);
+    });
+
     it('must handle empty iterables', () => {
         const output1 = pipe([], flat());
         const output2 = pipe([[]], flat());
