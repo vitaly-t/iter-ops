@@ -18,7 +18,11 @@ import {createOperation} from '../utils';
  * It implements the logic consistent with {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat Array.prototype.flat()},
  * handling non-iterable values without throwing errors (unlike {@link spread}), and with optional `depth` support.
  *
- * Compare to a more strict {@link spread} operator.
+ * Note that when handling a synchronous iterable, this operator can only expand synchronous sub-iterables.
+ * But when handling an asynchronous iterable, it can expand mixed sub-iterables, i.e. any combination of
+ * synchronous and asynchronous sub-iterables.
+ *
+ * Compare it to a more strict {@link spread} operator.
  *
  * @see
  *  - {@link spread}
