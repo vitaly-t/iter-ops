@@ -3,9 +3,12 @@ import {$A, $S, Operation} from './types';
 /**
  * Wraps operator signature.
  */
-export function createOperation<T, R>(
+export function createOperation<T, AsyncT, R, AsyncR = R>(
     syncFunc: (i: Iterable<T>, ...args: any[]) => Iterable<R>,
-    asyncFunc: (i: AsyncIterable<T>, ...args: any[]) => AsyncIterable<R>,
+    asyncFunc: (
+        i: AsyncIterable<AsyncT>,
+        ...args: any[]
+    ) => AsyncIterable<AsyncR>,
     args?: Iterable<unknown>
 ): Operation<T, T> {
     return (i: any) => {

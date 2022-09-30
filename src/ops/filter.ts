@@ -1,4 +1,4 @@
-import {$A, $S, IterationState, Operation} from '../types';
+import {$A, $S, IterationState, Operation, SyncOperation} from '../types';
 import {isPromiseLike} from '../typeguards';
 import {createOperation} from '../utils';
 
@@ -26,7 +26,7 @@ import {createOperation} from '../utils';
  */
 export function filter<T, S extends T = T>(
     cb: (value: T, index: number, state: IterationState) => value is S
-): Operation<T, S>;
+): SyncOperation<T, S>;
 
 /**
  * Standard `Array.filter` logic for the iterable, extended with iteration state + async.

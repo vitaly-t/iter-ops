@@ -40,7 +40,7 @@ export function flat<T>(
 >;
 
 export function flat(...args: unknown[]) {
-    return createOperation(flatSync, flatAsync, args);
+    return createOperation(flatSync as any, flatAsync as any, args);
 }
 
 function flatSync<T>(
