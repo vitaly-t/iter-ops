@@ -13,7 +13,6 @@ import {createOperation} from '../utils';
  *     flat()
  * );
  *
- * // TODO: What should it really be for strings?
  * console.log(...i); //=> 'f', 'i', 'r', 's', 't', 's', 'e', 'c', 'o', 'n', 'd'
  * ```
  *
@@ -67,7 +66,7 @@ function flatAsync<T>(
     iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>,
     depth: number = 1
 ): AsyncIterable<T | Iterable<T>> {
-    // TODO: This one is under development!
+    type AnyValue = T | Iterator<T> | AsyncIterator<T>;
     return {
         [$A](): AsyncIterator<T> {
             const d: { i: any, sync: boolean }[] = new Array(depth + 1);
@@ -77,27 +76,26 @@ function flatAsync<T>(
                 next(): Promise<IteratorResult<T>> {
                     const i = d[level].i.next();
                     if (d[level].sync) {
-                        do {
-                            if (i.done) {
-                                level--;
-                                return this.next();
-                            }
-                            if (level === depth) {
-                                return i; // maximum depth reached
-                            }
-                            let k: any = i.value?.[$S]?.();
-                            let sync = true;
+                        if (i.done) {
+                            level--;
+                            return this.next();
+                        }
+                        if (level === depth) {
+                            return Promise.resolve(i); // maximum depth reached
+                        }
+                        let k: AnyValue = i.value?.[$S]?.();
+                        let sync = true;
+                        if (!k) {
+                            k = i.value?.[$A]?.();
                             if (!k) {
-                                k = i.value?.[$A]?.();
-                                if (!k) {
-                                    return i;
-                                }
-                                sync = false;
+                                return Promise.resolve(i);
                             }
-                            d[++level] = {i: k, sync};
-                        } while (true);
+                            sync = false;
+                        }
+                        d[++level] = {i: k, sync};
+                        return this.next();
                     }
-                    return i.then((a: IteratorResult<any>) => {
+                    return i.then((a: IteratorResult<T | Iterable<T> | AsyncIterable<T>>) => {
                         if (a.done) {
                             if (!level) {
                                 return a;
@@ -108,10 +106,10 @@ function flatAsync<T>(
                         if (level === depth) {
                             return a; // maximum depth reached
                         }
-                        let k = a.value?.[$A]?.();
+                        let k: AnyValue = (a.value as AsyncIterable<T>)?.[$A]?.();
                         let sync = false;
                         if (!k) {
-                            k = a.value?.[$S]?.();
+                            k = (a.value as Iterable<T>)?.[$S]?.();
                             if (!k) {
                                 return a;
                             }

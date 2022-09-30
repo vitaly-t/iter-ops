@@ -1,5 +1,6 @@
 import {_async, _asyncValues, expect} from './header';
 import {flat, pipe} from '../src';
+import {toIterable} from "../dist";
 
 describe('sync flat', () => {
     // TODO: The first test is already undecided, because Array.prototype.flat() does not split strings, for example.
@@ -8,7 +9,7 @@ describe('sync flat', () => {
         const output = pipe(['one', 'two'], flat());
         expect([...output]).to.eql(['o', 'n', 'e', 't', 'w', 'o']);
     });
-    it('must split arrays', () => {
+    it('must flatten arrays', () => {
         const output = pipe(
             [
                 [1, 2],
@@ -18,13 +19,13 @@ describe('sync flat', () => {
         );
         expect([...output]).to.eql([1, 2, 3, 4]);
     });
-    it('must split nested arrays', () => {
+    it('must flatten nested arrays', () => {
         const output = pipe(
             [
                 [1, 2],
                 [3, [4, 5], 6],
             ],
-            flat(3)
+            flat(2)
         );
         expect([...output]).to.eql([1, 2, 3, 4, 5, 6]);
     });
@@ -46,9 +47,8 @@ describe('sync flat', () => {
 });
 
 describe('async flat', () => {
-    /*
     it('must flatten strings', async () => {
-        const output = pipe(_async(['one', 'two']), flat());
+        const output = pipe(_async(['one', _async('two'), 'three']), flat());
         expect(await _asyncValues(output)).to.eql([
             'o',
             'n',
@@ -56,12 +56,27 @@ describe('async flat', () => {
             't',
             'w',
             'o',
+            't',
+            'h',
+            'r',
+            'e',
+            'e'
         ]);
     });
-    it('must split arrays', async () => {
+    it('must flatten arrays', async () => {
         const second = _async([3, 4]);
         const output = pipe(_async([[1, 2], second]), flat());
         expect(await _asyncValues(output)).to.eql([1, 2, 3, 4]);
+    });
+    it('must flatten nested arrays', async () => {
+        const output = pipe(
+            _async([
+                [1, 2],
+                [3, [4, 5], 6],
+            ]),
+            flat(2)
+        );
+        expect(await _asyncValues(output)).to.eql([1, 2, 3, 4, 5, 6]);
     });
     it('must handle empty iterables', async () => {
         const output1 = pipe(_async([]), flat());
@@ -76,5 +91,5 @@ describe('async flat', () => {
     it('must find values after empty', async () => {
         const output = pipe(_async([[], [1]]), flat());
         expect(await _asyncValues(output)).to.eql([1]);
-    });*/
+    });
 });
