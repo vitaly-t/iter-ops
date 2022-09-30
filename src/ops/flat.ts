@@ -37,11 +37,10 @@ function flatSync<T>(
             const d: Iterator<T | Iterable<T>>[] = new Array(depth + 1);
             d[0] = iterable[$S]();
             let level = 0;
-            let i: IteratorResult<T | Iterable<T>>;
             return {
                 next(): IteratorResult<T | Iterable<T>> {
                     do {
-                        i = d[level].next();
+                        const i = d[level].next();
                         if (i.done) {
                             if (!level) {
                                 return i;
@@ -68,18 +67,58 @@ function flatAsync<T>(
     iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>,
     depth: number = 1
 ): AsyncIterable<T | Iterable<T>> {
-    // TODO: This one is yet to be written!
+    // TODO: This one is under development!
     return {
         [$A](): AsyncIterator<T> {
-            const d: AsyncIterator<T | Iterable<T> | AsyncIterable<T>>[] = new Array(depth + 1);
-            d[0] = iterable[$A]();
+            const d: { i: any, sync: boolean }[] = new Array(depth + 1);
+            d[0] = {i: iterable[$A](), sync: false};
             let level = 0;
-            let i: IteratorResult<T | Iterable<T>>;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    return d[level].next().then((a: IteratorResult<any>) => {
-                        // TODO: Implementation pending
-                        return Promise.resolve({value: undefined, done: true});
+                    const i = d[level].i.next();
+                    if (d[level].sync) {
+                        do {
+                            if (i.done) {
+                                level--;
+                                return this.next();
+                            }
+                            if (level === depth) {
+                                return i; // maximum depth reached
+                            }
+                            let k: any = i.value?.[$S]?.();
+                            let sync = true;
+                            if (!k) {
+                                k = i.value?.[$A]?.();
+                                if (!k) {
+                                    return i;
+                                }
+                                sync = false;
+                            }
+                            d[++level] = {i: k, sync};
+                        } while (true);
+                    }
+                    return i.then((a: IteratorResult<any>) => {
+                        if (a.done) {
+                            if (!level) {
+                                return a;
+                            }
+                            level--;
+                            return this.next();
+                        }
+                        if (level === depth) {
+                            return a; // maximum depth reached
+                        }
+                        let k = a.value?.[$A]?.();
+                        let sync = false;
+                        if (!k) {
+                            k = a.value?.[$S]?.();
+                            if (!k) {
+                                return a;
+                            }
+                            sync = true;
+                        }
+                        d[++level] = {i: k, sync};
+                        return this.next();
                     });
                 }
             };
