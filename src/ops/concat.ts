@@ -15,8 +15,8 @@ import {createOperation} from '../utils';
  *
  * Note that if you concatenate asynchronous iterables with a synchronous pipeline, they will be processed as simple values.
  *
- * @see: [Array.concat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat)
- *
+ * @see
+ *  - [Array.concat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat)
  * @category Sync+Async
  */
 export function concat<T, Vs extends readonly unknown[]>(

@@ -4,8 +4,8 @@ import {createOperation} from '../utils';
 /**
  * Standard `Array.map` logic for the iterable, extended for supporting iteration state.
  *
- * @see [Array.map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
- *
+ * @see
+ *  - [Array.map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
  * @category Sync+Async
  */
 export function map<T, R>(

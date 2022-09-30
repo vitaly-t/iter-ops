@@ -24,7 +24,8 @@ import {createOperation} from '../utils';
  * console.log(...i); //=> 1, 2, 3, 4, 7, 8
  * ```
  *
- * @see {@link https://github.com/vitaly-t/iter-ops/wiki/Aggregates Aggregates}
+ * @see
+ *  - {@link https://github.com/vitaly-t/iter-ops/wiki/Aggregates Aggregates}
  * @category Sync+Async
  */
 export function aggregate<T, R>(cb: (arr: T[]) => R): Operation<T, R>;

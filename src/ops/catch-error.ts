@@ -11,7 +11,8 @@ import {createOperation} from '../utils';
  * - re-throw the original error
  * - throw a new error
  *
- * @see {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}
+ * @see
+ *  - {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}
  * @category Sync+Async
  */
 export function catchError<T>(
