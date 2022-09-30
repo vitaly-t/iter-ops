@@ -32,7 +32,6 @@ function flatSync<T>(
     iterable: Iterable<Iterable<T>>,
     depth: number = 1
 ): Iterable<T | Iterable<T>> {
-    // TODO: This one now works!
     return {
         [$S](): Iterator<T | Iterable<T>> {
             const d: Iterator<T | Iterable<T>>[] = new Array(depth + 1);
@@ -50,12 +49,12 @@ function flatSync<T>(
                             level--;
                             continue;
                         }
-                        if (level >= depth) {
-                            return {value: i.value, done: false};
+                        if (level === depth) {
+                            return i; // maximum depth reached
                         }
                         const k = (i.value as Iterable<T>)?.[$S]?.();
                         if (!k) {
-                            return {value: i.value, done: false};
+                            return i;
                         }
                         d[++level] = k;
                     } while (true);
