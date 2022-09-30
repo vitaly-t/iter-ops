@@ -2,6 +2,8 @@ import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
+ * **New in v2.0.0**
+ *
  * Expands / flattens sub-iterables up to the specified `depth` (default is 1).
  *
  * ```ts
