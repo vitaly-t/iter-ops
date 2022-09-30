@@ -16,15 +16,15 @@ describe('sync flat', () => {
         );
         expect([...output]).to.eql([1, 2, 3, 4]);
     });
-    it('must flatten nested arrays', () => {
+    it('must flatten nested arrays to specified depth', () => {
         const output = pipe(
             [
                 [1, 2],
-                [3, [4, 5], 6],
+                [3, [4, [5, 6], 7]],
             ],
             flat(2)
         );
-        expect([...output]).to.eql([1, 2, 3, 4, 5, 6]);
+        expect([...output]).to.eql([1, 2, 3, 4, [5, 6], 7]);
     });
 
     it('must handle empty iterables', () => {
@@ -61,19 +61,43 @@ describe('async flat', () => {
         ]);
     });
     it('must flatten arrays', async () => {
-        const second = _async([3, 4]);
-        const output = pipe(_async([[1, 2], second]), flat());
+        const output = pipe(_async([[1, 2], _async([3, 4])]), flat());
         expect(await _asyncValues(output)).to.eql([1, 2, 3, 4]);
     });
-    it('must flatten nested arrays', async () => {
+    it('must flatten mixed iterables', async () => {
+        const output1 = pipe(_async<any>([[1, 2], 3, [4, 5]]), flat());
+        expect(await _asyncValues(output1), 'sync inside async').to.eql([
+            1, 2, 3, 4, 5,
+        ]);
+        const input = _async<any>([
+            [1, 2],
+            [_async([3, 4])],
+            [5, 6, [_async([7, 8])]],
+        ]);
+        const output2 = pipe(input, flat(2));
+        const output3 = pipe(input, flat(3));
+        expect(await _asyncValues(output2), 'async inside sync').to.eql([
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            {},
+        ]);
+        expect(await _asyncValues(output3), 'async inside sync').to.eql([
+            1, 2, 3, 4, 5, 6, 7, 8,
+        ]);
+    });
+    it('must flatten nested arrays to specified depth', async () => {
         const output = pipe(
             _async([
                 [1, 2],
-                [3, [4, 5], 6],
+                [3, [4, [5, 6], 7]],
             ]),
             flat(2)
         );
-        expect(await _asyncValues(output)).to.eql([1, 2, 3, 4, 5, 6]);
+        expect(await _asyncValues(output)).to.eql([1, 2, 3, 4, [5, 6], 7]);
     });
     it('must handle empty iterables', async () => {
         const output1 = pipe(_async([]), flat());
