@@ -67,55 +67,21 @@ function flatSync<T>(
 function flatAsync<T>(
     iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>,
     depth: number = 1
-): AsyncIterable<T> {
+): AsyncIterable<T | Iterable<T>> {
     // TODO: This one is yet to be written!
     return {
         [$A](): AsyncIterator<T> {
-            const i = iterable[$A]();
-            let k: any,
-                start = true,
-                index = 0,
-                sync: boolean;
+            const d: AsyncIterator<T | Iterable<T> | AsyncIterable<T>>[] = new Array(depth + 1);
+            d[0] = iterable[$A]();
+            let level = 0;
+            let i: IteratorResult<T | Iterable<T>>;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    const nextValue = (
-                        wrap: boolean
-                    ): Promise<IteratorResult<T>> => {
-                        const out = (v: IteratorResult<T>) => {
-                            if (!v.done) {
-                                return sync && wrap ? Promise.resolve(v) : v;
-                            }
-                            start = true;
-                            return this.next();
-                        };
-                        const r = k.next();
-                        return sync ? out(r) : r.then(out);
-                    };
-                    if (start) {
-                        start = false;
-                        return i.next().then((a: IteratorResult<any>) => {
-                            if (a.done) {
-                                return a;
-                            }
-                            sync = true;
-                            k = a.value?.[$S]?.();
-                            if (!k) {
-                                sync = false;
-                                k = a.value?.[$A]?.();
-                            }
-                            if (!k) {
-                                throw new TypeError(
-                                    `Value at index ${index} is not iterable: ${JSON.stringify(
-                                        a.value
-                                    )}`
-                                );
-                            }
-                            index++;
-                            return nextValue(false);
-                        });
-                    }
-                    return nextValue(true);
-                },
+                    return d[level].next().then((a: IteratorResult<any>) => {
+                        // TODO: Implementation pending
+                        return Promise.resolve({value: undefined, done: true});
+                    });
+                }
             };
         },
     };
