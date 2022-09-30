@@ -2,21 +2,27 @@ import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Creates a new iterable with all sub-iterable elements concatenated
- * into it recursively up to the specified depth.
+ * Expands / flattens sub-iterables up to the specified `depth` (default is 1).
  *
  * ```ts
  * import {pipe, flat} from 'iter-ops';
  *
  * const i = pipe(
- *     ['first', 'second'],
- *     flat()
+ *     ['one', [2, 3, [4, 5]]],
+ *     flat(2)
  * );
  *
- * console.log(...i); //=> 'f', 'i', 'r', 's', 't', 's', 'e', 'c', 'o', 'n', 'd'
+ * console.log(...i); //=> 'o', 'n', 'e', 2, 3, 4, 5
  * ```
  *
- * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat Array.prototype.flat()}
+ * It implements the logic consistent with {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat Array.prototype.flat()},
+ * handling non-iterable values without throwing errors (unlike {@link spread}), and with optional `depth` support.
+ *
+ * Compare to a more strict {@link spread} operator.
+ *
+ * @see
+ *  - {@link spread}
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat Array.prototype.flat()}
  * @category Sync+Async
  */
 export function flat<T>(

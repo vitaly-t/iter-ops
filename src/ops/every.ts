@@ -22,7 +22,9 @@ import {createOperation, isPromiseLike} from '../utils';
  * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
  * or else the `Promise` will be treated as a truthy value.
  *
- * @see [Array.every](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every), {@link some}
+ * @see
+ *  - [Array.every](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every)
+ *  - {@link some}
  * @category Sync+Async
  */
 export function every<T>(

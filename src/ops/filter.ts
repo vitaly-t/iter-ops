@@ -19,7 +19,8 @@ import {createOperation, isPromiseLike} from '../utils';
  * Give a :+1: to the [Asynchronous Type Guards issue](https://github.com/microsoft/TypeScript/issues/37681)
  * if you want support for this.
  *
- * @see [Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+ * @see
+ *  - [Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
  * @category Sync
  */
 export function filter<T, S extends T = T>(
@@ -50,7 +51,8 @@ export function filter<T, S extends T = T>(
  * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
  * or else the `Promise` will be treated as a truthy value.
  *
- * @see [Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+ * @see
+ *  - [Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
  * @category Sync+Async
  */
 export function filter<T>(
