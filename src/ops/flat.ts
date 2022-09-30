@@ -42,7 +42,7 @@ function flatSync<T>(
                         const v = d[level].next(); // next value
                         if (v.done) {
                             if (!level) {
-                                return v;
+                                return v; // we are finished
                             }
                             level--; // back to upper level
                             continue;
@@ -52,7 +52,7 @@ function flatSync<T>(
                         }
                         const i = (v.value as Iterable<T>)?.[$S]?.();
                         if (!i) {
-                            return v;
+                            return v; // non-iterable value
                         }
                         d[++level] = i;
                     } while (true);
@@ -98,7 +98,7 @@ function flatAsync<T>(
                     return v.then((a: IteratorResult<T | Iterable<T> | AsyncIterable<T>>) => {
                         if (a.done) {
                             if (!level) {
-                                return a;
+                                return a; // we are finished
                             }
                             level--; // back to upper level
                             return this.next();
