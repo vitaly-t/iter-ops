@@ -39,22 +39,22 @@ function flatSync<T>(
             return {
                 next(): IteratorResult<T | Iterable<T>> {
                     do {
-                        const i = d[level].next();
-                        if (i.done) {
+                        const v = d[level].next(); // next value
+                        if (v.done) {
                             if (!level) {
-                                return i;
+                                return v;
                             }
-                            level--;
+                            level--; // back to upper level
                             continue;
                         }
                         if (level === depth) {
-                            return i; // maximum depth reached
+                            return v; // maximum depth reached
                         }
-                        const k = (i.value as Iterable<T>)?.[$S]?.();
-                        if (!k) {
-                            return i;
+                        const i = (v.value as Iterable<T>)?.[$S]?.();
+                        if (!i) {
+                            return v;
                         }
-                        d[++level] = k;
+                        d[++level] = i;
                     } while (true);
                 },
             };
@@ -74,48 +74,48 @@ function flatAsync<T>(
             let level = 0;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    const i = d[level].i.next();
+                    const v = d[level].i.next(); // next value
                     if (d[level].sync) {
-                        if (i.done) {
-                            level--;
+                        if (v.done) {
+                            level--; // back to upper level
                             return this.next();
                         }
                         if (level === depth) {
-                            return Promise.resolve(i); // maximum depth reached
+                            return Promise.resolve(v); // maximum depth reached
                         }
-                        let k: AnyValue = i.value?.[$S]?.();
+                        let i: AnyValue = v.value?.[$S]?.(); // first try with sync
                         let sync = true;
-                        if (!k) {
-                            k = i.value?.[$A]?.();
-                            if (!k) {
-                                return Promise.resolve(i);
+                        if (!i) {
+                            i = v.value?.[$A]?.(); // then try with async
+                            if (!i) {
+                                return Promise.resolve(v); // non-iterable value
                             }
                             sync = false;
                         }
-                        d[++level] = {i: k, sync};
+                        d[++level] = {i, sync};
                         return this.next();
                     }
-                    return i.then((a: IteratorResult<T | Iterable<T> | AsyncIterable<T>>) => {
+                    return v.then((a: IteratorResult<T | Iterable<T> | AsyncIterable<T>>) => {
                         if (a.done) {
                             if (!level) {
                                 return a;
                             }
-                            level--;
+                            level--; // back to upper level
                             return this.next();
                         }
                         if (level === depth) {
                             return a; // maximum depth reached
                         }
-                        let k: AnyValue = (a.value as AsyncIterable<T>)?.[$A]?.();
+                        let i: AnyValue = (a.value as AsyncIterable<T>)?.[$A]?.(); // first, try with async
                         let sync = false;
-                        if (!k) {
-                            k = (a.value as Iterable<T>)?.[$S]?.();
-                            if (!k) {
-                                return a;
+                        if (!i) {
+                            i = (a.value as Iterable<T>)?.[$S]?.(); // then try with sync
+                            if (!i) {
+                                return a; // non-iterable value
                             }
                             sync = true;
                         }
-                        d[++level] = {i: k, sync};
+                        d[++level] = {i, sync};
                         return this.next();
                     });
                 }
