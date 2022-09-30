@@ -56,7 +56,7 @@
     "build": "rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "check-format": "prettier --list-different \"./**/*.ts\"",
     "check-spelling": "cspell --config=.cspell.json \"**/*.{md,ts}\"",
-    "clean": "rimraf dist && ",
+    "clean": "rimraf dist",
     "doc": "typedoc --readme none",
     "format": "prettier --write \"./**/*.{json,yml,md,ts}\"",
     "lint": "eslint .",
