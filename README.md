@@ -72,13 +72,14 @@ Function [pipe] takes an iterable, applies all specified operators to it, and re
 
 All standard operators implement the same logic as [Array] does:
 
--   [concat](http://vitaly-t.github.io/iter-ops/functions/concat) - merges current iterable with multiple values,
+- [concat](http://vitaly-t.github.io/iter-ops/functions/concat) - merges current iterable with multiple values,
     iterators or iterables.
--   [every](http://vitaly-t.github.io/iter-ops/functions/every) - checks if all elements pass the predicate test.
--   [filter](http://vitaly-t.github.io/iter-ops/functions/filter) - standard filter processor, filtering by predicate.
--   [map](http://vitaly-t.github.io/iter-ops/functions/map) - standard mapping processor, remapping by predicate.
--   [reduce](http://vitaly-t.github.io/iter-ops/functions/reduce) - standard reduce processor.
--   [some](http://vitaly-t.github.io/iter-ops/functions/some) - checks if any element passes the predicate test.
+- [every](http://vitaly-t.github.io/iter-ops/functions/every) - checks if all elements pass the predicate test.
+- [filter](http://vitaly-t.github.io/iter-ops/functions/filter) - standard filter processor, filtering by predicate.
+- [flat](http://vitaly-t.github.io/iter-ops/functions/flat) - flattens/expand sub-iterable elements.
+- [map](http://vitaly-t.github.io/iter-ops/functions/map) - standard mapping processor, remapping by predicate.
+- [reduce](http://vitaly-t.github.io/iter-ops/functions/reduce) - standard reduce processor.
+- [some](http://vitaly-t.github.io/iter-ops/functions/some) - checks if any element passes the predicate test.
 
 #### <i>Extended operators:</i>
 

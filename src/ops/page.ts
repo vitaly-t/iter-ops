@@ -17,7 +17,8 @@ import {createOperation, iterateOnce} from '../utils';
  *
  * It throws an error when `size` is less than 1 or not a `number`.
  *
- * @see {@link split}
+ * @see
+ *  - {@link split}
  * @category Sync+Async
  */
 export function page<T>(size: number): Operation<T, T[]>;

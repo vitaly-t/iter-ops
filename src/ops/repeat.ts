@@ -15,7 +15,8 @@ import {createOperation} from '../utils';
  * console.log(...i); //=> 1, 1, 1, 2, 2, 2, 3, 3, 3
  * ```
  *
- * @see {@link retry}
+ * @see
+ *  - {@link retry}
  * @category Sync+Async
  */
 export function repeat<T>(count: number): Operation<T, T>;
@@ -41,7 +42,8 @@ export function repeat<T>(count: number): Operation<T, T>;
  * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
  * or else the `Promise` will be treated as a truthy value.
  *
- * @see {@link retry}
+ * @see
+ *  - {@link retry}
  * @category Sync+Async
  */
 export function repeat<T>(

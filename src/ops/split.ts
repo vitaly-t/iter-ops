@@ -102,7 +102,9 @@ export enum SplitValueCarry {
  * because it would delay emission of the current block indefinitely, plus carrying
  * block start backward doesn't make much sense anyway.
  *
- * @see {@link https://github.com/vitaly-t/iter-ops/wiki/Split Split WiKi}, {@link page}
+ * @see
+ *  - {@link https://github.com/vitaly-t/iter-ops/wiki/Split Split WiKi}
+ *  - {@link page}
  * @category Sync+Async
  */
 export function split<T>(
