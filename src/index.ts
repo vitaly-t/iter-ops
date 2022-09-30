@@ -3,6 +3,7 @@ export {
     UnknownIterable,
     UnknownIterator,
     UnknownIterableIterator,
+    UnwrapUnknownIterableIterator,
     SyncValue,
     AsyncIterableExt,
     IErrorContext,
