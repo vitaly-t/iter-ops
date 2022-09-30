@@ -110,6 +110,12 @@ export type UnknownIterableIterator<T> =
     | UnknownIterator<T>;
 
 /**
+ * Get the value type of a Iterable or Iterator.
+ */
+export type UnwrapUnknownIterableIterator<T> =
+    T extends UnknownIterableIterator<infer U> ? U : T;
+
+/**
  * Pipe-through type (return type for all operators)
  */
 export interface Operation<T, R> {
