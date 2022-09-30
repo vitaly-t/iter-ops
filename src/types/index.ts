@@ -5,6 +5,7 @@ export {
     UnknownIterable,
     UnknownIterator,
     UnknownIterableIterator,
+    UnwrapUnknownIterableIterator,
     Operation,
     SyncValue,
     Value,
