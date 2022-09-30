@@ -1,10 +1,7 @@
 import {_async, _asyncValues, expect} from './header';
 import {flat, pipe} from '../src';
-import {toIterable} from "../dist";
 
 describe('sync flat', () => {
-    // TODO: The first test is already undecided, because Array.prototype.flat() does not split strings, for example.
-    //  should our flat() be consistent with that or with the spread operator?
     it('must flatten strings', () => {
         const output = pipe(['one', 'two'], flat());
         expect([...output]).to.eql(['o', 'n', 'e', 't', 'w', 'o']);
@@ -60,7 +57,7 @@ describe('async flat', () => {
             'h',
             'r',
             'e',
-            'e'
+            'e',
         ]);
     });
     it('must flatten arrays', async () => {
