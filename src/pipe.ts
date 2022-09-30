@@ -15,7 +15,9 @@ export function pipe<T>(i: Iterable<T>): IterableExt<T>;
 /**
  * Pipes a synchronous `Iterable` through the list of operators, and returns {@link IterableExt}.
  *
- * @see {@link toIterable}, {@link toAsync}
+ * @see
+ *  - {@link toIterable}
+ *  - {@link toAsync}
  * @category Core
  */
 export function pipe<T, A>(i: Iterable<T>, p0: Operation<T, A>): IterableExt<A>;
@@ -117,7 +119,9 @@ export function pipe<T>(i: UnknownIterable<T>): AsyncIterableExt<T>;
 /**
  * Pipes an `AsyncIterable` through the list of operators, and returns {@link AsyncIterableExt}.
  *
- * @see {@link toIterable}, {@link toAsync}
+ * @see
+ *  - {@link toIterable}
+ *  - {@link toAsync}
  * @category Core
  */
 export function pipe<T, A>(

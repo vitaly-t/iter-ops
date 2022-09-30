@@ -22,7 +22,8 @@ import {createOperation, throwOnSync} from '../../utils';
  *
  * Throws an error during iteration, if inside a synchronous pipeline.
  *
- * @see {@link throttle}
+ * @see
+ *  - {@link throttle}
  * @category Async-only
  */
 export function delay<T>(timeout: number): Operation<T, T>;
@@ -36,7 +37,8 @@ export function delay<T>(timeout: number): Operation<T, T>;
  *
  * Throws an error during iteration, if inside a synchronous pipeline.
  *
- * @see {@link throttle}
+ * @see
+ *  - {@link throttle}
  * @category Async-only
  */
 export function delay<T>(

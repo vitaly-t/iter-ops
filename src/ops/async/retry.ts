@@ -30,7 +30,8 @@ import {createOperation, isPromiseLike, throwOnSync} from '../../utils';
  *
  * The method throws an error during iteration, if inside a synchronous pipeline.
  *
- * @see {@link repeat}
+ * @see
+ *  - {@link repeat}
  * @category Async-only
  */
 export function retry<T>(attempts: number): Operation<T, T>;
@@ -49,7 +50,8 @@ export function retry<T>(attempts: number): Operation<T, T>;
  *
  * Throws an error during iteration, if inside a synchronous pipeline.
  *
- * @see {@link repeat}
+ * @see
+ *  - {@link repeat}
  * @category Async-only
  */
 export function retry<T>(

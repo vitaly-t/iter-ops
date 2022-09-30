@@ -18,7 +18,9 @@ import {$A, $S} from './types';
  * - Passing it an already asynchronous iterable will just reuse it.
  * - All indexed types are well optimized for performance.
  *
- * @see {@link toIterable}, {@link pipe}
+ * @see
+ *  - {@link toIterable}
+ *  - {@link pipe}
  * @category Core
  */
 export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
@@ -48,7 +50,10 @@ export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
  *
  * Passing it an already iterable object will just reuse it.
  *
- * @see {@link https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators}, {@link toAsync}, {@link pipe}
+ * @see
+ *  - {@link https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators}
+ *  - {@link toAsync}
+ *  - {@link pipe}
  * @category Core
  */
 export function toIterable<T>(i: Iterator<T>): Iterable<T>;
@@ -61,7 +66,10 @@ export function toIterable<T>(i: Iterator<T>): Iterable<T>;
  *
  * Passing it an already iterable object will just reuse it.
  *
- * @see {@link https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators}, {@link toAsync}, {@link pipe}
+ * @see
+ *  - {@link https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators}
+ *  - {@link toAsync}
+ *  - {@link pipe}
  * @category Core
  */
 export function toIterable<T>(i: AsyncIterator<T>): AsyncIterable<T>;
@@ -102,7 +110,10 @@ export function toIterable<T>(i: {
  * }
  * ```
  *
- * @see {@link https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators}, {@link toAsync}, {@link pipe}
+ * @see
+ *  - {@link https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators}
+ *  - {@link toAsync}
+ *  - {@link pipe}
  * @category Core
  */
 export function toIterable<T>(i: Promise<T>): AsyncIterable<T>;
@@ -110,7 +121,10 @@ export function toIterable<T>(i: Promise<T>): AsyncIterable<T>;
 /**
  * Converts a simple value into a one-value synchronous iterable, so it can be used as a pipeline source/input.
  *
- * @see {@link https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators}, {@link toAsync}, {@link pipe}
+ * @see
+ *  - {@link https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators}
+ *  - {@link toAsync}
+ *  - {@link pipe}
  * @category Core
  */
 export function toIterable<T>(i: T): Iterable<T>;

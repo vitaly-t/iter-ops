@@ -33,7 +33,11 @@ import {createOperation} from '../utils';
  */
 export function flat<T>(
     depth?: number
-): Operation<Iterable<T | Iterable<T>> | AsyncIterable<T>, T>;
+): Operation<
+    | Iterable<T | Iterable<T>>
+    | AsyncIterable<T | Iterable<T> | AsyncIterable<T>>,
+    T
+>;
 
 export function flat(...args: unknown[]) {
     return createOperation(flatSync, flatAsync, args);
@@ -66,7 +70,7 @@ function flatSync<T>(
                         if (!i) {
                             return v; // non-iterable value
                         }
-                        d[++level] = i;
+                        d[++level] = i; // save next iterable
                     } while (true);
                 },
             };
@@ -77,7 +81,7 @@ function flatSync<T>(
 function flatAsync<T>(
     iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>,
     depth = 1
-): AsyncIterable<T | Iterable<T>> {
+): AsyncIterable<T | Iterable<T> | AsyncIterable<T>> {
     type AnyValue = T | Iterator<T> | AsyncIterator<T>;
     return {
         [$A](): AsyncIterator<T> {
@@ -104,7 +108,7 @@ function flatAsync<T>(
                             }
                             sync = false;
                         }
-                        d[++level] = {i, sync};
+                        d[++level] = {i, sync}; // save next iterable
                         return this.next();
                     }
                     return v.then(
@@ -134,7 +138,7 @@ function flatAsync<T>(
                                 }
                                 sync = true;
                             }
-                            d[++level] = {i, sync};
+                            d[++level] = {i, sync}; // save next iterable
                             return this.next();
                         }
                     );

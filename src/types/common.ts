@@ -138,6 +138,7 @@ export type Value<T> = SyncValue<T> | AsyncIterator<T> | AsyncIterable<T>;
  * An object with random properties, shared between callbacks during an iteration session,
  * for any intermediate processing/tracking data that the callback logic may require.
  *
- * @see {@link https://github.com/vitaly-t/iter-ops/wiki/Iteration-State Iteration State WiKi}
+ * @see
+ *  - {@link https://github.com/vitaly-t/iter-ops/wiki/Iteration-State Iteration State WiKi}
  */
 export type IterationState = {[name: string]: any};
