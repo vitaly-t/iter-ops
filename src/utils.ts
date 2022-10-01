@@ -1,4 +1,4 @@
-import {$A, $S, Operation} from './types';
+import {$A, $S, AsyncOperation, SyncOperation} from './types';
 
 /**
  * Wraps operator signature.
@@ -10,7 +10,7 @@ export function createOperation<T, AsyncT, R, AsyncR = R>(
         ...args: any[]
     ) => AsyncIterable<AsyncR>,
     args?: Iterable<unknown>
-): Operation<T, T> {
+): SyncOperation<T, R> & AsyncOperation<AsyncT, AsyncR> {
     return (i: any) => {
         const func: any = i[$S] ? syncFunc : asyncFunc;
         return func.apply(null, [i, ...(args || [])]);

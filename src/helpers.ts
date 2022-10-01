@@ -6,7 +6,7 @@ import {
     isObject,
     isPromiseLike,
 } from './typeguards';
-import {$A, $S} from './types';
+import {$A, $S, UnknownIterable} from './types';
 import {isIndexed, indexedAsyncIterable} from './utils';
 
 /**
@@ -31,7 +31,7 @@ import {isIndexed, indexedAsyncIterable} from './utils';
  *  - {@link pipe}
  * @category Core
  */
-export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
+export function toAsync<T>(i: UnknownIterable<T>): AsyncIterable<T> {
     // Already an async iterable?
     if (isAsyncIterable<typeof i, T>(i)) {
         return i;

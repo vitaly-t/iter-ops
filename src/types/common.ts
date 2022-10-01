@@ -122,12 +122,7 @@ export type UnwrapUnknownIterableIterator<T> =
 export type Operation<T, R> = AsyncOperation<T, R> & SyncOperation<T, R>;
 
 /**
- * An operation that could either be sync or async.
- */
-export type UnknownOperation<T, R> = AsyncOperation<T, R> | SyncOperation<T, R>;
-
-/**
- * An operation that transform an async iterable to another async iterable.
+ * An operation that transform a sync or async iterable to an async iterable.
  */
 export type AsyncOperation<T, R> = (i: AsyncIterable<T>) => AsyncIterable<R>;
 
