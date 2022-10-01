@@ -1,5 +1,13 @@
-import {isIndexed, indexedAsyncIterable, isPromiseLike} from './utils';
+import {
+    isAsyncIterable,
+    isSyncIterable,
+    isUnknownIterator,
+    isIteratorResult,
+    isObject,
+    isPromiseLike,
+} from './typeguards';
 import {$A, $S} from './types';
+import {isIndexed, indexedAsyncIterable} from './utils';
 
 /**
  * Converts any synchronous iterable into asynchronous one.
@@ -24,8 +32,9 @@ import {$A, $S} from './types';
  * @category Core
  */
 export function toAsync<T>(i: Iterable<T>): AsyncIterable<T> {
-    if (typeof (i as any)[$A] === 'function') {
-        return i as any; // must be a run-time safe-check, no need converting
+    // Already an async iterable?
+    if (isAsyncIterable<typeof i, T>(i)) {
+        return i;
     }
     if (isIndexed(i)) {
         return indexedAsyncIterable(i);
@@ -129,50 +138,80 @@ export function toIterable<T>(i: Promise<T>): AsyncIterable<T>;
  */
 export function toIterable<T>(i: T): Iterable<T>;
 
-export function toIterable<T>(i: any): any {
-    if (typeof i?.[$S] === 'function' || typeof i?.[$A] === 'function') {
-        return i; // must be a run-time safe-check, no need converting
-    }
-    const next = i?.next;
-    if (typeof next === 'function') {
-        const value = next.call(i); // this line may throw (outside the pipeline)
-        let s: any = isPromiseLike(value) && $A;
-        if (s || (typeof value === 'object' && 'value' in (value ?? {}))) {
-            s = s || $S;
-            return {
-                [s]() {
-                    let started: boolean;
+export function toIterable<T>(i: unknown) {
+    if (isObject(i)) {
+        // Already an iterable?
+        if (isSyncIterable(i) || isAsyncIterable(i)) {
+            return i;
+        }
+
+        // An iterator.
+        if (isUnknownIterator<typeof i, T>(i)) {
+            const value: unknown = i.next(); // this line may throw (outside the pipeline)
+            if (isObject(value)) {
+                const s = isPromiseLike(value) ? $A : $S;
+                if (s === $A || isIteratorResult(value)) {
                     return {
-                        next() {
-                            if (started) {
-                                return i.next();
-                            }
-                            started = true;
-                            return value;
+                        [s]() {
+                            let started: boolean;
+                            return {
+                                next() {
+                                    if (started) {
+                                        return i.next();
+                                    }
+                                    started = true;
+                                    return value;
+                                },
+                            };
                         },
                     };
-                },
-            };
+                }
+            }
+        }
+
+        // An async value.
+        if (isPromiseLike<typeof i, T>(i)) {
+            return toSingleAsyncIterable(i);
         }
     }
-    if (isPromiseLike(i)) {
-        return {
-            [$A](): AsyncIterator<T> {
-                let finished: boolean;
-                return {
-                    next(): Promise<IteratorResult<T>> {
-                        if (finished) {
-                            return Promise.resolve({
-                                value: undefined,
-                                done: true,
-                            });
-                        }
-                        finished = true;
-                        return i.then((value: T) => ({value, done: false}));
-                    },
-                };
-            },
-        };
-    }
-    return [i]; // a simple value
+
+    // A sync value.
+    return toSyncIterable(i);
+}
+
+/**
+ * Create an iterable that has the given value as its only element.
+ */
+function toSyncIterable<T>(value: T): Iterable<T> {
+    return [value];
+}
+
+/**
+ * Create an async iterable that has the awaited given value as its only element.
+ */
+function toSingleAsyncIterable<T>(
+    asyncValue: PromiseLike<T>
+): AsyncIterable<T> {
+    return {
+        [$A](): AsyncIterator<T> {
+            let finished: boolean;
+            return {
+                next(): Promise<IteratorResult<T>> {
+                    if (finished) {
+                        return Promise.resolve({
+                            value: undefined,
+                            done: true,
+                        });
+                    }
+                    finished = true;
+                    return Promise.resolve(
+                        asyncValue.then((value: T) => ({
+                            value,
+                            done: false,
+                        }))
+                    );
+                },
+            };
+        },
+    };
 }
