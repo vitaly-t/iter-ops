@@ -1,10 +1,10 @@
 import {expect} from '../../header';
-import {pipe, map} from '../../../src';
+import {pipeSync, map} from '../../../src';
 
 export default () => {
     it('must remap values', () => {
         const input = [1, 2, 3];
-        const output = pipe(
+        const output = pipeSync(
             input,
             map((value) => ({value}))
         );
@@ -13,7 +13,7 @@ export default () => {
     it('must reuse the state object', () => {
         const input = 'hello!';
         const arr: number[] = [];
-        const output = pipe(
+        const output = pipeSync(
             input,
             map((value, index, state) => {
                 state.count = state.count ?? 0;

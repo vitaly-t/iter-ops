@@ -1,10 +1,10 @@
 import {_async, _asyncValues, expect} from '../../header';
-import {pipe, stop} from '../../../src';
+import {pipeAsync, stop} from '../../../src';
 
 export default () => {
     it('must trigger on condition', async () => {
         const input = [1, 2, 3, 4, 5];
-        const output = pipe(
+        const output = pipeAsync(
             _async(input),
             stop((a) => a > 3)
         );
@@ -12,7 +12,7 @@ export default () => {
     });
     it('must trigger on async condition', async () => {
         const input = [1, 2, 3, 4, 5];
-        const output = pipe(
+        const output = pipeAsync(
             _async(input),
             stop(async (a) => a > 3)
         );
@@ -20,7 +20,7 @@ export default () => {
     });
     it('must not let overlap the condition', async () => {
         const input = _async([1, 2, 3]);
-        const output = pipe(
+        const output = pipeAsync(
             input,
             stop((a) => a === 2)
         );
@@ -31,7 +31,7 @@ export default () => {
     });
     it('must not let overlap the async condition', async () => {
         const input = _async([1, 2, 3]);
-        const output = pipe(
+        const output = pipeAsync(
             input,
             stop(async (a) => a === 2)
         );
@@ -43,7 +43,7 @@ export default () => {
     it('must reuse the state object', async () => {
         const input = _async('hello!');
         const arr: number[] = [];
-        const output = pipe(
+        const output = pipeAsync(
             input,
             stop((value, index, state) => {
                 state.count = state.count ?? 0;

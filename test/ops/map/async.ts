@@ -1,10 +1,10 @@
 import {_async, _asyncValues, expect} from '../../header';
-import {pipe, map} from '../../../src';
+import {pipeAsync, map} from '../../../src';
 
 export default () => {
     it('must remap values', async () => {
         const input = _async([1, 2, 3]);
-        const output = pipe(
+        const output = pipeAsync(
             input,
             map((value) => ({value}))
         );
@@ -17,7 +17,7 @@ export default () => {
     it('must reuse the state object', async () => {
         const input = _async('hello!');
         const arr: number[] = [];
-        const output = pipe(
+        const output = pipeAsync(
             input,
             map((value, index, state) => {
                 state.count = state.count ?? 0;

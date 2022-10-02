@@ -1,10 +1,10 @@
 import {expect} from '../../header';
-import {pipe, empty} from '../../../src';
+import {pipeSync, empty} from '../../../src';
 
 export default () => {
     it('must produce empty iterable', () => {
         const input = [1, 2, 3];
-        const output = pipe(input, empty());
+        const output = pipeSync(input, empty());
         expect([...output]).to.eql([]);
     });
 };

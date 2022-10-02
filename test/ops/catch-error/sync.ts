@@ -1,10 +1,10 @@
 import {_async, _asyncValues, expect, YSNP} from '../../header';
-import {pipe, tap, catchError} from '../../../src';
+import {pipeSync, tap, catchError} from '../../../src';
 
 export default () => {
     it('must continue without value', () => {
         const reports: any[] = [];
-        const i = pipe(
+        const i = pipeSync(
             [1, 2, 3, 4, 5],
             tap((value) => {
                 if (value === 3) {
@@ -28,7 +28,7 @@ export default () => {
     });
     it('must report repeated errors', () => {
         const repeatCounts: number[] = [];
-        const i = pipe(
+        const i = pipeSync(
             [1, 2, 3, 4, 5],
             tap(() => {
                 throw 'ops!';
@@ -50,7 +50,7 @@ export default () => {
         expect(repeatCounts).to.eql([0, 1, 2]);
     });
     it('must inject a manually emitted value', () => {
-        const i = pipe(
+        const i = pipeSync(
             [1, 2, 3, 4, 5],
             tap((value) => {
                 if (value === 3) {
@@ -64,7 +64,7 @@ export default () => {
         expect(result).to.eql([1, 2, 333, 4, 5]);
     });
     it('must allow re-throwing', () => {
-        const i = pipe(
+        const i = pipeSync(
             [1],
             tap(() => {
                 throw new Error('ops');

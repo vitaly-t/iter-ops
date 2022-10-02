@@ -1,9 +1,9 @@
 import {expect} from '../../header';
-import {pipe, aggregate} from '../../../src';
+import {pipeSync, aggregate} from '../../../src';
 
 export default () => {
     it('must process data correctly', () => {
-        const output = pipe(
+        const output = pipeSync(
             [1, 2, 3],
             aggregate((arr) => {
                 return arr.reduce((a, c) => a + c);
@@ -12,7 +12,7 @@ export default () => {
         expect([...output]).to.eql([6]);
     });
     it('must handle empty iterables', () => {
-        const output = pipe(
+        const output = pipeSync(
             [],
             aggregate((arr) => {
                 return arr;
@@ -21,7 +21,7 @@ export default () => {
         expect([...output]).to.eql([[]]);
     });
     it('must allow return of nothing', () => {
-        const output = pipe(
+        const output = pipeSync(
             [],
             aggregate(() => {})
         );
