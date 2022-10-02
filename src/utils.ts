@@ -108,11 +108,3 @@ export function isIndexed(input: any): boolean {
         input instanceof String
     );
 }
-
-/**
- * Checks for a promise-like value.
- * @deprecated use version in typeguards.ts
- */
-export function isPromiseLike(a: any): boolean {
-    return a && typeof a.then === 'function';
-}

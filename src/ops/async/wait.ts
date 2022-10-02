@@ -1,5 +1,6 @@
 import {$A, Operation} from '../../types';
-import {createOperation, isPromiseLike, throwOnSync} from '../../utils';
+import {isPromiseLike} from '../../typeguards';
+import {createOperation, throwOnSync} from '../../utils';
 
 /**
  * When the value is a `Promise`, it is resolved, or else returned as is,
