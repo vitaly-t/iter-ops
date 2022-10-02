@@ -7,6 +7,8 @@ export {
     UnknownIterableIterator,
     UnwrapUnknownIterableIterator,
     Operation,
+    AsyncOperation,
+    SyncOperation,
     SyncValue,
     Value,
     IterationState,

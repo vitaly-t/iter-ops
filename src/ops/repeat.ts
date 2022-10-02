@@ -1,4 +1,4 @@
-import {$A, $S, IterationState, Operation} from '../types';
+import {$A, $S, AsyncOperation, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -39,9 +39,6 @@ export function repeat<T>(count: number): Operation<T, T>;
  * console.log(...i); //=> 1, 2, 2, 2, 3, 4, 4, 4, 5, 6, 6, 6, 7
  * ```
  *
- * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
- * or else the `Promise` will be treated as a truthy value.
- *
  * @see
  *  - {@link retry}
  * @category Sync+Async
@@ -52,8 +49,41 @@ export function repeat<T>(
         index: number,
         count: number,
         state: IterationState
-    ) => boolean | Promise<boolean>
+    ) => boolean
 ): Operation<T, T>;
+
+/**
+ * Repeats values while passing predicate test.
+ * - `value` - repeated value
+ * - `index` - original value index
+ * - `count` - repeats count thus far (starts with 0)
+ * - `state` - iteration state
+ *
+ * ```ts
+ * import {pipe, repeat} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5, 6, 7],
+ *     repeat((a, idx, c) => a % 2 === 0 && c < 2) // repeat even numbers 2 times
+ * );
+ *
+ * console.log(...i); //=> 1, 2, 2, 2, 3, 4, 4, 4, 5, 6, 6, 6, 7
+ * ```
+ *
+ * Note that the predicate can only return a `Promise` inside an asynchronous pipeline.
+ *
+ * @see
+ *  - {@link retry}
+ * @category Async
+ */
+export function repeat<T>(
+    cb: (
+        value: T,
+        index: number,
+        count: number,
+        state: IterationState
+    ) => Promise<boolean>
+): AsyncOperation<T, T>;
 
 export function repeat(...args: unknown[]) {
     return createOperation(repeatSync, repeatAsync, args);

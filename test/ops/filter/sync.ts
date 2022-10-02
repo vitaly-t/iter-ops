@@ -1,10 +1,10 @@
 import {expect} from '../../header';
-import {pipe, filter} from '../../../src';
+import {pipeSync, filter} from '../../../src';
 
 export default () => {
     it('must emit on condition', () => {
         const input = [1, 2, 3, 4, 5, 0];
-        const output = pipe(
+        const output = pipeSync(
             input,
             filter((a) => a < 3)
         );
@@ -13,7 +13,7 @@ export default () => {
     it('must use type gaurds info to narrow type', () => {
         const input = [1, 2, null, 4, undefined, 0];
 
-        const output: Iterable<number> = pipe(
+        const output: Iterable<number> = pipeSync(
             input,
             filter(
                 (value): value is NonNullable<typeof value> =>
@@ -25,7 +25,7 @@ export default () => {
     it('must reuse the state object', () => {
         const input = 'hello!';
         const arr: number[] = [];
-        const output = pipe(
+        const output = pipeSync(
             input,
             filter((value, index, state) => {
                 state.count = state.count ?? 0;

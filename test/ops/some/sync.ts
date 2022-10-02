@@ -1,16 +1,16 @@
 import {expect} from '../../header';
-import {pipe, some} from '../../../src';
+import {pipeSync, some} from '../../../src';
 
 export default () => {
     it('must find element when present', () => {
-        const i = pipe(
+        const i = pipeSync(
             [1, 2, 3],
             some((a) => a === 2)
         );
         expect([...i]).to.eql([true]);
     });
     it('must work without match', () => {
-        const i = pipe(
+        const i = pipeSync(
             [1, 2, 3],
             some((a) => a === 5)
         );

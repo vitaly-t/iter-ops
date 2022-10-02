@@ -1,9 +1,9 @@
 import {expect} from '../../header';
-import {pipe, map, wait} from '../../../src';
+import {pipeSync, map, wait} from '../../../src';
 
 export default () => {
     it('must throw on synchronous pipeline once', () => {
-        const i = pipe([], wait())[Symbol.iterator]();
+        const i = pipeSync([], wait() as any)[Symbol.iterator]();
         expect(() => {
             i.next();
         }).to.throw('Operator "wait" requires asynchronous pipeline');

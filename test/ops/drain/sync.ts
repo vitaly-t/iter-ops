@@ -1,10 +1,10 @@
 import {_async, expect} from '../../header';
-import {pipe, drain, tap} from '../../../src';
+import {pipeSync, drain, tap} from '../../../src';
 
 export default () => {
     it('must pull all values', () => {
         const c: number[] = [];
-        const i = pipe(
+        const i = pipeSync(
             [1, 2, 3],
             tap((a) => {
                 c.push(a);

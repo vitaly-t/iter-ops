@@ -1,10 +1,10 @@
 import {expect} from '../../header';
-import {IValueTiming, pipe, timing, delay} from '../../../src';
+import {IValueTiming, pipeSync, timing, delay} from '../../../src';
 
 export default () => {
     it('must emit correct timings', () => {
         const c: IValueTiming<number>[] = [];
-        const i = pipe(
+        const i = pipeSync(
             [10, 20, 30],
             timing((t) => {
                 c.push(t);

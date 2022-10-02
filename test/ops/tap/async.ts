@@ -1,11 +1,11 @@
-import {_async, _asyncValues, expect} from '../../header';
-import {pipe, tap} from '../../../src';
+import {_asyncValues, expect} from '../../header';
+import {pipeAsync, tap} from '../../../src';
 
 export default () => {
     it('must be called for all values', async () => {
-        const input = _async([1, 2, 3]),
+        const input = [1, 2, 3],
             res: any[] = [];
-        const i = pipe(
+        const i = pipeAsync(
             input,
             tap((val, idx) => {
                 res.push({val, idx});
@@ -19,9 +19,9 @@ export default () => {
         ]);
     });
     it('must reuse the state object', async () => {
-        const input = _async('hello!');
+        const input = 'hello!';
         const arr: number[] = [];
-        const i = pipe(
+        const i = pipeAsync(
             input,
             tap((value, index, state) => {
                 state.count = state.count ?? 0;

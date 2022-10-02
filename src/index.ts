@@ -12,7 +12,7 @@ export {
     Operation,
 } from './types';
 export {toAsync, toIterable} from './helpers';
-export {pipe} from './pipe';
+export {pipe, pipeSync, pipeAsync} from './pipe';
 
 export {aggregate} from './ops/aggregate';
 export {catchError} from './ops/catch-error';

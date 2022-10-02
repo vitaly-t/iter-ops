@@ -1,27 +1,28 @@
-import {_async, _asyncValues, expect} from '../../header';
-import {pipe, filter} from '../../../src';
+import {_asyncValues, expect} from '../../header';
+import {pipeAsync, filter} from '../../../src';
 
 export default () => {
     it('must emit on condition', async () => {
-        const input = _async([1, 2, 3, 4, 5, 0]);
-        const output = pipe(
+        const input = [1, 2, 3, 4, 5, 0];
+        // FIXME: remove need for type hints.
+        const output = pipeAsync<number, number>(
             input,
-            filter((a) => a < 3)
+            filter((a: number) => a < 3)
         );
         expect(await _asyncValues(output)).to.eql([1, 2, 0]);
     });
     it('must emit async condition', async () => {
-        const input = _async([1, 2, 3, 4, 5, 0]);
-        const output = pipe(
+        const input = [1, 2, 3, 4, 5, 0];
+        const output = pipeAsync(
             input,
-            filter(async (a) => a < 3)
+            filter(async (a: number) => a < 3)
         );
         expect(await _asyncValues(output)).to.eql([1, 2, 0]);
     });
     it('must reuse the state object', async () => {
-        const input = _async('hello!');
+        const input = 'hello!';
         const arr: number[] = [];
-        const output = pipe(
+        const output = pipeAsync(
             input,
             filter((value, index, state) => {
                 state.count = state.count ?? 0;

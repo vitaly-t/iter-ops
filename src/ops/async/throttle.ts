@@ -1,4 +1,4 @@
-import {$A, IterationState, Operation} from '../../types';
+import {$A, IterationState, AsyncOperation} from '../../types';
 import {createOperation, throwOnSync} from '../../utils';
 
 /**
@@ -28,7 +28,7 @@ import {createOperation, throwOnSync} from '../../utils';
  */
 export function throttle<T>(
     cb: (value: T, index: number, state: IterationState) => Promise<any>
-): Operation<T, T>;
+): AsyncOperation<T, T>;
 
 export function throttle(...args: unknown[]) {
     return createOperation(throwOnSync('throttle'), throttleAsync, args);

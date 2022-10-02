@@ -117,10 +117,19 @@ export type UnwrapUnknownIterableIterator<T> =
 
 /**
  * Pipe-through type (return type for all operators)
+ * An operation that can apply either sync or async transformations.
  */
-export interface Operation<T, R> {
-    (i: UnknownIterable<T>): UnknownIterable<R>;
-}
+export type Operation<T, R> = AsyncOperation<T, R> & SyncOperation<T, R>;
+
+/**
+ * An operation that transform a sync or async iterable to an async iterable.
+ */
+export type AsyncOperation<T, R> = (i: AsyncIterable<T>) => AsyncIterable<R>;
+
+/**
+ * An operation that transform a sync iterable to another sync iterable.
+ */
+export type SyncOperation<T, R> = (i: Iterable<T>) => Iterable<R>;
 
 /**
  * Any synchronous value type.

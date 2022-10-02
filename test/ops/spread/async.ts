@@ -1,9 +1,9 @@
-import {_async, _asyncValues, expect} from '../../header';
-import {pipe, spread} from '../../../src';
+import {_asyncValues, expect} from '../../header';
+import {pipeAsync, spread} from '../../../src';
 
 export default () => {
     it('must split strings', async () => {
-        const output = pipe(_async(['one', 'two']), spread());
+        const output = pipeAsync(['one', 'two'], spread());
         expect(await _asyncValues(output)).to.eql([
             'o',
             'n',
@@ -14,28 +14,28 @@ export default () => {
         ]);
     });
     it('must split arrays', async () => {
-        const second = _async([3, 4]);
-        const output = pipe(_async([[1, 2], second]), spread());
+        const second = [3, 4];
+        const output = pipeAsync([[1, 2], second], spread());
         expect(await _asyncValues(output)).to.eql([1, 2, 3, 4]);
     });
     it('must handle empty iterables', async () => {
-        const output1 = pipe(_async([]), spread());
-        const output2 = pipe(_async([[]]), spread());
-        const output3 = pipe(_async([[], []]), spread());
-        const output4 = pipe(_async(['']), spread());
+        const output1 = pipeAsync([], spread());
+        const output2 = pipeAsync([[]], spread());
+        const output3 = pipeAsync([[], []], spread());
+        const output4 = pipeAsync([''], spread());
         expect(await _asyncValues(output1)).to.eql([]);
         expect(await _asyncValues(output2)).to.eql([]);
         expect(await _asyncValues(output3)).to.eql([]);
         expect(await _asyncValues(output4)).to.eql([]);
     });
     it('must find values after empty', async () => {
-        const output = pipe(_async([[], [1]]), spread());
+        const output = pipeAsync([[], [1]], spread());
         expect(await _asyncValues(output)).to.eql([1]);
     });
     it('must throw on non-iterable', async () => {
         let err: any;
         try {
-            await _asyncValues(pipe(_async(['text', 123 as any]), spread()));
+            await _asyncValues(pipeAsync(['text', 123 as any], spread()));
         } catch (e) {
             err = e;
         }

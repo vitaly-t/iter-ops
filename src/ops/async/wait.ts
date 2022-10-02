@@ -1,4 +1,4 @@
-import {$A, Operation} from '../../types';
+import {$A, AsyncOperation} from '../../types';
 import {isPromiseLike} from '../../typeguards';
 import {createOperation, throwOnSync} from '../../utils';
 
@@ -45,7 +45,7 @@ import {createOperation, throwOnSync} from '../../utils';
  *
  * @category Async-only
  */
-export function wait<T>(): Operation<Promise<T> | T, T>;
+export function wait<T>(): AsyncOperation<Promise<T> | T, T>;
 
 export function wait() {
     return createOperation(throwOnSync('wait'), waitAsync);

@@ -1,10 +1,10 @@
 import {expect} from '../../header';
-import {pipe, stop} from '../../../src';
+import {pipeSync, stop} from '../../../src';
 
 export default () => {
     it('must trigger on condition', () => {
         const input = [1, 2, 3, 4, 5];
-        const output = pipe(
+        const output = pipeSync(
             input,
             stop((a) => a > 3)
         );
@@ -12,7 +12,7 @@ export default () => {
     });
     it('must not let overlap the condition', () => {
         const input = [1, 2, 3];
-        const output = pipe(
+        const output = pipeSync(
             input,
             stop((a) => a === 2)
         );
@@ -24,7 +24,7 @@ export default () => {
     it('must reuse the state object', () => {
         const input = 'hello!';
         const arr: number[] = [];
-        const output = pipe(
+        const output = pipeSync(
             input,
             stop((value, index, state) => {
                 state.count = state.count ?? 0;
