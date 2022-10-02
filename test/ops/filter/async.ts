@@ -4,9 +4,10 @@ import {pipeAsync, filter} from '../../../src';
 export default () => {
     it('must emit on condition', async () => {
         const input = [1, 2, 3, 4, 5, 0];
-        const output = pipeAsync(
+        // FIXME: remove need for type hints.
+        const output = pipeAsync<number, number>(
             input,
-            filter((a) => a < 3)
+            filter((a: number) => a < 3)
         );
         expect(await _asyncValues(output)).to.eql([1, 2, 0]);
     });
@@ -14,7 +15,7 @@ export default () => {
         const input = [1, 2, 3, 4, 5, 0];
         const output = pipeAsync(
             input,
-            filter(async (a) => a < 3)
+            filter(async (a: number) => a < 3)
         );
         expect(await _asyncValues(output)).to.eql([1, 2, 0]);
     });

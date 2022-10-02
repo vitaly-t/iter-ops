@@ -4,7 +4,8 @@ import {IValueTiming, pipeAsync, timing, delay} from '../../../src';
 export default () => {
     it('must emit correct timings', async () => {
         const c: IValueTiming<number>[] = [];
-        const i = pipeAsync(
+        // FIXME: remove need for type hints.
+        const i = pipeAsync<number, number, number>(
             [10, 20, 30],
             delay(4),
             timing((t) => {
