@@ -1,5 +1,6 @@
 import {$A, IterationState, Operation} from '../../types';
-import {createOperation, isPromiseLike, throwOnSync} from '../../utils';
+import {isPromiseLike} from '../../typeguards';
+import {createOperation, throwOnSync} from '../../utils';
 
 /**
  * When the iterable rejects, retries getting the value specified number of times.

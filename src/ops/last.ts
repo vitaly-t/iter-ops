@@ -1,5 +1,6 @@
 import {$A, $S, Operation} from '../types';
-import {createOperation, isPromiseLike} from '../utils';
+import {isPromiseLike} from '../typeguards';
+import {createOperation} from '../utils';
 
 /**
  * Produces a one-value iterable, with the last emitted value.

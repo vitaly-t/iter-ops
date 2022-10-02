@@ -1,5 +1,6 @@
 import {$A, $S, IterationState, Operation} from '../types';
-import {createOperation, isPromiseLike} from '../utils';
+import {isPromiseLike} from '../typeguards';
+import {createOperation} from '../utils';
 
 /**
  * Pair of `{index, value}` that passed predicate test of {@link indexBy} operator.

@@ -1,5 +1,6 @@
 import {$A, $S, IterationState, Operation} from '../types';
-import {createOperation, isPromiseLike} from '../utils';
+import {isPromiseLike} from '../typeguards';
+import {createOperation} from '../utils';
 
 /**
  * Goes through the entire iterable, counting the values, and produces a one-value iterable with the count.

@@ -1,5 +1,6 @@
 import {$A, $S, IterationState, Operation} from '../types';
-import {createOperation, isPromiseLike} from '../utils';
+import {isPromiseLike} from '../typeguards';
+import {createOperation} from '../utils';
 
 /**
  * Standard `Array.filter` logic for the iterable, extended with iteration state.
