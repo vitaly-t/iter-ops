@@ -1,9 +1,9 @@
-import {_async, _asyncValues, expect} from '../../header';
+import {_asyncValues, expect} from '../../header';
 import {pipeAsync, filter} from '../../../src';
 
 export default () => {
     it('must emit on condition', async () => {
-        const input = _async([1, 2, 3, 4, 5, 0]);
+        const input = [1, 2, 3, 4, 5, 0];
         const output = pipeAsync(
             input,
             filter((a) => a < 3)
@@ -11,7 +11,7 @@ export default () => {
         expect(await _asyncValues(output)).to.eql([1, 2, 0]);
     });
     it('must emit async condition', async () => {
-        const input = _async([1, 2, 3, 4, 5, 0]);
+        const input = [1, 2, 3, 4, 5, 0];
         const output = pipeAsync(
             input,
             filter(async (a) => a < 3)
@@ -19,7 +19,7 @@ export default () => {
         expect(await _asyncValues(output)).to.eql([1, 2, 0]);
     });
     it('must reuse the state object', async () => {
-        const input = _async('hello!');
+        const input = 'hello!';
         const arr: number[] = [];
         const output = pipeAsync(
             input,

@@ -1,14 +1,14 @@
-import {_async, _asyncValues, expect} from '../../header';
+import {_asyncValues, expect} from '../../header';
 import {pipeAsync, defaultEmpty} from '../../../src';
 
 export default () => {
     it('must not add to a non-empty source', async () => {
-        const output = pipeAsync(_async([1]), defaultEmpty(2));
+        const output = pipeAsync([1], defaultEmpty(2));
         expect(await _asyncValues(output)).to.eql([1]);
     });
     describe('for an empty source', () => {
         it('must add values', async () => {
-            const output = pipeAsync(_async([]), defaultEmpty(123));
+            const output = pipeAsync([], defaultEmpty(123));
             expect(await _asyncValues(output)).to.eql([123]);
         });
         it('must add iterators', async () => {
@@ -21,15 +21,15 @@ export default () => {
                     return {value: undefined, done: true};
                 },
             };
-            const output = pipeAsync(_async([]), defaultEmpty(input));
+            const output = pipeAsync([], defaultEmpty(input));
             expect(await _asyncValues(output)).to.eql([3, 2, 1, 0]);
         });
         it('must treat "next" property as value', async () => {
-            const output = pipeAsync(_async([]), defaultEmpty({next: 123}));
+            const output = pipeAsync([], defaultEmpty({next: 123}));
             expect(await _asyncValues(output)).to.eql([{next: 123}]);
         });
         it('must add iterables', async () => {
-            const output = pipeAsync(_async([]), defaultEmpty([1, 2]));
+            const output = pipeAsync([], defaultEmpty([1, 2]));
             expect(await _asyncValues(output)).to.eql([1, 2]);
         });
     });
@@ -37,7 +37,7 @@ export default () => {
         it('must work for values', async () => {
             // the actual test here is compile-time, inferring the type correctly:
             const i: AsyncIterable<number | string> = pipeAsync(
-                _async([1, 2, 3]),
+                [1, 2, 3],
                 defaultEmpty('hello')
             );
             expect(await _asyncValues(i)).to.eql([1, 2, 3]); // default not added
@@ -57,7 +57,7 @@ export default () => {
             // the actual test here is compile-time, inferring the type correctly;
             // NOTE: This case does require casting input as Iterator<string> :|
             const i: AsyncIterable<number | string> = pipeAsync(
-                _async([1, 2, 3]),
+                [1, 2, 3],
                 defaultEmpty(input)
             );
             expect(await _asyncValues(i)).to.eql([1, 2, 3]); // default not added
@@ -65,7 +65,7 @@ export default () => {
         it('must work for iterables', async () => {
             // the actual test here is compile-time, inferring the type correctly:
             const i: AsyncIterable<number | string | boolean> = pipeAsync(
-                _async([1, 2, 3]),
+                [1, 2, 3],
                 defaultEmpty(['hello', true])
             );
             expect(await _asyncValues(i)).to.eql([1, 2, 3]); // default not added

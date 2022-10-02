@@ -1,10 +1,10 @@
-import {_async, _asyncValues, expect} from '../../header';
+import {_asyncValues, expect} from '../../header';
 import {pipeAsync, indexBy} from '../../../src';
 
 export default () => {
     it('must work for an empty list', async () => {
         const i = pipeAsync(
-            _async([]),
+            [],
             indexBy(() => true)
         );
         expect(await _asyncValues(i)).to.eql([]);
@@ -12,7 +12,7 @@ export default () => {
     it('must work for partial match', async () => {
         const calls: any[] = [];
         const i = pipeAsync(
-            _async([1, 2, 3, 4]),
+            [1, 2, 3, 4],
             indexBy((value, index) => {
                 calls.push({value, index});
                 return value % 2 === 0;
@@ -32,7 +32,7 @@ export default () => {
     it('must work for partial async match', async () => {
         const calls: any[] = [];
         const i = pipeAsync(
-            _async([1, 2, 3, 4]),
+            [1, 2, 3, 4],
             indexBy(async (value, index) => {
                 calls.push({value, index});
                 return value % 2 === 0;
@@ -51,14 +51,14 @@ export default () => {
     });
     it('must work for no-match', async () => {
         const i = pipeAsync(
-            _async([1, 2, 3]),
+            [1, 2, 3],
             indexBy(() => false)
         );
         expect(await _asyncValues(i)).to.eql([]);
     });
     it('must work for async no-match', async () => {
         const i = pipeAsync(
-            _async([1, 2, 3]),
+            [1, 2, 3],
             indexBy(async () => false)
         );
         expect(await _asyncValues(i)).to.eql([]);

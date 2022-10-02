@@ -5,7 +5,7 @@ export default () => {
     it('must continue without value', async () => {
         const reports: any[] = [];
         const i = pipeAsync(
-            _async([1, 2, 3, 4, 5]),
+            [1, 2, 3, 4, 5],
             tap((value) => {
                 if (value === 3) {
                     throw new Error(`ops-${value}`);
@@ -29,7 +29,7 @@ export default () => {
     it('must report repeated errors', async () => {
         const repeatCounts: number[] = [];
         const i = pipeAsync(
-            _async([1, 2, 3, 4, 5]),
+            [1, 2, 3, 4, 5],
             tap(() => {
                 throw 'ops!';
             })
@@ -50,7 +50,7 @@ export default () => {
     });
     it('must inject a manually emitted value', async () => {
         const i = pipeAsync(
-            _async([1, 2, 3, 4, 5]),
+            [1, 2, 3, 4, 5],
             tap((value) => {
                 if (value === 3) {
                     throw new Error(`ops-${value}`);
@@ -64,7 +64,7 @@ export default () => {
     });
     it('must allow re-throwing', async () => {
         const i = pipeAsync(
-            _async([1, 2, 3]),
+            [1, 2, 3],
             tap(() => {
                 throw new Error('ops');
             }),

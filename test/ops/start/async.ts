@@ -1,9 +1,9 @@
-import {_async, _asyncValues, expect} from '../../header';
+import {_asyncValues, expect} from '../../header';
 import {pipeAsync, start} from '../../../src';
 
 export default () => {
     it('must trigger on condition', async () => {
-        const input = _async([1, 2, 3, 4, 5]);
+        const input = [1, 2, 3, 4, 5];
         const output = pipeAsync(
             input,
             start((a) => a > 3)
@@ -11,7 +11,7 @@ export default () => {
         expect(await _asyncValues(output)).to.eql([4, 5]);
     });
     it('must trigger on async condition', async () => {
-        const input = _async([1, 2, 3, 4, 5]);
+        const input = [1, 2, 3, 4, 5];
         const output = pipeAsync(
             input,
             start(async (a) => a > 3)
@@ -19,7 +19,7 @@ export default () => {
         expect(await _asyncValues(output)).to.eql([4, 5]);
     });
     it('must support non-starters', async () => {
-        const input = _async([1, 2, 3, 4, 5]);
+        const input = [1, 2, 3, 4, 5];
         const output = pipeAsync(
             input,
             start((a) => a > 5)
@@ -27,7 +27,7 @@ export default () => {
         expect(await _asyncValues(output)).to.eql([]);
     });
     it('must support async non-starters', async () => {
-        const input = _async([1, 2, 3, 4, 5]);
+        const input = [1, 2, 3, 4, 5];
         const output = pipeAsync(
             input,
             start(async (a) => a > 5)
@@ -38,7 +38,7 @@ export default () => {
         const input = 'hello!';
         const arr: number[] = [];
         const output = pipeAsync(
-            _async(input),
+            input,
             start((value, index, state) => {
                 state.count = state.count ?? 0;
                 state.count++;

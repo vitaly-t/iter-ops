@@ -1,11 +1,11 @@
-import {_async, _asyncValues, expect} from '../../header';
+import {_asyncValues, expect} from '../../header';
 import {IValueTiming, pipeAsync, timing, delay} from '../../../src';
 
 export default () => {
     it('must emit correct timings', async () => {
         const c: IValueTiming<number>[] = [];
         const i = pipeAsync(
-            _async([10, 20, 30]),
+            [10, 20, 30],
             delay(4),
             timing((t) => {
                 c.push(t);

@@ -1,9 +1,9 @@
-import {_async, _asyncValues, expect} from '../../header';
+import {_asyncValues, expect} from '../../header';
 import {pipeAsync, tap, retry} from '../../../src';
 
 export default () => {
     const source = pipeAsync(
-        _async([1, 2, 3, 4, 5]),
+        [1, 2, 3, 4, 5],
         tap((value, index) => {
             if (index < 2) {
                 throw new Error(`Throw for value ${value}`);

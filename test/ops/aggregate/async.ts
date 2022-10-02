@@ -1,10 +1,10 @@
-import {_async, _asyncValues, expect} from '../../header';
+import {_asyncValues, expect} from '../../header';
 import {pipeAsync, aggregate} from '../../../src';
 
 export default () => {
     it('must process data correctly', async () => {
         const output = pipeAsync(
-            _async([1, 2, 3]),
+            [1, 2, 3],
             aggregate((arr) => {
                 return arr.reduce((a, c) => a + c);
             })
@@ -13,7 +13,7 @@ export default () => {
     });
     it('must handle empty iterables', async () => {
         const output = pipeAsync(
-            _async([]),
+            [],
             aggregate((arr) => {
                 return arr;
             })
@@ -22,7 +22,7 @@ export default () => {
     });
     it('must allow return of nothing', async () => {
         const output = pipeAsync(
-            _async([]),
+            [],
             aggregate(() => {})
         );
         expect(await _asyncValues(output)).to.eql([undefined]);

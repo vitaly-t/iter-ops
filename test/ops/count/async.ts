@@ -8,7 +8,7 @@ export default () => {
         expect(await output.first).to.eql(input.length);
     });
     it('must handle empty iterables', async () => {
-        const output = pipeAsync(_async([]), count());
+        const output = pipeAsync([], count());
         expect(await output.first).to.eql(0);
     });
     it('must not generate more than one value', async () => {
@@ -19,7 +19,7 @@ export default () => {
         expect(result).to.eql({value: undefined, done: true});
     });
     it('must use sync predicate', async () => {
-        const input = _async([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+        const input = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         const output1 = pipeAsync(
             input,
             count((a) => a % 2 === 0)
@@ -32,7 +32,7 @@ export default () => {
         expect(await output2.first).to.eql(5);
     });
     it('must use async predicate', async () => {
-        const input = _async([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+        const input = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         const output = pipeAsync(
             input,
             count(async (a) => a % 2 === 0)

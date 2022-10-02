@@ -8,7 +8,7 @@ export default () => {
         expect(await output.first).to.eql(input);
     });
     it('must not generate more than one value', async () => {
-        const input = _async([1, 2]);
+        const input = [1, 2];
         const output = pipeAsync(input, toArray());
         const i = output[Symbol.asyncIterator]();
         const result = (await i.next()) && (await i.next());

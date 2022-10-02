@@ -1,11 +1,11 @@
-import {_async, _asyncValues, expect} from '../../header';
+import {_asyncValues, expect} from '../../header';
 import {pipeAsync, delay, onEnd, IIterationSummary} from '../../../src';
 
 export default () => {
     it('must notify for non-empty iterables', async () => {
         let s: IIterationSummary<any> = {} as any;
         const i = pipeAsync(
-            _async([10, 20, 30]),
+            [10, 20, 30],
             delay(10),
             onEnd((info) => {
                 s = info;
@@ -20,7 +20,7 @@ export default () => {
     it('must measure timing from start', async () => {
         let s: IIterationSummary<any> = {} as any;
         const i = pipeAsync(
-            _async([1]),
+            [1],
             delay(10),
             onEnd((info) => {
                 s = info;
@@ -32,7 +32,7 @@ export default () => {
     it('must notify for empty iterables', async () => {
         let s: IIterationSummary<any> = {} as any;
         const i = pipeAsync(
-            _async([]),
+            [],
             onEnd((info) => {
                 s = info;
             })
@@ -46,7 +46,7 @@ export default () => {
     it('must emit only once', async () => {
         let count = 0;
         const i = pipeAsync(
-            _async([]),
+            [],
             onEnd(() => {
                 count++;
             })

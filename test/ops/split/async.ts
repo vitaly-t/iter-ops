@@ -1,11 +1,11 @@
-import {_async, _asyncValues, expect} from '../../header';
+import {_asyncValues, expect} from '../../header';
 import {pipeAsync, split, SplitValueCarry, ISplitIndex} from '../../../src';
 
 export default () => {
     describe('without options', () => {
         it('must do regular split', async () => {
             const i = pipeAsync(
-                _async('one two three'),
+                'one two three',
                 split((a) => a === ' ')
             );
             expect(await _asyncValues(i)).to.eql([
@@ -16,7 +16,7 @@ export default () => {
         });
         it('must do regular async split', async () => {
             const i = pipeAsync(
-                _async('one two three'),
+                'one two three',
                 split(async (a) => a === ' ')
             );
             expect(await _asyncValues(i)).to.eql([
@@ -27,7 +27,7 @@ export default () => {
         });
         it('must process gaps correctly', async () => {
             const i = pipeAsync(
-                _async([0, 1, 2, 0, 3, 4, 0, 0]),
+                [0, 1, 2, 0, 3, 4, 0, 0],
                 split((a) => a === 0)
             );
             expect(await _asyncValues(i)).to.eql([[], [1, 2], [3, 4], [], []]);
@@ -37,7 +37,7 @@ export default () => {
         describe('carry', () => {
             it('must be able to carry back', async () => {
                 const i = pipeAsync(
-                    _async([0, 1, 2, 0, 0, 3, 4, 0, 0]),
+                    [0, 1, 2, 0, 0, 3, 4, 0, 0],
                     split((a) => a === 0, {
                         carryStart: -1,
                         carryEnd: -1,
@@ -54,7 +54,7 @@ export default () => {
             });
             it('must be able to carry forward', async () => {
                 const i = pipeAsync(
-                    _async([0, 1, 2, 0, 0, 3, 4, 0, 0]),
+                    [0, 1, 2, 0, 0, 3, 4, 0, 0],
                     split((a) => a === 0, {carryStart: 1, carryEnd: 1})
                 );
                 expect(await _asyncValues(i)).to.eql([
@@ -71,7 +71,7 @@ export default () => {
             describe('without carrying', () => {
                 it('must handle any regular scenario', async () => {
                     const i1 = pipeAsync(
-                        _async([0, 1, 2, 0, 0, 3, 4]),
+                        [0, 1, 2, 0, 0, 3, 4],
                         split((a) => !a, {
                             toggle: true,
                             carryStart: 'bla' as any, // for coverage
@@ -84,7 +84,7 @@ export default () => {
                     ]);
 
                     const i2 = pipeAsync(
-                        _async([1, 2, 0, 0, 3, 4, 0]),
+                        [1, 2, 0, 0, 3, 4, 0],
                         split((a) => !a, {
                             toggle: true,
                             carryStart: SplitValueCarry.none, // just for coverage
@@ -93,14 +93,14 @@ export default () => {
                     expect(await _asyncValues(i2)).to.eql([[], []]);
 
                     const i3 = pipeAsync(
-                        _async([1, 2, 0, 3, 4, 0]),
+                        [1, 2, 0, 3, 4, 0],
                         split((a) => !a, {toggle: true})
                     );
                     expect(await _asyncValues(i3)).to.eql([[3, 4]]);
                 });
                 it('must handle no toggles', async () => {
                     const i = pipeAsync(
-                        _async([1, 2, 3, 4, 5]),
+                        [1, 2, 3, 4, 5],
                         split(() => false, {toggle: true})
                     );
                     expect(await _asyncValues(i)).to.eql([]);
@@ -108,14 +108,14 @@ export default () => {
                 it('must handle all toggles', async () => {
                     // ending with open toggle:
                     const i1 = pipeAsync(
-                        _async([1, 2, 3, 4, 5]),
+                        [1, 2, 3, 4, 5],
                         split(() => true, {toggle: true})
                     );
                     expect(await _asyncValues(i1)).to.eql([[], [], []]);
 
                     // ending with closed toggle:
                     const i2 = pipeAsync(
-                        _async([1, 2, 3, 4, 5, 6]),
+                        [1, 2, 3, 4, 5, 6],
                         split(() => true, {toggle: true})
                     );
                     expect(await _asyncValues(i2)).to.eql([[], [], []]);
@@ -124,13 +124,13 @@ export default () => {
             describe('with carrying', () => {
                 it('must work with carrying back', async () => {
                     const i1 = pipeAsync(
-                        _async([1, 2, 3, 4, 5]),
+                        [1, 2, 3, 4, 5],
                         split(() => true, {toggle: true, carryStart: -1})
                     );
                     expect(await _asyncValues(i1)).to.eql([[1], [3], [5]]);
 
                     const i2 = pipeAsync(
-                        _async([1, 2, 3, 4, 5]),
+                        [1, 2, 3, 4, 5],
                         split(() => true, {
                             toggle: true,
                             carryStart: -1,
@@ -145,13 +145,13 @@ export default () => {
                 });
                 it('must work with carrying forward', async () => {
                     const i1 = pipeAsync(
-                        _async([1, 2, 3, 4, 5]),
+                        [1, 2, 3, 4, 5],
                         split((a) => !!a, {toggle: true, carryStart: 1})
                     );
                     expect(await _asyncValues(i1)).to.eql([[1], [3], [5]]);
 
                     const i2 = pipeAsync(
-                        _async([0, 1, 2, 0, 3, 4, 0, 5]),
+                        [0, 1, 2, 0, 3, 4, 0, 5],
                         split((a) => a === 0, {
                             toggle: true,
                             carryStart: 1,
@@ -165,7 +165,7 @@ export default () => {
                 });
                 it('must handle triggers without values', async () => {
                     const i1 = pipeAsync(
-                        _async([0, 0, 0, 0]),
+                        [0, 0, 0, 0],
                         split((a) => a === 0, {
                             toggle: true,
                             carryStart: 1,
@@ -175,7 +175,7 @@ export default () => {
                     expect(await _asyncValues(i1)).to.eql([[0], [0, 0]]);
 
                     const i2 = pipeAsync(
-                        _async([0, 0, 0, 0]),
+                        [0, 0, 0, 0],
                         split((a) => a === 0, {
                             toggle: true,
                             carryStart: -1,
@@ -195,7 +195,7 @@ export default () => {
             it('must report correct indexes', async () => {
                 const indexes: ISplitIndex[] = [];
                 const i = pipeAsync(
-                    _async('one two'),
+                    'one two',
                     split((a, idx) => {
                         indexes.push(idx);
                         return a === ' ';
@@ -217,7 +217,7 @@ export default () => {
             it('must report correct indexes', async () => {
                 const indexes: ISplitIndex[] = [];
                 const i = pipeAsync(
-                    _async('one two'),
+                    'one two',
                     split(
                         (a, idx) => {
                             indexes.push(idx);
@@ -241,7 +241,7 @@ export default () => {
         describe('for toggle', () => {
             it('must report correct indexes, without carrying', async () => {
                 const indexes: ISplitIndex[] = [];
-                const input = _async([-1, 1, 2, 3, -2, 4, 5, -3, 6, 7]);
+                const input = [-1, 1, 2, 3, -2, 4, 5, -3, 6, 7];
                 const i = pipeAsync(
                     input,
                     split(
@@ -269,7 +269,7 @@ export default () => {
             it('must report correct indexes for carry=back', async () => {
                 const indexes: ISplitIndex[] = [];
                 const i = pipeAsync(
-                    _async([1, 2, 3, 4, 5]),
+                    [1, 2, 3, 4, 5],
                     split(
                         (a, idx) => {
                             indexes.push(idx);
@@ -290,7 +290,7 @@ export default () => {
             it('must report correct indexes for carry=forward', async () => {
                 const indexes: ISplitIndex[] = [];
                 const i = pipeAsync(
-                    _async([1, 2, 3, 4, 5]),
+                    [1, 2, 3, 4, 5],
                     split(
                         (a, idx) => {
                             indexes.push(idx);

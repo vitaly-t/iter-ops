@@ -5,7 +5,7 @@ export default () => {
     it('must pull all values', async () => {
         const c: number[] = [];
         const i = pipeAsync(
-            _async([1, 2, 3]),
+            [1, 2, 3],
             tap((a) => {
                 c.push(a);
             }),
