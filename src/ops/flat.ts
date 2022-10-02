@@ -1,4 +1,4 @@
-import {$A, $S, AsyncOperation, Operation, SyncOperation} from '../types';
+import {$A, $S, AsyncOperation, SyncOperation} from '../types';
 import {createOperation} from '../utils';
 
 /**

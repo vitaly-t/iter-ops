@@ -1,4 +1,4 @@
-import {_async, _asyncValues, expect, YSNP} from '../../header';
+import {_asyncValues, expect, YSNP} from '../../header';
 import {pipeAsync, tap, catchError} from '../../../src';
 
 export default () => {

@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipeSync, map, wait} from '../../../src';
+import {pipeSync, wait} from '../../../src';
 
 export default () => {
     it('must throw on synchronous pipeline once', () => {

@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipeSync, delay, onEnd, IIterationSummary} from '../../../src';
+import {pipeSync, onEnd, IIterationSummary} from '../../../src';
 
 export default () => {
     it('must notify for non-empty iterables', () => {

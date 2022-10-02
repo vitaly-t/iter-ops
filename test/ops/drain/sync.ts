@@ -1,4 +1,4 @@
-import {_async, expect} from '../../header';
+import {expect} from '../../header';
 import {pipeSync, drain, tap} from '../../../src';
 
 export default () => {
