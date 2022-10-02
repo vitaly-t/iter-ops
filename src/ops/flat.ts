@@ -1,4 +1,4 @@
-import {$A, $S, Operation} from '../types';
+import {$A, $S, AsyncOperation, Operation, SyncOperation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -33,11 +33,12 @@ import {createOperation} from '../utils';
  */
 export function flat<T>(
     depth?: number
-): Operation<
-    | Iterable<T | Iterable<T>>
-    | AsyncIterable<T | Iterable<T> | AsyncIterable<T>>,
-    T
->;
+): SyncOperation<Iterable<T | Iterable<T>>, T> &
+    AsyncOperation<
+        | Iterable<T | Iterable<T>>
+        | AsyncIterable<T | Iterable<T> | AsyncIterable<T>>,
+        T
+    >;
 
 export function flat(...args: unknown[]) {
     return createOperation(flatSync as any, flatAsync as any, args);

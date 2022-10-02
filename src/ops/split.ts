@@ -1,4 +1,4 @@
-import {$A, $S, IterationState, Operation} from '../types';
+import {$A, $S, AsyncOperation, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -108,13 +108,44 @@ export enum SplitValueCarry {
  * @category Sync+Async
  */
 export function split<T>(
+    cb: (value: T, index: ISplitIndex, state: IterationState) => boolean,
+    options?: ISplitOptions
+): Operation<T, T[]>;
+
+/**
+ * Splits values into separate lists when predicate returns `true` (or resolves with `true`).
+ * When option `toggle` is set, the split uses the toggle start/end logic.
+ *
+ * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
+ * or else the `Promise` will be treated as a truthy value.
+ *
+ * When you know only the split value of each block, you can use the default split mode,
+ * with `carryEnd` set to `1/forward` (in case you do not want it skipped);
+ *
+ * When you know only the end value of each block, you can use the default split mode,
+ * with `carryEnd` set to `-1/back` (in case you do not want it skipped);
+ *
+ * When you know both start and end values of each block, you can use the `toggle` mode,
+ * with `carryStart` set to `1/forward`, and `carryEnd` set to `-1/back`, unless you want
+ * either of those skipped, then leave them at `0/none`.
+ *
+ * Note that in `toggle` mode, you cannot use `carryStart=back` (it will be ignored),
+ * because it would delay emission of the current block indefinitely, plus carrying
+ * block start backward doesn't make much sense anyway.
+ *
+ * @see
+ *  - {@link https://github.com/vitaly-t/iter-ops/wiki/Split Split WiKi}
+ *  - {@link page}
+ * @category Async
+ */
+export function split<T>(
     cb: (
         value: T,
         index: ISplitIndex,
         state: IterationState
-    ) => boolean | Promise<boolean>,
+    ) => Promise<boolean>,
     options?: ISplitOptions
-): Operation<T, T[]>;
+): AsyncOperation<T, T[]>;
 
 export function split(...args: unknown[]) {
     return createOperation(splitSync, splitAsync, args);
