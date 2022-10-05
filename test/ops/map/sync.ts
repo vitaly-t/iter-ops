@@ -10,6 +10,14 @@ export default () => {
         );
         expect([...output]).to.eql([{value: 1}, {value: 2}, {value: 3}]);
     });
+    it('must produce correct indexes', () => {
+        const input = [1, 2, 3];
+        const output = pipeSync(
+            input,
+            map((value, idx) => ({idx}))
+        );
+        expect([...output]).to.eql([{idx: 0}, {idx: 1}, {idx: 2}]);
+    });
     it('must reuse the state object', () => {
         const input = 'hello!';
         const arr: number[] = [];
