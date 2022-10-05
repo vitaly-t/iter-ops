@@ -10,6 +10,8 @@ export {
     IterableExt,
     IterationState,
     Operation,
+    SyncOperation,
+    AsyncOperation
 } from './types';
 export {toAsync, toIterable} from './helpers';
 export {pipe, pipeSync, pipeAsync} from './pipe';

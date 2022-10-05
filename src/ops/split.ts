@@ -86,7 +86,7 @@ export enum SplitValueCarry {
  * When option `toggle` is set, the split uses the toggle start/end logic.
  *
  * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
- * or else the `Promise` will be treated as a truthy value.
+ * or else every `Promise` will be treated as a truthy value.
  *
  * When you know only the split value of each block, you can use the default split mode,
  * with `carryEnd` set to `1/forward` (in case you do not want it skipped);
@@ -117,7 +117,7 @@ export function split<T>(
  * When option `toggle` is set, the split uses the toggle start/end logic.
  *
  * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
- * or else the `Promise` will be treated as a truthy value.
+ * or else every `Promise` will be treated as a truthy value.
  *
  * When you know only the split value of each block, you can use the default split mode,
  * with `carryEnd` set to `1/forward` (in case you do not want it skipped);
