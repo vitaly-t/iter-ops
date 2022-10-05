@@ -53,7 +53,7 @@
   ],
   "scripts": {
     "build": "cross-env npm run clean && cross-env rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
-    "check-format": "cross-env prettier --list-different \"./**/*.ts\"",
+    "check-format": "cross-env prettier --list-different \"./**/*.{json,yml,md,ts}\"",
     "check-spelling": "cross-env cspell --config=.cspell.json \"**/*.{md,ts}\"",
     "clean": "cross-env rimraf dist",
     "doc": "cross-env typedoc --readme none",
