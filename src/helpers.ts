@@ -36,6 +36,9 @@ export function toAsync<T>(i: UnknownIterable<T>): AsyncIterable<T> {
     if (isAsyncIterable<typeof i, T>(i)) {
         return i;
     }
+    if (!isSyncIterable(i)) {
+        throw new Error('Cannot convert to AsyncIterable.');
+    }
     if (isIndexed(i)) {
         return indexedAsyncIterable(i);
     }
