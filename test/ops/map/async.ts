@@ -14,6 +14,18 @@ export default () => {
             {value: 3},
         ]);
     });
+    it('must produce correct indexes', async () => {
+        const input = [1, 2, 3];
+        const output = pipeAsync(
+            input,
+            map((value, idx) => ({idx}))
+        );
+        expect(await _asyncValues(output)).to.eql([
+            {idx: 0},
+            {idx: 1},
+            {idx: 2},
+        ]);
+    });
     it('must reuse the state object', async () => {
         const input = 'hello!';
         const arr: number[] = [];
