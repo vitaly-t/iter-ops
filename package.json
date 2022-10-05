@@ -52,14 +52,13 @@
     "dist"
   ],
   "scripts": {
-    "prebuild": "npm run clean",
-    "build": "rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
-    "check-format": "prettier --list-different \"./**/*.ts\"",
-    "check-spelling": "cspell --config=.cspell.json \"**/*.{md,ts}\"",
-    "clean": "rimraf dist",
-    "doc": "typedoc --readme none",
-    "format": "prettier --write \"./**/*.{json,yml,md,ts}\"",
-    "lint": "eslint .",
+    "build": "cross-env npm run clean && cross-env rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "check-format": "cross-env prettier --list-different \"./**/*.ts\"",
+    "check-spelling": "cross-env cspell --config=.cspell.json \"**/*.{md,ts}\"",
+    "clean": "cross-env rimraf dist",
+    "doc": "cross-env typedoc --readme none",
+    "format": "cross-env prettier --write \"./**/*.{json,yml,md,ts}\"",
+    "lint": "cross-env eslint .",
     "test": "cross-env TS_NODE_PROJECT=tsconfig.test.json nyc mocha -r ts-node/register 'test/**/*.spec.ts'"
   },
   "devDependencies": {
