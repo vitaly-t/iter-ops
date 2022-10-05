@@ -79,6 +79,12 @@
         "@typescript-eslint/no-floating-promises": "off",
         "@typescript-eslint/require-await": "off"
       }
+    },
+    {
+      "files": "test/**/types/*",
+      "rules": {
+        "@typescript-eslint/no-unused-vars": "off"
+      }
     }
   ]
 }

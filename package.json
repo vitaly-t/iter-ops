@@ -59,9 +59,12 @@
     "doc": "cross-env typedoc --readme none",
     "format": "cross-env prettier --write \"./**/*.{json,yml,md,ts}\"",
     "lint": "cross-env eslint .",
-    "test": "cross-env TS_NODE_PROJECT=tsconfig.test.json nyc mocha -r ts-node/register 'test/**/*.spec.ts'"
+    "test": "cross-env npm run test:js && cross-env npm run test:types",
+    "test:js": "cross-env TS_NODE_PROJECT=tsconfig.test.json nyc mocha -r ts-node/register 'test/**/*.spec.ts'",
+    "test:types": "cross-env ts-node -P scripts/tsconfig.json scripts/test-types.mts"
   },
   "devDependencies": {
+    "@definitelytyped/dtslint": "^0.0.133",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
     "@rollup/plugin-node-resolve": "14.1.0",
     "@rollup/plugin-typescript": "8.5.0",
@@ -77,6 +80,8 @@
     "eslint": "8.24.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
+    "execa": "^6.1.0",
+    "glob-run": "^0.1.7",
     "mocha": "10.0.0",
     "nyc": "15.1.0",
     "prettier": "2.7.1",
