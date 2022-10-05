@@ -1,0 +1,7 @@
+{
+  "extends": "../../../../tsconfig.test.type.json",
+  "compilerOptions": {
+    "lib": ["ESNext"],
+    "strict": true
+  }
+}
