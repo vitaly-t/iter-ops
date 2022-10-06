@@ -52,14 +52,16 @@
     "dist"
   ],
   "scripts": {
-    "build": "cross-env npm run clean && cross-env rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "build": "cross-env npm run clean && cross-env rollup -c rollup.config.ts --configPlugin '@rollup/plugin-typescript={tsconfig:\"tsconfig.build.json\"}'",
     "check-format": "cross-env prettier --list-different \"./**/*.{json,yml,md,ts}\"",
     "check-spelling": "cross-env cspell --config=.cspell.json \"**/*.{md,ts}\"",
     "clean": "cross-env rimraf dist",
     "doc": "cross-env typedoc --readme none",
     "format": "cross-env prettier --write \"./**/*.{json,yml,md,ts}\"",
     "lint": "cross-env eslint .",
-    "test": "cross-env TS_NODE_PROJECT=tsconfig.test.json nyc mocha -r ts-node/register 'test/**/*.spec.ts'"
+    "test": "cross-env npm run test:js && cross-env npm run test:types",
+    "test:js": "cross-env TS_NODE_PROJECT=tsconfig.test.json nyc mocha -r ts-node/register 'test/**/*.spec.ts'",
+    "test:types": "cross-env npm run build && cross-env tsd -f 'test/**/*.test-d.ts'"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "1.0.2",
@@ -77,6 +79,7 @@
     "eslint": "8.24.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
+    "glob-run": "^0.1.7",
     "mocha": "10.0.0",
     "nyc": "15.1.0",
     "prettier": "2.7.1",
@@ -88,6 +91,7 @@
     "rollup-plugin-gzip": "3.0.1",
     "rollup-plugin-terser": "7.0.2",
     "ts-node": "10.9.1",
+    "tsd": "^0.24.1",
     "tslib": "2.4.0",
     "typedoc": "0.23.15",
     "typescript": "4.8.4"
