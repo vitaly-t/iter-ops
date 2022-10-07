@@ -116,10 +116,20 @@ export type UnwrapUnknownIterableIterator<T> =
     T extends UnknownIterableIterator<infer U> ? U : T;
 
 /**
+ * Correct typedef for Operation.
+ * However, it cannot inter types correctly (due to TypeScript limitation)
+ * as it uses an intersection of function.
+ * @see https://github.com/microsoft/TypeScript/issues/26591
+ */
+// export type Operation<T, R> = AsyncOperation<T, R> & SyncOperation<T, R>;
+
+/**
  * Pipe-through type (return type for all operators)
  * An operation that can apply either sync or async transformations.
  */
-export type Operation<T, R> = AsyncOperation<T, R> & SyncOperation<T, R>;
+export type Operation<T, R> = (
+    i: AsyncIterable<T> | Iterable<T>
+) => AsyncIterable<R> & Iterable<R>;
 
 /**
  * An operation that transform a sync or async iterable to an async iterable.
