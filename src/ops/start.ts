@@ -42,7 +42,7 @@ export function start<T>(
  *
  * @see
  *  - {@link stop}
- * @category Async
+ * @category Sync+Async
  */
 export function start<T>(
     cb: (value: T, index: number, state: IterationState) => Promise<boolean>
