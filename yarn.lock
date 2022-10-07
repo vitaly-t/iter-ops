@@ -2579,7 +2579,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob-run@npm:^0.1.7":
+"glob-run@npm:0.1.7":
   version: 0.1.7
   resolution: "glob-run@npm:0.1.7"
   dependencies:
@@ -2920,16 +2920,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-core-module@npm:^2.2.0":
-  version: 2.8.0
-  resolution: "is-core-module@npm:2.8.0"
-  dependencies:
-    has: ^1.0.3
-  checksum: f8b52714891e1a6c6577fcb8d5e057bab064a7a30954aab6beb5092e311473eb8da57afd334de4981dc32409ffca998412efc3a2edceb9e397cef6098d21dd91
-  languageName: node
-  linkType: hard
-
-"is-core-module@npm:^2.5.0":
+"is-core-module@npm:^2.2.0, is-core-module@npm:^2.5.0":
   version: 2.10.0
   resolution: "is-core-module@npm:2.10.0"
   dependencies:
@@ -3132,7 +3123,7 @@ __metadata:
     eslint: 8.24.0
     eslint-config-prettier: 8.5.0
     eslint-plugin-prettier: 4.2.1
-    glob-run: ^0.1.7
+    glob-run: 0.1.7
     mocha: 10.0.0
     nyc: 15.1.0
     prettier: 2.7.1
@@ -3144,7 +3135,7 @@ __metadata:
     rollup-plugin-gzip: 3.0.1
     rollup-plugin-terser: 7.0.2
     ts-node: 10.9.1
-    tsd: ^0.24.1
+    tsd: 0.24.1
     tslib: 2.4.0
     typedoc: 0.23.15
     typescript: 4.8.4
@@ -4891,7 +4882,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsd@npm:^0.24.1":
+"tsd@npm:0.24.1":
   version: 0.24.1
   resolution: "tsd@npm:0.24.1"
   dependencies:
@@ -5020,11 +5011,11 @@ __metadata:
 
 "typescript@patch:typescript@4.8.4#~builtin<compat/typescript>":
   version: 4.8.4
-  resolution: "typescript@patch:typescript@npm%3A4.8.4#~builtin<compat/typescript>::version=4.8.4&hash=a1c5e5"
+  resolution: "typescript@patch:typescript@npm%3A4.8.4#~builtin<compat/typescript>::version=4.8.4&hash=701156"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 563a0ef47abae6df27a9a3ab38f75fc681f633ccf1a3502b1108e252e187787893de689220f4544aaf95a371a4eb3141e4a337deb9895de5ac3c1ca76430e5f0
+  checksum: 301459fc3eb3b1a38fe91bf96d98eb55da88a9cb17b4ef80b4d105d620f4d547ba776cc27b44cc2ef58b66eda23fe0a74142feb5e79a6fb99f54fc018a696afa
   languageName: node
   linkType: hard
 
@@ -5266,7 +5257,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs-parser@npm:20.2.4, yargs-parser@npm:^20.2.2":
+"yargs-parser@npm:20.2.4":
   version: 20.2.4
   resolution: "yargs-parser@npm:20.2.4"
   checksum: d251998a374b2743a20271c2fd752b9fbef24eb881d53a3b99a7caa5e8227fcafd9abf1f345ac5de46435821be25ec12189a11030c12ee6481fef6863ed8b924
@@ -5283,7 +5274,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs-parser@npm:^20.2.3":
+"yargs-parser@npm:^20.2.2, yargs-parser@npm:^20.2.3":
   version: 20.2.9
   resolution: "yargs-parser@npm:20.2.9"
   checksum: 8bb69015f2b0ff9e17b2c8e6bfe224ab463dd00ca211eece72a4cd8a906224d2703fb8a326d36fdd0e68701e201b2a60ed7cf81ce0fd9b3799f9fe7745977ae3
