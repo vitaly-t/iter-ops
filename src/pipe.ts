@@ -12,7 +12,6 @@ import {catchError} from './ops/catch-error';
 import {optimizeIterable} from './utils';
 import {isAsyncIterable, isSyncIterable} from './typeguards';
 
-/** @hidden */
 interface PipeSync {
     <T>(i: Iterable<T>): IterableExt<T>;
 
@@ -114,7 +113,6 @@ interface PipeSync {
     ): IterableExt<unknown>;
 }
 
-/** @hidden */
 interface PipeAsync {
     <T>(i: UnknownIterable<T>): AsyncIterableExt<T>;
 
