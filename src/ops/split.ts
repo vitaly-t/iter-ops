@@ -136,7 +136,7 @@ export function split<T>(
  * @see
  *  - {@link https://github.com/vitaly-t/iter-ops/wiki/Split Split WiKi}
  *  - {@link page}
- * @category Async
+ * @category Sync+Async
  */
 export function split<T>(
     cb: (

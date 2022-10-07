@@ -29,7 +29,7 @@ import {createOperation} from '../utils';
  *
  * @see
  *  - [Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
- * @category Sync
+ * @category Sync+Async
  */
 export function filter<T, S extends T = T>(
     cb: (value: T, index: number, state: IterationState) => value is S
@@ -91,7 +91,7 @@ export function filter<T>(
  *
  * @see
  *  - [Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
- * @category Async
+ * @category Sync+Async
  */
 export function filter<T>(
     cb: (value: T, index: number, state: IterationState) => Promise<boolean>

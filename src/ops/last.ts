@@ -74,7 +74,7 @@ export function last<T>(
  * @see
  *  - {@link takeLast}
  *  - {@link first}
- * @category Async
+ * @category Sync+Async
  */
 export function last<T>(
     cb: (value: T, index: number) => Promise<boolean>

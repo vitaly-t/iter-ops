@@ -52,7 +52,7 @@ export function every<T>(
  * @see
  *  - [Array.every](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every)
  *  - {@link some}
- * @category Async
+ * @category Sync+Async
  */
 export function every<T>(
     cb: (value: T, index: number, state: IterationState) => Promise<boolean>

@@ -80,7 +80,7 @@ export function first<T>(
  *  - {@link last}
  *  - {@link take}
  *  - {@link takeLast}
- * @category Async
+ * @category Sync+Async
  */
 export function first<T>(
     cb: (value: T, index: number) => Promise<boolean>

@@ -74,7 +74,7 @@ export function repeat<T>(
  *
  * @see
  *  - {@link retry}
- * @category Async
+ * @category Sync+Async
  */
 export function repeat<T>(
     cb: (

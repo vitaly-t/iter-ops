@@ -56,7 +56,7 @@
     "check-format": "cross-env prettier --list-different \"./**/*.{json,yml,md,ts}\"",
     "check-spelling": "cross-env cspell --config=.cspell.json \"**/*.{md,ts}\"",
     "clean": "cross-env rimraf dist",
-    "doc": "cross-env typedoc --tsconfig tsconfig.build.json --readme none",
+    "doc": "cross-env typedoc --readme none",
     "format": "cross-env prettier --write \"./**/*.{json,yml,md,ts}\"",
     "lint": "cross-env eslint .",
     "test": "cross-env npm run test:js && cross-env npm run test:types",

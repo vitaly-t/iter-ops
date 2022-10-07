@@ -52,7 +52,7 @@ export function some<T>(
  * @see
  *  - [Array.some](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some)
  *  - {@link every}
- * @category Async
+ * @category Sync+Async
  */
 export function some<T>(
     cb: (value: T, index: number, state: IterationState) => Promise<boolean>

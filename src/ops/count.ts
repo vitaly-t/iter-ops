@@ -72,7 +72,7 @@ export function count<T>(
  *
  * Note that the predicate can only return a `Promise` inside an asynchronous pipeline.
  *
- * @category Async
+ * @category Sync+Async
  */
 export function count<T>(
     cb: (value: T, index: number, state: IterationState) => Promise<boolean>
