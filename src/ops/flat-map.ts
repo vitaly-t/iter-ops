@@ -1,5 +1,6 @@
 import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
+import {isPromiseLike} from "../typeguards";
 
 /**
  * **New in v2.0.0**
@@ -57,10 +58,50 @@ function flatMapAsync<T, R>(
 ): AsyncIterable<R> {
     return {
         [$A](): AsyncIterator<R> {
+            const i = iterable[$A]();
+            const state: IterationState = {};
+            let spread: any = null;
+            let sync: boolean;
+            let index = 0;
             return {
                 next(): Promise<IteratorResult<R>> {
-                    // TODO: to be implemented
-                    return Promise.resolve({value: undefined, done: true});
+                    if (spread) {
+                        const a = spread.next();
+                        if (sync) {
+                            if (a.done) {
+                                spread = null;
+                                return this.next();
+                            }
+                            return Promise.resolve(a);
+                        }
+                        return a.then((b: IteratorResult<R>) => {
+                            if (b.done) {
+                                spread = null;
+                                return this.next();
+                            }
+                            return b;
+                        });
+                    }
+                    return i.next().then((c) => {
+                        if (c.done) {
+                            return c;
+                        }
+                        const out = (value: any) => {
+                            spread = value?.[$S]?.();
+                            if (spread) {
+                                sync = true;
+                            } else {
+                                sync = false;
+                                spread = value?.[$A]?.();
+                            }
+                            if (!spread) {
+                                return {value, done: false};
+                            }
+                            return this.next();
+                        }
+                        const v: any = cb(c.value, index++, state);
+                        return isPromiseLike(v) ? v.then(out) : out(v);
+                    });
                 },
             };
         },
