@@ -5,6 +5,11 @@ import {isPromiseLike} from '../typeguards';
 /**
  * **New in v2.0.0**
  *
+ * Re-maps and then flattens an iterable, consistent with the logic of {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap Array.prototype.flatMap()}
+ *
+ * @see
+ *  - {@link flat}
+ *  - {@link map}
  * @category Sync+Async
  */
 export function flatMap<T, R>(
@@ -23,7 +28,7 @@ function flatMapSync<T, R>(
         [$S](): Iterator<R> {
             const i = iterable[$S]();
             const state: IterationState = {};
-            let spread: any = null;
+            let spread: any; // spread sub-iterator
             let index = 0;
             return {
                 next(): IteratorResult<R> {
