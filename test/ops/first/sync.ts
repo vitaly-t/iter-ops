@@ -1,15 +1,15 @@
 import {expect} from '../../header';
-import {pipeSync, first} from '../../../src';
+import {pipe, first} from '../../../src';
 
 export default () => {
     describe('without predicate', () => {
         it('must emit last value', () => {
             const input = [10, 20, 30];
-            const output = pipeSync(input, first());
+            const output = pipe(input, first());
             expect([...output]).to.eql([10]);
         });
         it('must emit nothing for empty iterables', () => {
-            const output = pipeSync([], first());
+            const output = pipe([], first());
             expect([...output]).to.eql([]);
         });
     });
@@ -17,7 +17,7 @@ export default () => {
         it('must call the predicate correctly', () => {
             const input = [1, 2, 3, 4, 5];
             const indexes: number[] = [];
-            const output = pipeSync(
+            const output = pipe(
                 input,
                 first((value, index) => {
                     indexes.push(index);
@@ -29,7 +29,7 @@ export default () => {
         });
         it('must reject invalid predicate types', () => {
             const input = [10, 20, 30];
-            const output = pipeSync(input, first('bla' as any));
+            const output = pipe(input, first('bla' as any));
             expect([...output]).to.eql([10]);
         });
     });

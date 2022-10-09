@@ -1,10 +1,10 @@
 import {expect} from '../../header';
-import {pipeSync, zip} from '../../../src';
+import {pipe, zip} from '../../../src';
 import {createIterator} from './header';
 
 export default () => {
     it('must compress till first end', () => {
-        const i = pipeSync([1, 2, 3], zip('here', createIterator()));
+        const i = pipe([1, 2, 3], zip('here', createIterator()));
         expect([...i]).to.eql([
             [1, 'h', true],
             [2, 'e', false],
@@ -12,16 +12,16 @@ export default () => {
         ]);
     });
     it('must not retry once finished', () => {
-        const i = pipeSync([1, 2, 3], zip('here'))[Symbol.iterator]();
+        const i = pipe([1, 2, 3], zip('here'))[Symbol.iterator]();
         i.next() && i.next() && i.next() && i.next(); // iteration over here
         expect(i.next()).to.eql({value: undefined, done: true});
     });
     it('must work without arguments', () => {
-        const i = pipeSync([1, 2, 3], zip());
+        const i = pipe([1, 2, 3], zip());
         expect([...i]).to.eql([[1], [2], [3]]);
     });
     it('must throw once on invalid inputs', () => {
-        const i = pipeSync([1, 2, 3], zip(111 as any, 222 as any, 333 as any));
+        const i = pipe([1, 2, 3], zip(111 as any, 222 as any, 333 as any));
         let err: any;
         try {
             [...i];

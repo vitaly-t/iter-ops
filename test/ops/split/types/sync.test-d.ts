@@ -1,10 +1,10 @@
 import {expectType} from 'tsd';
 
-import {split, pipeSync, IterableExt} from '../../../../src';
+import {split, pipe, IterableExt} from '../../../../src';
 
 declare const iterableNumber: Iterable<number>;
 
-const test1 = pipeSync(
+const test1 = pipe(
     iterableNumber,
     split((value) => true)
 );

@@ -1,10 +1,10 @@
 import {expectType} from 'tsd';
 
-import {pipeAsync, catchError, AsyncIterableExt} from '../../../../src';
+import {pipe, catchError, AsyncIterableExt} from '../../../../src';
 
-declare const iterableString: Iterable<string>;
+declare const iterableString: AsyncIterable<string>;
 
-const test1 = pipeAsync(
+const test1 = pipe(
     iterableString,
     catchError((err, ctx) => {})
 );

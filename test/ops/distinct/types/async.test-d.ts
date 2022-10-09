@@ -1,8 +1,8 @@
 import {expectType} from 'tsd';
 
-import {AsyncIterableExt, distinct, pipeAsync} from '../../../../src';
+import {AsyncIterableExt, distinct, pipe} from '../../../../src';
 
 declare const iterableString: AsyncIterable<string>;
 
-const test1 = pipeAsync(iterableString, distinct());
+const test1 = pipe(iterableString, distinct());
 expectType<AsyncIterableExt<string>>(test1);

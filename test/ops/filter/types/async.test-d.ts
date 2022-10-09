@@ -1,10 +1,10 @@
 import {expectType} from 'tsd';
 
-import {AsyncIterableExt, filter, pipeAsync} from '../../../../src';
+import {AsyncIterableExt, filter, pipe} from '../../../../src';
 
 declare const iterableNumber: AsyncIterable<number>;
 
-const test1 = pipeAsync(
+const test1 = pipe(
     iterableNumber,
     filter((a) => a > 5)
 );

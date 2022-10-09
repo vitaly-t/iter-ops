@@ -1,10 +1,10 @@
 import {expect} from '../../header';
-import {pipeSync, onEnd, IIterationSummary} from '../../../src';
+import {pipe, onEnd, IIterationSummary} from '../../../src';
 
 export default () => {
     it('must notify for non-empty iterables', () => {
         let s: IIterationSummary<any> = {} as any;
-        const i = pipeSync(
+        const i = pipe(
             [10, 20, 30],
             onEnd((info) => {
                 s = info;
@@ -18,7 +18,7 @@ export default () => {
     });
     it('must notify for empty iterables', () => {
         let s: IIterationSummary<any> = {} as any;
-        const i = pipeSync(
+        const i = pipe(
             [],
             onEnd((info) => {
                 s = info;
@@ -32,7 +32,7 @@ export default () => {
     });
     it('must emit only once', () => {
         let count = 0;
-        const i = pipeSync(
+        const i = pipe(
             [],
             onEnd(() => {
                 count++;

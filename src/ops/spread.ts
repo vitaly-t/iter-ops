@@ -1,4 +1,4 @@
-import {$A, $S, AsyncOperation, SyncOperation} from '../types';
+import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -26,15 +26,10 @@ import {createOperation} from '../utils';
  *  - {@link flat}
  * @category Sync+Async
  */
-export function spread<T>(): SyncOperation<Iterable<T>, T> &
-    AsyncOperation<Iterable<T> | AsyncIterable<T>, T>;
+export function spread<T>(): Operation<Iterable<T> | AsyncIterable<T>, T>;
 
-export function spread<T>(...args: unknown[]) {
-    return createOperation<Iterable<T>, Iterable<T> | AsyncIterable<T>, T>(
-        spreadSync,
-        spreadAsync,
-        args
-    );
+export function spread(...args: unknown[]) {
+    return createOperation(spreadSync, spreadAsync, args);
 }
 
 function spreadSync<T>(iterable: Iterable<Iterable<T>>): Iterable<T> {

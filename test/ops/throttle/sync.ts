@@ -1,9 +1,9 @@
 import {expect} from '../../header';
-import {pipeSync, throttle} from '../../../src';
+import {pipe, throttle} from '../../../src';
 
 export default () => {
     it('must throw on synchronous pipeline once', () => {
-        const i = pipeSync([], throttle(() => Promise.resolve(123)) as any)[
+        const i = pipe([], throttle(() => Promise.resolve(123)) as any)[
             Symbol.iterator
         ]();
         expect(() => {

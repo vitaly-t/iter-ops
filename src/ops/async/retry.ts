@@ -1,4 +1,4 @@
-import {$A, IterationState, AsyncOperation} from '../../types';
+import {$A, IterationState, Operation} from '../../types';
 import {isPromiseLike} from '../../typeguards';
 import {createOperation, throwOnSync} from '../../utils';
 
@@ -35,7 +35,7 @@ import {createOperation, throwOnSync} from '../../utils';
  *  - {@link repeat}
  * @category Async-only
  */
-export function retry<T>(attempts: number): AsyncOperation<T, T>;
+export function retry<T>(attempts: number): Operation<T, T>;
 
 /**
  * When the iterable rejects, the callback is to return the flag, indicating whether
@@ -61,7 +61,7 @@ export function retry<T>(
         attempts: number,
         state: IterationState
     ) => boolean | Promise<boolean>
-): AsyncOperation<T, T>;
+): Operation<T, T>;
 
 export function retry(...args: unknown[]) {
     return createOperation(throwOnSync('retry'), retryAsync, args);

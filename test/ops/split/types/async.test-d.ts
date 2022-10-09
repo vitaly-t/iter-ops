@@ -1,10 +1,10 @@
 import {expectType} from 'tsd';
 
-import {split, pipeAsync, AsyncIterableExt} from '../../../../src';
+import {split, pipe, AsyncIterableExt} from '../../../../src';
 
 declare const iterableNumber: AsyncIterable<number>;
 
-const test1 = pipeAsync(
+const test1 = pipe(
     iterableNumber,
     split((value) => true)
 );
