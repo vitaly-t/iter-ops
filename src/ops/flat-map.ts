@@ -1,6 +1,6 @@
 import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
-import {isPromiseLike} from "../typeguards";
+import {isPromiseLike} from '../typeguards';
 
 /**
  * **New in v2.0.0**
@@ -60,8 +60,8 @@ function flatMapAsync<T, R>(
         [$A](): AsyncIterator<R> {
             const i = iterable[$A]();
             const state: IterationState = {};
-            let spread: any = null;
-            let sync: boolean;
+            let spread: any; // sync or async sub-iterator to be spread
+            let sync: boolean; // set when 'spread' is synchronous
             let index = 0;
             return {
                 next(): Promise<IteratorResult<R>> {
@@ -69,36 +69,34 @@ function flatMapAsync<T, R>(
                         const a = spread.next();
                         if (sync) {
                             if (a.done) {
-                                spread = null;
+                                spread = null; // finished spreading
                                 return this.next();
                             }
                             return Promise.resolve(a);
                         }
                         return a.then((b: IteratorResult<R>) => {
                             if (b.done) {
-                                spread = null;
+                                spread = null; // finished spreading
                                 return this.next();
                             }
                             return b;
                         });
                     }
-                    return i.next().then((c) => {
+                    return i.next().then((c: IteratorResult<T>) => {
                         if (c.done) {
                             return c;
                         }
                         const out = (value: any) => {
                             spread = value?.[$S]?.();
-                            if (spread) {
-                                sync = true;
-                            } else {
-                                sync = false;
+                            sync = !!spread;
+                            if (!spread) {
                                 spread = value?.[$A]?.();
                             }
                             if (!spread) {
-                                return {value, done: false};
+                                return {value, done: false}; // return value as is
                             }
                             return this.next();
-                        }
+                        };
                         const v: any = cb(c.value, index++, state);
                         return isPromiseLike(v) ? v.then(out) : out(v);
                     });
