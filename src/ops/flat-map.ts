@@ -96,9 +96,9 @@ function flatMapAsync<T, R>(
                             sync = !!spread;
                             if (!spread) {
                                 spread = value?.[$A]?.();
-                            }
-                            if (!spread) {
-                                return {value, done: false}; // return value as is
+                                if (!spread) {
+                                    return {value, done: false}; // return value as is
+                                }
                             }
                             return this.next();
                         };
