@@ -1,6 +1,5 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "tsconfig": "./tsconfig.build.json",
   "name": "ITER-OPS v2.0.0-beta.3",
   "out": "../iter-ops-docs",
   "excludeExternals": true,

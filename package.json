@@ -52,7 +52,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "cross-env npm run clean && cross-env rollup -c rollup.config.ts --configPlugin '@rollup/plugin-typescript={tsconfig:\"tsconfig.build.json\"}'",
+    "build": "cross-env npm run clean && cross-env rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "check-format": "cross-env prettier --list-different \"./**/*.{json,yml,md,ts}\"",
     "check-spelling": "cross-env cspell --config=.cspell.json \"**/*.{md,ts}\"",
     "clean": "cross-env rimraf dist",
@@ -61,7 +61,7 @@
     "lint": "cross-env eslint .",
     "test": "cross-env npm run test:js && cross-env npm run test:types",
     "test:js": "cross-env TS_NODE_PROJECT=tsconfig.test.json nyc mocha -r ts-node/register 'test/**/*.spec.ts'",
-    "test:types": "cross-env npm run build && cross-env tsd -f 'test/**/*.test-d.ts'"
+    "test:types": "cross-env BUILD_TYPES_ONLY=1 npm run build && cross-env tsd -f 'test/**/*.test-d.ts'"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "1.0.2",
