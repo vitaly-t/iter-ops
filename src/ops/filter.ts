@@ -1,11 +1,4 @@
-import {
-    $A,
-    $S,
-    AsyncOperation,
-    IterationState,
-    Operation,
-    SyncOperation,
-} from '../types';
+import {$A, $S, IterationState, Operation} from '../types';
 import {isPromiseLike} from '../typeguards';
 import {createOperation} from '../utils';
 
@@ -33,7 +26,7 @@ import {createOperation} from '../utils';
  */
 export function filter<T, S extends T = T>(
     cb: (value: T, index: number, state: IterationState) => value is S
-): SyncOperation<T, S>;
+): Operation<T, S>;
 
 /**
  * Standard `Array.filter` logic for the iterable, extended with iteration state + async.
@@ -56,46 +49,20 @@ export function filter<T, S extends T = T>(
  * );
  * ```
  *
- * Note that the predicate can only return a `Promise` inside an asynchronous pipeline
+ * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
+ * or else the `Promise` will be treated as a truthy value.
  *
  * @see
  *  - [Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
  * @category Sync+Async
  */
 export function filter<T>(
-    cb: (value: T, index: number, state: IterationState) => boolean
+    cb: (
+        value: T,
+        index: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): Operation<T, T>;
-
-/**
- * Standard `Array.filter` logic for the iterable, extended with iteration state + async.
- *
- * In the example below, we take advantage of the {@link IterationState}, to detect and remove repeated
- * values (do not confuse with {@link distinct}, which removes all duplicates).
- *
- * ```ts
- * import {pipe, filter} from 'iter-ops';
- *
- * const i = pipe(
- *     iterable,
- *     filter((value, index, state) => {
- *         if(value === state.previousValue) {
- *             return false;
- *         }
- *         state.previousValue = value;
- *         return true;
- *     })
- * );
- * ```
- *
- * Note that the predicate can only return a `Promise` inside an asynchronous pipeline
- *
- * @see
- *  - [Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
- * @category Sync+Async
- */
-export function filter<T>(
-    cb: (value: T, index: number, state: IterationState) => Promise<boolean>
-): AsyncOperation<T, T>;
 
 export function filter(...args: unknown[]) {
     return createOperation(filterSync, filterAsync, args);

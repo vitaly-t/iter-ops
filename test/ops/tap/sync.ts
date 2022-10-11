@@ -1,11 +1,11 @@
 import {expect} from '../../header';
-import {pipeSync, tap} from '../../../src';
+import {pipe, tap} from '../../../src';
 
 export default () => {
     it('must be called for all values', () => {
         const input = [1, 2, 3],
             res: any[] = [];
-        const a = pipeSync(
+        const a = pipe(
             input,
             tap((val, idx) => {
                 res.push({val, idx});
@@ -21,7 +21,7 @@ export default () => {
     it('must reuse the state object', () => {
         const input = 'hello!';
         const arr: number[] = [];
-        const output = pipeSync(
+        const output = pipe(
             input,
             tap((value, index, state) => {
                 state.count = state.count ?? 0;

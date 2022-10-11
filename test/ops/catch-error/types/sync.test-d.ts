@@ -1,10 +1,10 @@
 import {expectType} from 'tsd';
 
-import {pipeSync, catchError, IterableExt} from '../../../../src';
+import {pipe, catchError, IterableExt} from '../../../../src';
 
 declare const iterableString: Iterable<string>;
 
-const test1 = pipeSync(
+const test1 = pipe(
     iterableString,
     catchError((err, ctx) => {})
 );

@@ -1,10 +1,10 @@
 import {expect} from '../../header';
-import {pipeSync, start} from '../../../src';
+import {pipe, start} from '../../../src';
 
 export default () => {
     it('must trigger on condition', () => {
         const input = [1, 2, 3, 4, 5];
-        const output = pipeSync(
+        const output = pipe(
             input,
             start((a) => a > 3)
         );
@@ -12,7 +12,7 @@ export default () => {
     });
     it('must support non-starters', () => {
         const input = [1, 2, 3, 4, 5];
-        const output = pipeSync(
+        const output = pipe(
             input,
             start((a) => a > 5)
         );
@@ -21,7 +21,7 @@ export default () => {
     it('must reuse the state object', () => {
         const input = 'hello!';
         const arr: number[] = [];
-        const output = pipeSync(
+        const output = pipe(
             input,
             start((value, index, state) => {
                 state.count = state.count ?? 0;

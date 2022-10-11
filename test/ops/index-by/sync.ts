@@ -1,9 +1,9 @@
 import {expect} from '../../header';
-import {pipeSync, indexBy} from '../../../src';
+import {pipe, indexBy} from '../../../src';
 
 export default () => {
     it('must work for an empty list', () => {
-        const i = pipeSync(
+        const i = pipe(
             [],
             indexBy(() => true)
         );
@@ -11,7 +11,7 @@ export default () => {
     });
     it('must work for partial match', () => {
         const calls: any[] = [];
-        const i = pipeSync(
+        const i = pipe(
             [1, 2, 3, 4],
             indexBy((value, index) => {
                 calls.push({value, index});
@@ -30,7 +30,7 @@ export default () => {
         ]);
     });
     it('must work for no-match', () => {
-        const i = pipeSync(
+        const i = pipe(
             [1, 2, 3],
             indexBy(() => false)
         );

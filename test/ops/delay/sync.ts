@@ -1,9 +1,9 @@
 import {expect} from '../../header';
-import {pipeSync, delay} from '../../../src';
+import {pipe, delay} from '../../../src';
 
 export default () => {
     it('must throw on synchronous pipeline once', () => {
-        const i = pipeSync([], delay(100) as any)[Symbol.iterator]();
+        const i = pipe([], delay(100) as any)[Symbol.iterator]();
         expect(() => {
             i.next();
         }).to.throw('Operator "delay" requires asynchronous pipeline');

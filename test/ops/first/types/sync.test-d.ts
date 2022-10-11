@@ -1,12 +1,12 @@
 import {expectType} from 'tsd';
 
-import {first, IterableExt, pipeSync} from '../../../../src';
+import {first, IterableExt, pipe} from '../../../../src';
 
 declare const iterableNumber: Iterable<number>;
 
-expectType<IterableExt<number>>(pipeSync(iterableNumber, first()));
+expectType<IterableExt<number>>(pipe(iterableNumber, first()));
 
-const test1 = pipeSync(
+const test1 = pipe(
     iterableNumber,
     first((a) => a > 5)
 );

@@ -1,10 +1,10 @@
 import {expect} from '../../header';
-import {pipeSync, split, SplitValueCarry, ISplitIndex} from '../../../src';
+import {pipe, split, SplitValueCarry, ISplitIndex} from '../../../src';
 
 export default () => {
     describe('without options', () => {
         it('must do regular split', () => {
-            const i = pipeSync(
+            const i = pipe(
                 'one two three',
                 split((a) => a === ' ')
             );
@@ -15,7 +15,7 @@ export default () => {
             ]);
         });
         it('must process gaps correctly', () => {
-            const i = pipeSync(
+            const i = pipe(
                 [0, 1, 2, 0, 3, 4, 0, 0],
                 split((a) => a === 0)
             );
@@ -25,7 +25,7 @@ export default () => {
     describe('with option', () => {
         describe('carry', () => {
             it('must be able to carry back', () => {
-                const i = pipeSync(
+                const i = pipe(
                     [0, 1, 2, 0, 0, 3, 4, 0, 0],
                     split((a) => a === 0, {carryStart: -1, carryEnd: -1})
                 );
@@ -39,7 +39,7 @@ export default () => {
                 ]);
             });
             it('must be able to carry forward', () => {
-                const i = pipeSync(
+                const i = pipe(
                     [0, 1, 2, 0, 0, 3, 4, 0, 0],
                     split((a) => a === 0, {carryStart: 1, carryEnd: 1})
                 );
@@ -56,7 +56,7 @@ export default () => {
         describe('toggle', () => {
             describe('without carrying', () => {
                 it('must handle any regular scenario', () => {
-                    const i1 = pipeSync(
+                    const i1 = pipe(
                         [0, 1, 2, 0, 0, 3, 4],
                         split((a) => !a, {
                             toggle: true,
@@ -69,7 +69,7 @@ export default () => {
                         [3, 4],
                     ]);
 
-                    const i2 = pipeSync(
+                    const i2 = pipe(
                         [1, 2, 0, 0, 3, 4, 0],
                         split((a) => !a, {
                             toggle: true,
@@ -78,14 +78,14 @@ export default () => {
                     );
                     expect([...i2]).to.eql([[], []]);
 
-                    const i3 = pipeSync(
+                    const i3 = pipe(
                         [1, 2, 0, 3, 4, 0],
                         split((a) => !a, {toggle: true})
                     );
                     expect([...i3]).to.eql([[3, 4]]);
                 });
                 it('must handle no toggles', () => {
-                    const i = pipeSync(
+                    const i = pipe(
                         [1, 2, 3, 4, 5],
                         split(() => false, {toggle: true})
                     );
@@ -93,14 +93,14 @@ export default () => {
                 });
                 it('must handle all toggles', () => {
                     // ending with open toggle:
-                    const i1 = pipeSync(
+                    const i1 = pipe(
                         [1, 2, 3, 4, 5],
                         split(() => true, {toggle: true})
                     );
                     expect([...i1]).to.eql([[], [], []]);
 
                     // ending with closed toggle:
-                    const i2 = pipeSync(
+                    const i2 = pipe(
                         [1, 2, 3, 4, 5, 6],
                         split(() => true, {toggle: true})
                     );
@@ -109,13 +109,13 @@ export default () => {
             });
             describe('with carrying', () => {
                 it('must work with carrying back', () => {
-                    const i1 = pipeSync(
+                    const i1 = pipe(
                         [1, 2, 3, 4, 5],
                         split(() => true, {toggle: true, carryStart: -1})
                     );
                     expect([...i1]).to.eql([[1], [3], [5]]);
 
-                    const i2 = pipeSync(
+                    const i2 = pipe(
                         [1, 2, 3, 4, 5],
                         split(() => true, {
                             toggle: true,
@@ -126,13 +126,13 @@ export default () => {
                     expect([...i2]).to.eql([[1, 2], [3, 4], [5]]);
                 });
                 it('must work with carrying forward', () => {
-                    const i1 = pipeSync(
+                    const i1 = pipe(
                         [1, 2, 3, 4, 5],
                         split((a) => !!a, {toggle: true, carryStart: 1})
                     );
                     expect([...i1]).to.eql([[1], [3], [5]]);
 
-                    const i2 = pipeSync(
+                    const i2 = pipe(
                         [0, 1, 2, 0, 3, 4, 0, 5],
                         split((a) => a === 0, {
                             toggle: true,
@@ -146,7 +146,7 @@ export default () => {
                     ]);
                 });
                 it('must handle triggers without values', () => {
-                    const i1 = pipeSync(
+                    const i1 = pipe(
                         [0, 0, 0, 0],
                         split((a) => a === 0, {
                             toggle: true,
@@ -156,7 +156,7 @@ export default () => {
                     );
                     expect([...i1]).to.eql([[0], [0, 0]]);
 
-                    const i2 = pipeSync(
+                    const i2 = pipe(
                         [0, 0, 0, 0],
                         split((a) => a === 0, {
                             toggle: true,
@@ -176,7 +176,7 @@ export default () => {
         describe('for split, no carrying', () => {
             it('must report correct indexes', () => {
                 const indexes: ISplitIndex[] = [];
-                const i = pipeSync(
+                const i = pipe(
                     'one two',
                     split((a, idx) => {
                         indexes.push(idx);
@@ -198,7 +198,7 @@ export default () => {
         describe('for split, carrying forward', () => {
             it('must report correct indexes', () => {
                 const indexes: ISplitIndex[] = [];
-                const i = pipeSync(
+                const i = pipe(
                     'one two',
                     split(
                         (a, idx) => {
@@ -224,7 +224,7 @@ export default () => {
             it('must report correct indexes, without carrying', () => {
                 const indexes: ISplitIndex[] = [];
                 const input = [-1, 1, 2, 3, -2, 4, 5, -3, 6, 7];
-                const i = pipeSync(
+                const i = pipe(
                     input,
                     split(
                         (a, idx) => {
@@ -250,7 +250,7 @@ export default () => {
             });
             it('must report correct indexes for carry=back', () => {
                 const indexes: ISplitIndex[] = [];
-                const i = pipeSync(
+                const i = pipe(
                     [1, 2, 3, 4, 5],
                     split(
                         (a, idx) => {
@@ -271,7 +271,7 @@ export default () => {
             });
             it('must report correct indexes for carry=forward', () => {
                 const indexes: ISplitIndex[] = [];
-                const i = pipeSync(
+                const i = pipe(
                     [1, 2, 3, 4, 5],
                     split(
                         (a, idx) => {

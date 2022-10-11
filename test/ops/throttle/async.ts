@@ -1,11 +1,11 @@
-import {_asyncValues, expect} from '../../header';
-import {pipeAsync, throttle} from '../../../src';
+import {_async, _asyncValues, expect} from '../../header';
+import {pipe, throttle} from '../../../src';
 
 export default () => {
     it('must emit after resolved', async () => {
         const params: any[] = [];
-        const output = pipeAsync(
-            [1, 2, 3],
+        const output = pipe(
+            _async([1, 2, 3]),
             throttle(async (value, index, state) => {
                 state.sum = ((state.sum as number | undefined) || 0) + value;
                 params.push({value, index, state});
@@ -20,8 +20,8 @@ export default () => {
         ]);
     });
     it('must throw on rejected promise', async () => {
-        const i = pipeAsync(
-            [1],
+        const i = pipe(
+            _async([1]),
             throttle(() => Promise.reject(555))
         );
         let err: any;

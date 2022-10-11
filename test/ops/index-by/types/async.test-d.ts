@@ -1,15 +1,10 @@
 import {expectType} from 'tsd';
 
-import {
-    AsyncIterableExt,
-    IIndexedValue,
-    indexBy,
-    pipeAsync,
-} from '../../../../src';
+import {AsyncIterableExt, IIndexedValue, indexBy, pipe} from '../../../../src';
 
 declare const iterableString: AsyncIterable<string>;
 
-const test1 = pipeAsync(
+const test1 = pipe(
     iterableString,
     indexBy(() => true)
 );

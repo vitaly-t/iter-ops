@@ -1,4 +1,4 @@
-import {$A, $S, AsyncOperation, IterationState, Operation} from '../types';
+import {$A, $S, IterationState, Operation} from '../types';
 import {isPromiseLike} from '../typeguards';
 import {createOperation} from '../utils';
 
@@ -16,33 +16,18 @@ import {createOperation} from '../utils';
  * console.log(...i); //=> 1, 2, 3, 4
  * ```
  *
+ * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
+ * or else the `Promise` will be treated as a truthy value.
+ *
  * @category Sync+Async
  */
 export function stop<T>(
-    cb: (value: T, index: number, state: IterationState) => boolean
+    cb: (
+        value: T,
+        index: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): Operation<T, T>;
-
-/**
- * Stops iteration, once the predicate test passes.
- *
- * ```ts
- * import {pipe, stop} from 'iter-ops';
- *
- * const i = pipe(
- *     [1, 2, 3, 4, 5, 6, 7, 8, 9],
- *     stop(a => a === 5) // stop when 5 is encountered
- * );
- *
- * console.log(...i); //=> 1, 2, 3, 4
- * ```
- *
- * Note that the predicate can only return a `Promise` inside an asynchronous pipeline.
- *
- * @category Sync+Async
- */
-export function stop<T>(
-    cb: (value: T, index: number, state: IterationState) => Promise<boolean>
-): AsyncOperation<T, T>;
 
 export function stop(...args: unknown[]) {
     return createOperation(stopSync, stopAsync, args);

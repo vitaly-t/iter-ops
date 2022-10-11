@@ -1,16 +1,16 @@
 import {expectType} from 'tsd';
 
-import {pipeAsync, aggregate, AsyncIterableExt} from '../../../../src';
+import {pipe, aggregate, AsyncIterableExt} from '../../../../src';
 
-declare const iterableString: Iterable<string>;
+declare const iterableString: AsyncIterable<string>;
 
-const test1 = pipeAsync(
+const test1 = pipe(
     iterableString,
     aggregate((v) => 1)
 );
 expectType<AsyncIterableExt<number>>(test1);
 
-const test2 = pipeAsync(
+const test2 = pipe(
     iterableString,
     aggregate((v) => v.join())
 );

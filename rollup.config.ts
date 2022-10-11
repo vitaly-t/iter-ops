@@ -50,6 +50,23 @@ const copyright = `/*!
 `;
 
 /**
+ * Get the intended boolean value from the given string.
+ */
+function getBoolean(value: unknown) {
+    if (value === undefined) {
+        return false;
+    }
+    const asNumber = Number(value);
+    return Number.isNaN(asNumber)
+        ? String(value).toLowerCase() === 'false'
+            ? false
+            : Boolean(String(value))
+        : Boolean(asNumber);
+}
+
+const buildTypesOnly = getBoolean(process.env.BUILD_TYPES_ONLY);
+
+/**
  * The common JS build.
  */
 const cjs = {
@@ -142,4 +159,4 @@ const dts = {
     plugins: [rollupPluginDts()],
 };
 
-export default [cjs, esm, web, webModule, dts];
+export default buildTypesOnly ? dts : [cjs, esm, web, webModule, dts];

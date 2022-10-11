@@ -1,4 +1,4 @@
-import {$A, AsyncOperation, IterationState} from '../../types';
+import {$A, Operation, IterationState} from '../../types';
 import {createOperation, throwOnSync} from '../../utils';
 
 /**
@@ -26,7 +26,7 @@ import {createOperation, throwOnSync} from '../../utils';
  *  - {@link throttle}
  * @category Async-only
  */
-export function delay<T>(timeout: number): AsyncOperation<T, T>;
+export function delay<T>(timeout: number): Operation<T, T>;
 
 /**
  * Delays each value by the specified timeout (as returned from the callback).
@@ -43,7 +43,7 @@ export function delay<T>(timeout: number): AsyncOperation<T, T>;
  */
 export function delay<T>(
     cb: (value: T, index: number, state: IterationState) => number
-): AsyncOperation<T, T>;
+): Operation<T, T>;
 
 export function delay(...args: unknown[]) {
     return createOperation(throwOnSync('delay'), delayAsync, args);
