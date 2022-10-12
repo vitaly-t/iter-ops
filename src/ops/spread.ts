@@ -1,4 +1,4 @@
-import {$A, $S, Operation} from '../types';
+import {$A, $S, Operation, UnknownIterable} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -26,7 +26,9 @@ import {createOperation} from '../utils';
  *  - {@link flat}
  * @category Sync+Async
  */
-export function spread<T>(): Operation<Iterable<T> | AsyncIterable<T>, T>;
+export function spread<
+    T extends Iterable<unknown> | AsyncIterable<unknown>
+>(): Operation<T, T extends UnknownIterable<infer E> ? E : never>;
 
 export function spread(...args: unknown[]) {
     return createOperation(spreadSync, spreadAsync, args);
