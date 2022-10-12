@@ -4,8 +4,7 @@ import {pipe, filter} from '../../../src';
 export default () => {
     it('must emit on condition', async () => {
         const input = [1, 2, 3, 4, 5, 0];
-        // FIXME: remove need for type hints.
-        const output = pipe<number, number>(
+        const output = pipe(
             _async(input),
             filter((a: number) => a < 3)
         );
