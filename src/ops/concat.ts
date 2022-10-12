@@ -1,11 +1,4 @@
-import {
-    $A,
-    $S,
-    Value,
-    SyncValue,
-    Operation,
-    UnwrapUnknownIterableIterator,
-} from '../types';
+import {$A, $S, Value, SyncValue, Operation, UnknownIterable} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -21,7 +14,7 @@ import {createOperation} from '../utils';
  */
 export function concat<T, Vs extends readonly unknown[]>(
     ...values: Vs
-): Operation<T, T | UnwrapUnknownIterableIterator<Vs[number]>>;
+): Operation<T, T | (Vs[number] extends UnknownIterable<infer U> ? U : never)>;
 
 export function concat(...args: unknown[]) {
     return createOperation(concatSync, concatAsync, args);
