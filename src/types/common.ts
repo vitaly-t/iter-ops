@@ -105,15 +105,9 @@ export type UnknownIterator<T, TReturn = any, TNext = undefined> =
 /**
  * Either an `Iterable` or `Iterator` that could either be sync or async.
  */
-export type UnknownIterableIterator<T> =
+export type UnknownIterableOrIterator<T> =
     | UnknownIterable<T>
     | UnknownIterator<T>;
-
-/**
- * Get the value type of Iterable or Iterator.
- */
-export type UnwrapUnknownIterableIterator<T> =
-    T extends UnknownIterableIterator<infer U> ? U : T;
 
 /**
  * Pipe-through type (return type for all operators)
