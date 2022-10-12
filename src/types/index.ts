@@ -12,6 +12,8 @@ export {
     IterationState,
 } from './common';
 
+export type {Decr} from './utils';
+
 /**
  * These are for code abbreviation + smaller bundles:
  */

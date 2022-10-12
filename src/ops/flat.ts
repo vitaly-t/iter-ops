@@ -1,5 +1,24 @@
-import {$A, $S, Operation} from '../types';
+import {$A, $S, Decr, Operation, UnknownIterable} from '../types';
 import {createOperation} from '../utils';
+
+type Flatten<T, N extends number> =
+    // N < 0
+    `${N}` extends `-${string}`
+        ? T
+        : // N = 0
+        N extends 0
+        ? T
+        : // N = 1
+        N extends 1
+        ? T extends UnknownIterable<infer E>
+            ? E
+            : T
+        : // N > 20 or N is unknown
+        Decr[number] extends Decr[N]
+        ? unknown
+        : T extends UnknownIterable<infer E>
+        ? Flatten<E, Decr[N]>
+        : Flatten<T, Decr[N]>;
 
 /**
  * **New in v2.0.0**
@@ -31,13 +50,9 @@ import {createOperation} from '../utils';
  *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat Array.prototype.flat()}
  * @category Sync+Async
  */
-export function flat<T>(
-    depth?: number
-): Operation<
-    | Iterable<T | Iterable<T>>
-    | AsyncIterable<T | Iterable<T> | AsyncIterable<T>>,
-    T
->;
+export function flat<T, N extends number = 1>(
+    depth?: N
+): Operation<T, Flatten<T, N>>;
 
 export function flat(...args: unknown[]) {
     return createOperation(flatSync, flatAsync, args);
