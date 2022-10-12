@@ -9,7 +9,7 @@ import rollupPluginDts from 'rollup-plugin-dts';
 import {terser as rollupPluginTerser} from 'rollup-plugin-terser';
 import rollupPluginGzip from 'rollup-plugin-gzip';
 
-import pkg from './package.json';
+import pkg from './package.json' assert {type: 'json'};
 
 const common = {
     input: 'src/index.ts',
