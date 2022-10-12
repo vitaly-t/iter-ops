@@ -1,4 +1,4 @@
-import {$A, $S, IterationState, Operation} from '../types';
+import {$A, $S, IterationState, Operation, UnknownIterable} from '../types';
 import {createOperation} from '../utils';
 import {isPromiseLike} from '../typeguards';
 
@@ -13,7 +13,11 @@ import {isPromiseLike} from '../typeguards';
  * @category Sync+Async
  */
 export function flatMap<T, R>(
-    cb: (value: T, index: number, state: IterationState) => R
+    cb: (
+        value: T extends UnknownIterable<infer E> ? E : T,
+        index: number,
+        state: IterationState
+    ) => R
 ): Operation<T, R>;
 
 export function flatMap(...args: unknown[]) {
