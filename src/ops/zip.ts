@@ -1,7 +1,7 @@
 import {
     UnknownIterable,
     UnknownIterator,
-    UnknownIterableIterator,
+    UnknownIterableOrIterator,
     Operation,
     $S,
     $A,
@@ -29,87 +29,89 @@ export function zip<T>(): Operation<T, [T]>;
  *
  * @category Sync+Async
  */
-export function zip<T, A>(v0: UnknownIterableIterator<A>): Operation<T, [T, A]>;
+export function zip<T, A>(
+    v0: UnknownIterableOrIterator<A>
+): Operation<T, [T, A]>;
 /** @hidden */
 export function zip<T, A, B>(
-    v0: UnknownIterableIterator<A>,
-    v1: UnknownIterableIterator<B>
+    v0: UnknownIterableOrIterator<A>,
+    v1: UnknownIterableOrIterator<B>
 ): Operation<T, [T, A, B]>;
 /** @hidden */
 export function zip<T, A, B, C>(
-    v0: UnknownIterableIterator<A>,
-    v1: UnknownIterableIterator<B>,
-    v2: UnknownIterableIterator<C>
+    v0: UnknownIterableOrIterator<A>,
+    v1: UnknownIterableOrIterator<B>,
+    v2: UnknownIterableOrIterator<C>
 ): Operation<T, [T, A, B, C]>;
 /** @hidden */
 export function zip<T, A, B, C, D>(
-    v0: UnknownIterableIterator<A>,
-    v1: UnknownIterableIterator<B>,
-    v2: UnknownIterableIterator<C>,
-    v3: UnknownIterableIterator<D>
+    v0: UnknownIterableOrIterator<A>,
+    v1: UnknownIterableOrIterator<B>,
+    v2: UnknownIterableOrIterator<C>,
+    v3: UnknownIterableOrIterator<D>
 ): Operation<T, [T, A, B, C, D]>;
 /** @hidden */
 export function zip<T, A, B, C, D, E>(
-    v0: UnknownIterableIterator<A>,
-    v1: UnknownIterableIterator<B>,
-    v2: UnknownIterableIterator<C>,
-    v3: UnknownIterableIterator<D>,
-    v4: UnknownIterableIterator<E>
+    v0: UnknownIterableOrIterator<A>,
+    v1: UnknownIterableOrIterator<B>,
+    v2: UnknownIterableOrIterator<C>,
+    v3: UnknownIterableOrIterator<D>,
+    v4: UnknownIterableOrIterator<E>
 ): Operation<T, [T, A, B, C, D, E]>;
 /** @hidden */
 export function zip<T, A, B, C, D, E, F>(
-    v0: UnknownIterableIterator<A>,
-    v1: UnknownIterableIterator<B>,
-    v2: UnknownIterableIterator<C>,
-    v3: UnknownIterableIterator<D>,
-    v4: UnknownIterableIterator<E>,
-    v5: UnknownIterableIterator<F>
+    v0: UnknownIterableOrIterator<A>,
+    v1: UnknownIterableOrIterator<B>,
+    v2: UnknownIterableOrIterator<C>,
+    v3: UnknownIterableOrIterator<D>,
+    v4: UnknownIterableOrIterator<E>,
+    v5: UnknownIterableOrIterator<F>
 ): Operation<T, [T, A, B, C, D, E, F]>;
 /** @hidden */
 export function zip<T, A, B, C, D, E, F, G>(
-    v0: UnknownIterableIterator<A>,
-    v1: UnknownIterableIterator<B>,
-    v2: UnknownIterableIterator<C>,
-    v3: UnknownIterableIterator<D>,
-    v4: UnknownIterableIterator<E>,
-    v5: UnknownIterableIterator<F>,
-    v6: UnknownIterableIterator<G>
+    v0: UnknownIterableOrIterator<A>,
+    v1: UnknownIterableOrIterator<B>,
+    v2: UnknownIterableOrIterator<C>,
+    v3: UnknownIterableOrIterator<D>,
+    v4: UnknownIterableOrIterator<E>,
+    v5: UnknownIterableOrIterator<F>,
+    v6: UnknownIterableOrIterator<G>
 ): Operation<T, [T, A, B, C, D, E, F, G]>;
 /** @hidden */
 export function zip<T, A, B, C, D, E, F, G, H>(
-    v0: UnknownIterableIterator<A>,
-    v1: UnknownIterableIterator<B>,
-    v2: UnknownIterableIterator<C>,
-    v3: UnknownIterableIterator<D>,
-    v4: UnknownIterableIterator<E>,
-    v5: UnknownIterableIterator<F>,
-    v6: UnknownIterableIterator<G>,
-    v7: UnknownIterableIterator<H>
+    v0: UnknownIterableOrIterator<A>,
+    v1: UnknownIterableOrIterator<B>,
+    v2: UnknownIterableOrIterator<C>,
+    v3: UnknownIterableOrIterator<D>,
+    v4: UnknownIterableOrIterator<E>,
+    v5: UnknownIterableOrIterator<F>,
+    v6: UnknownIterableOrIterator<G>,
+    v7: UnknownIterableOrIterator<H>
 ): Operation<T, [T, A, B, C, D, E, F, G, H]>;
 /** @hidden */
 export function zip<T, A, B, C, D, E, F, G, H, I>(
-    v0: UnknownIterableIterator<A>,
-    v1: UnknownIterableIterator<B>,
-    v2: UnknownIterableIterator<C>,
-    v3: UnknownIterableIterator<D>,
-    v4: UnknownIterableIterator<E>,
-    v5: UnknownIterableIterator<F>,
-    v6: UnknownIterableIterator<G>,
-    v7: UnknownIterableIterator<H>,
-    v8: UnknownIterableIterator<I>
+    v0: UnknownIterableOrIterator<A>,
+    v1: UnknownIterableOrIterator<B>,
+    v2: UnknownIterableOrIterator<C>,
+    v3: UnknownIterableOrIterator<D>,
+    v4: UnknownIterableOrIterator<E>,
+    v5: UnknownIterableOrIterator<F>,
+    v6: UnknownIterableOrIterator<G>,
+    v7: UnknownIterableOrIterator<H>,
+    v8: UnknownIterableOrIterator<I>
 ): Operation<T, [T, A, B, C, D, E, F, G, H, I]>;
 /** @hidden */
 export function zip<T, A, B, C, D, E, F, G, H, I, J>(
-    v0: UnknownIterableIterator<A>,
-    v1: UnknownIterableIterator<B>,
-    v2: UnknownIterableIterator<C>,
-    v3: UnknownIterableIterator<D>,
-    v4: UnknownIterableIterator<E>,
-    v5: UnknownIterableIterator<F>,
-    v6: UnknownIterableIterator<G>,
-    v7: UnknownIterableIterator<H>,
-    v8: UnknownIterableIterator<I>,
-    v9: UnknownIterableIterator<J>
+    v0: UnknownIterableOrIterator<A>,
+    v1: UnknownIterableOrIterator<B>,
+    v2: UnknownIterableOrIterator<C>,
+    v3: UnknownIterableOrIterator<D>,
+    v4: UnknownIterableOrIterator<E>,
+    v5: UnknownIterableOrIterator<F>,
+    v6: UnknownIterableOrIterator<G>,
+    v7: UnknownIterableOrIterator<H>,
+    v8: UnknownIterableOrIterator<I>,
+    v9: UnknownIterableOrIterator<J>
 ): Operation<T, [T, A, B, C, D, E, F, G, H, I, J]>;
 
 export function zip(...args: unknown[]) {

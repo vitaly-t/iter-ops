@@ -2,7 +2,7 @@ export {
     Value,
     UnknownIterable,
     UnknownIterator,
-    UnknownIterableIterator,
+    UnknownIterableOrIterator as UnknownIterableIterator,
     UnwrapUnknownIterableIterator,
     SyncValue,
     AsyncIterableExt,

@@ -1,4 +1,13 @@
-import {$A, $S, Decr, Operation, UnknownIterable} from '../types';
+import {isAsyncIterable, isSyncIterable} from '../typeguards';
+import {
+    $A,
+    $S,
+    AsyncIterableOrIterator,
+    Decr,
+    IterableOrIterator,
+    Operation,
+    UnknownIterableOrIterator,
+} from '../types';
 import {createOperation} from '../utils';
 
 type Flatten<T, N extends number> =
@@ -10,13 +19,13 @@ type Flatten<T, N extends number> =
         ? T
         : // N = 1
         N extends 1
-        ? T extends UnknownIterable<infer E>
+        ? T extends UnknownIterableOrIterator<infer E>
             ? E
             : T
         : // N > 20 or N is unknown
         Decr[number] extends Decr[N]
         ? unknown
-        : T extends UnknownIterable<infer E>
+        : T extends UnknownIterableOrIterator<infer E>
         ? Flatten<E, Decr[N]>
         : Flatten<T, Decr[N]>;
 
@@ -59,16 +68,20 @@ export function flat(...args: unknown[]) {
 }
 
 function flatSync<T>(
-    iterable: Iterable<Iterable<T>>,
+    iter: IterableOrIterator<IterableOrIterator<T>>,
     depth = 1
-): Iterable<T | Iterable<T>> {
+): Iterable<T | IterableOrIterator<T>> {
     return {
-        [$S](): Iterator<T | Iterable<T>> {
-            const d: Iterator<T | Iterable<T>>[] = new Array(depth + 1);
-            d[0] = iterable[$S]();
+        [$S](): Iterator<T | IterableOrIterator<T>> {
+            const d: Iterator<T | IterableOrIterator<T>>[] = new Array(
+                depth + 1
+            );
+            d[0] = isSyncIterable<typeof iter, IterableOrIterator<T>>(iter)
+                ? iter[$S]()
+                : iter;
             let level = 0;
             return {
-                next(): IteratorResult<T | Iterable<T>> {
+                next(): IteratorResult<T | IterableOrIterator<T>> {
                     do {
                         const v = d[level].next(); // next value
                         if (v.done) {
@@ -94,14 +107,28 @@ function flatSync<T>(
 }
 
 function flatAsync<T>(
-    iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>,
+    iter: AsyncIterableOrIterator<
+        IterableOrIterator<T> | AsyncIterableOrIterator<T>
+    >,
     depth = 1
-): AsyncIterable<T | Iterable<T> | AsyncIterable<T>> {
-    type AnyValue = T | Iterator<T> | AsyncIterator<T>;
+): AsyncIterable<
+    T | Iterable<T> | Iterator<T> | AsyncIterable<T> | AsyncIterator<T>
+> {
+    type AnyValue =
+        | T
+        | Iterable<T>
+        | Iterator<T>
+        | AsyncIterable<T>
+        | AsyncIterator<T>;
     return {
         [$A](): AsyncIterator<T> {
             const d: {i: any; sync: boolean}[] = new Array(depth + 1);
-            d[0] = {i: iterable[$A](), sync: false};
+            d[0] = {
+                i: isAsyncIterable<typeof iter, IterableOrIterator<T>>(iter)
+                    ? iter[$A]()
+                    : iter,
+                sync: false,
+            };
             let level = 0;
             return {
                 next(): Promise<IteratorResult<T>> {
