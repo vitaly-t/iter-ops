@@ -8,6 +8,7 @@
   "entryPoints": ["src/index.ts"],
   "entryPointStrategy": "resolve",
   "categoryOrder": ["Core", "Sync+Async", "*"],
+  "intentionallyNotExported": ["Flatten"],
   "hideGenerator": true,
   "customCss": "./typedoc.css",
   "exclude": ["./test/*.ts"]
