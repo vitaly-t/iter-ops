@@ -13,6 +13,8 @@ export {
 export {toAsync, toIterable} from './helpers';
 export {pipe, pipeSync, pipeAsync} from './pipe';
 
+/////////////
+// Operators:
 export {aggregate} from './ops/aggregate';
 export {catchError} from './ops/catch-error';
 export {concat} from './ops/concat';
@@ -25,7 +27,7 @@ export {empty} from './ops/empty';
 export {every} from './ops/every';
 export {filter} from './ops/filter';
 export {first} from './ops/first';
-export {flat, Flatten} from './ops/flat';
+export {flat} from './ops/flat';
 export {flatMap} from './ops/flat-map';
 export {indexBy, IIndexedValue} from './ops/index-by';
 export {isEmpty} from './ops/is-empty';

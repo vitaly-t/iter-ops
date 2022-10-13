@@ -2,8 +2,6 @@
  * Decrement N by 1.
  *
  * `Decr[N]` => `N - 1`
- *
- * @hidden
  */
 export type Decrement = [
     never,
