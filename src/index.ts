@@ -1,14 +1,15 @@
 export {
-    Value,
-    UnknownIterable,
-    UnknownIterator,
-    UnknownIterableOrIterator,
-    SyncValue,
     AsyncIterableExt,
+    Decrement,
     IErrorContext,
     IterableExt,
     IterationState,
     Operation,
+    SyncValue,
+    UnknownIterable,
+    UnknownIterableOrIterator,
+    UnknownIterator,
+    Value,
 } from './types';
 export {toAsync, toIterable} from './helpers';
 export {pipe, pipeSync, pipeAsync} from './pipe';

@@ -1,4 +1,4 @@
-import {$A, $S, Decr, Operation, UnknownIterable} from '../types';
+import {$A, $S, Decrement, Operation, UnknownIterable} from '../types';
 import {createOperation} from '../utils';
 
 export type Flatten<T, N extends number> =
@@ -14,11 +14,11 @@ export type Flatten<T, N extends number> =
             ? E
             : T
         : // N > 20 or N is unknown
-        Decr[number] extends Decr[N]
+        Decrement[number] extends Decrement[N]
         ? unknown
         : T extends UnknownIterable<infer E>
-        ? Flatten<E, Decr[N]>
-        : Flatten<T, Decr[N]>;
+        ? Flatten<E, Decrement[N]>
+        : Flatten<T, Decrement[N]>;
 
 /**
  * **New in v2.0.0**

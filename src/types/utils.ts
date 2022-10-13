@@ -3,7 +3,7 @@
  *
  * `Decr[N]` => `N - 1`
  */
-export type Decr = [
+export type Decrement = [
     never,
     0,
     1,
