@@ -1,6 +1,5 @@
 export {
     AsyncIterableExt,
-    Decrement,
     IErrorContext,
     IterableExt,
     IterationState,
