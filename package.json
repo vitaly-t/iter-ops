@@ -1,6 +1,6 @@
 {
   "name": "iter-ops",
-  "version": "2.0.0-beta.5",
+  "version": "2.0.0-beta.6",
   "description": "Basic operations on iterables",
   "keywords": [
     "typescript",
@@ -70,7 +70,7 @@
     "@types/chai": "4.3.3",
     "@types/estree": "1.0.0",
     "@types/mocha": "10.0.0",
-    "@types/node": "18.8.4",
+    "@types/node": "18.8.5",
     "@types/rollup-plugin-auto-external": "2.0.2",
     "@typescript-eslint/eslint-plugin": "5.40.0",
     "@typescript-eslint/parser": "5.40.0",
