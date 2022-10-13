@@ -1,7 +1,7 @@
 import {$A, $S, Decr, Operation, UnknownIterable} from '../types';
 import {createOperation} from '../utils';
 
-type Flatten<T, N extends number> =
+export type Flatten<T, N extends number> =
     // N < 0
     `${N}` extends `-${string}`
         ? T
