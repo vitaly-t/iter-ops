@@ -9,7 +9,7 @@ export default () => {
         );
         expect([...output]).to.eql(['o', 'n', 'e', 't', 'w', 'o', 123]);
     });
-    it('must spread re-mapped values', () => {
+    it('must spread remapped values', () => {
         const output = pipeSync(
             ['one', 1, 2, [3]],
             flatMap((a) => [a])

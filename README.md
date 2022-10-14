@@ -77,7 +77,7 @@ All standard operators implement the same logic as [Array] does:
 -   [every](http://vitaly-t.github.io/iter-ops/functions/every) - checks if all elements pass the predicate test.
 -   [filter](http://vitaly-t.github.io/iter-ops/functions/filter) - standard filter processor, filtering by predicate.
 -   [flat](http://vitaly-t.github.io/iter-ops/functions/flat) - flattens/expands sub-iterable elements.
--   [flatMap](http://vitaly-t.github.io/iter-ops/functions/flatMap) - re-maps + flattens/expands sub-iterable elements.
+-   [flatMap](http://vitaly-t.github.io/iter-ops/functions/flatMap) - remaps + flattens sub-iterable elements.
 -   [map](http://vitaly-t.github.io/iter-ops/functions/map) - standard mapping processor, remapping by predicate.
 -   [reduce](http://vitaly-t.github.io/iter-ops/functions/reduce) - standard reduce processor.
 -   [some](http://vitaly-t.github.io/iter-ops/functions/some) - checks if any element passes the predicate test.
