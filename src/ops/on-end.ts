@@ -80,6 +80,8 @@ export interface IIterationSummary<T> {
 }
 
 /**
+ * ** Breaking changes in v2.0.0**
+ *
  * Notifies of the end of a successful iteration, for the immediately preceding operator, and provides a summary.
  *
  * It doesn't handle or affect any upstream errors, and should they occur, it may never reach the end,
@@ -158,11 +160,13 @@ function onEndSync<T>(
                             max = {delay, index: 0, value: lastValue};
                             min = {delay, index: 0, value: lastValue};
                         }
+                        // istanbul ignore next (test requires significant sync payload)
                         if (delay > max.delay) {
                             max.delay = delay;
                             max.index = count;
                             max.value = lastValue;
                         }
+                        // istanbul ignore next (test requires significant sync payload)
                         if (delay < min.delay) {
                             min.delay = delay;
                             min.index = count;
