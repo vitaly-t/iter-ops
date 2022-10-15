@@ -13,6 +13,7 @@ import {createOperation} from '../utils';
  *
  * @see
  *  - {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}
+ *  - {@link catchError}
  * @category Diagnostics
  */
 export function catchError<T>(

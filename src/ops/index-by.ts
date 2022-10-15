@@ -4,6 +4,8 @@ import {createOperation} from '../utils';
 
 /**
  * Pair of `{index, value}` that passed predicate test of {@link indexBy} operator.
+ *
+ * @see {@link indexBy}
  */
 export interface IIndexedValue<T> {
     /**

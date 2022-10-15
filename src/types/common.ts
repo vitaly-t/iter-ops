@@ -2,6 +2,8 @@
  * Iteration Error Context.
  *
  * It is passed into every error handler as the second parameter.
+ *
+ * @see {@link catchError}
  */
 export interface IErrorContext<T> {
     /**

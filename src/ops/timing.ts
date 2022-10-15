@@ -3,6 +3,8 @@ import {createOperation} from '../utils';
 
 /**
  * Value timing details, produced by the {@link timing} operator.
+ *
+ * @see {@link timing}
  */
 export interface IValueTiming<T> {
     /**

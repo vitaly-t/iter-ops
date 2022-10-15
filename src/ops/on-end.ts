@@ -2,7 +2,9 @@ import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Value-duration details, for minimum or maximum duration.
+ * Value-duration details, for minimum or maximum duration, used in {@link IDuration}.
+ *
+ * @see {@link IDuration}
  */
 export interface IValueDuration<T> {
     /**
@@ -22,7 +24,9 @@ export interface IValueDuration<T> {
 }
 
 /**
- * All duration/performance details.
+ * All duration/performance details, used in {@link IIterationSummary}.
+ *
+ * @see {@link IIterationSummary}
  */
 export interface IDuration<T> {
     /**
@@ -54,6 +58,8 @@ export interface IDuration<T> {
 
 /**
  * Iteration summary, produced by {@link onEnd} operator.
+ *
+ * @see {@link onEnd}
  */
 export interface IIterationSummary<T> {
     /**
