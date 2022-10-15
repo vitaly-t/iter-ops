@@ -11,12 +11,23 @@ import {createOperation} from '../utils';
 /**
  * Merges current iterable with a list of values, iterators or iterables.
  * Merged inputs are iterated over after depleting the current iterable, in the order in which they were specified,
- * i.e. the standard `Array.concat` logic.
+ * i.e. the standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat Array.concat} logic.
+ *
+ * ```ts
+ * import {pipe, concat} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2],
+ *     concat(3, 4, [5, 6])
+ * );
+ *
+ * console.log(...i); //=> 1 2 3 4 5 6
+ * ```
  *
  * Note that if you concatenate asynchronous iterables with a synchronous pipeline, they will be processed as simple values.
  *
  * @see
- *  - [Array.concat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat)
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat Array.concat}
  * @category Sync+Async
  */
 export function concat<T, Vs extends readonly unknown[]>(

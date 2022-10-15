@@ -2,10 +2,11 @@ import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Standard `Array.map` logic for the iterable, extended for supporting iteration state.
+ * Standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map Array.map} logic for the iterable,
+ * extended for supporting iteration state.
  *
  * @see
- *  - [Array.map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map Array.map}
  * @category Sync+Async
  */
 export function map<T, R>(

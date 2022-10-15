@@ -5,7 +5,7 @@ import {createOperation} from '../utils';
  * Standard reducer for the iterable, extended for supporting iteration state.
  *
  * @see
- *  - [Array.reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce)
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce Array.reduce}
  *
  * @category Sync+Async
  */

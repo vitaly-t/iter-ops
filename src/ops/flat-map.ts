@@ -5,7 +5,7 @@ import {isPromiseLike} from '../typeguards';
 /**
  * **New in v2.0.0**
  *
- * Remaps and then flattens an iterable, consistent with the logic of {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap Array.prototype.flatMap()}
+ * Remaps and then flattens an iterable, consistent with the logic of {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap Array.flatMap}
  *
  * ```ts
  * import {pipe, flatMap} from 'iter-ops';
