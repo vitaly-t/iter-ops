@@ -1,4 +1,4 @@
-import {$A, $S, Operation} from '../types';
+import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -6,26 +6,41 @@ import {createOperation} from '../utils';
  *
  * Ends iteration after a specified number of milliseconds (from the beginning of iteration).
  *
+ * Optional callback `cb` is invoked when timeout is reached before iteration is over.
+ *
  * @category Sync+Async
  */
-export function timeout<T>(ms: number): Operation<T, T>;
+export function timeout<T>(
+    ms: number,
+    cb?: (index: number, state: IterationState) => void
+): Operation<T, T>;
 
 export function timeout(...args: unknown[]) {
     return createOperation(timeoutSync, timeoutAsync, args);
 }
 
-function timeoutSync<T>(iterable: Iterable<T>, ms: number): Iterable<T> {
+function timeoutSync<T>(
+    iterable: Iterable<T>,
+    ms: number,
+    cb?: (index: number, state: IterationState) => void
+): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
+            const state: IterationState = {};
+            let index = 0;
             let start: number;
             return {
                 next(): IteratorResult<T> {
                     const now = Date.now();
                     start = start || now;
                     if (now - start > ms) {
+                        if (typeof cb === 'function') {
+                            cb(index, state); // notify of the timeout
+                        }
                         return {value: undefined, done: true};
                     }
+                    index++;
                     return i.next();
                 },
             };
@@ -35,19 +50,26 @@ function timeoutSync<T>(iterable: Iterable<T>, ms: number): Iterable<T> {
 
 function timeoutAsync<T>(
     iterable: AsyncIterable<T>,
-    ms: number
+    ms: number,
+    cb?: (index: number, state: IterationState) => void
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
+            const state: IterationState = {};
+            let index = 0;
             let start: number;
             return {
                 next(): Promise<IteratorResult<T>> {
                     const now = Date.now();
                     start = start || now;
                     if (now - start > ms) {
+                        if (typeof cb === 'function') {
+                            cb(index, state); // notify of the timeout
+                        }
                         return Promise.resolve({value: undefined, done: true});
                     }
+                    index++;
                     return i.next();
                 },
             };
