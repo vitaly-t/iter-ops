@@ -68,7 +68,7 @@ export interface IIterationSummary<T> {
  * @see
  *  - {@link IIterationSummary}
  *  - {@link timing}
- * @category Sync+Async
+ * @category Diagnostics
  */
 export function onEnd<T>(
     cb: (s: IIterationSummary<T>) => void

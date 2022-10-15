@@ -2,7 +2,7 @@ import {$A, $S, Decrement, Operation, UnknownIterable} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * @hidden
+ * @internal
  */
 export type Flatten<T, N extends number> =
     // N < 0

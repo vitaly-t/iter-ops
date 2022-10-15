@@ -64,7 +64,7 @@ export interface IValueTiming<T> {
  * @see
  *  - {@link IValueTiming}
  *  - {@link onEnd}
- * @category Sync+Async
+ * @category Diagnostics
  */
 export function timing<T>(cb: (t: IValueTiming<T>) => void): Operation<T, T>;
 
