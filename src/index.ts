@@ -53,6 +53,7 @@ export {take} from './ops/take';
 export {takeLast} from './ops/take-last';
 export {tap} from './ops/tap';
 export {throttle} from './ops/async/throttle';
+export {timeout} from './ops/timeout';
 export {timing, IValueTiming} from './ops/timing';
 export {toArray} from './ops/to-array';
 export {wait} from './ops/async/wait';

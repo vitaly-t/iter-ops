@@ -114,6 +114,7 @@ All standard operators implement the same logic as [Array] does:
 -   [take](http://vitaly-t.github.io/iter-ops/functions/take) - emits up to certain number of values.
 -   [takeLast](http://vitaly-t.github.io/iter-ops/functions/takeLast) - emits up to certain number of the last values.
 -   [tap](http://vitaly-t.github.io/iter-ops/functions/tap) - taps into each value, without changing the output.
+-   [timeout](http://vitaly-t.github.io/iter-ops/functions/timeout) - ends iteration after N milliseconds.
 -   [timing](http://vitaly-t.github.io/iter-ops/functions/timing) - measures timings for each value.
 -   [toArray](http://vitaly-t.github.io/iter-ops/functions/toArray) - accumulates values into an array.
 -   [zip](http://vitaly-t.github.io/iter-ops/functions/zip) - zips values together, into an array.
