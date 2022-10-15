@@ -44,7 +44,12 @@ export default () => {
         expect(s.sync).to.be.false;
         expect(s.count).to.eql(0);
         expect(s.lastValue).to.be.undefined;
-        expect(s.duration).to.eql({average: 0, max: undefined, min: undefined, total: 0});
+        expect(s.duration).to.eql({
+            average: 0,
+            max: undefined,
+            min: undefined,
+            total: 0,
+        });
     });
     it('must emit only once', async () => {
         let count = 0;

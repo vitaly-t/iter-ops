@@ -18,7 +18,7 @@ export interface IValueDuration<T> {
     /**
      * The value retrieved.
      */
-    value: T
+    value: T;
 }
 
 /**
@@ -37,14 +37,14 @@ export interface IDuration<T> {
      *
      * It is `undefined` when the iteration is empty.
      */
-    max?: IValueDuration<T>
+    max?: IValueDuration<T>;
 
     /**
      * Minimum iteration-delay details.
      *
      * It is `undefined` when the iteration is empty.
      */
-    min?: IValueDuration<T>
+    min?: IValueDuration<T>;
 
     /**
      * Total duration, in ms, for the entire iteration.
@@ -144,8 +144,7 @@ function onEndSync<T>(
                         if (!finished) {
                             finished = true;
                             const total = Date.now() - start;
-                            const average =
-                                count > 0 ? total / count : 0;
+                            const average = count > 0 ? total / count : 0;
                             cb({
                                 count,
                                 duration: {average, min, max, total},
@@ -203,8 +202,7 @@ function onEndAsync<T>(
                             if (!finished) {
                                 finished = true;
                                 const total = Date.now() - start;
-                                const average =
-                                    count > 0 ? total / count : 0;
+                                const average = count > 0 ? total / count : 0;
                                 cb({
                                     count,
                                     duration: {average, min, max, total},

@@ -30,7 +30,12 @@ export default () => {
         expect(s.sync).to.be.true;
         expect(s.count).to.eql(0);
         expect(s.lastValue).to.be.undefined;
-        expect(s.duration).to.eql({average: 0, max: undefined, min: undefined, total: 0});
+        expect(s.duration).to.eql({
+            average: 0,
+            max: undefined,
+            min: undefined,
+            total: 0,
+        });
     });
     it('must emit only once', () => {
         let count = 0;
