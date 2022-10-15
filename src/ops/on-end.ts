@@ -35,14 +35,14 @@ export interface IDuration<T> {
     /**
      * Maximum iteration-delay details.
      *
-     * It is `undefined` when the iteration is empty.
+     * It is `undefined` when the iteration is empty (`count` = 0).
      */
     max?: IValueDuration<T>;
 
     /**
      * Minimum iteration-delay details.
      *
-     * It is `undefined` when the iteration is empty.
+     * It is `undefined` when the iteration is empty (`count` = 0).
      */
     min?: IValueDuration<T>;
 
@@ -80,7 +80,7 @@ export interface IIterationSummary<T> {
 }
 
 /**
- * ** Breaking changes in v2.0.0**
+ * **Breaking changes in v2.0.0**
  *
  * Notifies of the end of a successful iteration, for the immediately preceding operator, and provides a summary.
  *

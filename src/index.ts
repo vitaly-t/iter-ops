@@ -33,7 +33,7 @@ export {indexBy, IIndexedValue} from './ops/index-by';
 export {isEmpty} from './ops/is-empty';
 export {last} from './ops/last';
 export {map} from './ops/map';
-export {onEnd, IIterationSummary} from './ops/on-end';
+export {onEnd, IIterationSummary, IDuration, IValueDuration} from './ops/on-end';
 export {page} from './ops/page';
 export {reduce} from './ops/reduce';
 export {repeat} from './ops/repeat';
