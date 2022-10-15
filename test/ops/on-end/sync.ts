@@ -14,7 +14,7 @@ export default () => {
         expect(s.sync).to.be.true;
         expect(s.count).to.eql(3);
         expect(s.lastValue).to.eq(30);
-        expect(s.duration).to.be.greaterThanOrEqual(0);
+        expect(s.duration.total).to.be.greaterThanOrEqual(0);
     });
     it('must notify for empty iterables', () => {
         let s: IIterationSummary<any> = {} as any;
@@ -28,7 +28,7 @@ export default () => {
         expect(s.sync).to.be.true;
         expect(s.count).to.eql(0);
         expect(s.lastValue).to.be.undefined;
-        expect(s.duration).to.be.greaterThanOrEqual(0);
+        expect(s.duration.total).to.be.greaterThanOrEqual(0);
     });
     it('must emit only once', () => {
         let count = 0;

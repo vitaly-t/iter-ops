@@ -95,7 +95,7 @@ export interface IIterationSummary<T> {
  *     map(a => myService.getValues(a)), // remap into requests-promises
  *     wait(), // resolve requests
  *     onEnd(s => {
- *         if(s.avgDuration > 1000) {
+ *         if(s.duration.average > 1000) {
  *             // took longer than 1s per value on average;
  *             throw new Error('Method getValues is too slow');
  *         }
@@ -187,27 +187,44 @@ function onEndAsync<T>(
             let start: number,
                 finished: boolean,
                 lastValue: T,
-                count = 0;
+                count = 0,
+                max: IValueDuration<T>,
+                min: IValueDuration<T>;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    start = start || Date.now();
+                    const now = Date.now();
+                    start = start || now;
                     return i.next().then((a) => {
                         if (a.done) {
                             if (!finished) {
                                 finished = true;
-                                const duration = Date.now() - start;
-                                const avgDuration =
-                                    count > 0 ? duration / count : 0;
+                                const total = Date.now() - start;
+                                const average =
+                                    count > 0 ? total / count : 0;
                                 cb({
                                     count,
-                                    duration,
-                                    avgDuration,
+                                    duration: {average, min, max, total},
                                     lastValue,
                                     sync: false,
                                 });
                             }
                         } else {
                             lastValue = a.value;
+                            const delay = Date.now() - now;
+                            if (!count) {
+                                max = {delay, index: 0, value: lastValue};
+                                min = {delay, index: 0, value: lastValue};
+                            }
+                            if (delay > max.delay) {
+                                max.delay = delay;
+                                max.index = count;
+                                max.value = lastValue;
+                            }
+                            if (delay < min.delay) {
+                                min.delay = delay;
+                                min.index = count;
+                                min.value = lastValue;
+                            }
                             count++;
                         }
                         return a;
