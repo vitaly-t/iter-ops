@@ -8,6 +8,12 @@ import {createOperation} from '../utils';
  *
  * Optional callback `cb` is invoked when timeout is reached before iteration is over.
  *
+ * ```ts
+ * import {pipe, timeout} from 'iter-ops';
+ *
+ * const i = pipe([1, 2, 3])
+ * ```
+ *
  * @category Sync+Async
  */
 export function timeout<T>(
@@ -26,6 +32,7 @@ function timeoutSync<T>(
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
+            ms = ms > 0 ? ms : 0; // we support only positive timeouts
             const i = iterable[$S]();
             const state: IterationState = {};
             let index = 0;
@@ -55,6 +62,7 @@ function timeoutAsync<T>(
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
+            ms = ms > 0 ? ms : 0; // we support only positive timeouts
             const i = iterable[$A]();
             const state: IterationState = {};
             let index = 0;
