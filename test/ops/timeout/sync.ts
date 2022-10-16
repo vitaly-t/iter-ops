@@ -17,18 +17,18 @@ export default () => {
         expect([...i]).to.eql([1, 2, 3]);
     });
     it('must invoke callback on timeout', () => {
-        let index;
+        let count;
         const i = pipe(
             [1, 2, 3],
             tap(() => {
                 syncDelay(5);
             }),
-            timeout(8, (idx) => {
-                index = idx;
+            timeout(8, (c) => {
+                count = c;
             })
         );
         expect([...i]).to.eql([1, 2]);
-        expect(index).to.eql(2);
+        expect(count).to.eql(2);
     });
     it('must not invoke callback without timeout', async () => {
         let invoked = false;

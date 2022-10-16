@@ -7,16 +7,16 @@ export default () => {
         expect(await _asyncValues(i)).to.eql([1, 2]);
     });
     it('must invoke callback on timeout', async () => {
-        let index;
+        let count;
         const i = pipe(
             _async([1, 2, 3]),
             delay(10),
-            timeout(27, (idx) => {
-                index = idx;
+            timeout(27, (c) => {
+                count = c;
             })
         );
         await _asyncValues(i); // iterate
-        expect(index).to.eql(2);
+        expect(count).to.eql(2);
     });
     it('must not invoke callback without timeout', async () => {
         let invoked = false;
