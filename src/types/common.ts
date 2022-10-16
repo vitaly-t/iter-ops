@@ -112,6 +112,11 @@ export type UnknownIterableOrIterator<T> =
     | UnknownIterator<T>;
 
 /**
+ * A Typed array.
+ */
+export type TypedArray = ArrayBufferView & ArrayLike<unknown>;
+
+/**
  * Pipe-through type (return type for all operators)
  */
 export interface Operation<T, R> {
