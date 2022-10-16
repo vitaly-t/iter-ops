@@ -1,3 +1,4 @@
+import {isIndexed} from './typeguards';
 import {$A, $S, Operation} from './types';
 
 /**
@@ -60,7 +61,7 @@ export function optimizeIterable(input: any): Iterable<any> {
 /**
  * Wraps an indexed iterable into an Iterable<T> object
  */
-export function indexedIterable<T>(input: any): Iterable<T> {
+export function indexedIterable<T>(input: ArrayLike<T>): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             const len = input.length;
@@ -95,16 +96,4 @@ export function indexedAsyncIterable<T>(input: any): AsyncIterable<T> {
             };
         },
     };
-}
-
-/**
- * Checks for indexed types.
- */
-export function isIndexed(input: any): boolean {
-    return (
-        Array.isArray(input) ||
-        (input?.buffer instanceof ArrayBuffer && input.BYTES_PER_ELEMENT) || // Buffer or Typed Array
-        typeof input === 'string' ||
-        input instanceof String
-    );
 }

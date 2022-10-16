@@ -5,9 +5,10 @@ import {
     isIteratorResult,
     isObject,
     isPromiseLike,
+    isIndexed,
 } from './typeguards';
 import {$A, $S, UnknownIterable} from './types';
-import {isIndexed, indexedAsyncIterable} from './utils';
+import {indexedAsyncIterable} from './utils';
 
 /**
  * Converts any synchronous iterable into asynchronous one.

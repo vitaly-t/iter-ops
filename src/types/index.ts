@@ -9,6 +9,7 @@ export {
     SyncValue,
     Value,
     IterationState,
+    TypedArray,
 } from './common';
 
 export {Decrement} from './utils';
