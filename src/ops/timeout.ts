@@ -34,17 +34,17 @@ import {createOperation} from '../utils';
  * const i = pipe(
  *            [1, 2, 3, 4],
  *            tap(() => {
- *                syncDelay(5); // artificially delaying each iteration step
+ *                sleep(5); // artificially delaying each iteration step
  *            }),
  *            timeout(8)
  *          );
  *
  * console.log(...i); //=> 1, 2 (we never get 3, 4 due to the timeout)
  *
- * // helper for delaying sync operations:
- * function syncDelay(ms: number) {
- *     const start = Date.now();
- *     while (Date.now() - start < ms);
+ * // sync sleep helper (without CPU load):
+ * function sleep(t: number) {
+ *     const arr = new Int32Array(new SharedArrayBuffer(4));
+ *     Atomics.wait(arr, 0, 0, Math.max(1, t | 0));
  * }
  * ```
  *
