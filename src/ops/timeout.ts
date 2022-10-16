@@ -1,4 +1,4 @@
-import {$A, $S, IterationState, Operation} from '../types';
+import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -60,7 +60,7 @@ import {createOperation} from '../utils';
  */
 export function timeout<T>(
     ms: number,
-    cb?: (count: number, state: IterationState) => void
+    cb?: (count: number) => void
 ): Operation<T, T>;
 
 export function timeout(...args: unknown[]) {
