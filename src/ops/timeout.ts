@@ -48,8 +48,8 @@ import {createOperation} from '../utils';
  * }
  * ```
  *
- * Note that the examples above may not produce consistent result, as they rely on a race condition,
- * which depends on the OS + your current CPU load and JavaScript engine.
+ * Note that the examples above may not always produce a consistent result, as they rely on a race condition,
+ * which depends on the OS, your current CPU load and JavaScript engine.
  *
  * @param ms - Timeout in milliseconds.
  *
