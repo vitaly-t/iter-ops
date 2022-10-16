@@ -53,9 +53,8 @@ import {createOperation} from '../utils';
  *
  * @param ms - Timeout in milliseconds.
  *
- * @param [cb] - Notification of when iteration stops due to the timeout.
- * It receives `count` - number of items processed before timeout, plus
- * iteration session state.
+ * @param [cb] - Notification of when iteration stops due to the timeout,
+ * with parameter `count` - the number of items processed before timeout.
  *
  * @category Sync+Async
  */
@@ -71,13 +70,12 @@ export function timeout(...args: unknown[]) {
 function timeoutSync<T>(
     iterable: Iterable<T>,
     ms: number,
-    cb?: (count: number, state: IterationState) => void
+    cb?: (count: number) => void
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             ms = ms > 0 ? ms : 0; // ignore negative or invalid timeouts
             const i = iterable[$S]();
-            const state: IterationState = {};
             let count = 0; // number of items processed
             let start: number;
             return {
@@ -86,7 +84,7 @@ function timeoutSync<T>(
                     start = start || now;
                     if (now - start > ms) {
                         if (typeof cb === 'function') {
-                            cb(count, state); // notify of the timeout
+                            cb(count); // notify of the timeout
                         }
                         return {value: undefined, done: true};
                     }
@@ -101,13 +99,12 @@ function timeoutSync<T>(
 function timeoutAsync<T>(
     iterable: AsyncIterable<T>,
     ms: number,
-    cb?: (index: number, state: IterationState) => void
+    cb?: (index: number) => void
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             ms = ms > 0 ? ms : 0; // ignore negative or invalid timeouts
             const i = iterable[$A]();
-            const state: IterationState = {};
             let count = 0; // number of items processed
             let start: number;
             return {
@@ -116,7 +113,7 @@ function timeoutAsync<T>(
                     start = start || now;
                     if (now - start > ms) {
                         if (typeof cb === 'function') {
-                            cb(count, state); // notify of the timeout
+                            cb(count); // notify of the timeout
                         }
                         return Promise.resolve({value: undefined, done: true});
                     }
