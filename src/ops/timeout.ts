@@ -12,9 +12,9 @@ import {createOperation} from '../utils';
  * import {pipe, toAsync, delay, timeout} from 'iter-ops';
  *
  * const i = pipe(
- *          toAsync([1, 2, 3]),
- *          delay(10), // an async operation that takes 10ms each
- *          timeout(18)
+ *            toAsync([1, 2, 3, 4]),
+ *            delay(10), // an async operation that takes 10ms each
+ *            timeout(18)
  *          );
  *
  * (async function() {
@@ -23,8 +23,39 @@ import {createOperation} from '../utils';
  *     }
  * })();
  *
- * // We never get 3 above, as iteration times out after 18ms.
+ * // We never get 3, 4 above, as iteration times out after 18ms.
  * ```
+ *
+ * It works synchronously in a similar way:
+ *
+ * ```ts
+ * import {pipe, tap, timeout} from 'iter-ops';
+ *
+ * const i = pipe(
+ *            [1, 2, 3, 4],
+ *            tap(() => {
+ *                syncDelay(5); // artificially delaying each iteration step
+ *            }),
+ *            timeout(8)
+ *          );
+ *
+ * console.log(...i); //=> 1, 2 (we never get 3, 4 due to the timeout)
+ *
+ * // helper for delaying sync operations:
+ * function syncDelay(ms: number) {
+ *     const start = Date.now();
+ *     while (Date.now() - start < ms);
+ * }
+ * ```
+ *
+ * Note that the examples above may not produce consistent result, as they rely on a race condition,
+ * which depends on the OS + your current CPU load and JavaScript engine.
+ *
+ * @param ms - Timeout in milliseconds.
+ *
+ * @param [cb] - Notification of when iteration stops due to the timeout.
+ * It receives `count` - number of items processed before timeout, plus
+ * iteration session state.
  *
  * @category Sync+Async
  */
