@@ -32,7 +32,7 @@ function timeoutSync<T>(
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
-            ms = ms > 0 ? ms : 0; // we support only positive timeouts
+            ms = ms > 0 ? ms : 0; // ignore negative or invalid timeouts
             const i = iterable[$S]();
             const state: IterationState = {};
             let index = 0;
@@ -62,7 +62,7 @@ function timeoutAsync<T>(
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
-            ms = ms > 0 ? ms : 0; // we support only positive timeouts
+            ms = ms > 0 ? ms : 0; // ignore negative or invalid timeouts
             const i = iterable[$A]();
             const state: IterationState = {};
             let index = 0;
