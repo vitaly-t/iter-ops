@@ -29,7 +29,7 @@ export default () => {
         await _asyncValues(i); // iterate
         expect(invoked).to.be.false; // no callback
     });
-    it('must ignore negative timeouts', async () => {
+    it('must deactivate on negative timeouts', async () => {
         const i = pipe(_async([1, 2, 3]), timeout(-1));
         expect(await _asyncValues(i)).to.eql([1, 2, 3]);
     });

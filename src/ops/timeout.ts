@@ -51,7 +51,7 @@ import {createOperation} from '../utils';
  * Note that the examples above may not always produce a consistent result, as they rely on a race condition,
  * which depends on the OS, your current CPU load and JavaScript engine.
  *
- * @param ms - Timeout in milliseconds.
+ * @param ms - Timeout in milliseconds. Passing in a negative number deactivates the timeout.
  *
  * @param [cb] - Notification of when iteration stops due to the timeout,
  * with parameter `count` - the number of items processed before timeout.
@@ -74,8 +74,11 @@ function timeoutSync<T>(
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
-            ms = ms > 0 ? ms : 0; // ignore negative or invalid timeouts
             const i = iterable[$S]();
+            if (ms < 0) {
+                // timeout is inactive;
+                return i;
+            }
             let count = 0; // number of items processed
             let start: number;
             return {
@@ -103,8 +106,11 @@ function timeoutAsync<T>(
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
-            ms = ms > 0 ? ms : 0; // ignore negative or invalid timeouts
             const i = iterable[$A]();
+            if (ms < 0) {
+                // timeout is inactive;
+                return i;
+            }
             let count = 0; // number of items processed
             let start: number;
             return {

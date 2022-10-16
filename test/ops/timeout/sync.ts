@@ -12,7 +12,7 @@ export default () => {
         );
         expect([...i]).to.eql([1, 2]);
     });
-    it('must ignore negative timeouts', () => {
+    it('must deactivate on negative timeouts', () => {
         const i = pipe([1, 2, 3], timeout(-1));
         expect([...i]).to.eql([1, 2, 3]);
     });
