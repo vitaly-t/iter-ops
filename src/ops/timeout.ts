@@ -14,7 +14,7 @@ import {createOperation} from '../utils';
  * const i = pipe(
  *          toAsync([1, 2, 3]),
  *          delay(10), // an async operation that takes 10ms each
- *          timeout(27)
+ *          timeout(18)
  *          );
  *
  * (async function() {
@@ -23,7 +23,7 @@ import {createOperation} from '../utils';
  *     }
  * })();
  *
- * // We never get 3 above, as iteration times out after 27ms.
+ * // We never get 3 above, as iteration times out after 18ms.
  * ```
  *
  * @category Sync+Async
