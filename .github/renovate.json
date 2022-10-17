@@ -8,5 +8,11 @@
   "platformAutomerge": true,
   "semanticCommits": "enabled",
   "prHourlyLimit": 0,
-  "prConcurrentLimit": 0
+  "prConcurrentLimit": 0,
+  "packageRules": [
+    {
+      "matchPackageNames": ["rollup-plugin-dts"],
+      "allowedVersions": "<5"
+    }
+  ]
 }
