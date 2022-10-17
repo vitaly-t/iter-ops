@@ -11,7 +11,7 @@ export function createOperation<T, R>(
 ): Operation<T, R> {
     return (i: any) => {
         const func: any = i[$S] ? syncFunc : asyncFunc;
-        return func.apply(null, [i, ...(args || [])]);
+        return args ? func.apply(null, [i, ...args]) : func(i);
     };
 }
 

@@ -95,7 +95,7 @@ export function isIteratorResult<T, CastGeneric = unknown>(
 }
 
 /**
- * Determines if the value is an indexed typed.
+ * Determines if the value is an indexed type.
  */
 export function isIndexed<T, CastGeneric = unknown>(
     value: T
@@ -120,7 +120,7 @@ export function isTypedArray<T>(value: T): value is T & TypedArray {
 }
 
 /**
- * Determines if the value is a array buffer like.
+ * Determines if the value is a buffer-like array.
  */
 export function isArrayBufferLike<T>(value: T): value is T & ArrayBufferLike {
     return hasOfType(value, 'byteLength', 'number');
