@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "1.0.2",
-    "@rollup/plugin-node-resolve": "15.0.0",
+    "@rollup/plugin-node-resolve": "15.0.1",
     "@rollup/plugin-typescript": "9.0.1",
     "@types/chai": "4.3.3",
     "@types/estree": "1.0.0",
