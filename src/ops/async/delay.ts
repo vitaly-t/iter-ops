@@ -3,7 +3,7 @@ import {createOperation, throwOnSync} from '../../utils';
 
 /**
  * Delays each value by the specified timeout.
- * When the timeout is a negative number, it is not added.
+ * When the timeout is a negative number, no delay added.
  *
  * ```ts
  * import {pipe, toAsync, delay} from 'iter-ops';
@@ -57,6 +57,9 @@ function delayAsync<T>(
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
+            if (timeout < 0) {
+                return i; // use no delay;
+            }
             const cb = typeof timeout === 'function' && timeout;
             const state: IterationState = {};
             let index = 0;
@@ -72,8 +75,8 @@ function delayAsync<T>(
                         return delay < 0
                             ? a
                             : new Promise((resolve) =>
-                                  setTimeout(() => resolve(a), delay)
-                              );
+                                setTimeout(() => resolve(a), delay)
+                            );
                     });
                 },
             };

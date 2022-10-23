@@ -5,6 +5,7 @@ import {createOperation} from '../utils';
  * **New in v2.0.0**
  *
  * Ends iteration after a specified number of milliseconds (from the beginning of iteration).
+ * When `ms` < 0, the timeout is deactivated.
  *
  * Optional callback `cb` is invoked when timeout is reached before iteration is over.
  *
