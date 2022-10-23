@@ -14,7 +14,10 @@ import {createOperation} from '../utils';
  * const i = pipe(
  *            toAsync([1, 2, 3, 4]),
  *            delay(10), // an async operation that takes 10ms each
- *            timeout(18)
+ *            timeout(18, (count) => {
+ *                // timeout occurred (failed to process all items);
+ *                // only 'count' number of items were processed.
+ *            })
  *          );
  *
  * (async function() {
@@ -56,6 +59,8 @@ import {createOperation} from '../utils';
  * @param [cb] - Notification of when iteration stops due to the timeout,
  * with parameter `count` - the number of items processed before timeout.
  *
+ * @see
+ *   - {@link delay}
  * @category Sync+Async
  */
 export function timeout<T>(
