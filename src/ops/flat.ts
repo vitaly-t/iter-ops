@@ -24,8 +24,6 @@ export type Flatten<T, N extends number> =
         : Flatten<T, Decrement[N]>;
 
 /**
- * **New in v2.0.0**
- *
  * Expands / flattens sub-iterables up to the specified `depth` (default is 1).
  *
  * ```ts

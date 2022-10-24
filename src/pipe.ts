@@ -230,6 +230,8 @@ type Pipe = PipeSync & PipeAsync;
 /**
  * Pipes an `Iterable` or `AsyncIterable` through the list of operators, and returns either {@link IterableExt} or {@link AsyncIterableExt}.
  *
+ * @throws `TypeError: 'An iterable object was expected: ...'` when the input is not iterable.
+ *
  * @see
  *  - {@link toIterable}
  *  - {@link toAsync}
@@ -255,8 +257,6 @@ export const pipe = ((
 }) as Pipe;
 
 /**
- * **New in v2.0.0**
- *
  * Pipes a synchronous `UnknownIterable` through the list of synchronous operators, and returns {@link IterableExt}.
  *
  * @see {@link toIterable}, {@link toAsync}
@@ -271,8 +271,6 @@ export const pipeSync = ((
     )) as PipeSync;
 
 /**
- * **New in v2.0.0**
- *
  * Pipes an `UnknownIterable` or `AsyncIterable` through the list of asynchronous operators, and returns {@link AsyncIterableExt}.
  *
  * @see {@link toIterable}, {@link toAsync}

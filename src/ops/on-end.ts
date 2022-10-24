@@ -86,8 +86,6 @@ export interface IIterationSummary<T> {
 }
 
 /**
- * **Breaking changes in v2.0.0**
- *
  * Notifies of the end of a successful iteration, for the immediately preceding operator, and provides a summary.
  *
  * It doesn't handle or affect any upstream errors, and should they occur, it may never reach the end,
