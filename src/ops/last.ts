@@ -31,6 +31,23 @@ import {createOperation} from '../utils';
  * console.log(i.first); //=> 8
  * ```
  *
+ * Example of finding a maximum value:
+ *
+ * ```ts
+ * import {pipe, last} from 'iter-ops';
+ *
+ * const input = [3, 0, -2, 5, 9, 4];
+ *
+ * const i = pipe(input, last((value, idx, state) => {
+ *     if (!('max' in state) || value > state.max) {
+ *         state.max = value;
+ *         return true;
+ *     }
+ * }));
+ *
+ * console.log(...i); //=> 9
+ * ```
+ *
  * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
  * or else the `Promise` will be treated as a truthy value.
  *
