@@ -39,7 +39,7 @@ import {createOperation} from '../utils';
  * const input = [3, 0, -2, 5, 9, 4];
  *
  * const i = pipe(input, last((value, idx, state) => {
- *     if (!('max' in state) || value > state.max) {
+ *     if (!idx || value > state.max) {
  *         state.max = value;
  *         return true;
  *     }
