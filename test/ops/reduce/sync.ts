@@ -57,4 +57,28 @@ export default () => {
         [...output];
         expect(arr).to.eql([1, 2, 3, 4, 5]);
     });
+    it('must include 0 index when initial value is passed in', () => {
+        const indexes: number[] = [];
+        const output = pipe(
+            [11, 22, 33],
+            reduce((a, c, idx) => {
+                indexes.push(idx);
+                return 555;
+            }, 77)
+        );
+        [...output];
+        expect(indexes).to.eql([0, 1, 2]);
+    });
+    it('must exclude 0 index without initial value', () => {
+        const indexes: number[] = [];
+        const output = pipe(
+            [11, 22, 33],
+            reduce((a, c, idx) => {
+                indexes.push(idx);
+                return 555;
+            })
+        );
+        [...output];
+        expect(indexes).to.eql([1, 2]);
+    });
 };

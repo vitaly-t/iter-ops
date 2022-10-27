@@ -37,7 +37,8 @@ function reduceSync<T>(
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             const state: IterationState = {};
-            let done = false;
+            let done = false,
+                index = 0;
             return {
                 next(): IteratorResult<T> {
                     let value;
@@ -45,14 +46,14 @@ function reduceSync<T>(
                         return {value, done};
                     }
                     value = initialValue as T;
-                    let index = 0,
-                        a;
+                    let a;
                     while (!(a = i.next()).done) {
-                        if (!index++ && value === undefined) {
+                        if (!index && value === undefined) {
                             value = a.value;
-                            continue;
+                            index++;
+                        } else {
+                            value = cb(value, a.value, index++, state);
                         }
-                        value = cb(value, a.value, index++, state);
                     }
                     done = true;
                     return {value, done: false};
@@ -89,10 +90,12 @@ function reduceAsync<T>(
                             finished = true;
                             return {value, done: false};
                         }
-                        value =
-                            index++ === 0 && value === undefined
-                                ? a.value
-                                : cb(value, a.value, index++, state);
+                        if (!index && value === undefined) {
+                            value = a.value;
+                            index++;
+                        } else {
+                            value = cb(value, a.value, index++, state);
+                        }
                         return this.next();
                     });
                 },
