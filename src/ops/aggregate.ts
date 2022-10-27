@@ -17,7 +17,7 @@ import {createOperation} from '../utils';
  *
  * const i = pipe(
  *     input,
- *     aggregate(values => values.sort()), // sort the values
+ *     aggregate(values => values.sort((a, b) => a - b)), // sort the values
  *     spread() // spread aggregation result
  * );
  *
