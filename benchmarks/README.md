@@ -1,6 +1,6 @@
 ## Benchmarks
 
-Testing `iter-ops` versus the latest `rxjs`:
+Testing `iter-ops` against the latest `rxjs`:
 
 -   We use an array of numbers as the input (`1e7` items)
 -   We first `filter` out all even numbers
@@ -52,4 +52,4 @@ on how fast the source iterable is. Library `iter-ops` does come with some good 
 asynchronous iterables, which we achieve by using [toAsync]. However, it is possible to optimize an iterable for `rxjs`
 separately. Therefore, it is nearly impossible to draw the line, in how to define an objective test for this.
 
-[toasync]: https://vitaly-t.github.io/iter-ops/index.html#toAsync
+[toAsync]: https://vitaly-t.github.io/iter-ops/functions/toAsync
