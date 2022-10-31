@@ -3,10 +3,10 @@ import {isPromiseLike} from '../../typeguards';
 import {createOperation, throwOnSync} from '../../utils';
 
 /**
- * When the iterable rejects, retries getting the value specified number of times.
+ * When an asynchronous iterable rejects, it retries getting the value specified number of times.
  *
- * Note that retries deplete values prior the operator that threw the error,
- * and so it is often used in combination with operator {@link repeat}.
+ * Note that retries deplete values prior the operator that threw the error,  and so it is often
+ * used in combination with operator {@link repeat}.
  *
  * ```ts
  * import {pipe, toAsync, tap, retry} from 'iter-ops';
@@ -38,7 +38,7 @@ import {createOperation, throwOnSync} from '../../utils';
 export function retry<T>(attempts: number): Operation<T, T>;
 
 /**
- * When the iterable rejects, the callback is to return the flag, indicating whether
+ * When an asynchronous iterable rejects, the callback is to return the flag, indicating whether
  * we should retry getting the value one more time.
  *
  * The callback is only invoked when there is a failure, and it receives:
