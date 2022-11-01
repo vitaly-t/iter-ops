@@ -50,6 +50,7 @@ const i = pipe(
     distinct(), // emit unique numbers
     delay(1000) // delay each value by 1s
 );
+// or you can replace `pipe` + `toAsync` with just `pipeAsync`
 
 (async function () {
     for await (const a of i) {
@@ -66,7 +67,8 @@ _See also..._
 
 ## API
 
-Function [pipe] takes an iterable, applies all specified operators to it, and returns an extended iterable.
+Function [pipe] takes any iterable, applies all specified operators to it, and returns an extended iterable.
+For strict type of iterables, there are also [pipeSync] and [pipeAsync].
 
 #### <i>Standard operators:</i>
 
@@ -143,3 +145,6 @@ All standard operators implement the same logic as [Array] does:
 [synchronous]: https://javascript.info/iterable
 [asynchronous]: https://javascript.info/async-iterators-generators#async-iterables
 [rationale]: https://github.com/vitaly-t/iter-ops/wiki/Rationale
+
+[pipeSync]:https://vitaly-t.github.io/iter-ops/functions/pipeSync
+[pipeAsync]:https://vitaly-t.github.io/iter-ops/functions/pipeAsync

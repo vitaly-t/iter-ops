@@ -259,7 +259,11 @@ export const pipe = ((
 /**
  * Pipes a synchronous `UnknownIterable` through the list of synchronous operators, and returns {@link IterableExt}.
  *
- * @see {@link toIterable}, {@link toAsync}
+ * @see
+ *  - {@link pipe}
+ *  - {@link pipeAsync}
+ *  - {@link toIterable}
+ *  - {@link toAsync}
  * @category Core
  */
 export const pipeSync = ((
@@ -273,7 +277,25 @@ export const pipeSync = ((
 /**
  * Pipes an `UnknownIterable` or `AsyncIterable` through the list of asynchronous operators, and returns {@link AsyncIterableExt}.
  *
- * @see {@link toIterable}, {@link toAsync}
+ * It applies automatic conversion when a synchronous iterable is passed in.
+ *
+ * ```ts
+ * import {pipeAsync, delay} from 'iter-ops';
+ *
+ * const i = pipeAsync([1, 2, 3], delay(1000));
+ *
+ * (async function() {
+ *   for await (const a of i) {
+ *       console.log(a); // 1, 2, 3 (with 1s delay)
+ *   }
+ * })();
+ * ```
+ *
+ * @see
+ *  - {@link pipe}
+ *  - {@link pipeSync}
+ *  - {@link toIterable}
+ *  - {@link toAsync}
  * @category Core
  */
 export const pipeAsync = ((
