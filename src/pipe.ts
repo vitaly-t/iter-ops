@@ -233,6 +233,8 @@ type Pipe = PipeSync & PipeAsync;
  * @throws `TypeError: 'An iterable object was expected: ...'` when the input is not iterable.
  *
  * @see
+ *  - {@link pipeSync}
+ *  - {@link pipeAsync}
  *  - {@link toIterable}
  *  - {@link toAsync}
  * @category Core
