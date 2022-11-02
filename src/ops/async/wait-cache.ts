@@ -18,25 +18,39 @@ export function waitCacheAsync<T>(
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
-            const cache: Promise<any>[] = [];
+            const cache = new Map<number, Promise<{ key: number, value: T }>>();
+            let key = 0;
+            let finished = false;
+            const nextValue = (): Promise<IteratorResult<T>> => {
+                if (cache.size) {
+                    return Promise.race(cache.values()).then(a => {
+                        cache.delete(a.key);
+                        return {value: a.value, done: false};
+                    });
+                }
+                return Promise.resolve({value: undefined, done: true});
+            };
             return {
                 next(): Promise<IteratorResult<T>> {
+                    if (finished) {
+                        return nextValue();
+                    }
                     return i.next().then((a) => {
                         if (a.done) {
-                            return a as any;
+                            finished = true;
+                            return nextValue();
                         }
                         const p = a.value as Promise<T>;
                         if (isPromiseLike(p)) {
-                            cache.push(p);
-                            if (cache.length === n) {
-                                // maximum cache size reached;
-                                return Promise.race(cache).then(data => {
-                                    // cache.splice(...); // Need to remove one that's resolved, somehow
-                                    return data;
-                                });
+                            const v = p.then(value => ({key, value}));
+                            cache.set(key, v);
+                            key++;
+                            if (cache.size < n) {
+                                return this.next();
                             }
+                            return nextValue();
                         }
-                        return a;
+                        return a as IteratorResult<T>;
                     });
                 },
             };
