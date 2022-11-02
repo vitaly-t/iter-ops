@@ -7,8 +7,8 @@ import {createOperation, throwOnSync} from '../../utils';
  */
 export function waitCache<T>(n: number): Operation<Promise<T> | T, T>;
 
-export function waitCache() {
-    return createOperation(throwOnSync('waitCache'), waitCacheAsync);
+export function waitCache(...args: unknown[]) {
+    return createOperation(throwOnSync('waitCache'), waitCacheAsync, args);
 }
 
 export function waitCacheAsync<T>(
@@ -18,12 +18,12 @@ export function waitCacheAsync<T>(
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
-            const cache = new Map<number, Promise<{ key: number, value: T }>>();
+            const cache = new Map<number, Promise<{key: number; value: T}>>();
             let key = 0;
             let finished = false;
             const nextValue = (): Promise<IteratorResult<T>> => {
                 if (cache.size) {
-                    return Promise.race([...cache.values()]).then(a => {
+                    return Promise.race([...cache.values()]).then((a) => {
                         cache.delete(a.key);
                         return {value: a.value, done: false};
                     });
@@ -42,7 +42,7 @@ export function waitCacheAsync<T>(
                         }
                         const p = a.value as Promise<T>;
                         if (isPromiseLike(p)) {
-                            const v = p.then(value => ({key, value}));
+                            const v = p.then((value) => ({key, value}));
                             cache.set(key, v);
                             key++;
                             if (cache.size < n) {
