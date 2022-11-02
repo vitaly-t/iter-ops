@@ -4,6 +4,21 @@ import {createOperation} from '../utils';
 /**
  * Standard reducer for the iterable, extended for supporting iteration state.
  *
+ * Below is an example of calculating the average from a sequence of numbers:
+ *
+ * ```ts
+ * import {pipe, reduce} from 'iter-ops';
+ *
+ * const input = [3, 0, -2, 5, 9, 4];
+ *
+ * const i = pipe(input, reduce((p, c, idx, state) => {
+ *     state.sum = idx > 0 ? state.sum + c : c;
+ *     return state.sum / (idx + 1);
+ * }, 0));
+ *
+ * console.log(...i); //=> 3.1666(6)
+ * ```
+ *
  * @see
  *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce Array.reduce}
  *
