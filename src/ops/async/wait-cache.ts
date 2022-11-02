@@ -23,7 +23,7 @@ export function waitCacheAsync<T>(
             let finished = false;
             const nextValue = (): Promise<IteratorResult<T>> => {
                 if (cache.size) {
-                    return Promise.race(cache.values()).then(a => {
+                    return Promise.race([...cache.values()]).then(a => {
                         cache.delete(a.key);
                         return {value: a.value, done: false};
                     });
