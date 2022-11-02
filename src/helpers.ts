@@ -207,10 +207,11 @@ function toSingleAsyncIterable<T>(
                             done: true,
                         });
                     }
-                    return (asyncValue as Promise<T>).then((value: T) => {
-                        finished = true;
-                        return {value, done: false};
-                    });
+                    finished = true;
+                    return (asyncValue as Promise<T>).then((value: T) => ({
+                        value,
+                        done: false,
+                    }));
                 },
             };
         },
