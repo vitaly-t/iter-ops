@@ -145,6 +145,5 @@ All standard operators implement the same logic as [Array] does:
 [synchronous]: https://javascript.info/iterable
 [asynchronous]: https://javascript.info/async-iterators-generators#async-iterables
 [rationale]: https://github.com/vitaly-t/iter-ops/wiki/Rationale
-
-[pipeSync]:https://vitaly-t.github.io/iter-ops/functions/pipeSync
-[pipeAsync]:https://vitaly-t.github.io/iter-ops/functions/pipeAsync
+[pipesync]: https://vitaly-t.github.io/iter-ops/functions/pipeSync
+[pipeasync]: https://vitaly-t.github.io/iter-ops/functions/pipeAsync

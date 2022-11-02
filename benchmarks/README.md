@@ -52,4 +52,4 @@ on how fast the source iterable is. Library `iter-ops` does come with some good 
 asynchronous iterables, which we achieve by using [toAsync]. However, it is possible to optimize an iterable for `rxjs`
 separately. Therefore, it is nearly impossible to draw the line, in how to define an objective test for this.
 
-[toAsync]: https://vitaly-t.github.io/iter-ops/functions/toAsync
+[toasync]: https://vitaly-t.github.io/iter-ops/functions/toAsync

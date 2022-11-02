@@ -93,7 +93,7 @@ export function toIterable<T>(i: AsyncIterator<T>): AsyncIterable<T>;
  * @hidden
  */
 export function toIterable<T>(i: {
-    next: () => { value: T | undefined };
+    next: () => {value: T | undefined};
 }): Iterable<T>;
 
 /**
@@ -102,7 +102,7 @@ export function toIterable<T>(i: {
  * @hidden
  */
 export function toIterable<T>(i: {
-    next: () => PromiseLike<{ value: T | undefined }>;
+    next: () => PromiseLike<{value: T | undefined}>;
 }): AsyncIterable<T>;
 
 /**
