@@ -27,16 +27,14 @@ export function waitCacheAsync<T>(
                         }
                         const p = a.value as Promise<T>;
                         if (isPromiseLike(p)) {
-                            const index = cache.length;
-                            cache.push(p.then(value => ({value, index})));
+                            cache.push(p);
                             if (cache.length === n) {
                                 // maximum cache size reached;
                                 return Promise.race(cache).then(data => {
-                                    cache.splice(data.index); // TODO: other indexes after each removal
-                                    return data.value;
+                                    // cache.splice(...); // Need to remove one that's resolved, somehow
+                                    return data;
                                 });
                             }
-                            // return p.then((value: T) => ({value, done: false}));
                         }
                         return a;
                     });
