@@ -57,4 +57,5 @@ export {timeout} from './ops/timeout';
 export {timing, IValueTiming} from './ops/timing';
 export {toArray} from './ops/to-array';
 export {wait} from './ops/async/wait';
+export {waitCache} from './ops/async/wait-cache';
 export {zip} from './ops/zip';

@@ -65,7 +65,7 @@ export function waitAsync<T>(
                         }
                         const p = a.value as Promise<T>;
                         return isPromiseLike(p)
-                            ? p?.then((value) => ({value, done: false}))
+                            ? p.then((value) => ({value, done: false}))
                             : a;
                     });
                 },
