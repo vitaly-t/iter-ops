@@ -12,9 +12,9 @@ import {createOperation} from '../utils';
  * const input = [3, 0, -2, 5, 9, 4];
  *
  * const i = pipe(input, reduce((p, c, idx, state) => {
- *     state.sum = idx > 0 ? state.sum + c : c;
- *     return state.sum / (idx + 1);
- * }, 0));
+ *     state.sum = (state.sum ?? p) + c;
+ *     return p && state.sum / (idx + 1);
+ * }));
  *
  * console.log(...i); //=> 3.1666(6)
  * ```
