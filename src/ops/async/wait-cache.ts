@@ -70,7 +70,7 @@ export function waitCacheAsync<T>(
             n = n > 1 ? n : 1; // cache size cannot be smaller than 1
             const resolveCache = (): Promise<IteratorResult<T>> => {
                 if (cache.size) {
-                    return Promise.race([...cache.values()]).then((a) => {
+                    return Promise.race(cache.values()).then((a) => {
                         cache.delete(a.key);
                         return {value: a.value, done: false};
                     });
