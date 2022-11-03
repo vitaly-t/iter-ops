@@ -19,7 +19,7 @@ export function waitCacheAsync<T>(
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             const cache = new Map<number, Promise<{key: number; value: T}>>();
-            let key = 0;
+            let index = 0;
             let finished = false;
             const nextValue = (): Promise<IteratorResult<T>> => {
                 if (cache.size) {
@@ -42,9 +42,9 @@ export function waitCacheAsync<T>(
                         }
                         const p = a.value as Promise<T>;
                         if (isPromiseLike(p)) {
+                            const key = index++;
                             const v = p.then((value) => ({key, value}));
                             cache.set(key, v);
-                            key++;
                             if (cache.size < n) {
                                 return this.next();
                             }
