@@ -3,6 +3,8 @@ import {isPromiseLike} from '../../typeguards';
 import {createOperation, throwOnSync} from '../../utils';
 
 /**
+ * Caches up to N promises, for concurrent resolution, and emits unordered results.
+ *
  * @category Async-only
  */
 export function waitCache<T>(n: number): Operation<Promise<T> | T, T>;
