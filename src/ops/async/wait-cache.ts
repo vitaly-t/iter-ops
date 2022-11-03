@@ -63,17 +63,18 @@ export function waitCacheAsync<T>(
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
+            n = n > 1 ? n : 1; // cache size cannot be smaller than 1
             const i = iterable[$A]();
-            const cache = new Map<number, Promise<{key: number; value: T}>>();
+            const cache = new Map<number, Promise<void>>();
             let index = 0;
             let finished = false;
-            n = n > 1 ? n : 1; // cache size cannot be smaller than 1
+            const settled: Promise<IteratorResult<T>>[] = [];
             const resolveCache = (): Promise<IteratorResult<T>> => {
+                if (settled.length) {
+                    return settled.shift() as Promise<IteratorResult<T>>;
+                }
                 if (cache.size) {
-                    return Promise.race(cache.values()).then((a) => {
-                        cache.delete(a.key);
-                        return {value: a.value, done: false};
-                    });
+                    return Promise.race(cache.values()).then(resolveCache);
                 }
                 return Promise.resolve({value: undefined, done: true});
             };
@@ -90,9 +91,18 @@ export function waitCacheAsync<T>(
                         const p = a.value as Promise<T>;
                         if (isPromiseLike(p)) {
                             const key = index++;
-                            const v = p.then((value) => ({key, value}));
+                            const v = p
+                                .then((value: T) => {
+                                    settled.push(
+                                        Promise.resolve({value, done: false})
+                                    );
+                                })
+                                .catch((err) => {
+                                    settled.push(Promise.reject(err));
+                                })
+                                .finally(() => cache.delete(key));
                             cache.set(key, v);
-                            if (cache.size < n) {
+                            if (cache.size + settled.length < n) {
                                 return this.next(); // continue accumulation
                             }
                             return resolveCache();
