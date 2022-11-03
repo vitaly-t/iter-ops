@@ -18,7 +18,7 @@ import {createOperation, throwOnSync} from '../../utils';
  * const i = pipeAsync(
  *              [1, 2, 3, 4, 5],
  *              map(a => Promise.resolve(a)), // replace with async processing
- *              waitCache(3) // cache up to 3 values
+ *              waitCache(3) // cache & wait for up to 3 values at a time
  *              );
  *
  * for await (const a of i) {
@@ -47,7 +47,7 @@ export function waitCacheAsync<T>(
             const cache = new Map<number, Promise<{key: number; value: T}>>();
             let index = 0;
             let finished = false;
-            const nextValue = (): Promise<IteratorResult<T>> => {
+            const resolveCache = (): Promise<IteratorResult<T>> => {
                 if (cache.size) {
                     return Promise.race([...cache.values()]).then((a) => {
                         cache.delete(a.key);
@@ -59,12 +59,12 @@ export function waitCacheAsync<T>(
             return {
                 next(): Promise<IteratorResult<T>> {
                     if (finished) {
-                        return nextValue();
+                        return resolveCache();
                     }
                     return i.next().then((a) => {
                         if (a.done) {
                             finished = true;
-                            return nextValue();
+                            return resolveCache();
                         }
                         const p = a.value as Promise<T>;
                         if (isPromiseLike(p)) {
@@ -74,7 +74,7 @@ export function waitCacheAsync<T>(
                             if (cache.size < n) {
                                 return this.next();
                             }
-                            return nextValue();
+                            return resolveCache();
                         }
                         return a as IteratorResult<T>;
                     });
