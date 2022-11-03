@@ -3,7 +3,7 @@ import {isPromiseLike} from '../../typeguards';
 import {createOperation, throwOnSync} from '../../utils';
 
 /**
- * **Experimental Feature**
+ * **EXPERIMENTAL FEATURE**
  *
  * Caches up to N promises, for concurrent resolution, and emits unordered results,
  * based on promise race-resolution.
@@ -17,17 +17,34 @@ import {createOperation, throwOnSync} from '../../utils';
  *
  * const i = pipeAsync(
  *              [1, 2, 3, 4, 5],
- *              map(a => Promise.resolve(a)), // replace with async processing
+ *              map(a => Promise.resolve(a * 10)), // replace with async processing
  *              waitCache(3) // cache & wait for up to 3 values at a time
  *              );
  *
  * for await (const a of i) {
- *     console.log(a); //=> 1, 4, 2, 5, 3 (unordered race-resolution)
+ *     console.log(a); //=> 10, 40, 20, 50, 30 (unordered race-resolution)
  * }
  * ```
  *
  * This operator can handle a combination of promises and simple values, with the latter
  * emitted immediately, as they appear.
+ *
+ * When results need to be linked to the source, you can simply remap the operations,
+ * like shown in the following example:
+ *
+ * ```ts
+ * import {pipeAsync, map, waitCache} from 'iter-ops';
+ *
+ * const i = pipeAsync(
+ *              [1, 2, 3],
+ *              map(s => Promise.resolve(s * 10).then(r => ({s, r}))), // {source, resolution}
+ *              waitCache(2)
+ *              );
+ *
+ * for await (const a of i) {
+ *     console.log(a); //=> {s: 1, r: 10}, {s: 3, r: 30}, {s: 2, r: 20} (unordered race-resolution)
+ * }
+ * ```
  *
  * @see
  *  - {@link wait}
