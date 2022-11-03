@@ -43,6 +43,9 @@ import {createOperation, throwOnSync} from '../../utils';
  * }
  * ```
  *
+ * @see
+ *  - {@link waitCache}
+ *
  * @category Async-only
  */
 export function wait<T>(): Operation<Promise<T> | T, T>;

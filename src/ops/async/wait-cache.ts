@@ -29,6 +29,9 @@ import {createOperation, throwOnSync} from '../../utils';
  * This operator can handle a combination of promises and simple values, with the latter
  * emitted immediately, as they appear.
  *
+ * @see
+ *  - {@link wait}
+ *
  * @category Async-only
  */
 export function waitCache<T>(n: number): Operation<Promise<T> | T, T>;
@@ -47,6 +50,7 @@ export function waitCacheAsync<T>(
             const cache = new Map<number, Promise<{key: number; value: T}>>();
             let index = 0;
             let finished = false;
+            n = n > 1 ? n : 1; // cache size cannot be smaller than 1
             const resolveCache = (): Promise<IteratorResult<T>> => {
                 if (cache.size) {
                     return Promise.race([...cache.values()]).then((a) => {
@@ -72,11 +76,11 @@ export function waitCacheAsync<T>(
                             const v = p.then((value) => ({key, value}));
                             cache.set(key, v);
                             if (cache.size < n) {
-                                return this.next();
+                                return this.next(); // continue accumulation
                             }
                             return resolveCache();
                         }
-                        return a as IteratorResult<T>;
+                        return a as IteratorResult<T>; // non-promise values are returned immediately
                     });
                 },
             };

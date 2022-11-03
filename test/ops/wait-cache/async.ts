@@ -21,4 +21,8 @@ export default () => {
         );
         expect(await _asyncValues(i)).to.have.members([1, 2, 3, 4]);
     });
+    it('must handle invalid size of cache', async () => {
+        const i = pipe(_async([1, 2, 3, 4]), waitCache(-1));
+        expect(await _asyncValues(i)).to.have.members([1, 2, 3, 4]);
+    });
 };
