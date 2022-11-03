@@ -3,7 +3,31 @@ import {isPromiseLike} from '../../typeguards';
 import {createOperation, throwOnSync} from '../../utils';
 
 /**
- * Caches up to N promises, for concurrent resolution, and emits unordered results.
+ * **Experimental Feature**
+ *
+ * Caches up to N promises, for concurrent resolution, and emits unordered results,
+ * based on promise race-resolution.
+ *
+ * It improves performance when handling multiple lengthy asynchronous operations,
+ * by letting you process results in the order in which they resolve, rather than
+ * the order in which those operations are created.
+ *
+ * ```ts
+ * import {pipeAsync, map, waitCache} from 'iter-ops';
+ *
+ * const i = pipeAsync(
+ *              [1, 2, 3, 4, 5],
+ *              map(a => Promise.resolve(a)), // replace with async processing
+ *              waitCache(3) // cache up to 3 values
+ *              );
+ *
+ * for await (const a of i) {
+ *     console.log(a); //=> 1, 4, 2, 5, 3 (unordered race-resolution)
+ * }
+ * ```
+ *
+ * This operator can handle a combination of promises and simple values, with the latter
+ * emitted immediately, as they appear.
  *
  * @category Async-only
  */
