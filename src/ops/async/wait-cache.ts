@@ -3,6 +3,8 @@ import {isPromiseLike} from '../../typeguards';
 import {createOperation, throwOnSync} from '../../utils';
 
 /**
+ * **Added in v2.2.0**
+ *
  * Caches up to N promises, for concurrent resolution, and emits unordered results,
  * based on promise race-resolution.
  *
