@@ -25,4 +25,14 @@ export default () => {
         const i = pipe(_async([1, 2, 3, 4]), waitCache(-1));
         expect(await _asyncValues(i)).to.have.members([1, 2, 3, 4]);
     });
+    it('must reject when a value rejects', async () => {
+        const i = pipe(_async([1, Promise.reject(2) as any, 3]), waitCache(1));
+        let err;
+        try {
+            await _asyncValues(i);
+        } catch (e) {
+            err = e;
+        }
+        expect(err).to.eql(2);
+    });
 };
