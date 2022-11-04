@@ -43,6 +43,9 @@ import {createOperation, throwOnSync} from '../../utils';
  * }
  * ```
  *
+ * @see
+ *  - {@link waitCache}
+ *
  * @category Async-only
  */
 export function wait<T>(): Operation<Promise<T> | T, T>;
@@ -65,7 +68,7 @@ export function waitAsync<T>(
                         }
                         const p = a.value as Promise<T>;
                         return isPromiseLike(p)
-                            ? p?.then((value) => ({value, done: false}))
+                            ? p.then((value) => ({value, done: false}))
                             : a;
                     });
                 },
