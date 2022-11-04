@@ -1,5 +1,5 @@
 import async from './async';
 
-describe('waitCache', () => {
+describe('waitRace', () => {
     describe('async', async);
 });

@@ -44,7 +44,7 @@ import {createOperation, throwOnSync} from '../../utils';
  * ```
  *
  * @see
- *  - {@link waitCache}
+ *  - {@link waitRace}
  *
  * @category Async-only
  */

@@ -3,22 +3,19 @@ import {isPromiseLike} from '../../typeguards';
 import {createOperation, throwOnSync} from '../../utils';
 
 /**
- * **Added in v2.2.0**
- *
- * Caches up to N promises, for concurrent resolution, and emits unordered results,
- * based on promise race-resolution.
+ * Caches up every N promises, to race-resolve them and emit unordered results.
  *
  * It improves performance when handling multiple lengthy asynchronous operations,
  * by letting you process results in the order in which they resolve, rather than
  * the order in which those operations are created.
  *
  * ```ts
- * import {pipeAsync, map, waitCache} from 'iter-ops';
+ * import {pipeAsync, map, waitRace} from 'iter-ops';
  *
  * const i = pipeAsync(
  *              [1, 2, 3, 4, 5],
  *              map(a => Promise.resolve(a * 10)), // replace with async processing
- *              waitCache(3) // cache & wait for up to 3 values at a time
+ *              waitRace(3) // cache & wait for up to 3 values at a time
  *              );
  *
  * for await (const a of i) {
@@ -33,12 +30,12 @@ import {createOperation, throwOnSync} from '../../utils';
  * like shown in the following example:
  *
  * ```ts
- * import {pipeAsync, map, waitCache} from 'iter-ops';
+ * import {pipeAsync, map, waitRace} from 'iter-ops';
  *
  * const i = pipeAsync(
  *              [1, 2, 3],
  *              map(s => Promise.resolve(s * 10).then(r => ({s, r}))), // {source, resolution}
- *              waitCache(2)
+ *              waitRace(2)
  *              );
  *
  * for await (const a of i) {
@@ -51,19 +48,19 @@ import {createOperation, throwOnSync} from '../../utils';
  *
  * @category Async-only
  */
-export function waitCache<T>(n: number): Operation<Promise<T> | T, T>;
+export function waitRace<T>(cacheSize: number): Operation<Promise<T> | T, T>;
 
-export function waitCache(...args: unknown[]) {
-    return createOperation(throwOnSync('waitCache'), waitCacheAsync, args);
+export function waitRace(...args: unknown[]) {
+    return createOperation(throwOnSync('waitRace'), waitRaceAsync, args);
 }
 
-export function waitCacheAsync<T>(
+export function waitRaceAsync<T>(
     iterable: AsyncIterable<Promise<T> | T>,
-    n: number
+    cacheSize: number
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
-            n = n > 1 ? n : 1; // cache size cannot be smaller than 1
+            cacheSize = cacheSize > 1 ? cacheSize : 1; // cache size cannot be smaller than 1
             const i = iterable[$A]();
             const cache = new Map<number, Promise<void>>();
             let index = 0;
@@ -102,7 +99,7 @@ export function waitCacheAsync<T>(
                                 })
                                 .finally(() => cache.delete(key));
                             cache.set(key, v);
-                            if (cache.size + settled.length < n) {
+                            if (cache.size + settled.length < cacheSize) {
                                 return this.next(); // continue accumulation
                             }
                             return resolveCache();
