@@ -43,6 +43,9 @@ import {createOperation, throwOnSync} from '../../utils';
  * }
  * ```
  *
+ * @param cacheSize
+ * Maximum number of promises to be cached up for concurrent resolution racing.
+ *
  * @see
  *  - {@link wait}
  *
