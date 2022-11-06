@@ -51,8 +51,8 @@ export default () => {
         }
         /*
         // TODO: This test must pass once issue #182 has been resolved
-        expect(output[0].delay).to.be.lessThan(75); // must be between 100 and 200
-        expect(output[1].delay).to.be.lessThan(125); // must be between 200 and 300
+        expect(output[0].delay).to.be.lessThan(75);
+        expect(output[1].delay).to.be.lessThan(125);
          */
     });
 };
