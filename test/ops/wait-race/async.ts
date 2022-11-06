@@ -1,5 +1,5 @@
 import {_asyncValues, expect} from '../../header';
-import {pipeAsync, map, waitRace} from '../../../src';
+import {pipeAsync, map, delay, waitRace} from '../../../src';
 
 export default () => {
     it('must resolve all promises', async () => {
@@ -35,8 +35,24 @@ export default () => {
         }
         expect(err).to.eql(2);
     });
-    it('must start resolving without delay', () => {
-        const input = [1, 2, 3, 4, 5];
-        // const i =
+    it('must start resolving without delay', async () => {
+        const input = [1, 2, 3, 4, 5, 6, 7];
+        const output: {value: number; delay: number}[] = [];
+        const i = pipeAsync(
+            input,
+            delay(50),
+            map((a) => Promise.resolve(a)),
+            waitRace(5)
+        );
+        const start = Date.now();
+        for await (const value of i) {
+            const delay = Date.now() - start;
+            output.push({value, delay});
+        }
+        /*
+        // TODO: This test must pass once issue #182 has been resolved
+        expect(output[0].delay).to.be.lessThan(75); // must be between 100 and 200
+        expect(output[1].delay).to.be.lessThan(125); // must be between 200 and 300
+         */
     });
 };
