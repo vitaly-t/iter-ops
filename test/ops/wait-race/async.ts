@@ -35,7 +35,7 @@ export default () => {
         }
         expect(err).to.eql(2);
     });
-    it('must start resolving without delay', async () => {
+    it('must resolve correctly', async () => {
         const input = [1, 2, 3, 4, 5, 6, 7];
         const output: {value: number; delay: number}[] = [];
         const i = pipeAsync(
@@ -49,10 +49,12 @@ export default () => {
             const delay = Date.now() - start;
             output.push({value, delay});
         }
-        /*
         // TODO: This test must pass once issue #182 has been resolved
-        expect(output[0].delay).to.be.lessThan(75);
-        expect(output[1].delay).to.be.lessThan(125);
+        /*
+        expect(output.map(a => a.value), 'Missing resolution values').to.be.members(input);
+        expect(output[0].delay, 'First resolution took too long').to.be.lessThan(85);
+        expect(output[1].delay, 'Second resolution took too long').to.be.lessThan(145);
+        expect(output[input.length - 1].delay, 'Last resolution took too long').to.be.lessThan(470);
          */
     });
 };
