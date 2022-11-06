@@ -35,7 +35,7 @@ export default () => {
         }
         expect(err).to.eql(2);
     });
-    it('must resolve correctly', async () => {
+    it('must provide timely resolutions', async () => {
         const input = [1, 2, 3, 4, 5, 6, 7];
         const output: {value: number; delay: number}[] = [];
         const i = pipeAsync(
