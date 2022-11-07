@@ -1,4 +1,4 @@
-import {expect} from '../header';
+import {expect, _async} from '../header';
 import {pipeSync} from '../../src';
 
 export default () => {
@@ -30,9 +30,14 @@ export default () => {
         });
     });
     describe('with invalid inputs', () => {
-        it('must throw an error', () => {
+        it('must throw an error when given a non-iterable', () => {
             expect(() => {
                 pipeSync(123 as any);
+            }).to.throw();
+        });
+        it('must throw an error when given an async iterable', () => {
+            expect(() => {
+                pipeSync(_async([1, 2, 3]) as any);
             }).to.throw();
         });
     });
