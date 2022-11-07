@@ -237,6 +237,7 @@ type Pipe = PipeSync & PipeAsync;
  *  - {@link pipeAsync}
  *  - {@link toIterable}
  *  - {@link toAsync}
+ * @throws If an non-iterable value was given.
  * @category Core
  */
 export const pipe = ((
@@ -259,7 +260,7 @@ export const pipe = ((
 }) as Pipe;
 
 /**
- * Pipes a synchronous `UnknownIterable` through the list of synchronous operators, and returns {@link IterableExt}.
+ * Pipes a synchronous `Iterable` through the list of synchronous operators, and returns {@link IterableExt}.
  *
  * @see
  *  - {@link pipe}
@@ -269,7 +270,7 @@ export const pipe = ((
  * @category Core
  */
 export const pipeSync = ((
-    i: UnknownIterable<unknown>,
+    i: Iterable<unknown>,
     ...p: readonly Operation<unknown, unknown>[]
 ) =>
     extendIterable(
@@ -277,7 +278,7 @@ export const pipeSync = ((
     )) as PipeSync;
 
 /**
- * Pipes an `UnknownIterable` or `AsyncIterable` through the list of asynchronous operators, and returns {@link AsyncIterableExt}.
+ * Pipes an `Iterable` or `AsyncIterable` through the list of asynchronous operators, and returns {@link AsyncIterableExt}.
  *
  * It applies automatic conversion when a synchronous iterable is passed in.
  *
