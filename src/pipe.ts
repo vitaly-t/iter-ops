@@ -266,15 +266,20 @@ export const pipe = ((
  *  - {@link pipeAsync}
  *  - {@link toIterable}
  *  - {@link toAsync}
+ * @throws If the iterable is asynchronous.
  * @category Core
  */
 export const pipeSync = ((
     i: UnknownIterable<unknown>,
     ...p: readonly Operation<unknown, unknown>[]
-) =>
-    extendIterable(
-        p.reduce((c, a: any) => a(c), optimizeIterable(i))
-    )) as PipeSync;
+) => {
+    if (isAsyncIterable(i)) {
+        throw new TypeError(
+            'Cannot run the sync pipeline from an AsyncIterable'
+        );
+    }
+    return extendIterable(p.reduce((c, a: any) => a(c), optimizeIterable(i)));
+}) as PipeSync;
 
 /**
  * Pipes an `UnknownIterable` or `AsyncIterable` through the list of asynchronous operators, and returns {@link AsyncIterableExt}.
