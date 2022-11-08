@@ -22,7 +22,7 @@ export default () => {
         expect(await _asyncValues(i)).to.have.members([1, 2, 3, 4]);
     });
     it('must handle invalid size of cache', async () => {
-        const i = pipeAsync([1, 2, 3, 4], waitRace(-1));
+        const i = pipeAsync([1, 2, Promise.resolve(3), 4], waitRace(-1));
         expect(await _asyncValues(i)).to.have.members([1, 2, 3, 4]);
     });
     it('must reject when a value rejects', async () => {
