@@ -44,7 +44,8 @@ import {createOperation, throwOnSync} from '../../utils';
  * ```
  *
  * @param cacheSize
- * Maximum number of promises to be cached up for concurrent resolution racing.
+ * Maximum number of promises to be cached up for concurrent resolution racing. Larger cache size
+ * results in better concurrency. Setting it to 1 will result in no concurrency at all.
  *
  * @see
  *  - {@link wait}
