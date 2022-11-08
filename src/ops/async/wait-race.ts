@@ -9,6 +9,8 @@ import {createOperation, throwOnSync} from '../../utils';
  * by letting you process results in the order in which they resolve, rather than
  * the order in which those operations are created.
  *
+ * Passing in `cacheSize` < 2 deactivates caching, and it then works like {@link wait}.
+ *
  * ```ts
  * import {pipeAsync, map, waitRace} from 'iter-ops';
  *
@@ -45,7 +47,8 @@ import {createOperation, throwOnSync} from '../../utils';
  *
  * @param cacheSize
  * Maximum number of promises to be cached up for concurrent resolution racing. Larger cache size
- * results in better concurrency. Setting it to 1 will result in no concurrency at all.
+ * results in better concurrency. Setting it to less than 2 will deactivate caching completely,
+ * and instead apply the same logic as operator {@link wait}.
  *
  * @see
  *  - {@link wait}
@@ -62,10 +65,10 @@ export function waitRaceAsync<T>(
     iterable: AsyncIterable<Promise<T> | T>,
     cacheSize: number
 ): AsyncIterable<T> {
-    cacheSize = cacheSize > 1 ? cacheSize : 1; // cache size cannot be smaller than 1
+    cacheSize = cacheSize >= 2 ? cacheSize : 1;
     return {
         [$A](): AsyncIterator<T> {
-            const source = iterable[$A]();
+            const i = iterable[$A]();
             let finished = false;
             // resolvers for currently active tasks, that are racing to remove and call the first one:
             const resolvers: ((
@@ -78,7 +81,7 @@ export function waitRaceAsync<T>(
                     new Promise((resolve) => {
                         resolvers.push(resolve);
                         // `new Promise` executor handles synchronous exceptions
-                        source.next().then(
+                        i.next().then(
                             (a) => {
                                 if (a.done) {
                                     finished = true;
@@ -122,6 +125,23 @@ export function waitRaceAsync<T>(
                 ) {
                     kickOffNext();
                 }
+            }
+            if (cacheSize < 2) {
+                // cache + racing will have no effect, so deactivating them,
+                // by using the same logic as operator wait():
+                return {
+                    next(): Promise<IteratorResult<T>> {
+                        return i.next().then((a) => {
+                            if (a.done) {
+                                return a as any;
+                            }
+                            const p = a.value as Promise<T>;
+                            return isPromiseLike(p)
+                                ? p.then((value) => ({value, done: false}))
+                                : a;
+                        });
+                    },
+                };
             }
             return {
                 next(): Promise<IteratorResult<T>> {

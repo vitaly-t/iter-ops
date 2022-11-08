@@ -22,7 +22,7 @@ export default () => {
         expect(await _asyncValues(i)).to.have.members([1, 2, 3, 4]);
     });
     it('must handle invalid size of cache', async () => {
-        const i = pipeAsync([1, 2, 3, 4], waitRace(-1));
+        const i = pipeAsync([1, 2, Promise.resolve(3), 4], waitRace(-1));
         expect(await _asyncValues(i)).to.have.members([1, 2, 3, 4]);
     });
     it('must reject when a value rejects', async () => {
@@ -34,6 +34,21 @@ export default () => {
             err = e;
         }
         expect(err).to.eql(2);
+    });
+    it('must allow rejected value replacement', async () => {
+        const i = pipeAsync(
+            [1, 2, 3, 4, 5],
+            map(async (a) => {
+                if (a % 2 === 0) {
+                    throw a;
+                }
+                return a;
+            }),
+            waitRace(3)
+        ).catch((err, ctx) => {
+            ctx.emit(err * 10);
+        });
+        expect(await _asyncValues(i)).to.eql([1, 20, 3, 40, 5]);
     });
     it('must provide timely resolutions', async () => {
         const input = [1, 2, 3, 4, 5, 6, 7];
