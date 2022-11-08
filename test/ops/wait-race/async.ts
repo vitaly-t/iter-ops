@@ -49,9 +49,21 @@ export default () => {
             const delay = Date.now() - start;
             output.push({value, delay});
         }
-        expect(output.map(a => a.value), 'Missing resolution values').to.include.members(input);
-        expect(output[0].delay, 'First resolution took too long').to.be.lessThan(85);
-        expect(output[1].delay, 'Second resolution took too long').to.be.lessThan(145);
-        expect(output[input.length - 1].delay, 'Last resolution took too long').to.be.lessThan(470);
+        expect(
+            output.map((a) => a.value),
+            'Missing resolution values'
+        ).to.include.members(input);
+        expect(
+            output[0].delay,
+            'First resolution took too long'
+        ).to.be.lessThan(85);
+        expect(
+            output[1].delay,
+            'Second resolution took too long'
+        ).to.be.lessThan(145);
+        expect(
+            output[input.length - 1].delay,
+            'Last resolution took too long'
+        ).to.be.lessThan(470);
     });
 };

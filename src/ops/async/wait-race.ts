@@ -66,52 +66,49 @@ export function waitRaceAsync<T>(
         [$A](): AsyncIterator<T> {
             const source = iterable[$A]();
             let finished = false;
-            // resolvers for currently active tasks,  which are racing to remove and call the first one
-            const resolvers:
-                | null
-                | ((res: IteratorResult<T> | Promise<never>) => void)[] = [];
-            // cache of promises to be resolved or to be returned by `.next()` to the destination
+            // resolvers for currently active tasks, that are racing to remove and call the first one:
+            const resolvers: ((
+                res: IteratorResult<T> | Promise<never>
+            ) => void)[] = [];
+            // cache of promises to be resolved or to be returned by `.next()` to the destination:
             const promises: Promise<IteratorResult<T>>[] = [];
-
             function kickOffNext(): void {
                 promises.push(
-                    new Promise((resolve, reject) => {
-                        resolvers?.push(resolve);
-
+                    new Promise((resolve) => {
+                        resolvers.push(resolve);
                         // `new Promise` executor handles synchronous exceptions
-                        source.next().then(
-                            (a) => {
+                        source
+                            .next()
+                            .then((a) => {
                                 if (a.done) {
                                     finished = true;
-                                    resolvers?.pop()?.(a);
+                                    resolvers.pop()!(a);
                                 } else if (isPromiseLike(a.value)) {
                                     const promise = Promise.resolve(a.value);
-                                    promise.then(
-                                        (value: any) => {
-                                            resolvers?.shift()?.({
+                                    promise
+                                        .then((value: any) => {
+                                            resolvers.shift()!({
                                                 done: false,
                                                 value,
                                             });
                                             kickOffMore();
-                                        },
-                                        (_) => {
-                                            resolvers?.shift()?.(
-                                                promise as any
+                                        })
+                                        .catch(() => {
+                                            resolvers.shift()!(
+                                                promise as Promise<never>
                                             );
                                             kickOffMore();
-                                        }
-                                    );
+                                        });
                                 } else {
-                                    resolvers?.shift()?.(a as any);
+                                    resolvers.shift()!(a as IteratorResult<T>);
                                 }
                                 kickOffMore(); // advance source iterator as far as possible within limit
-                            },
-                            (err) => {
+                            })
+                            .catch((err) => {
                                 // handle rejections from calling `i.next()`
-                                resolvers?.shift()?.(Promise.reject(err));
-                                finished = true; // ???
-                            }
-                        );
+                                resolvers.shift()!(Promise.reject(err));
+                                finished = true;
+                            });
                     })
                 );
             }
@@ -119,7 +116,7 @@ export function waitRaceAsync<T>(
                 if (
                     !finished && // stop when source is done
                     promises.length < cacheSize && // backpressure: don't put too many promises in the cache if destination doesn't poll `.next()` fast enough
-                    (resolvers as any).length < cacheSize // limit: don't let more tasks than the maximum race to resolve the next promises
+                    resolvers.length < cacheSize // limit: don't let more tasks than the maximum race to resolve the next promises
                 ) {
                     kickOffNext();
                 }
@@ -129,7 +126,7 @@ export function waitRaceAsync<T>(
                     if (!promises.length) {
                         kickOffNext();
                     }
-                    return promises.shift() as any;
+                    return promises.shift()!;
                 },
             };
         },
