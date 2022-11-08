@@ -61,54 +61,72 @@ export function waitRaceAsync<T>(
     iterable: AsyncIterable<Promise<T> | T>,
     cacheSize: number
 ): AsyncIterable<T> {
+    cacheSize = cacheSize > 1 ? cacheSize : 1; // cache size cannot be smaller than 1
     return {
         [$A](): AsyncIterator<T> {
-            cacheSize = cacheSize > 1 ? cacheSize : 1; // cache size cannot be smaller than 1
-            const i = iterable[$A]();
-            const cache = new Map<number, Promise<void>>();
-            let index = 0;
+            const source = iterable[$A]();
             let finished = false;
-            const settled: Promise<IteratorResult<T>>[] = [];
-            const resolveCache = (): Promise<IteratorResult<T>> => {
-                if (settled.length) {
-                    return settled.shift() as Promise<IteratorResult<T>>;
+            // resolvers for currently active tasks, that are racing to remove and call the first one:
+            const resolvers: ((
+                res: IteratorResult<T> | Promise<never>
+            ) => void)[] = [];
+            // cache of promises to be resolved or to be returned by `.next()` to the destination:
+            const promises: Promise<IteratorResult<T>>[] = [];
+            function kickOffNext(): void {
+                promises.push(
+                    new Promise((resolve) => {
+                        resolvers.push(resolve);
+                        // `new Promise` executor handles synchronous exceptions
+                        source
+                            .next()
+                            .then((a) => {
+                                if (a.done) {
+                                    finished = true;
+                                    resolvers.pop()!(a);
+                                } else if (isPromiseLike(a.value)) {
+                                    const promise = Promise.resolve(a.value);
+                                    promise
+                                        .then((value: any) => {
+                                            resolvers.shift()!({
+                                                done: false,
+                                                value,
+                                            });
+                                            kickOffMore();
+                                        })
+                                        .catch(() => {
+                                            resolvers.shift()!(
+                                                promise as Promise<never>
+                                            );
+                                            kickOffMore();
+                                        });
+                                } else {
+                                    resolvers.shift()!(a as IteratorResult<T>);
+                                }
+                                kickOffMore(); // advance source iterator as far as possible within limit
+                            })
+                            .catch((err) => {
+                                // handle rejections from calling `i.next()`
+                                resolvers.shift()!(Promise.reject(err));
+                                finished = true;
+                            });
+                    })
+                );
+            }
+            function kickOffMore() {
+                if (
+                    !finished && // stop when source is done
+                    promises.length < cacheSize && // backpressure: don't put too many promises in the cache if destination doesn't poll `.next()` fast enough
+                    resolvers.length < cacheSize // limit: don't let more tasks than the maximum race to resolve the next promises
+                ) {
+                    kickOffNext();
                 }
-                if (cache.size) {
-                    return Promise.race(cache.values()).then(resolveCache);
-                }
-                return Promise.resolve({value: undefined, done: true});
-            };
+            }
             return {
                 next(): Promise<IteratorResult<T>> {
-                    if (finished) {
-                        return resolveCache();
+                    if (!promises.length) {
+                        kickOffNext();
                     }
-                    return i.next().then((a) => {
-                        if (a.done) {
-                            finished = true;
-                            return resolveCache();
-                        }
-                        const p = a.value as Promise<T>;
-                        if (isPromiseLike(p)) {
-                            const key = index++;
-                            const v = p
-                                .then((value: T) => {
-                                    settled.push(
-                                        Promise.resolve({value, done: false})
-                                    );
-                                })
-                                .catch((err) => {
-                                    settled.push(Promise.reject(err));
-                                })
-                                .finally(() => cache.delete(key));
-                            cache.set(key, v);
-                            if (cache.size + settled.length < cacheSize) {
-                                return this.next(); // continue accumulation
-                            }
-                            return resolveCache();
-                        }
-                        return a as IteratorResult<T>; // non-promise values are returned immediately
-                    });
+                    return promises.shift()!;
                 },
             };
         },
