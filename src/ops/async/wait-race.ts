@@ -77,38 +77,39 @@ export function waitRaceAsync<T>(
                     new Promise((resolve) => {
                         resolvers.push(resolve);
                         // `new Promise` executor handles synchronous exceptions
-                        source
-                            .next()
-                            .then((a) => {
+                        source.next().then(
+                            (a) => {
                                 if (a.done) {
                                     finished = true;
                                     resolvers.pop()!(a);
                                 } else if (isPromiseLike(a.value)) {
                                     const promise = Promise.resolve(a.value);
-                                    promise
-                                        .then((value: any) => {
+                                    promise.then(
+                                        (value: any) => {
                                             resolvers.shift()!({
                                                 done: false,
                                                 value,
                                             });
                                             kickOffMore();
-                                        })
-                                        .catch(() => {
+                                        },
+                                        () => {
                                             resolvers.shift()!(
                                                 promise as Promise<never>
                                             );
                                             kickOffMore();
-                                        });
+                                        }
+                                    );
                                 } else {
                                     resolvers.shift()!(a as IteratorResult<T>);
                                 }
                                 kickOffMore(); // advance source iterator as far as possible within limit
-                            })
-                            .catch((err) => {
+                            },
+                            (err) => {
                                 // handle rejections from calling `i.next()`
                                 resolvers.shift()!(Promise.reject(err));
                                 finished = true;
-                            });
+                            }
+                        );
                     })
                 );
             }
