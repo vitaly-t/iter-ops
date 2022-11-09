@@ -1,11 +1,8 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "ES2015",
-    "declaration": true,
+    "target": "ES2020",
     "strict": true
   },
-  "include": [
-    "./**/*.ts"
-  ]
+  "include": ["./**/*.ts"]
 }

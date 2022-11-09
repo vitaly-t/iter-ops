@@ -1,23 +1,15 @@
 {
-  "name": "ITER-OPS v1.6.2",
+  "$schema": "https://typedoc.org/schema.json",
+  "name": "ITER-OPS v2.2.3",
   "out": "../iter-ops-docs",
   "excludeExternals": true,
   "excludePrivate": true,
-  "excludeNotDocumented": true,
   "cleanOutputDir": false,
-  "entryPoints": [
-    "src/index.ts"
-  ],
-  "entryPointStrategy": "Resolve",
-  "tsconfig": "src/tsconfig.json",
-  "categoryOrder": [
-    "Core",
-    "Sync+Async",
-    "*"
-  ],
+  "entryPoints": ["src/index.ts"],
+  "entryPointStrategy": "resolve",
+  "categoryOrder": ["Core", "Sync+Async", "*"],
+  "intentionallyNotExported": ["Flatten"],
   "hideGenerator": true,
   "customCss": "./typedoc.css",
-  "exclude": [
-    "./test/*.ts"
-  ]
+  "exclude": ["./test/*.ts"]
 }

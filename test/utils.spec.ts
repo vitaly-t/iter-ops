@@ -8,6 +8,10 @@ describe('utils', () => {
                 const input = Buffer.from([1, 2, 3]);
                 expect(optimizeIterable(input)).to.not.eql(input);
             });
+            it('must wrap shared buffers', () => {
+                const input = new Int32Array(new SharedArrayBuffer(16), 0, 4);
+                expect(optimizeIterable(input)).to.not.eql(input);
+            });
             it('must wrap regular strings', () => {
                 const input = 'test';
                 expect(optimizeIterable(input)).to.not.eql(input);

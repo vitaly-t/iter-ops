@@ -1,8 +1,8 @@
-import {AnyIterable} from '../../../dist';
+import {UnknownIterable} from '../../../dist';
 import {filter, firstValueFrom, from, map, toArray} from 'rxjs';
 
 export async function testRXJS(
-    input: AnyIterable<number>,
+    input: UnknownIterable<number>,
     withSubscription?: boolean
 ) {
     const start = Date.now();

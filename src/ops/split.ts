@@ -2,7 +2,7 @@ import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Value index details, during [[split]] operation.
+ * Value index details, during {@link split} operation.
  */
 export interface ISplitIndex {
     /**
@@ -27,7 +27,7 @@ export interface ISplitIndex {
 }
 
 /**
- * Set of options that can be passed into [[split]] operator.
+ * Set of options that can be passed into {@link split} operator.
  */
 export interface ISplitOptions {
     /**
@@ -58,7 +58,7 @@ export interface ISplitOptions {
  * Strategy for carrying over split/toggle values.
  * It defines what to do with each value that triggers the split/toggle.
  *
- * Note that [[split]] operator treats this enum in non-strict manner:
+ * Note that {@link split} operator treats this enum in non-strict manner:
  *  - any negative number is treated as `back`
  *  - any positive number is treated as `forward`
  *  - everything else is treated as `none`
@@ -82,17 +82,57 @@ export enum SplitValueCarry {
 }
 
 /**
- * Splits values into separate lists when predicate returns `true` (or resolves with `true`).
- * When option `toggle` is set, the split uses the toggle start/end logic.
+ * Splits values into separate lists when predicate returns `true` (or resolves with `true`):
  *
- * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
- * or else the `Promise` will be treated as a truthy value.
+ * ```ts
+ * import {pipe, split} from 'iter-ops';
+ *
+ * const input = [1, 2, 0, 3, 4, 0, 5, 6];
+ *
+ * const i = pipe(input, split(a => a === 0));
+ *
+ * console.log(...i); //=> [1, 2] [3, 4] [5, 6]
+ * ```
+ *
+ * When option `toggle` is set, the split uses the toggle start/end logic:
+ *
+ * ```ts
+ * import {pipe, split} from 'iter-ops';
+ *
+ * const input = [1, 2, 0, 3, 4, 0, 5, 6, 0, 7, 8];
+ *
+ * const i = pipe(input, split(a => a === 0, {toggle: true}));
+ *
+ * console.log(...i); //=> [3, 4] [7, 8]
+ *
+ * // i.e. first toggle starts collection, second one stops, third starts again, and so on.
+ * ```
  *
  * When you know only the split value of each block, you can use the default split mode,
- * with `carryEnd` set to `1/forward` (in case you do not want it skipped);
+ * with `carryEnd` set to `1/forward` (in case you do not want it skipped):
+ *
+ * ```ts
+ * import {pipe, split, SplitValueCarry} from 'iter-ops';
+ *
+ * const input = [1, 2, 0, 3, 4, 0, 5, 6, 0, 7, 8];
+ *
+ * const i = pipe(input, split(a => a === 0, {carryEnd: SplitValueCarry.forward}));
+ *
+ * console.log(...i); //=> [ 1, 2 ] [ 0, 3, 4 ] [ 0, 5, 6 ] [ 0, 7, 8 ]
+ * ```
  *
  * When you know only the end value of each block, you can use the default split mode,
- * with `carryEnd` set to `-1/back` (in case you do not want it skipped);
+ * with `carryEnd` set to `-1/back` (in case you do not want it skipped):
+ *
+ * ```ts
+ * import {pipe, split, SplitValueCarry} from 'iter-ops';
+ *
+ * const input = [1, 2, 0, 3, 4, 0, 5, 6, 0, 7, 8];
+ *
+ * const i = pipe(input, split(a => a === 0, {carryEnd: SplitValueCarry.back}));
+ *
+ * console.log(...i); //=> [ 1, 2, 0 ] [ 3, 4, 0 ] [ 5, 6, 0 ] [ 7, 8 ]
+ * ```
  *
  * When you know both start and end values of each block, you can use the `toggle` mode,
  * with `carryStart` set to `1/forward`, and `carryEnd` set to `-1/back`, unless you want
@@ -102,7 +142,12 @@ export enum SplitValueCarry {
  * because it would delay emission of the current block indefinitely, plus carrying
  * block start backward doesn't make much sense anyway.
  *
- * @see [[https://github.com/vitaly-t/iter-ops/wiki/Split Split WiKi]], [[page]]
+ * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
+ * or else the `Promise` will be treated as a truthy value.
+ *
+ * @see
+ *  - {@link https://github.com/vitaly-t/iter-ops/wiki/Split Split WiKi}
+ *  - {@link page}
  * @category Sync+Async
  */
 export function split<T>(

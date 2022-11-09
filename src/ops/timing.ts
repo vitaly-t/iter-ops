@@ -2,7 +2,9 @@ import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Value timing details, produced by the [[timing]] operator.
+ * Value timing details, produced by the {@link timing} operator.
+ *
+ * @see {@link timing}
  */
 export interface IValueTiming<T> {
     /**
@@ -61,8 +63,10 @@ export interface IValueTiming<T> {
  * );
  * ```
  *
- * @see [[IValueTiming]], [[onEnd]]
- * @category Sync+Async
+ * @see
+ *  - {@link IValueTiming}
+ *  - {@link onEnd}
+ * @category Diagnostics
  */
 export function timing<T>(cb: (t: IValueTiming<T>) => void): Operation<T, T>;
 

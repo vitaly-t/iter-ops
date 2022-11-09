@@ -1,10 +1,10 @@
-import {$A, $S, Operation} from '../types';
+import {$A, $S, Operation, UnknownIterable} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Spreads iterable values.
+ * Spreads / expands iterable values.
  *
- * The source iterable is expected to emit iterable values only.
+ * The source is expected to emit iterable values only, or else it will throw an error.
  *
  * ```ts
  * import {pipe, spread} from 'iter-ops';
@@ -17,11 +17,20 @@ import {createOperation} from '../utils';
  * console.log(...i); //=> 'f', 'i', 'r', 's', 't', 's', 'e', 'c', 'o', 'n', 'd'
  * ```
  *
- * It will throw an iteration-time error, if a non-iterable value is encountered.
+ * It implements the logic consistent with JavaScript's native spread operator, whereby it expands
+ * elements on the top level only, and it will throw an error when passed in a non-iterable value.
  *
+ * If you want values expanded recursively, and without throwing errors, see operator {@link flat}.
+ *
+ * @throws `TypeError: 'Value at index X is not iterable: ...'` when a non-iterable value encountered.
+ *
+ * @see
+ *  - {@link flat}
  * @category Sync+Async
  */
-export function spread<T>(): Operation<Iterable<T> | AsyncIterable<T>, T>;
+export function spread<
+    T extends Iterable<unknown> | AsyncIterable<unknown>
+>(): Operation<T, T extends UnknownIterable<infer E> ? E : never>;
 
 export function spread(...args: unknown[]) {
     return createOperation(spreadSync, spreadAsync, args);

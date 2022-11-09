@@ -1,8 +1,10 @@
 import {$A, $S, IterationState, Operation} from '../types';
-import {createOperation, isPromiseLike} from '../utils';
+import {isPromiseLike} from '../typeguards';
+import {createOperation} from '../utils';
 
 /**
- * Standard `Array.some` logic for the iterable, extended with iteration state + async.
+ * Standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some Array.some} logic for the iterable,
+ * extended with iteration state + async.
  *
  * It emits a `boolean`, indicating whether at least one element passes the predicate test.
  *
@@ -22,7 +24,9 @@ import {createOperation, isPromiseLike} from '../utils';
  * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
  * or else the `Promise` will be treated as a truthy value.
  *
- * @see [Array.some](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some), [[every]]
+ * @see
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some Array.some}
+ *  - {@link every}
  * @category Sync+Async
  */
 export function some<T>(

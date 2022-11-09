@@ -1,5 +1,6 @@
 import {$A, $S, IterationState, Operation} from '../types';
-import {createOperation, isPromiseLike} from '../utils';
+import {isPromiseLike} from '../typeguards';
+import {createOperation} from '../utils';
 
 /**
  * Starts emitting values, once the predicate test passes.
@@ -18,7 +19,8 @@ import {createOperation, isPromiseLike} from '../utils';
  * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
  * or else the `Promise` will be treated as a truthy value.
  *
- * @see [[stop]]
+ * @see
+ *  - {@link stop}
  * @category Sync+Async
  */
 export function start<T>(

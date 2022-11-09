@@ -15,9 +15,10 @@ import {createOperation, iterateOnce} from '../utils';
  * console.log(...i); //=> [1, 2], [3, 4], [5]
  * ```
  *
- * It throws an error when `size` is less than 1 or not a `number`.
+ * @throws `TypeError: 'Page size >= 1 is required: ...'` when `size` is less than 1 or not a `number`.
  *
- * @see [[split]]
+ * @see
+ *  - {@link split}
  * @category Sync+Async
  */
 export function page<T>(size: number): Operation<T, T[]>;

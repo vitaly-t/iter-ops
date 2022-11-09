@@ -1,3 +1,4 @@
+import {isIndexed} from './typeguards';
 import {$A, $S, Operation} from './types';
 
 /**
@@ -7,10 +8,10 @@ export function createOperation<T, R>(
     syncFunc: (i: Iterable<T>, ...args: any[]) => Iterable<R>,
     asyncFunc: (i: AsyncIterable<T>, ...args: any[]) => AsyncIterable<R>,
     args?: Iterable<unknown>
-): Operation<T, T> {
+): Operation<T, R> {
     return (i: any) => {
         const func: any = i[$S] ? syncFunc : asyncFunc;
-        return func.apply(null, [i, ...(args || [])]);
+        return args ? func.apply(null, [i, ...args]) : func(i);
     };
 }
 
@@ -31,7 +32,7 @@ export function throwOnSync<T>(operatorName: string) {
 
 /**
  * Creates a once-off iterator with a callback.
- * It is to help throwing errors when the iteration starts.
+ * It is to help to throw errors when the iteration starts.
  */
 export function iterateOnce(sync: boolean, cb: () => void) {
     const value = undefined;
@@ -60,7 +61,7 @@ export function optimizeIterable(input: any): Iterable<any> {
 /**
  * Wraps an indexed iterable into an Iterable<T> object
  */
-export function indexedIterable<T>(input: any): Iterable<T> {
+export function indexedIterable<T>(input: ArrayLike<T>): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             const len = input.length;
@@ -95,23 +96,4 @@ export function indexedAsyncIterable<T>(input: any): AsyncIterable<T> {
             };
         },
     };
-}
-
-/**
- * Checks for indexed types.
- */
-export function isIndexed(input: any): boolean {
-    return (
-        Array.isArray(input) ||
-        (input?.buffer instanceof ArrayBuffer && input.BYTES_PER_ELEMENT) || // Buffer or Typed Array
-        typeof input === 'string' ||
-        input instanceof String
-    );
-}
-
-/**
- * Checks for a promise-like value.
- */
-export function isPromiseLike(a: any): boolean {
-    return a && typeof a.then === 'function';
 }

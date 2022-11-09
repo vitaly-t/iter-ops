@@ -1,5 +1,6 @@
-import {$A, $S, Operation} from '../types';
-import {createOperation, isPromiseLike} from '../utils';
+import {$A, $S, IterationState, Operation} from '../types';
+import {isPromiseLike} from '../typeguards';
+import {createOperation} from '../utils';
 
 /**
  * Produces a one-value iterable, with the last emitted value.
@@ -33,11 +34,17 @@ import {createOperation, isPromiseLike} from '../utils';
  * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
  * or else the `Promise` will be treated as a truthy value.
  *
- * @see [[takeLast]], [[first]]
+ * @see
+ *  - {@link takeLast}
+ *  - {@link first}
  * @category Sync+Async
  */
 export function last<T>(
-    cb?: (value: T, index: number) => boolean | Promise<boolean>
+    cb?: (
+        value: T,
+        index: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): Operation<T, T>;
 
 export function last(...args: unknown[]) {
@@ -46,18 +53,19 @@ export function last(...args: unknown[]) {
 
 function lastSync<T>(
     iterable: Iterable<T>,
-    cb?: (value: T, index: number) => boolean
+    cb?: (value: T, index: number, state: IterationState) => boolean
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
+            const state: IterationState = {};
             const test = typeof cb === 'function' && cb;
             let index = 0;
             return {
                 next(): IteratorResult<T> {
                     let a, r;
                     while (!(a = i.next()).done) {
-                        if (!test || test(a.value, index++)) {
+                        if (!test || test(a.value, index++, state)) {
                             r = a;
                         }
                     }
@@ -70,11 +78,16 @@ function lastSync<T>(
 
 function lastAsync<T>(
     iterable: AsyncIterable<T>,
-    cb?: (value: T, index: number) => boolean | Promise<boolean>
+    cb?: (
+        value: T,
+        index: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
+            const state: IterationState = {};
             const test = typeof cb === 'function' && cb;
             let finished = false,
                 index = 0,
@@ -87,7 +100,7 @@ function lastAsync<T>(
                         }
                         const r = (a.done ||
                             !test ||
-                            test(a.value, index++)) as Promise<boolean>;
+                            test(a.value, index++, state)) as Promise<boolean>;
                         const out = (flag: any) => {
                             finished = !!a.done;
                             value = flag && !a.done ? a : value || a;

@@ -26,7 +26,10 @@ import {createOperation} from '../utils';
  * await i.first; // iterates to the first item
  * ```
  *
- * @see [[empty]], [[isEmpty]], [[defaultEmpty]]
+ * @see
+ *  - {@link empty}
+ *  - {@link isEmpty}
+ *  - {@link defaultEmpty}
  * @category Sync+Async
  */
 export function drain<T>(): Operation<T, T>;

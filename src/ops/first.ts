@@ -1,5 +1,6 @@
-import {$A, $S, Operation} from '../types';
-import {createOperation, isPromiseLike} from '../utils';
+import {$A, $S, IterationState, Operation} from '../types';
+import {isPromiseLike} from '../typeguards';
+import {createOperation} from '../utils';
 
 /**
  * Produces a one-value iterable, with the first emitted value.
@@ -35,11 +36,18 @@ import {createOperation, isPromiseLike} from '../utils';
  * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
  * or else the `Promise` will be treated as a truthy value.
  *
- * @see [[last]], [[take]], [[takeLast]]
+ * @see
+ *  - {@link last}
+ *  - {@link take}
+ *  - {@link takeLast}
  * @category Sync+Async
  */
 export function first<T>(
-    cb?: (value: T, index: number) => boolean | Promise<boolean>
+    cb?: (
+        value: T,
+        index: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): Operation<T, T>;
 
 export function first(...args: unknown[]) {
@@ -48,11 +56,12 @@ export function first(...args: unknown[]) {
 
 function firstSync<T>(
     iterable: Iterable<T>,
-    cb?: (value: T, index: number) => boolean
+    cb?: (value: T, index: number, state: IterationState) => boolean
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
+            const state: IterationState = {};
             const test = typeof cb === 'function' && cb;
             let index = 0,
                 finished: boolean;
@@ -65,7 +74,7 @@ function firstSync<T>(
                     while (
                         !(a = i.next()).done &&
                         test &&
-                        !test(a.value, index++)
+                        !test(a.value, index++, state)
                     );
                     finished = true;
                     return a;
@@ -77,11 +86,16 @@ function firstSync<T>(
 
 function firstAsync<T>(
     iterable: AsyncIterable<T>,
-    cb?: (value: T, index: number) => boolean | Promise<boolean>
+    cb?: (
+        value: T,
+        index: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
+            const state: IterationState = {};
             const test = typeof cb === 'function' && cb;
             let index = 0,
                 finished = false;
@@ -93,7 +107,7 @@ function firstAsync<T>(
                     return i.next().then((a) => {
                         const r = (a.done ||
                             !test ||
-                            test(a.value, index++)) as Promise<boolean>;
+                            test(a.value, index++, state)) as Promise<boolean>;
                         const out = (flag: any) => {
                             finished = flag;
                             return finished ? a : this.next();

@@ -1,5 +1,12 @@
 .idea/
 .nyc_output/
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 node_modules/
 coverage/
 dist/
@@ -7,4 +14,5 @@ docs/
 **/package-lock.json
 **/*.js
 **/*.d.ts
+!test/**/types/index.d.ts
 *.tsbuildinfo
