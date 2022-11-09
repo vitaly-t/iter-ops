@@ -50,6 +50,8 @@ import {createOperation, throwOnSync} from '../../utils';
  * results in better concurrency. Setting it to less than 2 will deactivate caching completely,
  * and instead apply the same logic as operator {@link wait}.
  *
+ * @throws `Error: 'Operator "waitRace" requires asynchronous pipeline'` when used inside a synchronous pipeline.
+ *
  * @see
  *  - {@link wait}
  *

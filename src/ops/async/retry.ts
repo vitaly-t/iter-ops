@@ -29,7 +29,7 @@ import {createOperation, throwOnSync} from '../../utils';
  * Above, we end up with just odd numbers, because we do not provide any {@link repeat} logic,
  * and as a result, the `retry` simply jumps to the next value on each error.
  *
- * The method throws an error during iteration, if inside a synchronous pipeline.
+ * @throws `Error: 'Operator "retry" requires asynchronous pipeline'` when used inside a synchronous pipeline.
  *
  * @see
  *  - {@link repeat}
@@ -49,7 +49,7 @@ export function retry<T>(attempts: number): Operation<T, T>;
  * Note that retries deplete values prior the operator that threw the error,
  * and so it is often used in combination with operator {@link repeat}.
  *
- * Throws an error during iteration, if inside a synchronous pipeline.
+ * @throws `Error: 'Operator "retry" requires asynchronous pipeline'` when used inside a synchronous pipeline.
  *
  * @see
  *  - {@link repeat}

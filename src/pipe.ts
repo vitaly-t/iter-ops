@@ -237,7 +237,7 @@ type Pipe = PipeSync & PipeAsync;
  *  - {@link pipeAsync}
  *  - {@link toIterable}
  *  - {@link toAsync}
- * @throws If an non-iterable value was given.
+ *
  * @category Core
  */
 export const pipe = ((
@@ -267,7 +267,9 @@ export const pipe = ((
  *  - {@link pipeAsync}
  *  - {@link toIterable}
  *  - {@link toAsync}
- * @throws If the iterable is asynchronous.
+ *
+ * @throws `TypeError: 'Cannot run the sync pipeline from an AsyncIterable'` when the iterable is asynchronous.
+ *
  * @category Core
  */
 export const pipeSync = ((
@@ -304,6 +306,7 @@ export const pipeSync = ((
  *  - {@link pipeSync}
  *  - {@link toIterable}
  *  - {@link toAsync}
+ *
  * @category Core
  */
 export const pipeAsync = ((

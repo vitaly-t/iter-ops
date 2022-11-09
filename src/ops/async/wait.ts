@@ -5,7 +5,6 @@ import {createOperation, throwOnSync} from '../../utils';
 /**
  * When the value is a `Promise`, it is resolved, or else returned as is,
  * i.e. the same logic as for JavaScript operator `await`.
- * It throws an error during iteration, if inside a synchronous pipeline.
  *
  * ```ts
  * import {pipe, toAsync, map, wait} from 'iter-ops';
@@ -42,6 +41,8 @@ import {createOperation, throwOnSync} from '../../utils';
  *     console.log(user); // print details for each user
  * }
  * ```
+ *
+ * @throws `Error: 'Operator "wait" requires asynchronous pipeline'` when used inside a synchronous pipeline.
  *
  * @see
  *  - {@link waitRace}

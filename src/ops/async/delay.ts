@@ -20,7 +20,7 @@ import {createOperation, throwOnSync} from '../../utils';
  * }
  * ```
  *
- * Throws an error during iteration, if inside a synchronous pipeline.
+ * @throws `Error: 'Operator "delay" requires asynchronous pipeline'` when used inside a synchronous pipeline.
  *
  * @see
  *  - {@link throttle}
@@ -36,7 +36,7 @@ export function delay<T>(timeout: number): Operation<T, T>;
  * Note that it doesn't support return of `Promise<number>` on purpose, to avoid
  * confusion with what operator {@link throttle} does.
  *
- * Throws an error during iteration, if inside a synchronous pipeline.
+ * @throws `Error: 'Operator "delay" requires asynchronous pipeline'` when used inside a synchronous pipeline.
  *
  * @category Async-only
  */
