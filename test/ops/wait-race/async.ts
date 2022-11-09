@@ -26,7 +26,7 @@ export default () => {
         expect(await _asyncValues(i)).to.have.members([1, 2, 3, 4]);
     });
     it('must reject when a value rejects', async () => {
-        const i = pipeAsync([1, Promise.reject(2) as any, 3], waitRace(1));
+        const i = pipeAsync([1, Promise.reject(2) as any, 3], waitRace(2));
         let err;
         try {
             await _asyncValues(i);
@@ -34,6 +34,25 @@ export default () => {
             err = e;
         }
         expect(err).to.eql(2);
+    });
+    it('must reject for async generators', async () => {
+        const sleep = (n: number) =>
+            new Promise((resolve) => setTimeout(resolve, n));
+
+        async function* oops() {
+            yield 123;
+            await sleep(10);
+            throw new Error('boom');
+        }
+
+        const i = pipeAsync(oops(), waitRace(2));
+        let err = null;
+        try {
+            await _asyncValues(i);
+        } catch (e) {
+            err = e as Error;
+        }
+        expect(err?.message).to.eql('boom');
     });
     it('must allow rejected value replacement', async () => {
         const i = pipeAsync(
