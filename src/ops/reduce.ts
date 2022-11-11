@@ -127,12 +127,10 @@ function reduceAsync<T>(
             if (isPromiseLike<typeof initialValue, T>(initialValue)) {
                 return {
                     next: () =>
-                        Promise.resolve(
-                            initialValue.then((iv) => {
-                                value = iv;
-                                return next();
-                            })
-                        ),
+                        initialValue.then((iv) => {
+                            value = iv;
+                            return next();
+                        }) as Promise<IteratorResult<T>>,
                 };
             }
 
