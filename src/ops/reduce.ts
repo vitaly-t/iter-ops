@@ -1,3 +1,4 @@
+import {isPromiseLike} from '../typeguards';
 import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
@@ -30,8 +31,8 @@ export function reduce<T, R = T>(
         currentValue: T,
         index: number,
         state: IterationState
-    ) => R,
-    initialValue?: R
+    ) => R | Promise<R>,
+    initialValue?: R | Promise<R>
 ): Operation<T, R>;
 
 export function reduce(...args: unknown[]) {
@@ -85,8 +86,8 @@ function reduceAsync<T>(
         currentValue: T,
         index: number,
         state: IterationState
-    ) => T,
-    initialValue?: T
+    ) => T | Promise<T>,
+    initialValue?: T | Promise<T>
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
@@ -94,26 +95,50 @@ function reduceAsync<T>(
             const state: IterationState = {};
             let finished = false,
                 index = 0,
-                value = initialValue as T;
+                value: T;
+
+            const next = (): Promise<IteratorResult<T>> => {
+                return i.next().then((a) => {
+                    if (a.done) {
+                        if (finished) {
+                            return a;
+                        }
+                        finished = true;
+                        return {value, done: false};
+                    }
+                    if (!index && value === undefined) {
+                        value = a.value;
+                        index++;
+                        return next();
+                    }
+
+                    const v = cb(value, a.value, index++, state);
+                    if (isPromiseLike<typeof v, T>(v)) {
+                        return v.then((val) => {
+                            value = val;
+                            return next();
+                        });
+                    }
+                    value = v;
+                    return next();
+                });
+            };
+
+            if (isPromiseLike<typeof initialValue, T>(initialValue)) {
+                return {
+                    next: () =>
+                        Promise.resolve(
+                            initialValue.then((iv) => {
+                                value = iv;
+                                return next();
+                            })
+                        ),
+                };
+            }
+
+            value = initialValue as T;
             return {
-                next(): Promise<IteratorResult<T>> {
-                    return i.next().then((a) => {
-                        if (a.done) {
-                            if (finished) {
-                                return a;
-                            }
-                            finished = true;
-                            return {value, done: false};
-                        }
-                        if (!index && value === undefined) {
-                            value = a.value;
-                            index++;
-                        } else {
-                            value = cb(value, a.value, index++, state);
-                        }
-                        return this.next();
-                    });
-                },
+                next,
             };
         },
     };
