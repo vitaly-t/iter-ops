@@ -1,5 +1,5 @@
 import {_async, _asyncValues, expect} from '../../header';
-import {pipe, reduce} from '../../../src';
+import {pipe, pipeAsync, reduce} from '../../../src';
 
 export default () => {
     it('must work with initial value', async () => {
@@ -66,5 +66,13 @@ export default () => {
         );
         await _asyncValues(output);
         expect(indexes).to.eql([1, 2]);
+    });
+    it('must support async callbacks', async () => {
+        const input = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        const output = pipeAsync(
+            input,
+            reduce(async (c, i) => c + i, 5)
+        );
+        expect(await output.first).to.eql(50);
     });
 };

@@ -1,3 +1,4 @@
+import {isPromiseLike} from '../typeguards';
 import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
@@ -30,7 +31,7 @@ export function reduce<T, R = T>(
         currentValue: T,
         index: number,
         state: IterationState
-    ) => R,
+    ) => R | Promise<R>,
     initialValue?: R
 ): Operation<T, R>;
 
@@ -85,7 +86,7 @@ function reduceAsync<T>(
         currentValue: T,
         index: number,
         state: IterationState
-    ) => T,
+    ) => T | Promise<T>,
     initialValue?: T
 ): AsyncIterable<T> {
     return {
@@ -108,9 +109,17 @@ function reduceAsync<T>(
                         if (!index && value === undefined) {
                             value = a.value;
                             index++;
-                        } else {
-                            value = cb(value, a.value, index++, state);
+                            return this.next();
                         }
+
+                        const v = cb(value, a.value, index++, state);
+                        if (isPromiseLike<typeof v, T>(v)) {
+                            return v.then((val) => {
+                                value = val;
+                                return this.next();
+                            });
+                        }
+                        value = v;
                         return this.next();
                     });
                 },
