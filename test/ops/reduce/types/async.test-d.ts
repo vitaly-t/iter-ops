@@ -51,3 +51,27 @@ const test4 = pipe(
     }, 'bar')
 );
 expectType<AsyncIterableExt<string>>(test4);
+
+const test5 = pipe(
+    iterableNumber,
+    reduce((c, v, i, s) => {
+        expectType<string>(c);
+        expectType<string>(v);
+        expectType<number>(i);
+        expectType<IterationState>(s);
+        return 'foo';
+    }, Promise.resolve('bar'))
+);
+expectType<AsyncIterableExt<string>>(test5);
+
+const test6 = pipe(
+    iterableNumber,
+    reduce((c, v, i, s) => {
+        expectType<string>(c);
+        expectType<string>(v);
+        expectType<number>(i);
+        expectType<IterationState>(s);
+        return 'foo';
+    }, Promise.resolve('bar'))
+);
+expectType<AsyncIterableExt<string>>(test6);

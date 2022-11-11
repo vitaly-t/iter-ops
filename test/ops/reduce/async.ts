@@ -75,4 +75,20 @@ export default () => {
         );
         expect(await output.first).to.eql(50);
     });
+    it('must support async initial values', async () => {
+        const input = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        const output = pipeAsync(
+            input,
+            reduce((c, i) => c + i, Promise.resolve(5))
+        );
+        expect(await output.first).to.eql(50);
+    });
+    it('must support async callbacks with async initial values', async () => {
+        const input = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        const output = pipeAsync(
+            input,
+            reduce(async (c, i) => c + i, Promise.resolve(5))
+        );
+        expect(await output.first).to.eql(50);
+    });
 };

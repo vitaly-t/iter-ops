@@ -53,7 +53,7 @@ export function hasOfType<T, K extends PropertyKey>(
 export function isPromiseLike<T, CastGeneric = unknown>(
     value: T
 ): value is T & PromiseLike<CastGeneric> {
-    return hasOfType(value, 'then', 'function');
+    return value !== undefined && hasOfType(value, 'then', 'function');
 }
 
 /**
