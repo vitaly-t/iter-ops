@@ -3,7 +3,7 @@ import {$A, $S, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Standard reducer for the iterable, extended for supporting iteration state.
+ * Standard reducer for the iterable, extended for fully async syntax + iteration state.
  *
  * Below is an example of calculating the average from a sequence of numbers:
  *

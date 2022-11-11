@@ -1,6 +1,6 @@
 {
   "name": "iter-ops",
-  "version": "2.2.3",
+  "version": "2.3.0",
   "description": "Basic operations on iterables",
   "keywords": [
     "typescript",
