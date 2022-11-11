@@ -89,7 +89,7 @@ export function waitRaceAsync<T>(
                                     finished = true;
                                     resolvers.pop()!(a);
                                 } else if (isPromiseLike(a.value)) {
-                                    const promise = Promise.resolve(a.value);
+                                    const promise = a.value;
                                     promise.then(
                                         (value: any) => {
                                             resolvers.shift()!({
