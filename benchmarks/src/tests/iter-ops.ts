@@ -1,6 +1,6 @@
-import {AnyIterable, filter, map, pipe, toArray} from '../../../dist';
+import {UnknownIterable, filter, map, pipe, toArray} from '../../../dist';
 
-export async function testIterOps(input: AnyIterable<number>) {
+export async function testIterOps(input: UnknownIterable<number>) {
     const start = Date.now();
     const i = pipe(
         input,

@@ -230,9 +230,14 @@ type Pipe = PipeSync & PipeAsync;
 /**
  * Pipes an `Iterable` or `AsyncIterable` through the list of operators, and returns either {@link IterableExt} or {@link AsyncIterableExt}.
  *
+ * @throws `TypeError: 'An iterable object was expected: ...'` when the input is not iterable.
+ *
  * @see
+ *  - {@link pipeSync}
+ *  - {@link pipeAsync}
  *  - {@link toIterable}
  *  - {@link toAsync}
+ *
  * @category Core
  */
 export const pipe = ((
@@ -255,23 +260,53 @@ export const pipe = ((
 }) as Pipe;
 
 /**
- * Pipes a synchronous `UnknownIterable` through the list of synchronous operators, and returns {@link IterableExt}.
+ * Pipes a synchronous `Iterable` through the list of synchronous operators, and returns {@link IterableExt}.
  *
- * @see {@link toIterable}, {@link toAsync}
+ * @see
+ *  - {@link pipe}
+ *  - {@link pipeAsync}
+ *  - {@link toIterable}
+ *  - {@link toAsync}
+ *
+ * @throws `TypeError: 'Cannot run the sync pipeline from an AsyncIterable'` when the iterable is asynchronous.
+ *
  * @category Core
  */
 export const pipeSync = ((
-    i: UnknownIterable<unknown>,
+    i: Iterable<unknown>,
     ...p: readonly Operation<unknown, unknown>[]
-) =>
-    extendIterable(
-        p.reduce((c, a: any) => a(c), optimizeIterable(i))
-    )) as PipeSync;
+) => {
+    if (isAsyncIterable(i)) {
+        throw new TypeError(
+            'Cannot run the sync pipeline from an AsyncIterable'
+        );
+    }
+    return extendIterable(p.reduce((c, a: any) => a(c), optimizeIterable(i)));
+}) as PipeSync;
 
 /**
- * Pipes an `UnknownIterable` or `AsyncIterable` through the list of asynchronous operators, and returns {@link AsyncIterableExt}.
+ * Pipes an `Iterable` or `AsyncIterable` through the list of asynchronous operators, and returns {@link AsyncIterableExt}.
  *
- * @see {@link toIterable}, {@link toAsync}
+ * It applies automatic conversion when a synchronous iterable is passed in.
+ *
+ * ```ts
+ * import {pipeAsync, delay} from 'iter-ops';
+ *
+ * const i = pipeAsync([1, 2, 3], delay(1000));
+ *
+ * (async function() {
+ *   for await (const a of i) {
+ *       console.log(a); // 1, 2, 3 (with 1s delay)
+ *   }
+ * })();
+ * ```
+ *
+ * @see
+ *  - {@link pipe}
+ *  - {@link pipeSync}
+ *  - {@link toIterable}
+ *  - {@link toAsync}
+ *
  * @category Core
  */
 export const pipeAsync = ((

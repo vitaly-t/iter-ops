@@ -39,9 +39,19 @@ describe('toIterable', () => {
         const i2 = toIterable(null);
         expect([...i2]).to.eql([null]);
     });
-    it('must convert a Promise', async () => {
+    it('must convert a resolved Promise', async () => {
         const i = toIterable(Promise.resolve(123));
         expect(await _asyncValues(i)).to.eql([123]);
+    });
+    it('must convert a rejected Promise', async () => {
+        const i = toIterable(Promise.reject(123));
+        let err;
+        try {
+            await _asyncValues(i);
+        } catch (e) {
+            err = e;
+        }
+        expect(err).to.eql(123);
     });
     it('must treat an invalid iterable as value', () => {
         const i1 = {

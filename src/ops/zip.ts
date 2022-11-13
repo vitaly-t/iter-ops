@@ -27,6 +27,8 @@ export function zip<T>(): Operation<T, [T]>;
  *
  * The operator takes any number of iterable or iterator arguments.
  *
+ * @throws `TypeError: 'Value at index X is not iterable: ...'` when a non-iterable value encountered.
+ *
  * @category Sync+Async
  */
 export function zip<T, A>(

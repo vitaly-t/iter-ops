@@ -22,6 +22,8 @@ import {createOperation} from '../utils';
  *
  * If you want values expanded recursively, and without throwing errors, see operator {@link flat}.
  *
+ * @throws `TypeError: 'Value at index X is not iterable: ...'` when a non-iterable value encountered.
+ *
  * @see
  *  - {@link flat}
  * @category Sync+Async

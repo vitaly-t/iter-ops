@@ -3,6 +3,8 @@ import {createOperation} from '../utils';
 
 /**
  * Value timing details, produced by the {@link timing} operator.
+ *
+ * @see {@link timing}
  */
 export interface IValueTiming<T> {
     /**
@@ -64,7 +66,7 @@ export interface IValueTiming<T> {
  * @see
  *  - {@link IValueTiming}
  *  - {@link onEnd}
- * @category Sync+Async
+ * @category Diagnostics
  */
 export function timing<T>(cb: (t: IValueTiming<T>) => void): Operation<T, T>;
 

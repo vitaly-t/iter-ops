@@ -4,18 +4,21 @@ import {pipe, delay, onEnd, IIterationSummary} from '../../../src';
 export default () => {
     it('must notify for non-empty iterables', async () => {
         let s: IIterationSummary<any> = {} as any;
+        const delays = [10, 20, 30, 5];
         const i = pipe(
-            _async([10, 20, 30]),
-            delay(10),
+            _async([10, 20, 30, 5]),
+            delay((value, index) => delays[index]),
             onEnd((info) => {
                 s = info;
             })
         );
-        expect(await _asyncValues(i)).to.eql([10, 20, 30]);
+        expect(await _asyncValues(i)).to.eql([10, 20, 30, 5]);
         expect(s.sync).to.be.false;
-        expect(s.count).to.eql(3);
-        expect(s.lastValue).to.eq(30);
-        expect(s.duration).to.be.greaterThanOrEqual(10);
+        expect(s.count).to.eql(4);
+        expect(s.lastValue).to.eq(5);
+        expect(s.duration.total).to.be.greaterThanOrEqual(10);
+        expect(s.duration.max).not.to.be.undefined;
+        expect(s.duration.min).not.to.be.undefined;
     });
     it('must measure timing from start', async () => {
         let s: IIterationSummary<any> = {} as any;
@@ -27,7 +30,7 @@ export default () => {
             })
         );
         expect(await _asyncValues(i)).to.eql([1]);
-        expect(s.duration).to.be.greaterThanOrEqual(10);
+        expect(s.duration.total).to.be.greaterThanOrEqual(10);
     });
     it('must notify for empty iterables', async () => {
         let s: IIterationSummary<any> = {} as any;
@@ -41,7 +44,12 @@ export default () => {
         expect(s.sync).to.be.false;
         expect(s.count).to.eql(0);
         expect(s.lastValue).to.be.undefined;
-        expect(s.duration).to.be.greaterThanOrEqual(0);
+        expect(s.duration).to.eql({
+            average: 0,
+            max: undefined,
+            min: undefined,
+            total: 0,
+        });
     });
     it('must emit only once', async () => {
         let count = 0;

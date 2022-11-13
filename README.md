@@ -50,6 +50,7 @@ const i = pipe(
     distinct(), // emit unique numbers
     delay(1000) // delay each value by 1s
 );
+// or you can replace `pipe` + `toAsync` with just `pipeAsync`
 
 (async function () {
     for await (const a of i) {
@@ -66,7 +67,8 @@ _See also..._
 
 ## API
 
-Function [pipe] takes an iterable, applies all specified operators to it, and returns an extended iterable.
+Function [pipe] takes any iterable, applies all specified operators to it, and returns an extended iterable.
+For strict type of iterables, there are also [pipeSync] and [pipeAsync].
 
 #### <i>Standard operators:</i>
 
@@ -77,7 +79,7 @@ All standard operators implement the same logic as [Array] does:
 -   [every](http://vitaly-t.github.io/iter-ops/functions/every) - checks if all elements pass the predicate test.
 -   [filter](http://vitaly-t.github.io/iter-ops/functions/filter) - standard filter processor, filtering by predicate.
 -   [flat](http://vitaly-t.github.io/iter-ops/functions/flat) - flattens/expands sub-iterable elements.
--   [flatMap](http://vitaly-t.github.io/iter-ops/functions/flatMap) - re-maps + flattens/expands sub-iterable elements.
+-   [flatMap](http://vitaly-t.github.io/iter-ops/functions/flatMap) - remaps + flattens sub-iterable elements.
 -   [map](http://vitaly-t.github.io/iter-ops/functions/map) - standard mapping processor, remapping by predicate.
 -   [reduce](http://vitaly-t.github.io/iter-ops/functions/reduce) - standard reduce processor.
 -   [some](http://vitaly-t.github.io/iter-ops/functions/some) - checks if any element passes the predicate test.
@@ -114,6 +116,7 @@ All standard operators implement the same logic as [Array] does:
 -   [take](http://vitaly-t.github.io/iter-ops/functions/take) - emits up to certain number of values.
 -   [takeLast](http://vitaly-t.github.io/iter-ops/functions/takeLast) - emits up to certain number of the last values.
 -   [tap](http://vitaly-t.github.io/iter-ops/functions/tap) - taps into each value, without changing the output.
+-   [timeout](http://vitaly-t.github.io/iter-ops/functions/timeout) - ends iteration after N milliseconds.
 -   [timing](http://vitaly-t.github.io/iter-ops/functions/timing) - measures timings for each value.
 -   [toArray](http://vitaly-t.github.io/iter-ops/functions/toArray) - accumulates values into an array.
 -   [zip](http://vitaly-t.github.io/iter-ops/functions/zip) - zips values together, into an array.
@@ -142,3 +145,5 @@ All standard operators implement the same logic as [Array] does:
 [synchronous]: https://javascript.info/iterable
 [asynchronous]: https://javascript.info/async-iterators-generators#async-iterables
 [rationale]: https://github.com/vitaly-t/iter-ops/wiki/Rationale
+[pipesync]: https://vitaly-t.github.io/iter-ops/functions/pipeSync
+[pipeasync]: https://vitaly-t.github.io/iter-ops/functions/pipeAsync

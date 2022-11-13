@@ -7,6 +7,7 @@ import {
     isIteratorResult,
     isObject,
     isPromiseLike,
+    isIndexed,
 } from './typeguards';
 import {$A, $S, UnknownIterable, UnknownIterableOrIterator} from './types';
 import {isIndexed, indexedAsyncIterable} from './utils';
@@ -26,7 +27,9 @@ import {isIndexed, indexedAsyncIterable} from './utils';
  * ```
  *
  * - Passing it an already asynchronous iterable will just reuse it.
- * - All indexed types are well optimized for performance.
+ * - All indexed types are optimized for performance.
+ *
+ * @throws `TypeError: 'Cannot convert to AsyncIterable'` when conversion is not possible.
  *
  * @see
  *  - {@link toIterable}
@@ -39,7 +42,7 @@ export function toAsync<T>(i: UnknownIterable<T>): AsyncIterable<T> {
         return i;
     }
     if (!isSyncIterable(i)) {
-        throw new Error('Cannot convert to AsyncIterable.');
+        throw new TypeError('Cannot convert to AsyncIterable');
     }
     if (isIndexed(i)) {
         return indexedAsyncIterable(i);
@@ -209,12 +212,10 @@ function toSingleAsyncIterable<T>(
                         });
                     }
                     finished = true;
-                    return Promise.resolve(
-                        asyncValue.then((value: T) => ({
-                            value,
-                            done: false,
-                        }))
-                    );
+                    return (asyncValue as Promise<T>).then((value: T) => ({
+                        value,
+                        done: false,
+                    }));
                 },
             };
         },

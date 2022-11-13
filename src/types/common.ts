@@ -2,6 +2,8 @@
  * Iteration Error Context.
  *
  * It is passed into every error handler as the second parameter.
+ *
+ * @see {@link catchError}
  */
 export interface IErrorContext<T> {
     /**
@@ -108,6 +110,11 @@ export type UnknownIterator<T, TReturn = any, TNext = undefined> =
 export type UnknownIterableOrIterator<T> =
     | UnknownIterable<T>
     | UnknownIterator<T>;
+
+/**
+ * A Typed array.
+ */
+export type TypedArray = ArrayBufferView & ArrayLike<unknown>;
 
 /**
  * Pipe-through type (return type for all operators)

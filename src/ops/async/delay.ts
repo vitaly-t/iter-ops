@@ -3,7 +3,7 @@ import {createOperation, throwOnSync} from '../../utils';
 
 /**
  * Delays each value by the specified timeout.
- * When the timeout is a negative number, it is not added.
+ * When the timeout is a negative number, no delay added.
  *
  * ```ts
  * import {pipe, toAsync, delay} from 'iter-ops';
@@ -20,10 +20,11 @@ import {createOperation, throwOnSync} from '../../utils';
  * }
  * ```
  *
- * Throws an error during iteration, if inside a synchronous pipeline.
+ * @throws `Error: 'Operator "delay" requires asynchronous pipeline'` when used inside a synchronous pipeline.
  *
  * @see
  *  - {@link throttle}
+ *  - {@link timeout}
  * @category Async-only
  */
 export function delay<T>(timeout: number): Operation<T, T>;
@@ -35,10 +36,8 @@ export function delay<T>(timeout: number): Operation<T, T>;
  * Note that it doesn't support return of `Promise<number>` on purpose, to avoid
  * confusion with what operator {@link throttle} does.
  *
- * Throws an error during iteration, if inside a synchronous pipeline.
+ * @throws `Error: 'Operator "delay" requires asynchronous pipeline'` when used inside a synchronous pipeline.
  *
- * @see
- *  - {@link throttle}
  * @category Async-only
  */
 export function delay<T>(
@@ -58,6 +57,9 @@ function delayAsync<T>(
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
+            if (timeout < 0) {
+                return i; // use no delay;
+            }
             const cb = typeof timeout === 'function' && timeout;
             const state: IterationState = {};
             let index = 0;

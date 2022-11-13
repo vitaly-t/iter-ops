@@ -3,7 +3,8 @@ import {isPromiseLike} from '../typeguards';
 import {createOperation} from '../utils';
 
 /**
- * Standard `Array.filter` logic for the iterable, extended with iteration state.
+ * Standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter Array.filter} logic for the iterable,
+ * extended with iteration state.
  *
  * In the example below, we are able to use a type guard to filter out all the nullable values.
  *
@@ -21,7 +22,7 @@ import {createOperation} from '../utils';
  * if you want support for this.
  *
  * @see
- *  - [Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter Array.filter}
  * @category Sync+Async
  */
 export function filter<T, S extends T = T>(
@@ -29,7 +30,8 @@ export function filter<T, S extends T = T>(
 ): Operation<T, S>;
 
 /**
- * Standard `Array.filter` logic for the iterable, extended with iteration state + async.
+ * Standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter Array.filter} logic for the iterable,
+ * extended with iteration state + async.
  *
  * In the example below, we take advantage of the {@link IterationState}, to detect and remove repeated
  * values (do not confuse with {@link distinct}, which removes all duplicates).
@@ -53,7 +55,7 @@ export function filter<T, S extends T = T>(
  * or else the `Promise` will be treated as a truthy value.
  *
  * @see
- *  - [Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter Array.filter}
  * @category Sync+Async
  */
 export function filter<T>(

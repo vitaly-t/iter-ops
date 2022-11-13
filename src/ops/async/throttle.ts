@@ -20,7 +20,7 @@ import {createOperation, throwOnSync} from '../../utils';
  * );
  * ```
  *
- * Throws an error during iteration, if inside a synchronous pipeline.
+ * @throws `Error: 'Operator "throttle" requires asynchronous pipeline'` when used inside a synchronous pipeline.
  *
  * @see
  *  - {@link delay}

@@ -5,7 +5,6 @@ import {createOperation, throwOnSync} from '../../utils';
 /**
  * When the value is a `Promise`, it is resolved, or else returned as is,
  * i.e. the same logic as for JavaScript operator `await`.
- * It throws an error during iteration, if inside a synchronous pipeline.
  *
  * ```ts
  * import {pipe, toAsync, map, wait} from 'iter-ops';
@@ -43,6 +42,11 @@ import {createOperation, throwOnSync} from '../../utils';
  * }
  * ```
  *
+ * @throws `Error: 'Operator "wait" requires asynchronous pipeline'` when used inside a synchronous pipeline.
+ *
+ * @see
+ *  - {@link waitRace}
+ *
  * @category Async-only
  */
 export function wait<T>(): Operation<Promise<T> | T, T>;
@@ -65,7 +69,7 @@ export function waitAsync<T>(
                         }
                         const p = a.value as Promise<T>;
                         return isPromiseLike(p)
-                            ? p?.then((value) => ({value, done: false}))
+                            ? p.then((value) => ({value, done: false}))
                             : a;
                     });
                 },

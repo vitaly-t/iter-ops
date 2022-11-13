@@ -3,7 +3,8 @@ import {isPromiseLike} from '../typeguards';
 import {createOperation} from '../utils';
 
 /**
- * Standard `Array.every` logic for the iterable, extended with iteration state + async.
+ * Standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every Array.every} logic for the iterable,
+ * extended with iteration state + async.
  *
  * It emits a `boolean`, indicating whether all elements pass the predicate test.
  *
@@ -24,7 +25,7 @@ import {createOperation} from '../utils';
  * or else the `Promise` will be treated as a truthy value.
  *
  * @see
- *  - [Array.every](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every)
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every Array.every}
  *  - {@link some}
  * @category Sync+Async
  */

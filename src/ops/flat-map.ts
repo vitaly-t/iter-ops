@@ -3,9 +3,22 @@ import {createOperation} from '../utils';
 import {isPromiseLike} from '../typeguards';
 
 /**
- * **New in v2.0.0**
+ * Remaps and then flattens an iterable, consistent with the logic of {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap Array.flatMap}
  *
- * Re-maps and then flattens an iterable, consistent with the logic of {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap Array.prototype.flatMap()}
+ * ```ts
+ * import {pipe, flatMap} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     ['hello', 'world!'],
+ *     flatMap(a => a.length)
+ * );
+ *
+ * console.log(...i); //=> 5 6
+ * ```
+ *
+ * Note that when handling a synchronous iterable, this operator can remap+flatten only synchronous sub-iterables.
+ * But when handling an asynchronous iterable, it can remap+flatten mixed sub-iterables, i.e. any combination of
+ * synchronous and asynchronous sub-iterables.
  *
  * @see
  *  - {@link flat}
@@ -13,12 +26,8 @@ import {isPromiseLike} from '../typeguards';
  * @category Sync+Async
  */
 export function flatMap<T, R>(
-    cb: (
-        value: T extends UnknownIterable<infer E> ? E : T,
-        index: number,
-        state: IterationState
-    ) => R
-): Operation<T, R>;
+    cb: (value: T, index: number, state: IterationState) => R
+): Operation<T, R extends UnknownIterable<infer E> ? E : R>;
 
 export function flatMap(...args: unknown[]) {
     return createOperation(flatMapSync as any, flatMapAsync as any, args);
