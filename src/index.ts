@@ -10,7 +10,7 @@ export {
     UnknownIterator,
     Value,
 } from './types';
-export {mergeIterables, toAsync, toIterable} from './helpers';
+export {merge, toAsync, toIterable} from './helpers';
 export {pipe, pipeSync, pipeAsync} from './pipe';
 
 /////////////

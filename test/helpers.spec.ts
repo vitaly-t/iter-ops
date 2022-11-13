@@ -1,5 +1,5 @@
 import {_asyncValues, expect} from './header';
-import {toIterable, toAsync, mergeIterables} from '../src';
+import {toIterable, toAsync, merge} from '../src';
 
 describe('toAsync', () => {
     it('must reuse async iterables', () => {
@@ -101,14 +101,14 @@ describe('toIterable', () => {
     });
 });
 
-describe('mergeIterables', () => {
+describe('merge', () => {
     it('must merge sync iterables', () => {
         const input = [
             [1, 2, 3],
             [4, 5, 6],
             [7, 8, 9],
         ];
-        const output = mergeIterables(...input);
+        const output = merge(...input);
         expect([...output]).to.deep.eq(input.flat());
     });
 });
