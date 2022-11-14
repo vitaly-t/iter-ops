@@ -26,7 +26,7 @@ import {isPromiseLike} from '../typeguards';
  * @category Sync+Async
  */
 export function flatMap<T, R>(
-    cb: (value: T, index: number, state: IterationState) => R
+    cb: (value: T, index: number, state: IterationState) => R | Promise<R>
 ): Operation<T, R extends UnknownIterable<infer E> ? E : R>;
 
 export function flatMap(...args: unknown[]) {

@@ -61,3 +61,12 @@ const test6 = pipeAsync(
     })
 );
 expectType<AsyncIterableExt<number | string>>(test6);
+
+const test7 = pipeAsync(
+    iterable3,
+    flatMap(async (value) => {
+        expectType<AsyncIterable<number> | Iterable<string> | boolean>(value);
+        return [123, 'bla'];
+    })
+);
+expectType<AsyncIterableExt<number | string>>(test7);
