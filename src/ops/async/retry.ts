@@ -88,15 +88,14 @@ function retryAsync<T>(
             let leftTries = retriesNumber;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    return i
-                        .next()
-                        .then((a) => {
+                    return i.next().then(
+                        (a) => {
                             index++;
                             attempts = 0;
                             leftTries = retriesNumber;
                             return a;
-                        })
-                        .catch((e) => {
+                        },
+                        (e) => {
                             if (cb) {
                                 const b = (f: any) =>
                                     f ? this.next() : Promise.reject(e);
@@ -112,7 +111,8 @@ function retryAsync<T>(
                                 return this.next();
                             }
                             return Promise.reject(e);
-                        });
+                        }
+                    );
                 },
             };
         },

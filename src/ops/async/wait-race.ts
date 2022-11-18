@@ -63,6 +63,7 @@ export function waitRace(...args: unknown[]) {
     return createOperation(throwOnSync('waitRace'), waitRaceAsync, args);
 }
 
+// implemented by: https://stackoverflow.com/users/1048572/bergi
 export function waitRaceAsync<T>(
     iterable: AsyncIterable<Promise<T> | T>,
     cacheSize: number

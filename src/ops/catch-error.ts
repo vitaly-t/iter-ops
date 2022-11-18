@@ -85,14 +85,13 @@ function catchErrorAsync<T>(
                 lastError: any;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    return i
-                        .next()
-                        .then((a) => {
+                    return i.next().then(
+                        (a) => {
                             last = a;
                             index++;
                             return a;
-                        })
-                        .catch((e) => {
+                        },
+                        (e) => {
                             repeats = sameError(e, lastError) ? repeats + 1 : 0;
                             lastError = e;
                             let value: any, emitted;
@@ -107,7 +106,8 @@ function catchErrorAsync<T>(
                                 },
                             });
                             return emitted ? {value, done: false} : this.next();
-                        });
+                        }
+                    );
                 },
             };
         },
