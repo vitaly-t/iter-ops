@@ -228,7 +228,7 @@ function toSingleAsyncIterable<T>(
  * @see
  *  - {@link concat}
  *
- * @category Sync+Async
+ * @category Core
  */
 export function merge<Ts extends [...unknown[]]>(
     ...i: {
