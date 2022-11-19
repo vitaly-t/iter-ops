@@ -29,8 +29,8 @@ export default () => {
             expect(await _asyncValues(output)).to.eql([{next: 123}]);
         });
         it('must add iterables', async () => {
-            const output = pipe(_async([]), defaultEmpty([1, 2]));
-            expect(await _asyncValues(output)).to.eql([1, 2]);
+            const output = pipe(_async([]), defaultEmpty([1, 2, 'three']));
+            expect(await _asyncValues(output)).to.eql([1, 2, 'three']);
         });
     });
     describe('type inference', () => {
