@@ -10,7 +10,7 @@ import {createOperation} from '../utils';
 import {isPromiseLike} from '../typeguards';
 
 /**
- * Merges current iterable with a list of values, iterators or iterables.
+ * Merges current iterable with any combination of values, iterators or iterables.
  * Merged inputs are iterated over after depleting the current iterable, in the order in which they were specified,
  * i.e. the standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat Array.concat} logic.
  *
@@ -25,7 +25,7 @@ import {isPromiseLike} from '../typeguards';
  * console.log(...i); //=> 1 2 3 4 5 6
  * ```
  *
- * Note that if you concatenate asynchronous iterables with a synchronous pipeline, they will be processed as simple values.
+ * Note that if you concatenate asynchronous iterables inside a synchronous pipeline, they will be processed as simple values.
  *
  * @see
  *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat Array.concat}
