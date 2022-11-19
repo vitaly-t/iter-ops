@@ -21,6 +21,7 @@ import {createOperation} from '../utils';
  *
  * @see
  *  - {@link stop}
+ *
  * @category Sync+Async
  */
 export function start<T>(

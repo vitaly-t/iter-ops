@@ -19,6 +19,9 @@ import {createOperation} from '../utils';
  * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
  * or else the `Promise` will be treated as a truthy value.
  *
+ * @see
+ *  - {@link start}
+ *
  * @category Sync+Async
  */
 export function stop<T>(
