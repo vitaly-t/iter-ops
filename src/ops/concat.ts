@@ -93,49 +93,30 @@ function concatAsync<T>(
         [$A](): AsyncIterator<T> {
             let i: any = iterable[$A]();
             let index = -1, // current "values" index
-                start = true; // set when need to step forward
+                start = false; // set when need to step forward
             return {
                 next() {
-                    if (index < 0) {
-                        return i.next().then((a: any) => {
-                            if (a.done) {
-                                index = 0;
-                                return this.next();
-                            }
-                            return a;
-                        });
+                    if (index === values.length) {
+                        return Promise.resolve({value: undefined, done: true});
                     }
-                    if (index < values.length) {
+                    if (start) {
+                        i = values[++index] as any; // new value
+                        const k = typeof i?.next === 'function' ? i : i?.[Symbol.iterator]?.() || i?.[Symbol.asyncIterator]?.();
+                        start = !k;
                         if (start) {
-                            i = values[index++] as any; // new value
-                            if (typeof i?.next === 'function') {
-                                start = false;
-                            } else {
-                                if (i[Symbol.iterator]) {
-                                    start = false;
-                                    i = i[Symbol.iterator]();
-                                } else {
-                                    if (i[Symbol.asyncIterator]) {
-                                        start = false;
-                                        i = i[Symbol.asyncIterator]();
-                                    } else {
-                                        start = true;
-                                        return Promise.resolve({value: i, done: false});
-                                    }
-                                }
-                            }
+                            return Promise.resolve({value: i, done: false});
                         }
-                        const a = i.next() as any;
-                        const out = (b: any) => {
-                            if (b.done) {
-                                start = true;
-                                return this.next();
-                            }
-                            return b;
-                        };
-                        return isPromiseLike(a) ? a.then((b: any) => out(b)) : Promise.resolve(out(a));
+                        i = k;
                     }
-                    return Promise.resolve({value: undefined, done: true});
+                    const a = i.next() as any;
+                    const out = (b: any) => {
+                        if (b.done) {
+                            start = true;
+                            return this.next();
+                        }
+                        return b;
+                    };
+                    return isPromiseLike(a) ? a.then(out) : Promise.resolve(out(a));
                 }
             };
         },
@@ -148,12 +129,12 @@ async function* myToAsync<T>(data: Iterable<T>) {
     do {
         a = i.next();
         if (!a.done) {
-            yield a;
+            yield a.value;
         }
     } while (!a.done);
 }
 
-const r = concatAsync(myToAsync([1, 2]), 'one' as any, [undefined, 'word', false]);
+const r = concatAsync(myToAsync([1, 2]), 'one' as any, [555, 'word', false]);
 
 (async function () {
     for await(const w of r) {
