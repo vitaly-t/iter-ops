@@ -91,15 +91,13 @@ function concatAsync<T>(
 ): AsyncIterable<any> {
     return {
         [$A](): AsyncIterator<T> {
-            let i = iterable[$A]();
+            let i: any = iterable[$A]();
             let index = -1, // current "values" index
-                start = true, // set when need to step forward
-                iter = true; // set when "i" is iterable
-
+                start = true; // set when need to step forward
             return {
                 next() {
                     if (index < 0) {
-                        return i.next().then(a => {
+                        return i.next().then((a: any) => {
                             if (a.done) {
                                 index = 0;
                                 return this.next();
@@ -108,42 +106,34 @@ function concatAsync<T>(
                         });
                     }
                     if (index < values.length) {
-                        // we can continue iterating;
                         if (start) {
-                            const v: any = values[index++]; // new value
-                            if (typeof v?.next === 'function') {
-                                iter = true; // it is iterable
+                            i = values[index++] as any; // new value
+                            if (typeof i?.next === 'function') {
                                 start = false;
-                                i = v;
                             } else {
-                                if (v[Symbol.iterator]) {
-                                    iter = true; // it is iterable
+                                if (i[Symbol.iterator]) {
                                     start = false;
-                                    i = v[Symbol.iterator]();
+                                    i = i[Symbol.iterator]();
                                 } else {
-                                    if (v[Symbol.asyncIterator]) {
-                                        iter = true; // it is iterable
+                                    if (i[Symbol.asyncIterator]) {
                                         start = false;
-                                        i = v[Symbol.asyncIterator]();
+                                        i = i[Symbol.asyncIterator]();
                                     } else {
-                                        iter = false; // not iterable
                                         start = true;
-                                        i = v;
+                                        return Promise.resolve({value: i, done: false});
                                     }
                                 }
                             }
                         }
-                        if (iter) {
-                            const a = i.next() as any;
-                            const out = (b: any) => {
-                                if (b.done) {
-                                    return this.next();
-                                }
-                                return b;
-                            };
-                            return isPromiseLike(a) ? a.then((b: any) => out(b)) : out(a);
-                        }
-                        return Promise.resolve({value: i, done: false});
+                        const a = i.next() as any;
+                        const out = (b: any) => {
+                            if (b.done) {
+                                start = true;
+                                return this.next();
+                            }
+                            return b;
+                        };
+                        return isPromiseLike(a) ? a.then((b: any) => out(b)) : Promise.resolve(out(a));
                     }
                     return Promise.resolve({value: undefined, done: true});
                 }
@@ -158,7 +148,7 @@ async function* myToAsync<T>(data: Iterable<T>) {
     do {
         a = i.next();
         if (!a.done) {
-            yield a.done;
+            yield a;
         }
     } while (!a.done);
 }
