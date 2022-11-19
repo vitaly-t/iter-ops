@@ -7,6 +7,7 @@ import {
     UnknownIterableOrIterator,
 } from '../types';
 import {createOperation} from '../utils';
+import {isPromiseLike} from '../typeguards';
 
 /**
  * Merges current iterable with a list of values, iterators or iterables.
@@ -92,42 +93,41 @@ function concatAsync<T>(
 ): AsyncIterable<any> {
     return {
         [$A](): AsyncIterator<T> {
-            const i = iterable[$A]();
-            let index = -1,
-                k: AsyncIterator<T>,
-                v: any,
-                start = true;
+            let v: any = iterable[$A](); // current value or iterator
+            let index = -1, // current "values" index
+                start = false; // set when need to step forward
             return {
-                async next(): Promise<IteratorResult<T>> {
-                    if (index < 0) {
-                        const a = await i.next();
-                        if (!a.done) {
-                            return a;
+                next() {
+                    if (start) {
+                        if (++index === values.length) {
+                            return Promise.resolve({
+                                value: undefined,
+                                done: true,
+                            });
                         }
-                        index = 0;
-                    }
-                    while (index < values.length) {
+                        v = values[index];
+                        const k =
+                            typeof v?.next === 'function'
+                                ? v
+                                : v?.[Symbol.iterator]?.() ||
+                                  v?.[Symbol.asyncIterator]?.();
+                        start = !k;
                         if (start) {
-                            v = values[index];
-                            k =
-                                typeof v?.next === 'function'
-                                    ? v
-                                    : v?.[$S]?.() || v?.[$A]?.();
-                            start = false;
+                            return Promise.resolve({value: v, done: false});
                         }
-                        if (k) {
-                            const b = await k.next();
-                            if (!b.done) {
-                                return b;
-                            }
-                        }
-                        start = true;
-                        index++;
-                        if (!k) {
-                            return {value: v, done: false};
-                        }
+                        v = k;
                     }
-                    return {value: undefined, done: true};
+                    const a = v.next();
+                    const out = (b: any) => {
+                        if (b.done) {
+                            start = true;
+                            return this.next();
+                        }
+                        return b;
+                    };
+                    return isPromiseLike(a)
+                        ? a.then(out)
+                        : Promise.resolve(out(a));
                 },
             };
         },
