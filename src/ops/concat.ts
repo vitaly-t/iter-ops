@@ -7,7 +7,7 @@ import {
     UnknownIterableOrIterator,
 } from '../types';
 import {createOperation} from '../utils';
-import {isPromiseLike} from "../typeguards";
+import {isPromiseLike} from '../typeguards';
 
 /**
  * Merges current iterable with a list of values, iterators or iterables.
@@ -33,8 +33,10 @@ import {isPromiseLike} from "../typeguards";
  */
 export function concat<T, Vs extends readonly unknown[]>(
     ...values: Vs
-): Operation<T,
-    T | (Vs[number] extends UnknownIterableOrIterator<infer U> ? U : never)>;
+): Operation<
+    T,
+    T | (Vs[number] extends UnknownIterableOrIterator<infer U> ? U : never)
+>;
 
 export function concat(...args: unknown[]) {
     return createOperation(concatSync, concatAsync, args);
@@ -91,24 +93,31 @@ function concatAsync<T>(
 ): AsyncIterable<any> {
     return {
         [$A](): AsyncIterator<T> {
-            let i: any = iterable[$A]();
+            let v: any = iterable[$A](); // current value or iterator
             let index = -1, // current "values" index
                 start = false; // set when need to step forward
             return {
                 next() {
-                    if (index === values.length) {
-                        return Promise.resolve({value: undefined, done: true});
-                    }
                     if (start) {
-                        i = values[++index] as any; // new value
-                        const k = typeof i?.next === 'function' ? i : i?.[Symbol.iterator]?.() || i?.[Symbol.asyncIterator]?.();
+                        if (++index === values.length) {
+                            return Promise.resolve({
+                                value: undefined,
+                                done: true,
+                            });
+                        }
+                        v = values[index];
+                        const k =
+                            typeof v?.next === 'function'
+                                ? v
+                                : v?.[Symbol.iterator]?.() ||
+                                  v?.[Symbol.asyncIterator]?.();
                         start = !k;
                         if (start) {
-                            return Promise.resolve({value: i, done: false});
+                            return Promise.resolve({value: v, done: false});
                         }
-                        i = k;
+                        v = k;
                     }
-                    const a = i.next() as any;
+                    const a = v.next();
                     const out = (b: any) => {
                         if (b.done) {
                             start = true;
@@ -116,28 +125,11 @@ function concatAsync<T>(
                         }
                         return b;
                     };
-                    return isPromiseLike(a) ? a.then(out) : Promise.resolve(out(a));
-                }
+                    return isPromiseLike(a)
+                        ? a.then(out)
+                        : Promise.resolve(out(a));
+                },
             };
         },
     };
 }
-
-async function* myToAsync<T>(data: Iterable<T>) {
-    const i = data[Symbol.iterator]();
-    let a;
-    do {
-        a = i.next();
-        if (!a.done) {
-            yield a.value;
-        }
-    } while (!a.done);
-}
-
-const r = concatAsync(myToAsync([1, 2]), 'one' as any, [555, 'word', false]);
-
-(async function () {
-    for await(const w of r) {
-        console.log(w);
-    }
-})();

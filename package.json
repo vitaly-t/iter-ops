@@ -59,8 +59,8 @@
     "doc": "cross-env typedoc --readme none",
     "format": "cross-env prettier --write \"./**/*.{json,yml,md,ts}\"",
     "lint": "cross-env eslint .",
-    "test": "cross-env npm run test:js",
-    "test:js": "cross-env TS_NODE_PROJECT=tsconfig.test.json nyc mocha -r ts-node/register 'test/ops/concat/*.spec.ts'",
+    "test": "cross-env npm run test:js && cross-env npm run test:types",
+    "test:js": "cross-env TS_NODE_PROJECT=tsconfig.test.json nyc mocha -r ts-node/register 'test/**/*.spec.ts'",
     "test:types": "cross-env BUILD_TYPES_ONLY=1 npm run build && cross-env tsd -f 'test/**/*.test-d.ts'"
   },
   "devDependencies": {
