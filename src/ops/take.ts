@@ -17,6 +17,7 @@ import {createOperation} from '../utils';
  *
  * @see
  *  - {@link takeLast}
+ *  - {@link takeUntil}
  *  - {@link takeWhile}
  *
  * @category Sync+Async

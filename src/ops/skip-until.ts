@@ -3,7 +3,8 @@ import {isPromiseLike} from '../typeguards';
 import {createOperation} from '../utils';
 
 /**
- * Skips values until the predicate test succeeds (exclusive).
+ * Skips values until the predicate test succeeds.
+ * The value for which predicate succeeds is not skipped.
  *
  * ```ts
  * import {pipe, skipUntil} from 'iter-ops';
@@ -13,7 +14,7 @@ import {createOperation} from '../utils';
  *     skipUntil(a => a > 5) // skip until value > 5
  * );
  *
- * console.log(...i); //=> 7, 8, 9
+ * console.log(...i); //=> 6, 7, 8, 9
  * ```
  *
  * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,

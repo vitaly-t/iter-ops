@@ -3,7 +3,7 @@ import {isPromiseLike} from '../typeguards';
 import {createOperation} from '../utils';
 
 /**
- * Takes values while the predicate test succeeds (exclusive).
+ * Takes values while the predicate test succeeds.
  *
  * ```ts
  * import {pipe, takeWhile} from 'iter-ops';
@@ -21,6 +21,7 @@ import {createOperation} from '../utils';
  *
  * @see
  *  - {@link skip}
+ *  - {@link skipUntil}
  *  - {@link skipWhile}
  *  - {@link take}
  *  - {@link takeLast}
