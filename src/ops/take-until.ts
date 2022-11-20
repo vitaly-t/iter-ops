@@ -3,17 +3,17 @@ import {isPromiseLike} from '../typeguards';
 import {createOperation} from '../utils';
 
 /**
- * Skips values while the predicate test succeeds (inclusive).
+ * Takes values until the predicate test succeeds (inclusive).
  *
  * ```ts
- * import {pipe, skipWhile} from 'iter-ops';
+ * import {pipe, takeUntil} from 'iter-ops';
  *
  * const i = pipe(
- *     [1, 2, 3, 4, 5, 6, 7, 8, 9],
- *     skipWhile(a => a < 5) // skip while value < 5
+ *     [1, 2, 3, 4, 5],
+ *     takeUntil(a => a > 2) // take until value > 2
  * );
  *
- * console.log(...i); //=> 5, 6, 7, 8, 9
+ * console.log(...i); //=> 1, 2, 3
  * ```
  *
  * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
@@ -21,13 +21,14 @@ import {createOperation} from '../utils';
  *
  * @see
  *  - {@link skip}
+ *  - {@link skipWhile}
  *  - {@link take}
  *  - {@link takeLast}
  *  - {@link takeWhile}
  *
  * @category Sync+Async
  */
-export function skipWhile<T>(
+export function takeUntil<T>(
     cb: (
         value: T,
         index: number,
@@ -35,11 +36,11 @@ export function skipWhile<T>(
     ) => boolean | Promise<boolean>
 ): Operation<T, T>;
 
-export function skipWhile(...args: unknown[]) {
-    return createOperation(skipWhileSync, skipWhileAsync, args);
+export function takeUntil(...args: unknown[]) {
+    return createOperation(takeUntilSync, takeUntilAsync, args);
 }
 
-function skipWhileSync<T>(
+function takeUntilSync<T>(
     iterable: Iterable<T>,
     cb: (value: T, index: number, state: IterationState) => boolean
 ): Iterable<T> {
@@ -48,24 +49,22 @@ function skipWhileSync<T>(
             const i = iterable[$S]();
             const state: IterationState = {};
             let index = 0,
-                started: boolean;
+                stopped: boolean;
             return {
                 next(): IteratorResult<T> {
-                    let a = i.next();
-                    if (!started) {
-                        while (!a.done && cb(a.value, index++, state)) {
-                            a = i.next();
-                        }
-                        started = true;
+                    if (!stopped) {
+                        const a = i.next();
+                        stopped = a.done || cb(a.value, index++, state);
+                        return a;
                     }
-                    return a;
+                    return {value: undefined, done: true};
                 },
             };
         },
     };
 }
 
-function skipWhileAsync<T>(
+function takeUntilAsync<T>(
     iterable: AsyncIterable<T>,
     cb: (
         value: T,
@@ -78,21 +77,21 @@ function skipWhileAsync<T>(
             const i = iterable[$A]();
             const state: IterationState = {};
             let index = 0,
-                started: boolean;
+                stopped: boolean;
             return {
                 next(): Promise<IteratorResult<T>> {
                     return i.next().then((a) => {
-                        if (started || a.done) {
-                            return a;
+                        if (stopped || a.done) {
+                            return {value: undefined, done: true};
                         }
                         const r = cb(
                             a.value,
                             index++,
                             state
                         ) as Promise<boolean>;
-                        const out = (flag: any) => {
-                            started = !flag;
-                            return started ? a : this.next();
+                        const out = (flag: any): IteratorResult<T> => {
+                            stopped = flag;
+                            return a;
                         };
                         return isPromiseLike(r) ? r.then(out) : out(r);
                     });

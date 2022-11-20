@@ -52,6 +52,7 @@ export {start} from './ops/start';
 export {stop} from './ops/stop';
 export {take} from './ops/take';
 export {takeLast} from './ops/take-last';
+export {takeUntil} from './ops/take-until';
 export {takeWhile} from './ops/take-while';
 export {tap} from './ops/tap';
 export {throttle} from './ops/async/throttle';
