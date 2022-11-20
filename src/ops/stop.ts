@@ -3,7 +3,7 @@ import {isPromiseLike} from '../typeguards';
 import {createOperation} from '../utils';
 
 /**
- * @deprecated Use {@link takeWhile} instead.
+ * @deprecated Use {@link takeWhile} instead (`stop` will be removed in v3.0.0).
  *
  * Stops iteration, once the predicate test passes.
  *

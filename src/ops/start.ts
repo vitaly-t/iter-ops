@@ -3,7 +3,7 @@ import {isPromiseLike} from '../typeguards';
 import {createOperation} from '../utils';
 
 /**
- * @deprecated Use {@link skipWhile} instead.
+ * @deprecated Use {@link skipWhile} instead (`start` will be removed in v3.0.0).
  *
  * Starts emitting values, once the predicate test passes.
  *
