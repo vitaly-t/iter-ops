@@ -3,16 +3,14 @@ import {isPromiseLike} from '../typeguards';
 import {createOperation} from '../utils';
 
 /**
- * @deprecated Use {@link skipWhile} instead.
- *
- * Starts emitting values, once the predicate test passes.
+ * Skips values while the predicate test passes.
  *
  * ```ts
- * import {pipe, start} from 'iter-ops';
+ * import {pipe, skipWhile} from 'iter-ops';
  *
  * const i = pipe(
  *     [1, 2, 3, 4, 5, 6, 7, 8, 9],
- *     start(a => a === 5) // start emitting when 5 is encountered
+ *     skipWhile(a => a < 5) // skip while value < 5
  * );
  *
  * console.log(...i); //=> 5, 6, 7, 8, 9
@@ -22,11 +20,11 @@ import {createOperation} from '../utils';
  * or else the `Promise` will be treated as a truthy value.
  *
  * @see
- *  - {@link stop}
+ *  - {@link takeWhile}
  *
  * @category Sync+Async
  */
-export function start<T>(
+export function skipWhile<T>(
     cb: (
         value: T,
         index: number,
@@ -34,11 +32,11 @@ export function start<T>(
     ) => boolean | Promise<boolean>
 ): Operation<T, T>;
 
-export function start(...args: unknown[]) {
-    return createOperation(startSync, startAsync, args);
+export function skipWhile(...args: unknown[]) {
+    return createOperation(skipWhileSync, skipWhileAsync, args);
 }
 
-function startSync<T>(
+function skipWhileSync<T>(
     iterable: Iterable<T>,
     cb: (value: T, index: number, state: IterationState) => boolean
 ): Iterable<T> {
@@ -52,7 +50,7 @@ function startSync<T>(
                 next(): IteratorResult<T> {
                     let a = i.next();
                     if (!started) {
-                        while (!a.done && !cb(a.value, index++, state)) {
+                        while (!a.done && cb(a.value, index++, state)) {
                             a = i.next();
                         }
                         started = true;
@@ -64,7 +62,7 @@ function startSync<T>(
     };
 }
 
-function startAsync<T>(
+function skipWhileAsync<T>(
     iterable: AsyncIterable<T>,
     cb: (
         value: T,
@@ -81,13 +79,16 @@ function startAsync<T>(
             return {
                 next(): Promise<IteratorResult<T>> {
                     return i.next().then((a) => {
-                        if (started) {
+                        if (started || a.done) {
                             return a;
                         }
-                        const r = (a.done ||
-                            cb(a.value, index++, state)) as Promise<boolean>;
+                        const r = cb(
+                            a.value,
+                            index++,
+                            state
+                        ) as Promise<boolean>;
                         const out = (flag: any) => {
-                            started = flag;
+                            started = !flag;
                             return started ? a : this.next();
                         };
                         return isPromiseLike(r) ? r.then(out) : out(r);
