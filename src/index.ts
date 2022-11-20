@@ -44,6 +44,7 @@ export {reduce} from './ops/reduce';
 export {repeat} from './ops/repeat';
 export {retry} from './ops/async/retry';
 export {skip} from './ops/skip';
+export {skipWhile} from './ops/skip-while';
 export {some} from './ops/some';
 export {split, ISplitIndex, ISplitOptions, SplitValueCarry} from './ops/split';
 export {spread} from './ops/spread';
