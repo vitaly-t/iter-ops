@@ -20,7 +20,10 @@ import {createOperation} from '../utils';
  * or else the `Promise` will be treated as a truthy value.
  *
  * @see
+ *  - {@link skip}
  *  - {@link skipWhile}
+ *  - {@link take}
+ *  - {@link takeLast}
  *
  * @category Sync+Async
  */

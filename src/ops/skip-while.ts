@@ -3,7 +3,7 @@ import {isPromiseLike} from '../typeguards';
 import {createOperation} from '../utils';
 
 /**
- * Skips values while the predicate test passes.
+ * Skips values while the predicate test succeeds.
  *
  * ```ts
  * import {pipe, skipWhile} from 'iter-ops';
@@ -20,6 +20,9 @@ import {createOperation} from '../utils';
  * or else the `Promise` will be treated as a truthy value.
  *
  * @see
+ *  - {@link skip}
+ *  - {@link take}
+ *  - {@link takeLast}
  *  - {@link takeWhile}
  *
  * @category Sync+Async

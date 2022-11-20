@@ -4,6 +4,9 @@ import {createOperation} from '../utils';
 /**
  * Starts emitting values after `count` number of values.
  *
+ * @see
+ *  - {@link skipWhile}
+ *
  * @category Sync+Async
  */
 export function skip<T>(count: number): Operation<T, T>;

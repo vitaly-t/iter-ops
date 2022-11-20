@@ -18,6 +18,7 @@ import {createOperation} from '../utils';
  * @see
  *  - {@link last}
  *  - {@link take}
+ *
  * @category Sync+Async
  */
 export function takeLast<T>(count: number): Operation<T, T>;
