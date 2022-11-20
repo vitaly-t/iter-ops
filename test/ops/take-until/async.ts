@@ -8,7 +8,7 @@ export default () => {
             _async(input),
             takeUntil((a) => a > 2)
         );
-        expect(await _asyncValues(output)).to.eql([1, 2, 3]);
+        expect(await _asyncValues(output)).to.eql([1, 2]);
     });
     it('must stop on async condition', async () => {
         const input = [1, 2, 3, 4, 5];
@@ -16,13 +16,13 @@ export default () => {
             _async(input),
             takeUntil(async (a) => a > 2)
         );
-        expect(await _asyncValues(output)).to.eql([1, 2, 3]);
+        expect(await _asyncValues(output)).to.eql([1, 2]);
     });
     it('must not let overlap the condition', async () => {
         const input = [1, 2, 3];
         const output = pipe(
             _async(input),
-            takeUntil((a) => a === 1)
+            takeUntil((a) => a === 2)
         );
         const i = output[Symbol.asyncIterator]();
         expect(await i.next()).to.eql({value: 1, done: false});
@@ -33,7 +33,7 @@ export default () => {
         const input = [1, 2, 3];
         const output = pipe(
             _async(input),
-            takeUntil(async (a) => a === 1)
+            takeUntil(async (a) => a === 2)
         );
         const i = output[Symbol.asyncIterator]();
         expect(await i.next()).to.eql({value: 1, done: false});
@@ -49,10 +49,10 @@ export default () => {
                 state.count = state.count ?? 0;
                 state.count++;
                 arr.push(state.count);
-                return true;
+                return index === 2;
             })
         );
-        expect(await _asyncValues(output)).to.eql(['h']);
-        expect(arr).to.eql([1]);
+        expect(await _asyncValues(output)).to.eql(['h', 'e']);
+        expect(arr).to.eql([1, 2, 3]);
     });
 };

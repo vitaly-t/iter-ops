@@ -8,13 +8,13 @@ export default () => {
             input,
             takeUntil((a) => a > 2)
         );
-        expect([...output]).to.eql([1, 2, 3]);
+        expect([...output]).to.eql([1, 2]);
     });
     it('must not let overlap the condition', () => {
         const input = [1, 2, 3];
         const output = pipe(
             input,
-            takeUntil((a) => a === 1)
+            takeUntil((a) => a === 2)
         );
         const i = output[Symbol.iterator]();
         expect(i.next()).to.eql({value: 1, done: false});
@@ -30,10 +30,10 @@ export default () => {
                 state.count = state.count ?? 0;
                 state.count++;
                 arr.push(state.count);
-                return true;
+                return index === 2;
             })
         );
-        expect([...output]).to.eql(['h']);
-        expect(arr).to.eql([1]);
+        expect([...output]).to.eql(['h', 'e']);
+        expect(arr).to.eql([1, 2, 3]);
     });
 };

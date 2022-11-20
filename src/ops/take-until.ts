@@ -57,7 +57,9 @@ function takeUntilSync<T>(
                     if (!stopped) {
                         const a = i.next();
                         stopped = a.done || cb(a.value, index++, state);
-                        return a;
+                        if (!stopped) {
+                            return a;
+                        }
                     }
                     return {value: undefined, done: true};
                 },
@@ -93,7 +95,7 @@ function takeUntilAsync<T>(
                         ) as Promise<boolean>;
                         const out = (flag: any): IteratorResult<T> => {
                             stopped = flag;
-                            return a;
+                            return stopped ? {value: undefined, done: true} : a;
                         };
                         return isPromiseLike(r) ? r.then(out) : out(r);
                     });
