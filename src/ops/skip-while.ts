@@ -3,7 +3,7 @@ import {isPromiseLike} from '../typeguards';
 import {createOperation} from '../utils';
 
 /**
- * Skips values while the predicate test succeeds.
+ * Skips values while the predicate test succeeds (inclusive).
  *
  * ```ts
  * import {pipe, skipWhile} from 'iter-ops';

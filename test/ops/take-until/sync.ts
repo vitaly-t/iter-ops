@@ -2,11 +2,11 @@ import {expect} from '../../header';
 import {pipe, takeUntil} from '../../../src';
 
 export default () => {
-    it('must trigger on condition', () => {
+    it('must stop on condition', () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
             input,
-            takeUntil((a) => a <= 3)
+            takeUntil((a) => a > 2)
         );
         expect([...output]).to.eql([1, 2, 3]);
     });
@@ -14,7 +14,7 @@ export default () => {
         const input = [1, 2, 3];
         const output = pipe(
             input,
-            takeUntil((a) => a !== 2)
+            takeUntil((a) => a === 1)
         );
         const i = output[Symbol.iterator]();
         expect(i.next()).to.eql({value: 1, done: false});
@@ -30,10 +30,10 @@ export default () => {
                 state.count = state.count ?? 0;
                 state.count++;
                 arr.push(state.count);
-                return false;
+                return true;
             })
         );
-        expect([...output]).to.eql([]);
+        expect([...output]).to.eql(['h']);
         expect(arr).to.eql([1]);
     });
 };

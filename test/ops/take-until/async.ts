@@ -2,19 +2,19 @@ import {_async, _asyncValues, expect} from '../../header';
 import {pipe, takeUntil} from '../../../src';
 
 export default () => {
-    it('must trigger on condition', async () => {
+    it('must stop on condition', async () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
             _async(input),
-            takeUntil((a) => a <= 3)
+            takeUntil((a) => a > 2)
         );
         expect(await _asyncValues(output)).to.eql([1, 2, 3]);
     });
-    it('must trigger on async condition', async () => {
+    it('must stop on async condition', async () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
             _async(input),
-            takeUntil(async (a) => a <= 3)
+            takeUntil(async (a) => a > 2)
         );
         expect(await _asyncValues(output)).to.eql([1, 2, 3]);
     });
@@ -22,7 +22,7 @@ export default () => {
         const input = [1, 2, 3];
         const output = pipe(
             _async(input),
-            takeUntil((a) => a !== 2)
+            takeUntil((a) => a === 1)
         );
         const i = output[Symbol.asyncIterator]();
         expect(await i.next()).to.eql({value: 1, done: false});
@@ -33,7 +33,7 @@ export default () => {
         const input = [1, 2, 3];
         const output = pipe(
             _async(input),
-            takeUntil(async (a) => a !== 2)
+            takeUntil(async (a) => a === 1)
         );
         const i = output[Symbol.asyncIterator]();
         expect(await i.next()).to.eql({value: 1, done: false});
@@ -49,10 +49,10 @@ export default () => {
                 state.count = state.count ?? 0;
                 state.count++;
                 arr.push(state.count);
-                return false;
+                return true;
             })
         );
-        expect(await _asyncValues(output)).to.eql([]);
+        expect(await _asyncValues(output)).to.eql(['h']);
         expect(arr).to.eql([1]);
     });
 };

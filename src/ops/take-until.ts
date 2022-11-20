@@ -13,13 +13,15 @@ import {createOperation} from '../utils';
  *     takeUntil(a => a > 2) // take until value > 2
  * );
  *
- * console.log(...i); //=> 1, 2
+ * console.log(...i); //=> 1, 2, 3
  * ```
  *
  * Note that the predicate can only return a `Promise` inside an asynchronous pipeline,
  * or else the `Promise` will be treated as a truthy value.
  *
  * @see
+ *  - {@link skip}
+ *  - {@link skipWhile}
  *  - {@link take}
  *  - {@link takeLast}
  *  - {@link takeWhile}
@@ -52,10 +54,8 @@ function takeUntilSync<T>(
                 next(): IteratorResult<T> {
                     if (!stopped) {
                         const a = i.next();
-                        stopped = a.done || !cb(a.value, index++, state);
-                        if (!stopped) {
-                            return a;
-                        }
+                        stopped = a.done || cb(a.value, index++, state);
+                        return a;
                     }
                     return {value: undefined, done: true};
                 },
@@ -90,8 +90,8 @@ function takeUntilAsync<T>(
                             state
                         ) as Promise<boolean>;
                         const out = (flag: any): IteratorResult<T> => {
-                            stopped = !flag;
-                            return stopped ? {value: undefined, done: true} : a;
+                            stopped = flag;
+                            return a;
                         };
                         return isPromiseLike(r) ? r.then(out) : out(r);
                     });
