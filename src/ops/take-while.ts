@@ -3,16 +3,14 @@ import {isPromiseLike} from '../typeguards';
 import {createOperation} from '../utils';
 
 /**
- * @deprecated Use {@link takeWhile} instead.
- *
- * Stops iteration, once the predicate test passes.
+ * Takes values while the predicate test succeeds.
  *
  * ```ts
- * import {pipe, stop} from 'iter-ops';
+ * import {pipe, takeWhile} from 'iter-ops';
  *
  * const i = pipe(
  *     [1, 2, 3, 4, 5, 6, 7, 8, 9],
- *     stop(a => a === 5) // stop when 5 is encountered
+ *     takeWhile(a => a < 5) // take while value < 5
  * );
  *
  * console.log(...i); //=> 1, 2, 3, 4
@@ -22,11 +20,11 @@ import {createOperation} from '../utils';
  * or else the `Promise` will be treated as a truthy value.
  *
  * @see
- *  - {@link start}
+ *  - {@link skipWhile}
  *
  * @category Sync+Async
  */
-export function stop<T>(
+export function takeWhile<T>(
     cb: (
         value: T,
         index: number,
@@ -34,11 +32,11 @@ export function stop<T>(
     ) => boolean | Promise<boolean>
 ): Operation<T, T>;
 
-export function stop(...args: unknown[]) {
-    return createOperation(stopSync, stopAsync, args);
+export function takeWhile(...args: unknown[]) {
+    return createOperation(takeWhileSync, takeWhileAsync, args);
 }
 
-function stopSync<T>(
+function takeWhileSync<T>(
     iterable: Iterable<T>,
     cb: (value: T, index: number, state: IterationState) => boolean
 ): Iterable<T> {
@@ -52,7 +50,7 @@ function stopSync<T>(
                 next(): IteratorResult<T> {
                     if (!stopped) {
                         const a = i.next();
-                        stopped = a.done || cb(a.value, index++, state);
+                        stopped = a.done || !cb(a.value, index++, state);
                         if (!stopped) {
                             return a;
                         }
@@ -64,7 +62,7 @@ function stopSync<T>(
     };
 }
 
-function stopAsync<T>(
+function takeWhileAsync<T>(
     iterable: AsyncIterable<T>,
     cb: (
         value: T,
@@ -80,14 +78,17 @@ function stopAsync<T>(
                 stopped: boolean;
             return {
                 next(): Promise<IteratorResult<T>> {
-                    if (stopped) {
-                        return Promise.resolve({value: undefined, done: true});
-                    }
                     return i.next().then((a) => {
-                        const r = (a.done ||
-                            cb(a.value, index++, state)) as Promise<boolean>;
+                        if (stopped || a.done) {
+                            return {value: undefined, done: true};
+                        }
+                        const r = cb(
+                            a.value,
+                            index++,
+                            state
+                        ) as Promise<boolean>;
                         const out = (flag: any): IteratorResult<T> => {
-                            stopped = flag;
+                            stopped = !flag;
                             return stopped ? {value: undefined, done: true} : a;
                         };
                         return isPromiseLike(r) ? r.then(out) : out(r);
