@@ -108,17 +108,17 @@ All standard operators implement the same logic as [Array] does:
 -   [repeat](http://vitaly-t.github.io/iter-ops/functions/repeat) - repeats iterable values.
 -   [skip](http://vitaly-t.github.io/iter-ops/functions/skip) - starts emitting values after certain count.
 -   [skipUntil](http://vitaly-t.github.io/iter-ops/functions/skipUntil) - skips until the predicate returns a truthy
-    value (exclusive).
+    value.
 -   [skipWhile](http://vitaly-t.github.io/iter-ops/functions/skipWhile) - skips while the predicate returns a truthy
-    value (inclusive).
+    value.
 -   [split](http://vitaly-t.github.io/iter-ops/functions/split) - splits values into separate lists - see [Split].
 -   [spread](http://vitaly-t.github.io/iter-ops/functions/spread) - spreads iterable values.
 -   [take](http://vitaly-t.github.io/iter-ops/functions/take) - emits up to certain number of values.
 -   [takeLast](http://vitaly-t.github.io/iter-ops/functions/takeLast) - emits up to certain number of the last values.
 -   [takeUntil](http://vitaly-t.github.io/iter-ops/functions/takeUntil) - emits until the predicate returns a truthy
-    value (inclusive).
+    value.
 -   [takeWhile](http://vitaly-t.github.io/iter-ops/functions/takeWhile) - emits while the predicate returns a truthy
-    value (exclusive).
+    value.
 -   [tap](http://vitaly-t.github.io/iter-ops/functions/tap) - taps into each value, without changing the output.
 -   [timeout](http://vitaly-t.github.io/iter-ops/functions/timeout) - ends iteration after N milliseconds.
 -   [timing](http://vitaly-t.github.io/iter-ops/functions/timing) - measures timings for each value.
