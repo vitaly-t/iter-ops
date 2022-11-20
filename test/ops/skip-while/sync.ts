@@ -27,10 +27,10 @@ export default () => {
                 state.count = state.count ?? 0;
                 state.count++;
                 arr.push(state.count);
-                return false;
+                return index < 2;
             })
         );
-        expect([...output]).to.eql(input.split(''));
-        expect(arr).to.eql([1]);
+        expect([...output]).to.eql(['l', 'l', 'o', '!']);
+        expect(arr).to.eql([1, 2, 3]);
     });
 };

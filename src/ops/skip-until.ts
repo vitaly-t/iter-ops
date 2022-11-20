@@ -59,10 +59,7 @@ function skipUntilSync<T>(
                         while (!a.done && !cb(a.value, index++, state)) {
                             a = i.next();
                         }
-                        if (!a.done) {
-                            started = true;
-                            return i.next();
-                        }
+                        started = !a.done;
                     }
                     return a;
                 },
@@ -98,7 +95,7 @@ function skipUntilAsync<T>(
                         ) as Promise<boolean>;
                         const out = (flag: any) => {
                             started = flag;
-                            return this.next();
+                            return started ? a : this.next();
                         };
                         return isPromiseLike(r) ? r.then(out) : out(r);
                     });

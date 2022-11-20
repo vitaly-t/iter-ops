@@ -2,13 +2,13 @@ import {expect} from '../../header';
 import {pipe, skipUntil} from '../../../src';
 
 export default () => {
-    it('must trigger after condition', () => {
+    it('must take on condition', () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
             input,
             skipUntil((a) => a > 2)
         );
-        expect([...output]).to.eql([4, 5]);
+        expect([...output]).to.eql([3, 4, 5]);
     });
     it('must support non-starters', () => {
         const input = [1, 2, 3, 4, 5];
@@ -27,10 +27,10 @@ export default () => {
                 state.count = state.count ?? 0;
                 state.count++;
                 arr.push(state.count);
-                return true;
+                return index >= 2;
             })
         );
-        expect([...output]).to.eql(['e', 'l', 'l', 'o', '!']);
-        expect(arr).to.eql([1]);
+        expect([...output]).to.eql(['l', 'l', 'o', '!']);
+        expect(arr).to.eql([1, 2, 3]);
     });
 };

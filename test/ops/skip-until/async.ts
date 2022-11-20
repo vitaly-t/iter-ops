@@ -8,7 +8,7 @@ export default () => {
             _async(input),
             skipUntil((a) => a > 2)
         );
-        expect(await _asyncValues(output)).to.eql([4, 5]);
+        expect(await _asyncValues(output)).to.eql([3, 4, 5]);
     });
     it('must trigger after async condition', async () => {
         const input = [1, 2, 3, 4, 5];
@@ -16,7 +16,7 @@ export default () => {
             _async(input),
             skipUntil(async (a) => a > 2)
         );
-        expect(await _asyncValues(output)).to.eql([4, 5]);
+        expect(await _asyncValues(output)).to.eql([3, 4, 5]);
     });
     it('must support non-starters', async () => {
         const input = [1, 2, 3, 4, 5];
@@ -43,10 +43,10 @@ export default () => {
                 state.count = state.count ?? 0;
                 state.count++;
                 arr.push(state.count);
-                return true;
+                return index >= 2;
             })
         );
-        expect(await _asyncValues(output)).to.eql(['e', 'l', 'l', 'o', '!']);
-        expect(arr).to.eql([1]);
+        expect(await _asyncValues(output)).to.eql(['l', 'l', 'o', '!']);
+        expect(arr).to.eql([1, 2, 3]);
     });
 };
