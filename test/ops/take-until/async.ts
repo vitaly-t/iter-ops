@@ -18,6 +18,19 @@ export default () => {
         );
         expect(await _asyncValues(output)).to.eql([1, 2]);
     });
+    it('must provide correct indexes', async () => {
+        const input = [1, 2, 3, 4, 5];
+        const indexes: Array<any> = [];
+        const output = pipe(
+            _async(input),
+            takeUntil((a, idx) => {
+                indexes.push(idx);
+                return a > 2;
+            })
+        );
+        const _ = await _asyncValues(output);
+        expect(indexes).to.eql([0, 1, 2]);
+    });
     it('must not let overlap the condition', async () => {
         const input = [1, 2, 3];
         const output = pipe(

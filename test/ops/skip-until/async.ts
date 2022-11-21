@@ -2,7 +2,7 @@ import {_async, _asyncValues, expect} from '../../header';
 import {pipe, skipUntil} from '../../../src';
 
 export default () => {
-    it('must trigger after condition', async () => {
+    it('must take on condition', async () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
             _async(input),
@@ -10,13 +10,26 @@ export default () => {
         );
         expect(await _asyncValues(output)).to.eql([3, 4, 5]);
     });
-    it('must trigger after async condition', async () => {
+    it('must take on async condition', async () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
             _async(input),
             skipUntil(async (a) => a > 2)
         );
         expect(await _asyncValues(output)).to.eql([3, 4, 5]);
+    });
+    it('must provide correct indexes', async () => {
+        const input = [1, 2, 3, 4, 5];
+        const indexes: Array<any> = [];
+        const output = pipe(
+            _async(input),
+            skipUntil((a, idx) => {
+                indexes.push(idx);
+                return a > 2;
+            })
+        );
+        const _ = await _asyncValues(output);
+        expect(indexes).to.eql([0, 1, 2]);
     });
     it('must support non-starters', async () => {
         const input = [1, 2, 3, 4, 5];

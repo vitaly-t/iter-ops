@@ -2,13 +2,26 @@ import {expect} from '../../header';
 import {pipe, takeWhile} from '../../../src';
 
 export default () => {
-    it('must trigger on condition', () => {
+    it('must take while condition', () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
             input,
             takeWhile((a) => a <= 3)
         );
         expect([...output]).to.eql([1, 2, 3]);
+    });
+    it('must provide correct indexes', () => {
+        const input = [1, 2, 3, 4, 5];
+        const indexes: Array<any> = [];
+        const output = pipe(
+            input,
+            takeWhile((a, idx) => {
+                indexes.push(idx);
+                return a <= 3;
+            })
+        );
+        const _ = [...output];
+        expect(indexes).to.eql([0, 1, 2, 3]);
     });
     it('must not let overlap the condition', () => {
         const input = [1, 2, 3];

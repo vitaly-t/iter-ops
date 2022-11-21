@@ -10,6 +10,19 @@ export default () => {
         );
         expect([...output]).to.eql([3, 4, 5]);
     });
+    it('must provide correct indexes', () => {
+        const input = [1, 2, 3, 4, 5];
+        const indexes: Array<any> = [];
+        const output = pipe(
+            input,
+            skipUntil((a, idx) => {
+                indexes.push(idx);
+                return a > 2;
+            })
+        );
+        const _ = [...output];
+        expect(indexes).to.eql([0, 1, 2]);
+    });
     it('must support non-starters', () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
