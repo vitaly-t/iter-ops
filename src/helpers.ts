@@ -95,7 +95,7 @@ export function toIterable<T>(i: AsyncIterator<T>): AsyncIterable<T>;
  * @hidden
  */
 export function toIterable<T>(i: {
-    next: () => { value: T | undefined };
+    next: () => {value: T | undefined};
 }): Iterable<T>;
 
 /**
@@ -104,7 +104,7 @@ export function toIterable<T>(i: {
  * @hidden
  */
 export function toIterable<T>(i: {
-    next: () => PromiseLike<{ value: T | undefined }>;
+    next: () => PromiseLike<{value: T | undefined}>;
 }): AsyncIterable<T>;
 
 /**
@@ -205,7 +205,9 @@ export function toIterable<T>(i: unknown) {
  */
 export function reverse<T>(input: ArrayLike<T>): Iterable<T> {
     if (typeof input?.length !== 'number') {
-        throw new TypeError(`An array-like value was expected: ${JSON.stringify(input)}`);
+        throw new TypeError(
+            `An array-like value was expected: ${JSON.stringify(input)}`
+        );
     }
     return {
         [$S](): Iterator<T> {
