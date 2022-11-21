@@ -1,5 +1,5 @@
 import {_asyncValues, expect} from './header';
-import {toIterable, toAsync} from '../src';
+import {reverse, toIterable, toAsync} from '../src';
 
 describe('toAsync', () => {
     it('must reuse async iterables', () => {
@@ -98,5 +98,12 @@ describe('toIterable', () => {
             },
         };
         expect(await _asyncValues(toIterable(i2))).to.eql([555]);
+    });
+});
+
+describe('reverse', () => {
+    it('must convert strings', () => {
+        const i = reverse('word');
+        expect([...i]).to.eql(['d', 'r', 'o', 'w']);
     });
 });

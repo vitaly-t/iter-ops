@@ -186,6 +186,37 @@ export function toIterable<T>(i: unknown) {
 }
 
 /**
+ * Converts an indexed (array-like) value into a reversed Iterable.
+ *
+ * This is a maximum-efficiency logical reversal, without any processing,
+ * which only works for synchronous indexed data, such as arrays and strings.
+ *
+ * ```ts
+ * import {reverse} from 'iter-ops';
+ *
+ * const i = reverse('word');
+ *
+ * console.log([...i]); //=> ['d', 'r', 'o', 'w']
+ * ```
+ *
+ * @category Core
+ */
+export function reverse<T>(input: ArrayLike<T>): Iterable<T> {
+    return {
+        [$S](): Iterator<T> {
+            let i = input.length;
+            return {
+                next(): IteratorResult<T> {
+                    return i
+                        ? {value: input[--i], done: false}
+                        : {value: undefined, done: true};
+                },
+            };
+        },
+    };
+}
+
+/**
  * Create an iterable that has the given value as its only element.
  */
 function toSyncIterable<T>(value: T): Iterable<T> {
