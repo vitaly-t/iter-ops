@@ -4,7 +4,7 @@ import {createOperation} from '../utils';
 
 /**
  * @deprecated
- * Use {@link takeWhile} or {@link takeUntil} instead (`stop` will be removed in v3.0.0).
+ * Use {@link takeUntil} instead (`stop` will be removed in v3.0.0).
  *
  * Stops iteration, once the predicate test passes.
  *
@@ -25,7 +25,6 @@ import {createOperation} from '../utils';
  * @see
  *  - {@link start}
  *  - {@link takeUntil}
- *  - {@link takeWhile}
  *
  * @category Sync+Async
  */
