@@ -95,7 +95,7 @@ export function toIterable<T>(i: AsyncIterator<T>): AsyncIterable<T>;
  * @hidden
  */
 export function toIterable<T>(i: {
-    next: () => {value: T | undefined};
+    next: () => { value: T | undefined };
 }): Iterable<T>;
 
 /**
@@ -104,7 +104,7 @@ export function toIterable<T>(i: {
  * @hidden
  */
 export function toIterable<T>(i: {
-    next: () => PromiseLike<{value: T | undefined}>;
+    next: () => PromiseLike<{ value: T | undefined }>;
 }): AsyncIterable<T>;
 
 /**
@@ -186,22 +186,27 @@ export function toIterable<T>(i: unknown) {
 }
 
 /**
- * Converts an indexed (array-like) value into a reversed Iterable.
+ * Converts an indexed (array-like) value into a reversed iterable.
  *
- * This is a maximum-efficiency logical reversal, without any processing,
- * which only works for synchronous indexed data, such as arrays and strings.
+ * This is to produce a maximum-performance reversed iterable, by wrapping data into
+ * iterable and applying logical reversal (without any processing) at the same time.
  *
  * ```ts
  * import {reverse} from 'iter-ops';
  *
- * const i = reverse('word');
+ * const i = reverse('word'); //=> Iterable<string>
  *
  * console.log([...i]); //=> ['d', 'r', 'o', 'w']
  * ```
  *
+ * @throws `TypeError: 'An array-like value was expected: ...'` when the input is not array-like.
+ *
  * @category Core
  */
 export function reverse<T>(input: ArrayLike<T>): Iterable<T> {
+    if (typeof input?.length !== 'number') {
+        throw new TypeError(`An array-like value was expected: ${JSON.stringify(input)}`);
+    }
     return {
         [$S](): Iterator<T> {
             let i = input.length;

@@ -106,4 +106,9 @@ describe('reverse', () => {
         const i = reverse('word');
         expect([...i]).to.eql(['d', 'r', 'o', 'w']);
     });
+    it('must throw on invalid input', () => {
+        expect(() => {
+            reverse(123 as any);
+        }).to.throw('An array-like value was expected: 123');
+    });
 });
