@@ -61,9 +61,9 @@ const i = pipe(
 
 _See also..._
 
--   [API List] below, plus [Full API]
--   [Recipes], for additional operations
--   [Benchmarks], for performance comparison
+- [Short API] list below, plus [Full API]
+- [Benchmarks], for performance comparison
+- [WiKi Pages], for additional resources
 
 ## API
 
@@ -127,12 +127,12 @@ All standard operators implement the same logic as [Array] does:
 
 #### <i>See also:</i>
 
--   [Full API] - generated from code
--   [Asynchronous Operators](./src/ops/async) - specific for asynchronous iterables
--   [Recipes] - for more operations.
+- [Short API] list below, plus [Full API]
+- [Benchmarks], for performance comparison
+- [WiKi Pages], for additional resources
 
 [api]: #api
-[api list]: #api
+[short api]: #api
 [full api]: https://vitaly-t.github.io/iter-ops
 [error handling]: https://github.com/vitaly-t/iter-ops/wiki/Error-Handling
 [iterable]: https://javascript.info/iterable
@@ -151,3 +151,5 @@ All standard operators implement the same logic as [Array] does:
 [rationale]: https://github.com/vitaly-t/iter-ops/wiki/Rationale
 [pipesync]: https://vitaly-t.github.io/iter-ops/functions/pipeSync
 [pipeasync]: https://vitaly-t.github.io/iter-ops/functions/pipeAsync
+[WiKi Pages]:https://github.com/vitaly-t/iter-ops/wiki
+
