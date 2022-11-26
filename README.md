@@ -14,6 +14,8 @@ Basic operations on [synchronous] + [asynchronous] iterables, strictly for JavaS
 We do not use any synthetic types / wrappers here, like `Observable` in RXJS, etc. It is strictly an iterable on the
 input, and an iterable on the output, for maximum performance, simplicity and compatibility (see [Rationale]).
 
+Related repo: [iter-ops-extras](https://github.com/vitaly-t/iter-ops-extras) - addition to the [main API](https://vitaly-t.github.io/iter-ops/).
+
 ## Installation
 
 ```
