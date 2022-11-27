@@ -1,18 +1,19 @@
 export {
+    AsyncIterableExt,
+    AsyncOperation,
+    DuelOperation,
     IErrorContext,
     IterableExt,
-    AsyncIterableExt,
+    IterationState,
+    SyncOperation,
+    SyncValue,
+    TypedArray,
     UnknownIterable,
     UnknownIterator,
-    UnknownIterableOrIterator,
-    Operation,
-    SyncValue,
     Value,
-    IterationState,
-    TypedArray,
 } from './common';
 
-export {Decrement} from './utils';
+export {FlattenAsync, FlattenSync} from './utils';
 
 /**
  * These are for code abbreviation + smaller bundles:

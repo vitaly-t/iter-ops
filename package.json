@@ -40,13 +40,34 @@
   ],
   "sideEffects": false,
   "exports": {
-    "types": "./dist/index.d.ts",
-    "import": "./dist/index.mjs",
-    "require": "./dist/index.js",
-    "default": "./dist/index.js"
+    ".": {
+      "types": {
+        "import": "./types/index.d.mts",
+        "require": "./types/index.d.ts"
+      },
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./async": {
+      "types": {
+        "import": "./types/async.d.mts",
+        "require": "./types/async.d.ts"
+      },
+      "import": "./dist/async.mjs",
+      "require": "./dist/async.js"
+    },
+    "./sync": {
+      "types": {
+        "import": "./types/sync.d.mts",
+        "require": "./types/sync.d.ts"
+      },
+      "import": "./dist/sync.mjs",
+      "require": "./dist/sync.js"
+    }
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
+  "browser": "dist/web/iter-ops.min.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"

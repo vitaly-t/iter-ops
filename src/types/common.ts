@@ -105,23 +105,28 @@ export type UnknownIterator<T, TReturn = any, TNext = undefined> =
     | AsyncIterator<T, TReturn, TNext>;
 
 /**
- * Either an `Iterable` or `Iterator` that could either be sync or async.
- */
-export type UnknownIterableOrIterator<T> =
-    | UnknownIterable<T>
-    | UnknownIterator<T>;
-
-/**
  * A Typed array.
  */
 export type TypedArray = ArrayBufferView & ArrayLike<unknown>;
 
 /**
- * Pipe-through type (return type for all operators)
+ * An operation that can run on either the synchronous or asynchronous pipeline.
  */
-export interface Operation<T, R> {
-    (i: UnknownIterable<T>): UnknownIterable<R>;
-}
+export type DuelOperation<T, R> = (
+    iterable: UnknownIterable<T>
+) => UnknownIterable<R>;
+
+/**
+ * An operation that can run on the synchronous pipeline.
+ */
+export type SyncOperation<T, R> = (iterable: Iterable<T>) => Iterable<R>;
+
+/**
+ * An operation that can run on the asynchronous pipeline.
+ */
+export type AsyncOperation<T, R> = (
+    iterable: AsyncIterable<T>
+) => AsyncIterable<R>;
 
 /**
  * Any synchronous value type.
