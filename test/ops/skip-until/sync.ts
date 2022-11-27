@@ -20,7 +20,7 @@ export default () => {
                 return a > 2;
             })
         );
-        const _ = [...output];
+        [...output];
         expect(indexes).to.eql([0, 1, 2]);
     });
     it('must support non-starters', () => {

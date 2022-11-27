@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, takeUntil, takeWhile} from '../../../src';
+import {pipe, takeUntil} from '../../../src';
 
 export default () => {
     it('must stop on condition', () => {
@@ -20,7 +20,7 @@ export default () => {
                 return a > 2;
             })
         );
-        const _ = [...output];
+        [...output];
         expect(indexes).to.eql([0, 1, 2]);
     });
     it('must not let overlap the condition', () => {

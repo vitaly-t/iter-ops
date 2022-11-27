@@ -28,7 +28,7 @@ export default () => {
                 return a > 2;
             })
         );
-        const _ = await _asyncValues(output);
+        await _asyncValues(output);
         expect(indexes).to.eql([0, 1, 2]);
     });
     it('must support non-starters', async () => {

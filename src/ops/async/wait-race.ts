@@ -89,32 +89,32 @@ export function waitRaceAsync<T>(
                             (a) => {
                                 if (a.done) {
                                     finished = true;
-                                    resolvers.pop()!(a);
+                                    resolvers.pop()?.(a);
                                 } else if (isPromiseLike(a.value)) {
                                     const promise = a.value;
                                     promise.then(
                                         (value: any) => {
-                                            resolvers.shift()!({
+                                            resolvers.shift()?.({
                                                 done: false,
                                                 value,
                                             });
                                             kickOffMore();
                                         },
                                         () => {
-                                            resolvers.shift()!(
+                                            resolvers.shift()?.(
                                                 promise as Promise<never>
                                             );
                                             kickOffMore();
                                         }
                                     );
                                 } else {
-                                    resolvers.shift()!(a as IteratorResult<T>);
+                                    resolvers.shift()?.(a as IteratorResult<T>);
                                 }
                                 kickOffMore(); // advance source iterator as far as possible within limit
                             },
                             (err) => {
                                 // handle rejections from calling `i.next()`
-                                resolvers.shift()!(Promise.reject(err));
+                                resolvers.shift()?.(Promise.reject(err));
                                 finished = true;
                             }
                         );
@@ -154,7 +154,7 @@ export function waitRaceAsync<T>(
                     if (!promises.length) {
                         kickOffNext();
                     }
-                    return promises.shift()!;
+                    return promises.shift() as Promise<IteratorResult<T>>;
                 },
             };
         },
