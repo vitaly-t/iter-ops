@@ -63,9 +63,9 @@ const i = pipe(
 
 _See also..._
 
-- [Short API] list below, plus [Full API]
-- [Benchmarks], for performance comparison
-- [WiKi Pages], for additional resources
+-   [Short API] list below, plus [Full API]
+-   [Benchmarks], for performance comparison
+-   [WiKi Pages], for additional resources
 
 ## API
 
@@ -129,9 +129,9 @@ All standard operators implement the same logic as [Array] does:
 
 #### <i>See also:</i>
 
-- [Short API] list below, plus [Full API]
-- [Benchmarks], for performance comparison
-- [WiKi Pages], for additional resources
+-   [Short API] list below, plus [Full API]
+-   [Benchmarks], for performance comparison
+-   [WiKi Pages], for additional resources
 
 [api]: #api
 [short api]: #api
@@ -153,5 +153,4 @@ All standard operators implement the same logic as [Array] does:
 [rationale]: https://github.com/vitaly-t/iter-ops/wiki/Rationale
 [pipesync]: https://vitaly-t.github.io/iter-ops/functions/pipeSync
 [pipeasync]: https://vitaly-t.github.io/iter-ops/functions/pipeAsync
-[WiKi Pages]:https://github.com/vitaly-t/iter-ops/wiki
-
+[wiki pages]: https://github.com/vitaly-t/iter-ops/wiki
