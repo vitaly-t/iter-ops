@@ -1,5 +1,5 @@
-import {$A, $S, Operation} from '../types';
-import {createOperation, iterateOnce} from '../utils';
+import {$A, $S, AsyncOperation, DuelOperation, SyncOperation} from '../types';
+import {createDuelOperation, iterateOnce} from '../utils';
 
 /**
  * Splits values into pages of fixed size (last page can be smaller).
@@ -21,14 +21,32 @@ import {createOperation, iterateOnce} from '../utils';
  *  - {@link split}
  * @category Sync+Async
  */
-export function page<T>(size: number): Operation<T, T[]>;
-
-export function page(...args: unknown[]) {
-    return createOperation(pageSync, pageAsync, args);
+export function page<T>(size: number): DuelOperation<T, T[]> {
+    return createDuelOperation<T, T[]>(pageSync, pageAsync, [size]);
 }
 
-function pageSync<T>(iterable: Iterable<T>, size: number): Iterable<T[]> {
-    return {
+/**
+ * Splits values into pages of fixed size (last page can be smaller).
+ *
+ * ```ts
+ * import {pipe, page} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5],
+ *     page(2)
+ * );
+ *
+ * console.log(...i); //=> [1, 2], [3, 4], [5]
+ * ```
+ *
+ * @throws `TypeError: 'Page size >= 1 is required: ...'` when `size` is less than 1 or not a `number`.
+ *
+ * @see
+ *  - {@link split}
+ * @category Operations
+ */
+export function pageSync<T>(size: number): SyncOperation<T, T[]> {
+    return (iterable) => ({
         [$S](): Iterator<T[]> {
             if (typeof size !== 'number' || size < 1) {
                 return iterateOnce(true, () => {
@@ -53,14 +71,31 @@ function pageSync<T>(iterable: Iterable<T>, size: number): Iterable<T[]> {
                 },
             };
         },
-    };
+    });
 }
 
-function pageAsync<T>(
-    iterable: AsyncIterable<T>,
-    size: number
-): AsyncIterable<T[]> {
-    return {
+/**
+ * Splits values into pages of fixed size (last page can be smaller).
+ *
+ * ```ts
+ * import {pipe, page} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5],
+ *     page(2)
+ * );
+ *
+ * console.log(...i); //=> [1, 2], [3, 4], [5]
+ * ```
+ *
+ * @throws `TypeError: 'Page size >= 1 is required: ...'` when `size` is less than 1 or not a `number`.
+ *
+ * @see
+ *  - {@link split}
+ * @category Operations
+ */
+export function pageAsync<T>(size: number): AsyncOperation<T, T[]> {
+    return (iterable) => ({
         [$A](): AsyncIterator<T[]> {
             if (typeof size !== 'number' || size < 1) {
                 return iterateOnce(false, () => {
@@ -88,5 +123,5 @@ function pageAsync<T>(
                 },
             };
         },
-    };
+    });
 }

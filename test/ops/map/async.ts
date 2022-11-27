@@ -1,11 +1,11 @@
-import {_async, _asyncValues, expect} from '../../header';
-import {pipe, map} from '../../../src';
+import {_asyncValues, expect} from '../../header';
+import {pipe, map} from '../../../src/entry/async';
 
 export default () => {
     it('must remap values', async () => {
         const input = [1, 2, 3];
         const output = pipe(
-            _async(input),
+            input,
             map((value) => ({value}))
         );
         expect(await _asyncValues(output)).to.eql([
@@ -17,7 +17,7 @@ export default () => {
     it('must produce correct indexes', async () => {
         const input = [1, 2, 3];
         const output = pipe(
-            _async(input),
+            input,
             map((value, idx) => ({idx}))
         );
         expect(await _asyncValues(output)).to.eql([
@@ -30,7 +30,7 @@ export default () => {
         const input = 'hello!';
         const arr: number[] = [];
         const output = pipe(
-            _async(input),
+            input,
             map((value, index, state) => {
                 state.count = state.count ?? 0;
                 state.count++;

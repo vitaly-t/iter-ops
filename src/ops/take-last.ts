@@ -1,5 +1,5 @@
-import {$A, $S, Operation} from '../types';
-import {createOperation} from '../utils';
+import {$A, $S, AsyncOperation, DuelOperation, SyncOperation} from '../types';
+import {createDuelOperation} from '../utils';
 
 /**
  * Emits up to `count` number of the last values.
@@ -23,14 +23,33 @@ import {createOperation} from '../utils';
  *
  * @category Sync+Async
  */
-export function takeLast<T>(count: number): Operation<T, T>;
-
-export function takeLast(...args: unknown[]) {
-    return createOperation(takeLastSync, takeLastAsync, args);
+export function takeLast<T>(count: number): DuelOperation<T, T> {
+    return createDuelOperation<T, T>(takeLastSync, takeLastAsync, [count]);
 }
 
-function takeLastSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
-    return {
+/**
+ * Emits up to `count` number of the last values.
+ *
+ * ```ts
+ * import {pipe, takeLast} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5],
+ *     takeLast(2)
+ * );
+ *
+ * console.log(...i); //=> 4, 5
+ * ```
+ *
+ * @see
+ *  - {@link last}
+ *  - {@link take}
+ *  - {@link takeUntil}
+ *  - {@link takeWhile}
+ * @category Operations
+ */
+export function takeLastSync<T>(count: number): SyncOperation<T, T> {
+    return (iterable) => ({
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             const buffer: IteratorResult<T>[] = [];
@@ -59,14 +78,32 @@ function takeLastSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
                 },
             };
         },
-    };
+    });
 }
 
-function takeLastAsync<T>(
-    iterable: AsyncIterable<T>,
-    count: number
-): AsyncIterable<T> {
-    return {
+/**
+ * Emits up to `count` number of the last values.
+ *
+ * ```ts
+ * import {pipe, takeLast} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5],
+ *     takeLast(2)
+ * );
+ *
+ * console.log(...i); //=> 4, 5
+ * ```
+ *
+ * @see
+ *  - {@link last}
+ *  - {@link take}
+ *  - {@link takeUntil}
+ *  - {@link takeWhile}
+ * @category Operations
+ */
+export function takeLastAsync<T>(count: number): AsyncOperation<T, T> {
+    return (iterable) => ({
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             const buffer: IteratorResult<T>[] = [];
@@ -93,5 +130,5 @@ function takeLastAsync<T>(
                 },
             };
         },
-    };
+    });
 }

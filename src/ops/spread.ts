@@ -1,5 +1,5 @@
-import {$A, $S, Operation, UnknownIterable} from '../types';
-import {createOperation} from '../utils';
+import {$A, $S, AsyncOperation, SyncOperation, DuelOperation} from '../types';
+import {createDuelOperation} from '../utils';
 
 /**
  * Spreads / expands iterable values.
@@ -30,26 +30,61 @@ import {createOperation} from '../utils';
  */
 export function spread<
     T extends Iterable<unknown> | AsyncIterable<unknown>
->(): Operation<T, T extends UnknownIterable<infer E> ? E : never>;
-
-export function spread(...args: unknown[]) {
-    return createOperation(spreadSync, spreadAsync, args);
+>(): DuelOperation<
+    T,
+    T extends Iterable<infer E> | AsyncIterable<infer E> ? E : never
+> {
+    return createDuelOperation<
+        T,
+        T extends Iterable<infer E> | AsyncIterable<infer E> ? E : never
+    >(spreadSync as any, spreadAsync);
 }
 
-function spreadSync<T>(iterable: Iterable<Iterable<T>>): Iterable<T> {
-    return {
-        [$S](): Iterator<T> {
+/**
+ * Spreads / expands iterable values.
+ *
+ * The source is expected to emit iterable values only, or else it will throw an error.
+ *
+ * ```ts
+ * import {pipe, spread} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     ['first', 'second'],
+ *     spread()
+ * );
+ *
+ * console.log(...i); //=> 'f', 'i', 'r', 's', 't', 's', 'e', 'c', 'o', 'n', 'd'
+ * ```
+ *
+ * It implements the logic consistent with JavaScript's native spread operator, whereby it expands
+ * elements on the top level only, and it will throw an error when passed in a non-iterable value.
+ *
+ * If you want values expanded recursively, and without throwing errors, see operator {@link flat}.
+ *
+ * @throws `TypeError: 'Value at index X is not iterable: ...'` when a non-iterable value encountered.
+ *
+ * @see
+ *  - {@link flat}
+ * @category Operations
+ */
+export function spreadSync<T extends Iterable<unknown>>(): SyncOperation<
+    T,
+    T extends Iterable<infer E> ? E : never
+> {
+    type X = T extends Iterable<infer E> ? E : never;
+    return (iterable) => ({
+        [$S](): Iterator<X> {
             const i = iterable[$S]();
-            let a: IteratorResult<Iterable<T>>,
-                k: Iterator<T>,
-                v: IteratorResult<T>,
+            let a: IteratorResult<Iterable<X>>,
+                k: Iterator<X>,
+                v: IteratorResult<X>,
                 start = true,
                 index = 0;
             return {
-                next(): IteratorResult<T> {
+                next(): IteratorResult<X> {
                     do {
                         if (start) {
-                            a = i.next();
+                            a = i.next() as IteratorResult<Iterable<X>>;
                             start = false;
                             if (!a.done) {
                                 k = a.value?.[$S]?.();
@@ -75,25 +110,56 @@ function spreadSync<T>(iterable: Iterable<Iterable<T>>): Iterable<T> {
                 },
             };
         },
-    };
+    });
 }
 
-function spreadAsync<T>(
-    iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>
-): AsyncIterable<T> {
-    return {
-        [$A](): AsyncIterator<T> {
+/**
+ * Spreads / expands iterable values.
+ *
+ * The source is expected to emit iterable values only, or else it will throw an error.
+ *
+ * ```ts
+ * import {pipe, spread} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     ['first', 'second'],
+ *     spread()
+ * );
+ *
+ * console.log(...i); //=> 'f', 'i', 'r', 's', 't', 's', 'e', 'c', 'o', 'n', 'd'
+ * ```
+ *
+ * It implements the logic consistent with JavaScript's native spread operator, whereby it expands
+ * elements on the top level only, and it will throw an error when passed in a non-iterable value.
+ *
+ * If you want values expanded recursively, and without throwing errors, see operator {@link flat}.
+ *
+ * @throws `TypeError: 'Value at index X is not iterable: ...'` when a non-iterable value encountered.
+ *
+ * @see
+ *  - {@link flat}
+ * @category Operations
+ */
+export function spreadAsync<
+    T extends Iterable<unknown> | AsyncIterable<unknown>
+>(): AsyncOperation<
+    T,
+    T extends Iterable<infer E> | AsyncIterable<infer E> ? E : never
+> {
+    type X = T extends Iterable<infer E> | AsyncIterable<infer E> ? E : never;
+    return (iterable) => ({
+        [$A](): AsyncIterator<X> {
             const i = iterable[$A]();
             let k: any,
                 start = true,
                 index = 0,
                 sync: boolean;
             return {
-                next(): Promise<IteratorResult<T>> {
+                next(): Promise<IteratorResult<X>> {
                     const nextValue = (
                         wrap: boolean
-                    ): Promise<IteratorResult<T>> => {
-                        const out = (v: IteratorResult<T>) => {
+                    ): Promise<IteratorResult<X>> => {
+                        const out = (v: IteratorResult<X>) => {
                             if (!v.done) {
                                 return sync && wrap ? Promise.resolve(v) : v;
                             }
@@ -130,5 +196,5 @@ function spreadAsync<T>(
                 },
             };
         },
-    };
+    });
 }

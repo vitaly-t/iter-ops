@@ -1,6 +1,13 @@
-import {$A, $S, IterationState, Operation} from '../types';
+import {createDuelOperation} from '../utils';
+import {
+    $A,
+    $S,
+    AsyncOperation,
+    DuelOperation,
+    IterationState,
+    SyncOperation,
+} from '../types';
 import {isPromiseLike} from '../typeguards';
-import {createOperation} from '../utils';
 
 /**
  * Pair of `{index, value}` that passed predicate test of {@link indexBy} operator.
@@ -46,23 +53,41 @@ export function indexBy<T>(
         index: number,
         state: IterationState
     ) => boolean | Promise<boolean>
-): Operation<T, IIndexedValue<T>>;
-
-export function indexBy(...args: unknown[]) {
-    return createOperation(indexBySync, indexByAsync, args);
+): DuelOperation<T, IIndexedValue<T>> {
+    return createDuelOperation<T, IIndexedValue<T>>(indexBySync, indexByAsync, [
+        cb,
+    ]);
 }
 
-function indexBySync<T>(
-    iterable: Iterable<T>,
+/**
+ * Emits indexed values that pass the predicate test.
+ *
+ * ```ts
+ * import {pipe, indexBy} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [12, 7, 30, 9],
+ *     indexBy(a => a % 2 === 0) // index even numbers
+ * );
+ *
+ * console.log(...i); //=> {index: 0, value: 12}, {index: 2, value: 30}
+ * ```
+ *
+ * @see
+ *  - {@link IIndexedValue}
+ *
+ * @category Operations
+ */
+export function indexBySync<T>(
     cb: (value: T, index: number, state: IterationState) => boolean
-): Iterable<IIndexedValue<T>> {
-    return {
-        [$S](): Iterator<IIndexedValue<T>> {
+): SyncOperation<T, IIndexedValue<T>> {
+    return (iterable) => ({
+        [$S]() {
             const i = iterable[$S]();
             const state: IterationState = {};
             let index = -1;
             return {
-                next(): IteratorResult<IIndexedValue<T>> {
+                next() {
                     let a;
                     while (
                         !(a = i.next()).done &&
@@ -74,24 +99,42 @@ function indexBySync<T>(
                 },
             };
         },
-    };
+    });
 }
 
-function indexByAsync<T>(
-    iterable: AsyncIterable<T>,
+/**
+ * Emits indexed values that pass the predicate test.
+ *
+ * ```ts
+ * import {pipe, indexBy} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [12, 7, 30, 9],
+ *     indexBy(a => a % 2 === 0) // index even numbers
+ * );
+ *
+ * console.log(...i); //=> {index: 0, value: 12}, {index: 2, value: 30}
+ * ```
+ *
+ * @see
+ *  - {@link IIndexedValue}
+ *
+ * @category Operations
+ */
+export function indexByAsync<T>(
     cb: (
         value: T,
         index: number,
         state: IterationState
     ) => boolean | Promise<boolean>
-): AsyncIterable<IIndexedValue<T>> {
-    return {
-        [$A](): AsyncIterator<IIndexedValue<T>> {
+): AsyncOperation<T, IIndexedValue<T>> {
+    return (iterable) => ({
+        [$A]() {
             const i = iterable[$A]();
             const state: IterationState = {};
             let index = -1;
             return {
-                next(): Promise<IteratorResult<IIndexedValue<T>>> {
+                next() {
                     return i.next().then((a) => {
                         if (a.done) {
                             return a;
@@ -110,5 +153,5 @@ function indexByAsync<T>(
                 },
             };
         },
-    };
+    });
 }

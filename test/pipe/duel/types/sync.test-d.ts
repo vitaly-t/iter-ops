@@ -1,31 +1,33 @@
 import {expectType} from 'tsd';
 
-import {pipe} from '../../../src';
-import type {IterableExt, Operation} from '../../../src/types';
+import {pipe} from '../../../../src';
+import type {IterableExt, DuelOperation} from '../../../../src/types';
 
 declare const iterableString: Iterable<string>;
 declare const iterableIterableNumber: Iterable<Iterable<number>>;
 
-declare function opString2String(): Operation<string, string>;
-declare function opString2Number(): Operation<string, number>;
-declare function opNumber2Number(): Operation<number, number>;
-declare function opNumber2String(): Operation<number, string>;
+declare function opString2String(): DuelOperation<string, string>;
+declare function opString2Number(): DuelOperation<string, number>;
+declare function opNumber2Number(): DuelOperation<number, number>;
+declare function opNumber2String(): DuelOperation<number, string>;
 
-declare function opString2R<R>(): Operation<string, R>;
-declare function opT2Number<T>(): Operation<T, number>;
-declare function opT2R<T, R>(): Operation<T, R>;
+declare function opString2R<R>(): DuelOperation<string, R>;
+declare function opT2Number<T>(): DuelOperation<T, number>;
+declare function opT2R<T, R>(): DuelOperation<T, R>;
 
 declare function opString2RCallbackNone2Boolean<R>(
     foo: () => boolean
-): Operation<string, R>;
+): DuelOperation<string, R>;
 
 declare function opT2BooleanCallbackT2Boolean<T>(
     foo: (arg: T) => boolean
-): Operation<T, boolean>;
+): DuelOperation<T, boolean>;
 
-declare function opT2RCallbackT2R<T, R>(foo: (arg: T) => R): Operation<T, R>;
+declare function opT2RCallbackT2R<T, R>(
+    foo: (arg: T) => R
+): DuelOperation<T, R>;
 
-declare function opUnwrapT<T>(): Operation<Iterable<T>, T>;
+declare function opUnwrapT<T>(): DuelOperation<Iterable<T>, T>;
 
 const test1 = pipe(iterableString, opString2String());
 expectType<IterableExt<string>>(test1);

@@ -1,6 +1,6 @@
-import {$A, Operation} from '../../types';
+import {createDuelOperation, throwOnSync} from '../../utils';
+import {$A, AsyncOperation, DuelOperation} from '../../types';
 import {isPromiseLike} from '../../typeguards';
-import {createOperation, throwOnSync} from '../../utils';
 
 /**
  * Caches up every N promises, to race-resolve them and emit unordered results.
@@ -57,19 +57,81 @@ import {createOperation, throwOnSync} from '../../utils';
  *
  * @category Async-only
  */
-export function waitRace<T>(cacheSize: number): Operation<Promise<T> | T, T>;
-
-export function waitRace(...args: unknown[]) {
-    return createOperation(throwOnSync('waitRace'), waitRaceAsync, args);
+export function waitRace<T>(
+    cacheSize: number
+): DuelOperation<Promise<T> | T, T> {
+    return createDuelOperation<Promise<T> | T, T>(
+        throwOnSync('waitRace'),
+        waitRaceAsync,
+        [cacheSize]
+    );
 }
+
+/**
+ * Caches up every N promises, to race-resolve them and emit unordered results.
+ *
+ * It improves performance when handling multiple lengthy asynchronous operations,
+ * by letting you process results in the order in which they resolve, rather than
+ * the order in which those operations are created.
+ *
+ * Passing in `cacheSize` < 2 deactivates caching, and it then works like {@link wait}.
+ *
+ * ```ts
+ * import {pipeAsync, map, waitRace} from 'iter-ops';
+ *
+ * const i = pipeAsync(
+ *              [1, 2, 3, 4, 5],
+ *              map(a => Promise.resolve(a * 10)), // replace with async processing
+ *              waitRace(3) // cache & wait for up to 3 values at a time
+ *              );
+ *
+ * for await (const a of i) {
+ *     console.log(a); //=> 10, 40, 20, 50, 30 (unordered race-resolution)
+ * }
+ * ```
+ *
+ * This operator can handle a combination of promises and simple values, with the latter
+ * emitted immediately, as they appear.
+ *
+ * When results need to be linked to the source, you can simply remap the operations,
+ * like shown in the following example:
+ *
+ * ```ts
+ * import {pipeAsync, map, waitRace} from 'iter-ops';
+ *
+ * const i = pipeAsync(
+ *              [1, 2, 3],
+ *              map(s => Promise.resolve(s * 10).then(r => ({s, r}))), // {source, resolution}
+ *              waitRace(2)
+ *              );
+ *
+ * for await (const a of i) {
+ *     console.log(a); //=> {s: 1, r: 10}, {s: 3, r: 30}, {s: 2, r: 20} (unordered race-resolution)
+ * }
+ * ```
+ *
+ * When inside a synchronous pipeline, the operator simply forwards to the source iterable.
+ *
+ * @param cacheSize
+ * Maximum number of promises to be cached up for concurrent resolution racing. Larger cache size
+ * results in better concurrency. Setting it to less than 2 will deactivate caching completely,
+ * and instead apply the same logic as operator {@link wait}.
+ *
+ * @see
+ *  - {@link wait}
+ *
+ * @category Operations
+ */
+export function waitRaceAsync<T>(
+    cacheSize: number
+): AsyncOperation<Promise<T> | T, T>;
 
 // implemented by: https://stackoverflow.com/users/1048572/bergi
 export function waitRaceAsync<T>(
-    iterable: AsyncIterable<Promise<T> | T>,
     cacheSize: number
-): AsyncIterable<T> {
+): AsyncOperation<Promise<T> | T, T> {
     cacheSize = cacheSize >= 2 ? cacheSize : 1;
-    return {
+    return (iterable) => ({
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             let finished = false;
@@ -155,5 +217,5 @@ export function waitRaceAsync<T>(
                 },
             };
         },
-    };
+    });
 }

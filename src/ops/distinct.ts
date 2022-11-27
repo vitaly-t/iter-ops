@@ -1,5 +1,5 @@
-import {$A, $S, Operation} from '../types';
-import {createOperation} from '../utils';
+import {createDuelOperation} from '../utils';
+import {$A, $S, AsyncOperation, DuelOperation, SyncOperation} from '../types';
 
 /**
  * Emits unique values, with optional key selector.
@@ -32,17 +32,45 @@ import {createOperation} from '../utils';
  */
 export function distinct<T, K>(
     keySelector?: (value: T, index: number) => K
-): Operation<T, T>;
-
-export function distinct(...args: unknown[]) {
-    return createOperation(distinctSync, distinctAsync, args);
+): DuelOperation<T, T> {
+    return createDuelOperation<T, T>(distinctSync, distinctAsync, [
+        keySelector,
+    ]);
 }
 
-function distinctSync<T, K>(
-    iterable: Iterable<T>,
+/**
+ * Emits unique values, with optional key selector.
+ *
+ * ```ts
+ * import {pipe, distinct} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 1, 1, 2, 2, 2, 3, 3],
+ *     distinct() // selector not needed for simple types
+ * );
+ *
+ * console.log(...i); //=> 1, 2, 3
+ * ```
+ *
+ * With optional selector function:
+ *
+ * ```ts
+ * import {pipe, distinct} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [{a: 1}, {a: 1}, {a: 2}, {a: 2}],
+ *     distinct(v => v.a)
+ * );
+ *
+ * console.log(...i); //=> {a: 1}, {a: 2}
+ * ```
+ *
+ * @category Operations
+ */
+export function distinctSync<T, K>(
     keySelector?: (value: T, index: number) => K
-): Iterable<T> {
-    return {
+): SyncOperation<T, T> {
+    return (iterable) => ({
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             const ks = typeof keySelector === 'function' && keySelector;
@@ -66,14 +94,43 @@ function distinctSync<T, K>(
                 },
             };
         },
-    };
+    });
 }
 
-function distinctAsync<T, K>(
-    iterable: AsyncIterable<T>,
+/**
+ * Emits unique values, with optional key selector.
+ *
+ * ```ts
+ * import {pipe, distinct} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 1, 1, 2, 2, 2, 3, 3],
+ *     distinct() // selector not needed for simple types
+ * );
+ *
+ * console.log(...i); //=> 1, 2, 3
+ * ```
+ *
+ * With optional selector function:
+ *
+ * ```ts
+ * import {pipe, distinct} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [{a: 1}, {a: 1}, {a: 2}, {a: 2}],
+ *     distinct(v => v.a)
+ * );
+ *
+ * console.log(...i); //=> {a: 1}, {a: 2}
+ * ```
+ *
+ * @category Operations
+ */
+
+export function distinctAsync<T, K>(
     keySelector?: (value: T, index: number) => K
-): AsyncIterable<T> {
-    return {
+): AsyncOperation<T, T> {
+    return (iterable) => ({
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             const ks = typeof keySelector === 'function' && keySelector;
@@ -96,5 +153,5 @@ function distinctAsync<T, K>(
                 },
             };
         },
-    };
+    });
 }

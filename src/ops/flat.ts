@@ -1,27 +1,13 @@
-import {$A, $S, Decrement, Operation, UnknownIterable} from '../types';
-import {createOperation} from '../utils';
-
-/**
- * @internal
- */
-export type Flatten<T, N extends number> =
-    // N < 0
-    `${N}` extends `-${string}`
-        ? T
-        : // N = 0
-        N extends 0
-        ? T
-        : // N = 1
-        N extends 1
-        ? T extends UnknownIterable<infer E>
-            ? E
-            : T
-        : // N > 20 or N is unknown
-        Decrement[number] extends Decrement[N]
-        ? unknown
-        : T extends UnknownIterable<infer E>
-        ? Flatten<E, Decrement[N]>
-        : Flatten<T, Decrement[N]>;
+import {
+    $A,
+    $S,
+    AsyncOperation,
+    DuelOperation,
+    FlattenAsync,
+    FlattenSync,
+    SyncOperation,
+} from '../types';
+import {createDuelOperation} from '../utils';
 
 /**
  * Expands / flattens sub-iterables up to the specified `depth` (default is 1).
@@ -53,23 +39,48 @@ export type Flatten<T, N extends number> =
  */
 export function flat<T, N extends number = 1>(
     depth?: N
-): Operation<T, Flatten<T, N>>;
-
-export function flat(...args: unknown[]) {
-    return createOperation(flatSync, flatAsync, args);
+): DuelOperation<T, FlattenSync<T, N> | FlattenAsync<T, N>> {
+    return createDuelOperation<T, FlattenSync<T, N> | FlattenAsync<T, N>>(
+        flatSync as any,
+        flatAsync as any,
+        [depth]
+    );
 }
 
-function flatSync<T>(
-    iterable: Iterable<Iterable<T>>,
-    depth = 1
-): Iterable<T | Iterable<T>> {
-    return {
-        [$S](): Iterator<T | Iterable<T>> {
-            const d: Iterator<T | Iterable<T>>[] = new Array(depth + 1);
+/**
+ * Expands / flattens sub-iterables up to the specified `depth` (default is 1).
+ *
+ * ```ts
+ * import {pipe, flat} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     ['one', [2, 3, [4, 5]]],
+ *     flat(2)
+ * );
+ *
+ * console.log(...i); //=> 'o', 'n', 'e', 2, 3, 4, 5
+ * ```
+ *
+ * It implements the logic consistent with {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat Array.prototype.flat()},
+ * handling non-iterable values without throwing errors (unlike {@link spread}), and with optional `depth` support.
+ *
+ * Compare it to a more strict {@link spread} operator.
+ *
+ * @see
+ *  - {@link spread}
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat Array.prototype.flat()}
+ * @category Operations
+ */
+export function flatSync<T, N extends number = 1>(
+    depth: N = 1 as N
+): SyncOperation<T, FlattenSync<T, N>> {
+    return (iterable) => ({
+        [$S]() {
+            const d: Iterator<any>[] = new Array(depth + 1);
             d[0] = iterable[$S]();
             let level = 0;
             return {
-                next(): IteratorResult<T | Iterable<T>> {
+                next() {
                     do {
                         const v = d[level].next(); // next value
                         if (v.done) {
@@ -91,21 +102,45 @@ function flatSync<T>(
                 },
             };
         },
-    };
+    });
 }
 
-function flatAsync<T>(
-    iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>,
-    depth = 1
-): AsyncIterable<T | Iterable<T> | AsyncIterable<T>> {
+/**
+ * Expands / flattens sub-iterables up to the specified `depth` (default is 1).
+ *
+ * ```ts
+ * import {pipe, flat} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     ['one', [2, 3, [4, 5]]],
+ *     flat(2)
+ * );
+ *
+ * console.log(...i); //=> 'o', 'n', 'e', 2, 3, 4, 5
+ * ```
+ *
+ * It implements the logic consistent with {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat Array.prototype.flat()},
+ * handling non-iterable values without throwing errors (unlike {@link spread}), and with optional `depth` support.
+ *
+ * Compare it to a more strict {@link spread} operator.
+ *
+ * @see
+ *  - {@link spread}
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat Array.prototype.flat()}
+ * @category Operations
+ */
+
+export function flatAsync<T, N extends number = 1>(
+    depth: N = 1 as N
+): AsyncOperation<T, FlattenAsync<T, N>> {
     type AnyValue = T | Iterator<T> | AsyncIterator<T>;
-    return {
-        [$A](): AsyncIterator<T> {
+    return (iterable) => ({
+        [$A]() {
             const d: {i: any; sync: boolean}[] = new Array(depth + 1);
             d[0] = {i: iterable[$A](), sync: false};
             let level = 0;
             return {
-                next(): Promise<IteratorResult<T>> {
+                next() {
                     const v = d[level].i.next(); // next value
                     if (d[level].sync) {
                         if (v.done) {
@@ -161,5 +196,5 @@ function flatAsync<T>(
                 },
             };
         },
-    };
+    });
 }

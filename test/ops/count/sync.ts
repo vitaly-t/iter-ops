@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, count} from '../../../src';
+import {pipe, count} from '../../../src/entry/sync';
 
 export default () => {
     it('must count items correctly', () => {

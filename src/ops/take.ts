@@ -1,5 +1,5 @@
-import {$A, $S, Operation} from '../types';
-import {createOperation} from '../utils';
+import {$A, $S, AsyncOperation, DuelOperation, SyncOperation} from '../types';
+import {createDuelOperation} from '../utils';
 
 /**
  * Emits up to `count` number of values, then stops iteration.
@@ -22,14 +22,32 @@ import {createOperation} from '../utils';
  *
  * @category Sync+Async
  */
-export function take<T>(count: number): Operation<T, T>;
-
-export function take(...args: unknown[]) {
-    return createOperation(takeSync, takeAsync, args);
+export function take<T>(count: number): DuelOperation<T, T> {
+    return createDuelOperation<T, T>(takeSync, takeAsync, [count]);
 }
 
-function takeSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
-    return {
+/**
+ * Emits up to `count` number of values, then stops iteration.
+ *
+ * ```ts
+ * import {pipe, take} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5],
+ *     take(2)
+ * );
+ *
+ * console.log(...i); //=> 1, 2
+ * ```
+ *
+ * @see
+ *  - {@link takeLast}
+ *  - {@link takeUntil}
+ *  - {@link takeWhile}
+ * @category Operations
+ */
+export function takeSync<T>(count: number): SyncOperation<T, T> {
+    return (iterable) => ({
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             let index = 0,
@@ -47,14 +65,31 @@ function takeSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
                 },
             };
         },
-    };
+    });
 }
 
-function takeAsync<T>(
-    iterable: AsyncIterable<T>,
-    count: number
-): AsyncIterable<T> {
-    return {
+/**
+ * Emits up to `count` number of values, then stops iteration.
+ *
+ * ```ts
+ * import {pipe, take} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5],
+ *     take(2)
+ * );
+ *
+ * console.log(...i); //=> 1, 2
+ * ```
+ *
+ * @see
+ *  - {@link takeLast}
+ *  - {@link takeUntil}
+ *  - {@link takeWhile}
+ * @category Operations
+ */
+export function takeAsync<T>(count: number): AsyncOperation<T, T> {
+    return (iterable) => ({
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             let index = 0,
@@ -71,5 +106,5 @@ function takeAsync<T>(
                 },
             };
         },
-    };
+    });
 }

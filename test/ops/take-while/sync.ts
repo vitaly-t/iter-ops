@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, takeWhile} from '../../../src';
+import {pipe, takeWhile} from '../../../src/entry/sync';
 
 export default () => {
     it('must take while condition', () => {

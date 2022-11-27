@@ -1,6 +1,13 @@
-import {$A, $S, IterationState, Operation} from '../types';
 import {isPromiseLike} from '../typeguards';
-import {createOperation} from '../utils';
+import {
+    $A,
+    $S,
+    AsyncOperation,
+    DuelOperation,
+    IterationState,
+    SyncOperation,
+} from '../types';
+import {createDuelOperation} from '../utils';
 
 /**
  * Takes values until the predicate test succeeds.
@@ -36,17 +43,38 @@ export function takeUntil<T>(
         index: number,
         state: IterationState
     ) => boolean | Promise<boolean>
-): Operation<T, T>;
-
-export function takeUntil(...args: unknown[]) {
-    return createOperation(takeUntilSync, takeUntilAsync, args);
+): DuelOperation<T, T> {
+    return createDuelOperation<T, T>(takeUntilSync, takeUntilAsync, [cb]);
 }
 
-function takeUntilSync<T>(
-    iterable: Iterable<T>,
+/**
+ * Takes values until the predicate test succeeds.
+ * The value for which predicate succeeds is excluded.
+ *
+ * ```ts
+ * import {pipe, takeUntil} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5],
+ *     takeUntil(a => a > 2) // take until value > 2
+ * );
+ *
+ * console.log(...i); //=> 1, 2
+ * ```
+ *
+ * @see
+ *  - {@link skip}
+ *  - {@link skipUntil}
+ *  - {@link skipWhile}
+ *  - {@link take}
+ *  - {@link takeLast}
+ *  - {@link takeWhile}
+ * @category Operations
+ */
+export function takeUntilSync<T>(
     cb: (value: T, index: number, state: IterationState) => boolean
-): Iterable<T> {
-    return {
+): SyncOperation<T, T> {
+    return (iterable) => ({
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             const state: IterationState = {};
@@ -65,18 +93,41 @@ function takeUntilSync<T>(
                 },
             };
         },
-    };
+    });
 }
 
-function takeUntilAsync<T>(
-    iterable: AsyncIterable<T>,
+/**
+ * Takes values until the predicate test succeeds.
+ * The value for which predicate succeeds is excluded.
+ *
+ * ```ts
+ * import {pipe, takeUntil} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5],
+ *     takeUntil(a => a > 2) // take until value > 2
+ * );
+ *
+ * console.log(...i); //=> 1, 2
+ * ```
+ *
+ * @see
+ *  - {@link skip}
+ *  - {@link skipUntil}
+ *  - {@link skipWhile}
+ *  - {@link take}
+ *  - {@link takeLast}
+ *  - {@link takeWhile}
+ * @category Operations
+ */
+export function takeUntilAsync<T>(
     cb: (
         value: T,
         index: number,
         state: IterationState
     ) => boolean | Promise<boolean>
-): AsyncIterable<T> {
-    return {
+): AsyncOperation<T, T> {
+    return (iterable) => ({
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             const state: IterationState = {};
@@ -102,5 +153,5 @@ function takeUntilAsync<T>(
                 },
             };
         },
-    };
+    });
 }

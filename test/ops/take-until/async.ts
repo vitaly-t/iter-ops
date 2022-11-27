@@ -1,11 +1,11 @@
-import {_async, _asyncValues, expect} from '../../header';
-import {pipe, takeUntil} from '../../../src';
+import {_asyncValues, expect} from '../../header';
+import {pipe, takeUntil} from '../../../src/entry/async';
 
 export default () => {
     it('must stop on condition', async () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
-            _async(input),
+            input,
             takeUntil((a) => a > 2)
         );
         expect(await _asyncValues(output)).to.eql([1, 2]);
@@ -13,7 +13,7 @@ export default () => {
     it('must stop on async condition', async () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
-            _async(input),
+            input,
             takeUntil(async (a) => a > 2)
         );
         expect(await _asyncValues(output)).to.eql([1, 2]);
@@ -22,7 +22,7 @@ export default () => {
         const input = [1, 2, 3, 4, 5];
         const indexes: Array<any> = [];
         const output = pipe(
-            _async(input),
+            input,
             takeUntil((a, idx) => {
                 indexes.push(idx);
                 return a > 2;
@@ -34,7 +34,7 @@ export default () => {
     it('must not let overlap the condition', async () => {
         const input = [1, 2, 3];
         const output = pipe(
-            _async(input),
+            input,
             takeUntil((a) => a === 2)
         );
         const i = output[Symbol.asyncIterator]();
@@ -45,7 +45,7 @@ export default () => {
     it('must not let overlap the async condition', async () => {
         const input = [1, 2, 3];
         const output = pipe(
-            _async(input),
+            input,
             takeUntil(async (a) => a === 2)
         );
         const i = output[Symbol.asyncIterator]();
@@ -57,7 +57,7 @@ export default () => {
         const input = 'hello!';
         const arr: number[] = [];
         const output = pipe(
-            _async(input),
+            input,
             takeUntil((value, index, state) => {
                 state.count = state.count ?? 0;
                 state.count++;

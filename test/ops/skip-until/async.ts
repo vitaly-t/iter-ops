@@ -1,11 +1,11 @@
-import {_async, _asyncValues, expect} from '../../header';
-import {pipe, skipUntil} from '../../../src';
+import {_asyncValues, expect} from '../../header';
+import {pipe, skipUntil} from '../../../src/entry/async';
 
 export default () => {
     it('must take on condition', async () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
-            _async(input),
+            input,
             skipUntil((a) => a > 2)
         );
         expect(await _asyncValues(output)).to.eql([3, 4, 5]);
@@ -13,7 +13,7 @@ export default () => {
     it('must take on async condition', async () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
-            _async(input),
+            input,
             skipUntil(async (a) => a > 2)
         );
         expect(await _asyncValues(output)).to.eql([3, 4, 5]);
@@ -22,7 +22,7 @@ export default () => {
         const input = [1, 2, 3, 4, 5];
         const indexes: Array<any> = [];
         const output = pipe(
-            _async(input),
+            input,
             skipUntil((a, idx) => {
                 indexes.push(idx);
                 return a > 2;
@@ -34,7 +34,7 @@ export default () => {
     it('must support non-starters', async () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
-            _async(input),
+            input,
             skipUntil((a) => a > 10)
         );
         expect(await _asyncValues(output)).to.eql([]);
@@ -42,7 +42,7 @@ export default () => {
     it('must support async non-starters', async () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
-            _async(input),
+            input,
             skipUntil(async (a) => a > 10)
         );
         expect(await _asyncValues(output)).to.eql([]);
@@ -51,7 +51,7 @@ export default () => {
         const input = 'hello!';
         const arr: number[] = [];
         const output = pipe(
-            _async(input),
+            input,
             skipUntil((value, index, state) => {
                 state.count = state.count ?? 0;
                 state.count++;

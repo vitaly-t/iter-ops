@@ -1,13 +1,7 @@
-import {
-    $A,
-    $S,
-    Value,
-    SyncValue,
-    Operation,
-    UnknownIterableOrIterator,
-} from '../types';
-import {createOperation} from '../utils';
+import {$A, $S, AsyncOperation, DuelOperation, SyncOperation} from '../types';
 import {isPromiseLike} from '../typeguards';
+
+import {createDuelOperation} from '../utils';
 
 /**
  * Merges current iterable with any combination of values, iterators or iterables.
@@ -33,20 +27,50 @@ import {isPromiseLike} from '../typeguards';
  */
 export function concat<T, Vs extends readonly unknown[]>(
     ...values: Vs
-): Operation<
+): DuelOperation<
     T,
-    T | (Vs[number] extends UnknownIterableOrIterator<infer U> ? U : never)
->;
-
-export function concat(...args: unknown[]) {
-    return createOperation(concatSync, concatAsync, args);
+    | T
+    | (Vs[number] extends
+          | Iterable<infer U>
+          | Iterator<infer U>
+          | AsyncIterable<infer U>
+          | AsyncIterator<infer U>
+          ? U
+          : Vs[number])
+> {
+    return createDuelOperation<T, any>(concatSync, concatAsync, values);
 }
 
-function concatSync<T>(
-    iterable: Iterable<T>,
-    ...values: SyncValue<T>[]
-): Iterable<any> {
-    return {
+/**
+ * Merges current iterable with any combination of values, iterators or iterables.
+ * Merged inputs are iterated over after depleting the current iterable, in the order in which they were specified,
+ * i.e. the standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat Array.concat} logic.
+ *
+ * ```ts
+ * import {pipe, concat} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2],
+ *     concat(3, 4, [5, 6])
+ * );
+ *
+ * console.log(...i); //=> 1 2 3 4 5 6
+ * ```
+ *
+ * @see
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat Array.concat}
+ * @category Operations
+ */
+export function concatSync<T, Vs extends readonly unknown[]>(
+    ...values: Vs
+): SyncOperation<
+    T,
+    | T
+    | (Vs[number] extends Iterable<infer U> | Iterator<infer U>
+          ? U
+          : Vs[number])
+> {
+    return (iterable) => ({
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             let index = -1,
@@ -84,14 +108,43 @@ function concatSync<T>(
                 },
             };
         },
-    };
+    });
 }
 
-function concatAsync<T>(
-    iterable: AsyncIterable<T>,
-    ...values: Value<T>[]
-): AsyncIterable<any> {
-    return {
+/**
+ * Merges current iterable with any combination of values, iterators or iterables.
+ * Merged inputs are iterated over after depleting the current iterable, in the order in which they were specified,
+ * i.e. the standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat Array.concat} logic.
+ *
+ * ```ts
+ * import {pipe, concat} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2],
+ *     concat(3, 4, [5, 6])
+ * );
+ *
+ * console.log(...i); //=> 1 2 3 4 5 6
+ * ```
+ *
+ * @see
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat Array.concat}
+ * @category Operations
+ */
+export function concatAsync<T, Vs extends readonly unknown[]>(
+    ...values: Vs
+): AsyncOperation<
+    T,
+    | T
+    | (Vs[number] extends
+          | Iterable<infer U>
+          | Iterator<infer U>
+          | AsyncIterable<infer U>
+          | AsyncIterator<infer U>
+          ? U
+          : Vs[number])
+> {
+    return (iterable) => ({
         [$A](): AsyncIterator<T> {
             let v: any = iterable[$A](); // current value or iterator
             let index = -1, // current "values" index
@@ -131,5 +184,5 @@ function concatAsync<T>(
                 },
             };
         },
-    };
+    });
 }

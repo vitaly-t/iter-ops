@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, filter} from '../../../src';
+import {pipe, filter} from '../../../src/entry/sync';
 
 export default () => {
     it('must emit on condition', () => {

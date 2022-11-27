@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, skipWhile} from '../../../src';
+import {pipe, skipWhile} from '../../../src/entry/sync';
 
 export default () => {
     it('must start after condition', () => {

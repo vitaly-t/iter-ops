@@ -1,5 +1,5 @@
-import {$A, $S, Operation} from '../types';
-import {createOperation} from '../utils';
+import {$A, $S, AsyncOperation, DuelOperation, SyncOperation} from '../types';
+import {createDuelOperation} from '../utils';
 
 /**
  * Starts emitting values after `count` number of values.
@@ -21,14 +21,31 @@ import {createOperation} from '../utils';
  *
  * @category Sync+Async
  */
-export function skip<T>(count: number): Operation<T, T>;
-
-export function skip(...args: unknown[]) {
-    return createOperation(skipSync, skipAsync, args);
+export function skip<T>(count: number): DuelOperation<T, T> {
+    return createDuelOperation<T, T>(skipSync, skipAsync, [count]);
 }
 
-function skipSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
-    return {
+/**
+ * Starts emitting values after `count` number of values.
+ *
+ * ```ts
+ * import {pipe, skip} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5],
+ *     skip(2)
+ * );
+ *
+ * console.log(...i); //=> 3, 4, 5
+ * ```
+ *
+ * @see
+ *  - {@link skipUntil}
+ *  - {@link skipWhile}
+ * @category Operations
+ */
+export function skipSync<T>(count: number): SyncOperation<T, T> {
+    return (iterable) => ({
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             let index = 0,
@@ -46,14 +63,31 @@ function skipSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
                 },
             };
         },
-    };
+    });
 }
 
-function skipAsync<T>(
-    iterable: AsyncIterable<T>,
-    count: number
-): AsyncIterable<T> {
-    return {
+/**
+ * Starts emitting values after `count` number of values.
+ *
+ * ```ts
+ * import {pipe, skip} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5],
+ *     skip(2)
+ * );
+ *
+ * console.log(...i); //=> 3, 4, 5
+ * ```
+ *
+ * @see
+ *  - {@link skipUntil}
+ *  - {@link skipWhile}
+ * @category Operations
+ */
+
+export function skipAsync<T>(count: number): AsyncOperation<T, T> {
+    return (iterable) => ({
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             let index = 0,
@@ -69,5 +103,5 @@ function skipAsync<T>(
                 },
             };
         },
-    };
+    });
 }

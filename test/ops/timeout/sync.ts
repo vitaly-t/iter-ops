@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, tap, timeout} from '../../../src';
+import {pipe, tap, timeout} from '../../../src/entry/sync';
 
 export default () => {
     it('must end iteration after timeout', () => {

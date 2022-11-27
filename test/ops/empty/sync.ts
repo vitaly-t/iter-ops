@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, empty} from '../../../src';
+import {pipe, empty} from '../../../src/entry/sync';
 
 export default () => {
     it('must produce empty iterable', () => {

@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, last} from '../../../src';
+import {pipe, last} from '../../../src/entry/sync';
 
 export default () => {
     describe('without predicate', () => {

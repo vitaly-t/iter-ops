@@ -1,6 +1,13 @@
-import {$A, $S, IterationState, Operation} from '../types';
+import {
+    $A,
+    $S,
+    AsyncOperation,
+    DuelOperation,
+    IterationState,
+    SyncOperation,
+} from '../types';
 import {isPromiseLike} from '../typeguards';
-import {createOperation} from '../utils';
+import {createDuelOperation} from '../utils';
 
 /**
  * Skips values until the predicate test succeeds.
@@ -36,17 +43,38 @@ export function skipUntil<T>(
         index: number,
         state: IterationState
     ) => boolean | Promise<boolean>
-): Operation<T, T>;
-
-export function skipUntil(...args: unknown[]) {
-    return createOperation(skipUntilSync, skipUntilAsync, args);
+): DuelOperation<T, T> {
+    return createDuelOperation<T, T>(skipUntilSync, skipUntilAsync, [cb]);
 }
 
-function skipUntilSync<T>(
-    iterable: Iterable<T>,
+/**
+ * Skips values until the predicate test succeeds.
+ * The value for which predicate succeeds is not skipped.
+ *
+ * ```ts
+ * import {pipe, skipUntil} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5, 6, 7, 8, 9],
+ *     skipUntil(a => a > 5) // skip until value > 5
+ * );
+ *
+ * console.log(...i); //=> 6, 7, 8, 9
+ * ```
+ *
+ * @see
+ *  - {@link skip}
+ *  - {@link skipWhile}
+ *  - {@link take}
+ *  - {@link takeLast}
+ *  - {@link takeUntil}
+ *  - {@link takeWhile}
+ * @category Operations
+ */
+export function skipUntilSync<T>(
     cb: (value: T, index: number, state: IterationState) => boolean
-): Iterable<T> {
-    return {
+): SyncOperation<T, T> {
+    return (iterable) => ({
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             const state: IterationState = {};
@@ -65,18 +93,42 @@ function skipUntilSync<T>(
                 },
             };
         },
-    };
+    });
 }
 
-function skipUntilAsync<T>(
-    iterable: AsyncIterable<T>,
+/**
+ * Skips values until the predicate test succeeds.
+ * The value for which predicate succeeds is not skipped.
+ *
+ * ```ts
+ * import {pipe, skipUntil} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5, 6, 7, 8, 9],
+ *     skipUntil(a => a > 5) // skip until value > 5
+ * );
+ *
+ * console.log(...i); //=> 6, 7, 8, 9
+ * ```
+ *
+ * @see
+ *  - {@link skip}
+ *  - {@link skipWhile}
+ *  - {@link take}
+ *  - {@link takeLast}
+ *  - {@link takeUntil}
+ *  - {@link takeWhile}
+ * @category Operations
+ */
+
+export function skipUntilAsync<T>(
     cb: (
         value: T,
         index: number,
         state: IterationState
     ) => boolean | Promise<boolean>
-): AsyncIterable<T> {
-    return {
+): AsyncOperation<T, T> {
+    return (iterable) => ({
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             const state: IterationState = {};
@@ -102,5 +154,5 @@ function skipUntilAsync<T>(
                 },
             };
         },
-    };
+    });
 }

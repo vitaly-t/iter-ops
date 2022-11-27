@@ -1,6 +1,5 @@
-import type {Operation} from '../types';
-import {createOperation} from '../utils';
-import {$A, $S} from '../types';
+import {createDuelOperation} from '../utils';
+import {$A, $S, AsyncOperation, DuelOperation, SyncOperation} from '../types';
 
 /**
  * Provides a work chain, based on concurrency, for operator {@link concurrencyFork}.
@@ -78,56 +77,61 @@ export interface IConcurrencyWork<T, R> {
  */
 export function concurrencyFork<T, R = T>(
     work: IConcurrencyWork<T, R>
-): Operation<T, R>;
+): DuelOperation<T, R>;
 
 export function concurrencyFork(...args: unknown[]) {
-    return createOperation(concurrencyForkSync, concurrencyForkAsync, args);
+    return createDuelOperation(concurrencyForkSync, concurrencyForkAsync, args);
 }
 
-function concurrencyForkSync<T, R>(
-    iterable: Iterable<T>,
+export function concurrencyForkSync<T, R>(
     work: IConcurrencyWork<T, R>
-): Iterable<R> {
-    try {
-        return work.onSync?.(iterable) ?? (iterable as Iterable<any>);
-    } catch (err) {
-        return {
-            [$S](): Iterator<R> {
-                let done = false;
-                return {
-                    next(): IteratorResult<R> {
-                        if (done) {
-                            return {value: undefined, done};
-                        }
-                        done = true;
-                        throw err; // now catchError operator can handle the error
-                    },
-                };
-            },
-        };
-    }
+): SyncOperation<T, R> {
+    return (iterable) => {
+        try {
+            return work.onSync?.(iterable) ?? (iterable as Iterable<any>);
+        } catch (err) {
+            return {
+                [$S](): Iterator<R> {
+                    let done = false;
+                    return {
+                        next(): IteratorResult<R> {
+                            if (done) {
+                                return {value: undefined, done};
+                            }
+                            done = true;
+                            throw err; // now catchError operator can handle the error
+                        },
+                    };
+                },
+            };
+        }
+    };
 }
 
-function concurrencyForkAsync<T, R>(
-    iterable: AsyncIterable<T>,
+export function concurrencyForkAsync<T, R>(
     work: IConcurrencyWork<T, R>
-): AsyncIterable<R> {
-    try {
-        return work.onAsync?.(iterable) ?? (iterable as AsyncIterable<any>);
-    } catch (err) {
-        return {
-            [$A](): AsyncIterator<R> {
-                let done = false;
-                return {
-                    next(): Promise<IteratorResult<R>> {
-                        if (done) {
-                            return Promise.resolve({value: undefined, done});
-                        }
-                        done = true;
-                        return Promise.reject(err); // now catchError operator can handle the error
-                    },
-                };
-            },
-        };
-    }
+): AsyncOperation<T, R> {
+    return (iterable) => {
+        try {
+            return work.onAsync?.(iterable) ?? (iterable as AsyncIterable<any>);
+        } catch (err) {
+            return {
+                [$A](): AsyncIterator<R> {
+                    let done = false;
+                    return {
+                        next(): Promise<IteratorResult<R>> {
+                            if (done) {
+                                return Promise.resolve({
+                                    value: undefined,
+                                    done,
+                                });
+                            }
+                            done = true;
+                            return Promise.reject(err); // now catchError operator can handle the error
+                        },
+                    };
+                },
+            };
+        }
+    };
 }

@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, repeat} from '../../../src';
+import {pipe, repeat} from '../../../src/entry/sync';
 
 export default () => {
     it('must not copy for 0 or negative count', () => {

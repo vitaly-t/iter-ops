@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, skipUntil} from '../../../src';
+import {pipe, skipUntil} from '../../../src/entry/sync';
 
 export default () => {
     it('must take on condition', () => {

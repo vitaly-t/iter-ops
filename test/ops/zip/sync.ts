@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, zip} from '../../../src';
+import {pipe, zip} from '../../../src/entry/sync';
 import {createIterator} from './header';
 
 export default () => {

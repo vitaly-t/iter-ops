@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, distinct} from '../../../src';
+import {pipe, distinct} from '../../../src/entry/sync';
 
 export default () => {
     const objects = [{a: 1}, {a: 1}, {a: 2}, {a: 2}, {a: 2}, {a: 3}];

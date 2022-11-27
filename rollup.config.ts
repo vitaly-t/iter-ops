@@ -11,11 +11,29 @@ import rollupPluginGzip from 'rollup-plugin-gzip';
 
 import pkg from './package.json';
 
-const common = {
-    input: 'src/index.ts',
+const entries = ['src/index.ts', 'src/entry/async.ts', 'src/entry/sync.ts'];
 
+/**
+ * Get the intended boolean value from the given string.
+ */
+function getBoolean(value: unknown) {
+    if (value === undefined) {
+        return false;
+    }
+    const asNumber = Number(value);
+    return Number.isNaN(asNumber)
+        ? String(value).toLowerCase() === 'false'
+            ? false
+            : Boolean(String(value))
+        : Boolean(asNumber);
+}
+
+const buildTypesForTestingOnly = getBoolean(process.env.BUILD_TYPES_ONLY);
+
+const common = {
     output: {
         sourcemap: false,
+        inlineDynamicImports: true,
     },
 
     external: [],
@@ -42,121 +60,165 @@ function getPlugins(tsconfig = 'tsconfig.build.json') {
 }
 
 const copyright = `/*!
- * ${pkg.name} v${pkg.version}
- * Copyright ${new Date().getFullYear()} ${pkg.author.name}
- * Released under the ${pkg.license} License
- * ${pkg.homepage}
- */
+* ${pkg.name} v${pkg.version}
+* Copyright ${new Date().getFullYear()} ${pkg.author.name}
+* Released under the ${pkg.license} License
+* ${pkg.homepage}
+*/
 `;
 
-/**
- * Get the intended boolean value from the given string.
- */
-function getBoolean(value: unknown) {
-    if (value === undefined) {
-        return false;
-    }
-    const asNumber = Number(value);
-    return Number.isNaN(asNumber)
-        ? String(value).toLowerCase() === 'false'
-            ? false
-            : Boolean(String(value))
-        : Boolean(asNumber);
-}
+const configs = entries.flatMap((input) => {
+    /**
+     * The common JS build.
+     */
+    const cjs = {
+        ...common,
+        input,
 
-const buildTypesOnly = getBoolean(process.env.BUILD_TYPES_ONLY);
+        output: {
+            ...common.output,
+            dir: './dist',
+            entryFileNames: '[name].js',
+            format: 'cjs',
+        },
 
-/**
- * The common JS build.
- */
-const cjs = {
-    ...common,
+        plugins: getPlugins(),
+    };
 
-    output: {
-        ...common.output,
-        file: pkg.main,
-        format: 'cjs',
+    /**
+     * The esm build.
+     */
+    const esm = {
+        ...common,
+        input,
+
+        output: {
+            ...common.output,
+            dir: './dist',
+            entryFileNames: '[name].mjs',
+            format: 'esm',
+        },
+
+        plugins: getPlugins(),
+    };
+
+    const webFileNamePrefix = input.endsWith('index.ts')
+        ? pkg.name
+        : `${pkg.name}.[name]`;
+
+    /**
+     * The web script build.
+     */
+    const web = {
+        ...common,
+        input,
+
+        output: {
+            ...common.output,
+            entryFileNames: `${webFileNamePrefix}.min.js`,
+            sourcemap: true,
+            dir: 'dist/web',
+            format: 'iife',
+            name: 'iterOps',
+            banner: copyright,
+        },
+
+        plugins: [
+            ...getPlugins('tsconfig.build.web.json'),
+            rollupPluginTerser({
+                output: {
+                    comments: 'some',
+                },
+            }),
+            rollupPluginGzip(),
+        ],
+    };
+
+    /**
+     * The web module build.
+     */
+    const webModule = {
+        ...web,
+
+        output: {
+            ...web.output,
+            entryFileNames: `${webFileNamePrefix}.min.mjs`,
+            dir: 'dist/web',
+            format: 'esm',
+        },
+
+        plugins: [
+            ...getPlugins('tsconfig.build.web.json'),
+            rollupPluginTerser({
+                output: {
+                    comments: 'some',
+                },
+            }),
+            rollupPluginGzip(),
+        ],
+    };
+
+    /**
+     * The types.
+     */
+    const dts = {
+        ...common,
+        input,
+
+        output: {
+            dir: 'dist',
+            entryFileNames: '[name].d.ts',
+            format: 'esm',
+        },
+
+        plugins: [rollupPluginDts()],
+    };
+
+    /**
+     * The module types.
+     */
+    const dmts = {
+        ...dts,
+
+        output: {
+            ...dts.output,
+            entryFileNames: '[name].d.mts',
+        },
+    };
+
+    return buildTypesForTestingOnly
+        ? [dts]
+        : [cjs, esm, web, webModule, dts, dmts];
+});
+
+// Create a copy of the async and sync types at the root. This should allow for
+// `import from "iter-ops/(a)sync"` without users needed to specify
+// `"moduleResolution": "Node16"`.
+const extra = [
+    {
+        ...common,
+        input: 'src/entry/async.ts',
+
+        output: {
+            dir: '.',
+            entryFileNames: '[name].d.ts',
+            format: 'esm',
+        },
+
+        plugins: [rollupPluginDts()],
     },
+    {
+        ...common,
+        input: 'src/entry/sync.ts',
 
-    plugins: getPlugins(),
-};
+        output: {
+            dir: '.',
+            entryFileNames: '[name].d.ts',
+            format: 'esm',
+        },
 
-/**
- * The esm build.
- */
-const esm = {
-    ...common,
-
-    output: {
-        ...common.output,
-        file: pkg.module,
-        format: 'esm',
+        plugins: [rollupPluginDts()],
     },
+];
 
-    plugins: getPlugins(),
-};
-
-/**
- * The web script build.
- */
-const web = {
-    ...common,
-
-    output: {
-        ...common.output,
-        sourcemap: true,
-        file: 'dist/web/iter-ops.min.js',
-        format: 'iife',
-        name: 'iterOps',
-        banner: copyright,
-    },
-
-    plugins: [
-        ...getPlugins('tsconfig.build.web.json'),
-        rollupPluginTerser({
-            output: {
-                comments: 'some',
-            },
-        }),
-        rollupPluginGzip(),
-    ],
-};
-
-/**
- * The web module build.
- */
-const webModule = {
-    ...web,
-
-    output: {
-        ...web.output,
-        file: 'dist/web/iter-ops.min.mjs',
-        format: 'esm',
-    },
-
-    plugins: [
-        ...getPlugins('tsconfig.build.web.json'),
-        rollupPluginTerser({
-            output: {
-                comments: 'some',
-            },
-        }),
-        rollupPluginGzip(),
-    ],
-};
-
-/**
- * The types.
- */
-const dts = {
-    ...common,
-
-    output: {
-        file: pkg.types,
-        format: 'esm',
-    },
-
-    plugins: [rollupPluginDts()],
-};
-
-export default buildTypesOnly ? dts : [cjs, esm, web, webModule, dts];
+export default buildTypesForTestingOnly ? configs : [...configs, ...extra];

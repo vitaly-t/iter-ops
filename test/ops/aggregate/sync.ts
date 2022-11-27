@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, aggregate} from '../../../src';
+import {pipe, aggregate} from '../../../src/entry/sync';
 
 export default () => {
     it('must process data correctly', () => {

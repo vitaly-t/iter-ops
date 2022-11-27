@@ -1,28 +1,28 @@
-import {_async, _asyncValues, expect} from '../../header';
-import {pipe, repeat} from '../../../src';
+import {_asyncValues, expect} from '../../header';
+import {pipe, repeat} from '../../../src/entry/async';
 
 export default () => {
     it('must not copy for 0 or negative count', async () => {
-        const i1 = pipe(_async([1, 2]), repeat(0));
+        const i1 = pipe([1, 2], repeat(0));
         expect(await _asyncValues(i1)).to.eql([1, 2]);
-        const i2 = pipe(_async([1, 2]), repeat(-1));
+        const i2 = pipe([1, 2], repeat(-1));
         expect(await _asyncValues(i2)).to.eql([1, 2]);
     });
     it('must copy for positive numbers', async () => {
-        const i1 = pipe(_async([1, 2]), repeat(1));
+        const i1 = pipe([1, 2], repeat(1));
         expect(await _asyncValues(i1)).to.eql([1, 1, 2, 2]);
-        const i2 = pipe(_async([1, 2]), repeat(2));
+        const i2 = pipe([1, 2], repeat(2));
         expect(await _asyncValues(i2)).to.eql([1, 1, 1, 2, 2, 2]);
     });
     it('must copy for callbacks', async () => {
         const i1 = pipe(
-            _async([1, 2]),
+            [1, 2],
             repeat((value, index, count) => count < 1)
         );
         expect(await _asyncValues(i1)).to.eql([1, 1, 2, 2]);
         const params: any[] = [];
         const i2 = pipe(
-            _async([1, 2]),
+            [1, 2],
             repeat((value, index, count) => {
                 params.push({value, index, count});
                 return count < 2;
@@ -40,7 +40,7 @@ export default () => {
     });
     it('must copy for async callbacks', async () => {
         const i = pipe(
-            _async([1, 2]),
+            [1, 2],
             repeat((value, index, count) => Promise.resolve(count < 1))
         );
         expect(await _asyncValues(i)).to.eql([1, 1, 2, 2]);

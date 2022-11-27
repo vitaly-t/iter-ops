@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, indexBy} from '../../../src';
+import {pipe, indexBy} from '../../../src/entry/sync';
 
 export default () => {
     it('must work for an empty list', () => {

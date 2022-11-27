@@ -1,16 +1,16 @@
 import {expect} from '../../header';
-import {flatMap, pipeSync} from '../../../src';
+import {flatMap, pipe} from '../../../src/entry/sync';
 
 export default () => {
     it('must flatten all iterables', () => {
-        const output = pipeSync(
+        const output = pipe(
             ['one', 'two', 123],
             flatMap((a) => a)
         );
         expect([...output]).to.eql(['o', 'n', 'e', 't', 'w', 'o', 123]);
     });
     it('must spread remapped values', () => {
-        const output = pipeSync(
+        const output = pipe(
             ['one', 1, 2, [3]],
             flatMap((a) => [a])
         );

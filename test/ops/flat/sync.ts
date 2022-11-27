@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {flat, pipe} from '../../../src';
+import {flat, pipe} from '../../../src/entry/sync';
 
 export default () => {
     it('must flatten strings', () => {

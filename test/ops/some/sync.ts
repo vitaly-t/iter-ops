@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, some} from '../../../src';
+import {pipe, some} from '../../../src/entry/sync';
 
 export default () => {
     it('must find element when present', () => {

@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, defaultEmpty} from '../../../src';
+import {pipe, defaultEmpty} from '../../../src/entry/sync';
 
 export default () => {
     it('must not add to a non-empty source', () => {

@@ -1,6 +1,13 @@
-import {$A, $S, IterationState, Operation} from '../types';
+import {createDuelOperation} from '../utils';
+import {
+    $A,
+    $S,
+    AsyncOperation,
+    DuelOperation,
+    IterationState,
+    SyncOperation,
+} from '../types';
 import {isPromiseLike} from '../typeguards';
-import {createOperation} from '../utils';
 
 /**
  * Standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some Array.some} logic for the iterable,
@@ -35,17 +42,38 @@ export function some<T>(
         index: number,
         state: IterationState
     ) => boolean | Promise<boolean>
-): Operation<T, boolean>;
-
-export function some(...args: unknown[]) {
-    return createOperation(someSync, someAsync, args);
+): DuelOperation<T, boolean> {
+    return createDuelOperation<T, boolean>(someSync, someAsync, [cb]);
 }
 
-function someSync<T>(
-    iterable: Iterable<T>,
+/**
+ * Standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some Array.some} logic for the iterable,
+ * extended with iteration state + async.
+ *
+ * It emits a `boolean`, indicating whether at least one element passes the predicate test.
+ *
+ * ```ts
+ * import {pipe, some} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3],
+ *     some(a => a % 2 === 0) // checks if even numbers are present
+ * );
+ *
+ * console.log(...i); //=> true
+ *
+ * console.log(i.first); //=> true
+ * ```
+ *
+ * @see
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some Array.some}
+ *  - {@link every}
+ * @category Operations
+ */
+export function someSync<T>(
     cb: (value: T, index: number, state: IterationState) => boolean
-): Iterable<boolean> {
-    return {
+): SyncOperation<T, boolean> {
+    return (iterable) => ({
         [$S](): Iterator<boolean> {
             const i = iterable[$S]();
             const state: IterationState = {};
@@ -66,18 +94,42 @@ function someSync<T>(
                 },
             };
         },
-    };
+    });
 }
 
-function someAsync<T>(
-    iterable: AsyncIterable<T>,
+/**
+ * Standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some Array.some} logic for the iterable,
+ * extended with iteration state + async.
+ *
+ * It emits a `boolean`, indicating whether at least one element passes the predicate test.
+ *
+ * ```ts
+ * import {pipe, some} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3],
+ *     some(a => a % 2 === 0) // checks if even numbers are present
+ * );
+ *
+ * console.log(...i); //=> true
+ *
+ * console.log(i.first); //=> true
+ * ```
+ *
+ * @see
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some Array.some}
+ *  - {@link every}
+ * @category Operations
+ */
+
+export function someAsync<T>(
     cb: (
         value: T,
         index: number,
         state: IterationState
     ) => boolean | Promise<boolean>
-): AsyncIterable<boolean> {
-    return {
+): AsyncOperation<T, boolean> {
+    return (iterable) => ({
         [$A](): AsyncIterator<boolean> {
             const i = iterable[$A]();
             const state: IterationState = {};
@@ -102,5 +154,5 @@ function someAsync<T>(
                 },
             };
         },
-    };
+    });
 }

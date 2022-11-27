@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, takeLast} from '../../../src';
+import {pipe, takeLast} from '../../../src/entry/sync';
 
 export default () => {
     const input = [10, 20, 30, 40, 50];

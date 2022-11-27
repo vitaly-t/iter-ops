@@ -117,11 +117,30 @@ export type UnknownIterableOrIterator<T> =
 export type TypedArray = ArrayBufferView & ArrayLike<unknown>;
 
 /**
- * Pipe-through type (return type for all operators)
+ * @deprecated use `DuelOperation` instead.
  */
 export interface Operation<T, R> {
     (i: UnknownIterable<T>): UnknownIterable<R>;
 }
+
+/**
+ * An operation that can run on either the synchronous or asynchronous pipeline.
+ */
+export type DuelOperation<T, R> = (
+    iterable: UnknownIterable<T>
+) => UnknownIterable<R>;
+
+/**
+ * An operation that can run on the synchronous pipeline.
+ */
+export type SyncOperation<T, R> = (iterable: Iterable<T>) => Iterable<R>;
+
+/**
+ * An operation that can run on the asynchronous pipeline.
+ */
+export type AsyncOperation<T, R> = (
+    iterable: AsyncIterable<T>
+) => AsyncIterable<R>;
 
 /**
  * Any synchronous value type.
