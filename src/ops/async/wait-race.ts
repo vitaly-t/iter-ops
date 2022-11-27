@@ -1,6 +1,6 @@
 import {$A, Operation} from '../../types';
 import {isPromiseLike} from '../../typeguards';
-import {createOperation, throwOnSync} from '../../utils';
+import {createOperation, forwardThrough} from '../../utils';
 
 /**
  * Caches up every N promises, to race-resolve them and emit unordered results.
@@ -50,7 +50,7 @@ import {createOperation, throwOnSync} from '../../utils';
  * results in better concurrency. Setting it to less than 2 will deactivate caching completely,
  * and instead apply the same logic as operator {@link wait}.
  *
- * @throws `Error: 'Operator "waitRace" requires asynchronous pipeline'` when used inside a synchronous pipeline.
+ * When inside a synchronous pipeline, the operator simply forwards to the source iterable.
  *
  * @see
  *  - {@link wait}
@@ -60,7 +60,7 @@ import {createOperation, throwOnSync} from '../../utils';
 export function waitRace<T>(cacheSize: number): Operation<Promise<T> | T, T>;
 
 export function waitRace(...args: unknown[]) {
-    return createOperation(throwOnSync('waitRace'), waitRaceAsync, args);
+    return createOperation(forwardThrough, waitRaceAsync, args);
 }
 
 // implemented by: https://stackoverflow.com/users/1048572/bergi
@@ -79,6 +79,7 @@ export function waitRaceAsync<T>(
             ) => void)[] = [];
             // cache of promises to be resolved or to be returned by `.next()` to the destination:
             const promises: Promise<IteratorResult<T>>[] = [];
+
             function kickOffNext(): void {
                 promises.push(
                     new Promise((resolve) => {
@@ -120,6 +121,7 @@ export function waitRaceAsync<T>(
                     })
                 );
             }
+
             function kickOffMore() {
                 if (
                     !finished && // stop when source is done
@@ -129,6 +131,7 @@ export function waitRaceAsync<T>(
                     kickOffNext();
                 }
             }
+
             if (cacheSize < 2) {
                 // cache + racing will have no effect, so deactivating them,
                 // by using the same logic as operator wait():
