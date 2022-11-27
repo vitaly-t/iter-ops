@@ -1,6 +1,6 @@
 import {$A, Operation} from '../../types';
 import {isPromiseLike} from '../../typeguards';
-import {createOperation, throwOnSync} from '../../utils';
+import {createOperation, forwardThrough} from '../../utils';
 
 /**
  * When the value is a `Promise`, it is resolved, or else returned as is,
@@ -42,7 +42,7 @@ import {createOperation, throwOnSync} from '../../utils';
  * }
  * ```
  *
- * @throws `Error: 'Operator "wait" requires asynchronous pipeline'` when used inside a synchronous pipeline.
+ * When inside a synchronous pipeline, the operator simply forwards to the source iterable.
  *
  * @see
  *  - {@link waitRace}
@@ -52,7 +52,7 @@ import {createOperation, throwOnSync} from '../../utils';
 export function wait<T>(): Operation<Promise<T> | T, T>;
 
 export function wait() {
-    return createOperation(throwOnSync('wait'), waitAsync);
+    return createOperation(forwardThrough, waitAsync);
 }
 
 export function waitAsync<T>(

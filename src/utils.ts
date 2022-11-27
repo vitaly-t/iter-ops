@@ -16,6 +16,13 @@ export function createOperation<T, R>(
 }
 
 /**
+ * Forward-through callback for synchronous pipelines.
+ */
+export function forwardThrough<T>(i: Iterable<T>): Iterable<T> {
+    return i;
+}
+
+/**
  * Creates a generic synchronous operator that throws an error during iteration.
  */
 export function throwOnSync<T>(operatorName: string) {
