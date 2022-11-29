@@ -23,7 +23,7 @@ export interface IConcurrencyWork<T, R> {
 /**
  * Splits synchronous from asynchronous operator chains, based on concurrency.
  *
- * It is a helper for custom operators with implementation dependent on concurrency.
+ * It is a coding-style helper for custom operators with implementation dependent on concurrency.
  *
  * ```ts
  * import {concurrencyFork} from 'iter-ops';
@@ -33,12 +33,12 @@ export interface IConcurrencyWork<T, R> {
  *         onSync(i: Iterable<T>) {
  *             // "i" and "source" are the same object here, with different type cast
  *
- *             // return synchronous operator chain
+ *             // return a synchronous operator chain
  *         },
  *         onAsync(i: AsyncIterable<T>) {
  *             // "i" and "source" are the same object here, with different type cast
  *
- *             // return asynchronous operator chain
+ *             // return an asynchronous operator chain
  *         }
  *     })(source);
  * }
@@ -50,6 +50,25 @@ export interface IConcurrencyWork<T, R> {
  *  - `return source`
  *  - `return null`
  *  - `return undefined` (or do nothing)
+ *
+ * This operator is strictly about coding style, it is not necessary, and can be simply replaced with
+ * a check on the source iterable:
+ *
+ * ```ts
+ * function myOperator<T>() {
+ *     return source => {
+ *         const sync = typeof source[Symbol.iterator] === 'function';
+ *         if(sync) {
+ *             // return a synchronous operator chain
+ *         }
+ *         // else:
+ *         // return an asynchronous operator chain
+ *     };
+ * }
+ * ```
+ *
+ * The choice is down to your coding-style preference. Operator `concurrencyFork` adds more strict types control,
+ * plus automatic forwarding to the source when there is no handler or nothing is returned.
  *
  * @category Sync+Async
  */
