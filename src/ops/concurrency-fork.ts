@@ -31,16 +31,16 @@ export interface IConcurrencyWork<T, R> {
  * function myOperator<T>() {
  *     return source => concurrencyFork({
  *         onSync(i: Iterable<T>) {
- *             // "i" and "source" are the same object, with different type cast
+ *             // "i" and "source" are the same object here, with different type cast
  *
  *             // return synchronous operator chain
  *         },
  *         onAsync(i: AsyncIterable<T>) {
- *             // "i" and "source" are the same object, with different type cast
+ *             // "i" and "source" are the same object here, with different type cast
  *
  *             // return asynchronous operator chain
  *         }
- *     })(i);
+ *     })(source);
  * }
  * ```
  *
