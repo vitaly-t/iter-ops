@@ -16,8 +16,7 @@ export function has<T, K extends PropertyKey>(
     object: T,
     key: K
 ): object is T & Record<K, unknown> {
-    // Cannot use `in` operator as it doesn't work for strings.
-    return (object as any)[key] !== undefined;
+    return key in Object(object);
 }
 
 /**
@@ -53,7 +52,7 @@ export function hasOfType<T, K extends PropertyKey>(
 export function isPromiseLike<T, CastGeneric = unknown>(
     value: T
 ): value is T & PromiseLike<CastGeneric> {
-    return value !== undefined && hasOfType(value, 'then', 'function');
+    return hasOfType(value, 'then', 'function');
 }
 
 /**
@@ -91,7 +90,7 @@ export function isUnknownIterator<T, CastGeneric = unknown>(
 export function isIteratorResult<T, CastGeneric = unknown>(
     value: T
 ): value is T & IteratorResult<CastGeneric> {
-    return has(value, 'value');
+    return has(value, 'value') || (has(value, 'done') && value.done === true);
 }
 
 /**
@@ -124,4 +123,11 @@ export function isTypedArray<T>(value: T): value is T & TypedArray {
  */
 export function isArrayBufferLike<T>(value: T): value is T & ArrayBufferLike {
     return hasOfType(value, 'byteLength', 'number');
+}
+
+/**
+ * Determines if the value is a not undefined or null.
+ */
+export function isNonNullable<T>(value: T): value is NonNullable<T> {
+    return value !== undefined && value !== null;
 }
