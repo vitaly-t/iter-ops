@@ -1,5 +1,6 @@
 import type {Operation} from '../types';
 import {createOperation} from '../utils';
+import {$A, $S} from '../types';
 
 /**
  * Provides a work chain, based on concurrency, for operator {@link concurrencyFork}.
@@ -23,7 +24,7 @@ export interface IConcurrencyWork<T, R> {
 /**
  * Splits synchronous from asynchronous operator chains, based on concurrency.
  *
- * It is a coding-style helper for custom operators with implementation dependent on concurrency.
+ * It is a helper for custom operators with implementation dependent on concurrency.
  *
  * ```ts
  * import {concurrencyFork} from 'iter-ops';
@@ -51,8 +52,7 @@ export interface IConcurrencyWork<T, R> {
  *  - `return null`
  *  - `return undefined` (or do nothing)
  *
- * This operator is strictly about coding style, it is not necessary, and can be simply replaced with
- * a check on the source iterable:
+ * This operator is not strictly necessary, since a custom operator can simply check the type directly:
  *
  * ```ts
  * function myOperator<T>() {
@@ -67,8 +67,12 @@ export interface IConcurrencyWork<T, R> {
  * }
  * ```
  *
- * The choice is down to your coding-style preference. Operator `concurrencyFork` adds more strict types control,
- * plus automatic forwarding to the source when there is no handler or nothing is returned.
+ * However, use of operator `concurrencyFork` offers the following advantages:
+ *  - It handles errors that a custom operator may throw during pipeline construction,
+ *    and turns them into iteration-time errors, so operator {@link catchError} can handle them.
+ *  - It will safely redirect to the source, should your custom operator not provide a handler,
+ *    or when the handler doesn't return anything.
+ *  - It offers a more strict types control, plus generally cleaner coding style.
  *
  * @category Sync+Async
  */
@@ -84,12 +88,46 @@ function concurrencyForkSync<T, R>(
     iterable: Iterable<T>,
     work: IConcurrencyWork<T, R>
 ): Iterable<R> {
-    return work.onSync?.(iterable) ?? (iterable as Iterable<any>);
+    try {
+        return work.onSync?.(iterable) ?? (iterable as Iterable<any>);
+    } catch (err) {
+        return {
+            [$S](): Iterator<R> {
+                let done = false;
+                return {
+                    next(): IteratorResult<R> {
+                        if (done) {
+                            return {value: undefined, done};
+                        }
+                        done = true;
+                        throw err; // now catchError operator can handle the error
+                    },
+                };
+            },
+        };
+    }
 }
 
 function concurrencyForkAsync<T, R>(
     iterable: AsyncIterable<T>,
     work: IConcurrencyWork<T, R>
 ): AsyncIterable<R> {
-    return work.onAsync?.(iterable) ?? (iterable as AsyncIterable<any>);
+    try {
+        return work.onAsync?.(iterable) ?? (iterable as AsyncIterable<any>);
+    } catch (err) {
+        return {
+            [$A](): AsyncIterator<R> {
+                let done = false;
+                return {
+                    next(): Promise<IteratorResult<R>> {
+                        if (done) {
+                            return Promise.resolve({value: undefined, done});
+                        }
+                        done = true;
+                        return Promise.reject(err); // now catchError operator can handle the error
+                    },
+                };
+            },
+        };
+    }
 }
