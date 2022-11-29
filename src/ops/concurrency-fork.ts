@@ -23,7 +23,22 @@ export interface IConcurrencyWork<T, R> {
 /**
  * Splits synchronous from asynchronous operator chains, based on concurrency.
  *
- * It is a helper for custom operators, to provide separate operator chains.
+ * It is a helper for custom operators with implementation dependent on concurrency.
+ *
+ * ```ts
+ * import {concurrencyFork} from 'iter-ops';
+ *
+ * function myOperator<T>() {
+ *     return i => concurrencyFork({
+ *         onSync(source: Iterable<T>) {
+ *             // return synchronous operator chain
+ *         },
+ *         onAsync(source: AsyncIterable<T>) {
+ *             // return asynchronous operator chain
+ *         }
+ *     })(i);
+ * }
+ * ```
  *
  * @category Sync+Async
  */
