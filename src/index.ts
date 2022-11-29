@@ -18,6 +18,7 @@ export {pipe, pipeSync, pipeAsync} from './pipe';
 export {aggregate} from './ops/aggregate';
 export {catchError} from './ops/catch-error';
 export {concat} from './ops/concat';
+export {concurrencyFork, IConcurrencyWork} from './ops/concurrency-fork';
 export {count} from './ops/count';
 export {defaultEmpty} from './ops/default-empty';
 export {delay} from './ops/async/delay';

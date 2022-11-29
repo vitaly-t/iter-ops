@@ -2,18 +2,32 @@ import type {Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Provides a work chain based on concurrency, for operator {@link concurrencyFork}.
+ * Provides a work chain, based on concurrency, for operator {@link concurrencyFork}.
  */
-interface IConcurrencyWork<T, R> {
-    onSync?(i: Iterable<T>): Iterable<R> | null | undefined;
+export interface IConcurrencyWork<T, R> {
+    /**
+     * Invoked for synchronous iterables only, to return a chain of operators for synchronous processing.
+     *
+     * When nothing or `null` is returned, it redirects to the source iterable.
+     */
+    onSync?(i: Iterable<T>): Iterable<R> | null | void;
 
-    onAsync?(i: AsyncIterable<T>): AsyncIterable<R> | null | undefined;
+    /**
+     * Invoked for asynchronous iterables only, to return a chain of operators for asynchronous processing.
+     *
+     * When nothing or `null` is returned, it redirects to the source iterable.
+     */
+    onAsync?(i: AsyncIterable<T>): AsyncIterable<R> | null | void;
 }
 
 /**
+ * Splits synchronous from asynchronous operator chains, based on concurrency.
+ *
+ * It is a helper for custom operators, to provide separate operator chains.
+ *
  * @category Sync+Async
  */
-export function concurrencyFork<T, R>(
+export function concurrencyFork<T, R = T>(
     work: IConcurrencyWork<T, R>
 ): Operation<T, R>;
 
