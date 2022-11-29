@@ -29,16 +29,27 @@ export interface IConcurrencyWork<T, R> {
  * import {concurrencyFork} from 'iter-ops';
  *
  * function myOperator<T>() {
- *     return i => concurrencyFork({
- *         onSync(source: Iterable<T>) {
+ *     return source => concurrencyFork({
+ *         onSync(i: Iterable<T>) {
+ *             // "i" and "source" are the same object, with different type cast
+ *
  *             // return synchronous operator chain
  *         },
- *         onAsync(source: AsyncIterable<T>) {
+ *         onAsync(i: AsyncIterable<T>) {
+ *             // "i" and "source" are the same object, with different type cast
+ *
  *             // return asynchronous operator chain
  *         }
  *     })(i);
  * }
  * ```
+ *
+ * Returning from the callback any of the following is the same as not having the handler at all,
+ * which will just forward to the source iterable (so it will have no effect):
+ *  - `return i`
+ *  - `return source`
+ *  - `return null`
+ *  - `return undefined` (or do nothing)
  *
  * @category Sync+Async
  */
