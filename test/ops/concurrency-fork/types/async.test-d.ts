@@ -5,18 +5,14 @@ import {AsyncIterableExt, pipe, concurrencyFork} from '../../../../src';
 declare const iterableNumber: AsyncIterable<number>;
 
 // with empty object:
-const test1 = pipe(
-    iterableNumber,
-    concurrencyFork({})
-);
+const test1 = pipe(iterableNumber, concurrencyFork({}));
 expectType<AsyncIterableExt<number>>(test1);
 
 // returning nothing:
 const test2 = pipe(
     iterableNumber,
     concurrencyFork({
-        onAsync() {
-        }
+        onAsync() {},
     })
 );
 expectType<AsyncIterableExt<number>>(test2);
@@ -27,7 +23,7 @@ const test3 = pipe(
     concurrencyFork({
         onAsync(i) {
             return null;
-        }
+        },
     })
 );
 expectType<AsyncIterableExt<number>>(test3);
@@ -38,7 +34,7 @@ const test4 = pipe(
     concurrencyFork({
         onAsync(i) {
             return i;
-        }
+        },
     })
 );
 expectType<AsyncIterableExt<number>>(test4);
@@ -51,7 +47,7 @@ const test5 = pipe(
             return (async function* () {
                 yield 'hello';
             })();
-        }
+        },
     })
 );
 expectType<AsyncIterableExt<string>>(test5);
