@@ -1,6 +1,6 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "name": "ITER-OPS v2.8.0",
+  "name": "ITER-OPS v2.8.1",
   "out": "../iter-ops-docs",
   "excludeExternals": true,
   "excludePrivate": true,
