@@ -19,4 +19,19 @@ export default () => {
         );
         expect(await _asyncValues(output)).to.eql(['one', 'two']);
     });
+    it('must redirect callback errors', async () => {
+        let err: Error | undefined;
+        const output = pipe(
+            _async([]),
+            concurrencyFork({
+                onAsync() {
+                    throw new Error('ops!');
+                },
+            })
+        ).catch((e) => {
+            err = e;
+        });
+        await _asyncValues(output);
+        expect(err?.message).to.eq('ops!');
+    });
 };

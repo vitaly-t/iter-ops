@@ -1,6 +1,6 @@
 import type {Operation} from '../types';
 import {createOperation} from '../utils';
-import {$A, $S} from "../types";
+import {$A, $S} from '../types';
 
 /**
  * Provides a work chain, based on concurrency, for operator {@link concurrencyFork}.
@@ -101,9 +101,9 @@ function concurrencyForkSync<T, R>(
                         }
                         done = true;
                         throw err; // now catchError operator can handle the error
-                    }
+                    },
                 };
-            }
+            },
         };
     }
 }
@@ -125,9 +125,9 @@ function concurrencyForkAsync<T, R>(
                         }
                         done = true;
                         return Promise.reject(err); // now catchError operator can handle the error
-                    }
+                    },
                 };
-            }
+            },
         };
     }
 }
