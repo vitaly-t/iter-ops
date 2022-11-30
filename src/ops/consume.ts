@@ -4,10 +4,10 @@ import {$A, $S} from '../types';
 import {isPromiseLike} from '../typeguards';
 
 /**
- * Redirects the source iterable to an external consumer, and produces a one-value iterable with that consumer.
+ * Exposes the source iterable to an external consumer, and emits a one-value iterable with that consumer.
  *
- * It is to simplify integration with external API that consumes iterables, which is particularly important
- * for custom operators.
+ * It is mainly to help integration with external API that consumes iterables. Specifically with custom operators,
+ * it is the only way to forward complete data from a source iterator into an internally created consumer.
  *
  * ```ts
  * import {pipeAsync, consume} from 'iter-ops';
