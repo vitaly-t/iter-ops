@@ -6,8 +6,7 @@ import {isPromiseLike} from '../typeguards';
 /**
  * Exposes the source iterable to an external consumer, and emits a one-value iterable with that consumer.
  *
- * It is mainly to help integration with external API that consumes iterables. Specifically with custom operators,
- * it is the only way to forward complete data from a source iterator into an internally created consumer.
+ * It is to simplify integration with external API that consumes iterables.
  *
  * ```ts
  * import {pipeAsync, consume} from 'iter-ops';
