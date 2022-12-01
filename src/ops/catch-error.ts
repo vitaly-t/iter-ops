@@ -4,12 +4,50 @@ import {createOperation} from '../utils';
 /**
  * Catches iteration errors (see {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}).
  *
+ * Below is explicit error handling, by injecting `catchError` into the pipeline:
+ *
+ * ```ts
+ * import {pipe, catchError, map} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3],
+ *     map(a => {
+ *         if (a % 2 === 0) {
+ *             throw new Error('even number');
+ *         }
+ *         return a;
+ *     }),
+ *     catchError((err, ctx) => {
+ *         console.log(err);
+ *     })
+ * );
+ * ```
+ *
  * What you can do inside the error handler:
  *
  * - nothing (we let it skip the value)
  * - provide a new/alternative value (via `ctx.emit(value)`)
  * - re-throw the original error
  * - throw a new error
+ *
+ * Below is implicit error handling, via `catch`, which just appends `catchError` to the pipeline:
+ *
+ * ```ts
+ * import {pipe, map} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3],
+ *     map(a => {
+ *         if (a % 2 === 0) {
+ *             throw new Error('even number');
+ *         }
+ *         return a;
+ *     })
+ * )
+ *     .catch((err, ctx) => {
+ *         console.log(err);
+ *     });
+ * ```
  *
  * @see
  *  - {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}
