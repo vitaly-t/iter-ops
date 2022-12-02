@@ -22,10 +22,12 @@ import {isPromiseLike} from '../typeguards';
  *
  * The consumer callback can optionally return a `Promise` when inside asynchronous pipeline.
  *
+ * Flag `sync` in the callback is `true` when the iterable is synchronous, and `false` when asynchronous.
+ *
  * @category Sync+Async
  */
 export function consume<T, R>(
-    consumer: (data: UnknownIterable<T>) => R | Promise<R>
+    consumer: (data: UnknownIterable<T>, sync: boolean) => R | Promise<R>
 ): Operation<T, R>;
 
 export function consume(...args: unknown[]) {
@@ -34,7 +36,7 @@ export function consume(...args: unknown[]) {
 
 function consumeSync<T, R>(
     iterable: Iterable<T>,
-    consumer: (data: Iterable<T>) => R
+    consumer: (data: Iterable<T>, sync: boolean) => R
 ): Iterable<R> {
     return {
         [$S](): Iterator<R> {
@@ -43,7 +45,7 @@ function consumeSync<T, R>(
                 next(): IteratorResult<R> {
                     if (!done) {
                         done = true;
-                        return {value: consumer(iterable), done: false};
+                        return {value: consumer(iterable, true), done: false};
                     }
                     return {value: undefined, done};
                 },
@@ -54,7 +56,7 @@ function consumeSync<T, R>(
 
 function consumeAsync<T, R>(
     iterable: AsyncIterable<T>,
-    consumer: (data: AsyncIterable<T>) => R | Promise<R>
+    consumer: (data: AsyncIterable<T>, sync: boolean) => R | Promise<R>
 ): AsyncIterable<R> {
     return {
         [$A](): AsyncIterator<R> {
@@ -63,7 +65,7 @@ function consumeAsync<T, R>(
                 next(): Promise<IteratorResult<R>> {
                     if (!done) {
                         done = true;
-                        const a = consumer(iterable) as any;
+                        const a = consumer(iterable, false) as any;
                         if (isPromiseLike(a)) {
                             return a.then((value: R) => ({value, done: false}));
                         }
