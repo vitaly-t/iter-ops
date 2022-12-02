@@ -27,4 +27,13 @@ export default () => {
         );
         expect(await _asyncValues(output)).to.eql([undefined]);
     });
+    it('must resolve a returned promise', async () => {
+        const output = pipeAsync(
+            [1, 2, 3],
+            aggregate(async (data) => {
+                return data;
+            })
+        );
+        expect(await _asyncValues(output)).to.eql([[1, 2, 3]]);
+    });
 };

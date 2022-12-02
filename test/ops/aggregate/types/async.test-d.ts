@@ -15,3 +15,9 @@ const test2 = pipe(
     aggregate((v) => v.join())
 );
 expectType<AsyncIterableExt<string>>(test2);
+
+const test3 = pipe(
+    iterableString,
+    aggregate(async (v) => v.join())
+);
+expectType<AsyncIterableExt<string>>(test3);

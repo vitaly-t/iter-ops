@@ -1,5 +1,6 @@
 import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
+import {isPromiseLike} from '../typeguards';
 
 /**
  * Aggregates/accumulates all values into array, passes it into the callback/aggregate,
@@ -24,11 +25,15 @@ import {createOperation} from '../utils';
  * console.log(...i); //=> 1, 2, 3, 4, 7, 8
  * ```
  *
+ * The aggregate callback can optionally return a `Promise` when inside asynchronous pipeline.
+ *
  * @see
  *  - {@link https://github.com/vitaly-t/iter-ops/wiki/Aggregates Aggregates}
  * @category Sync+Async
  */
-export function aggregate<T, R>(cb: (arr: T[]) => R): Operation<T, R>;
+export function aggregate<T, R>(
+    cb: (arr: T[]) => R | Promise<R>
+): Operation<T, R>;
 
 export function aggregate(...args: unknown[]) {
     return createOperation(aggregateSync, aggregateAsync, args);
@@ -62,7 +67,7 @@ function aggregateSync<T, R>(
 
 function aggregateAsync<T, R>(
     iterable: AsyncIterable<T>,
-    cb: (arr: T[]) => R
+    cb: (arr: T[]) => R | Promise<R>
 ): AsyncIterable<R> {
     return {
         [$A](): AsyncIterator<R> {
@@ -77,7 +82,14 @@ function aggregateAsync<T, R>(
                                 return a;
                             }
                             finished = true;
-                            return {value: cb(arr), done: false};
+                            const r = cb(arr) as any;
+                            if (isPromiseLike(r)) {
+                                return r.then((value: R) => ({
+                                    value,
+                                    done: false,
+                                }));
+                            }
+                            return {value: r, done: false};
                         }
                         arr.push(a.value);
                         return this.next();
