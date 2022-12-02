@@ -124,10 +124,3 @@ export function isTypedArray<T>(value: T): value is T & TypedArray {
 export function isArrayBufferLike<T>(value: T): value is T & ArrayBufferLike {
     return hasOfType(value, 'byteLength', 'number');
 }
-
-/**
- * Determines if the value is a not undefined or null.
- */
-export function isNonNullable<T>(value: T): value is NonNullable<T> {
-    return value !== undefined && value !== null;
-}
