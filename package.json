@@ -1,6 +1,6 @@
 {
   "name": "iter-ops",
-  "version": "2.9.2",
+  "version": "3.0.0",
   "description": "Basic operations on iterables",
   "keywords": [
     "typescript",
@@ -76,8 +76,8 @@
     "@typescript-eslint/parser": "5.45.0",
     "chai": "4.3.7",
     "cross-env": "7.0.3",
-    "cspell": "6.15.1",
-    "eslint": "8.28.0",
+    "cspell": "6.16.0",
+    "eslint": "8.29.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
     "mocha": "10.1.0",
