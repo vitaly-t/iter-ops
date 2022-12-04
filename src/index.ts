@@ -51,8 +51,6 @@ export {skipWhile} from './ops/skip-while';
 export {some} from './ops/some';
 export {split, ISplitIndex, ISplitOptions, SplitValueCarry} from './ops/split';
 export {spread} from './ops/spread';
-export {start} from './ops/start';
-export {stop} from './ops/stop';
 export {take} from './ops/take';
 export {takeLast} from './ops/take-last';
 export {takeUntil} from './ops/take-until';
