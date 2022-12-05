@@ -99,6 +99,15 @@ describe('toIterable', () => {
         };
         expect(await _asyncValues(toIterable(i2))).to.eql([555]);
     });
+    it('must handle objects with a next methods that do not return an iterator result.', () => {
+        const value = {
+            next() {
+                return new Date();
+            },
+        };
+        const i = toIterable(value);
+        expect([...i]).to.eql([value]);
+    });
 });
 
 describe('reverse', () => {
