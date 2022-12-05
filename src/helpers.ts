@@ -191,10 +191,21 @@ export function toIterable<T>(i: unknown) {
         if (isPromiseLike<typeof i, T>(i)) {
             return toSingleAsyncIterable(i);
         }
-    }
 
-    if (isArrayLike(i)) {
-        return Array.from(i);
+        if (isArrayLike(i)) {
+            return {
+                [$S](): Iterator<T> {
+                    let k = 0;
+                    return {
+                        next() {
+                            return k < i.length
+                                ? {value: i[k++] as T, done: false}
+                                : {value: undefined, done: true};
+                        },
+                    };
+                },
+            };
+        }
     }
 
     // A sync value.
