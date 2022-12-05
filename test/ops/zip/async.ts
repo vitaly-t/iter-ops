@@ -14,6 +14,17 @@ export default () => {
             [3, 'r', 33, true],
         ]);
     });
+    it('must compress async iterables', async () => {
+        const i = pipe(
+            _async([1, 2, 3]),
+            zip('here', _async([11, 22, 33, 44]), createIterator())
+        );
+        expect(await _asyncValues(i)).to.eql([
+            [1, 'h', 11, true],
+            [2, 'e', 22, false],
+            [3, 'r', 33, true],
+        ]);
+    });
     it('must not retry once finished', async () => {
         const i = pipe(_async([1, 2, 3]), zip('here'))[Symbol.asyncIterator]();
         await Promise.all([i.next(), i.next(), i.next(), i.next()]); // iteration over here
