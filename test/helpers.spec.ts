@@ -39,6 +39,16 @@ describe('toIterable', () => {
         const i2 = toIterable(null);
         expect([...i2]).to.eql([null]);
     });
+    it('must convert an array-like object', () => {
+        const input = {
+            length: 3,
+            0: 2,
+            1: 3,
+            2: 4,
+        };
+        const i = toIterable(input);
+        expect([...i]).to.eql([2, 3, 4]);
+    });
     it('must convert a resolved Promise', async () => {
         const i = toIterable(Promise.resolve(123));
         expect(await _asyncValues(i)).to.eql([123]);

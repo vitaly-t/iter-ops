@@ -6,6 +6,7 @@ import {
     isObject,
     isPromiseLike,
     isIndexed,
+    isArrayLike,
 } from './typeguards';
 import {$A, $S, UnknownIterable} from './types';
 import {indexedAsyncIterable} from './utils';
@@ -88,6 +89,17 @@ export function toIterable<T>(i: Iterator<T>): Iterable<T>;
  * @category Core
  */
 export function toIterable<T>(i: AsyncIterator<T>): AsyncIterable<T>;
+
+/**
+ * Converts an array-like object into a synchronous `Iterable`, so it can be used as a pipeline source/input.
+ *
+ * @see
+ *  - {@link https://github.com/vitaly-t/iter-ops/wiki/Iterators Iterators}
+ *  - {@link toAsync}
+ *  - {@link pipe}
+ * @category Core
+ */
+export function toIterable<T>(i: ArrayLike<T>): Iterable<T>;
 
 /**
  * Synchronous type inference helper.
@@ -178,6 +190,21 @@ export function toIterable<T>(i: unknown) {
         // An async value.
         if (isPromiseLike<typeof i, T>(i)) {
             return toSingleAsyncIterable(i);
+        }
+
+        if (isArrayLike(i)) {
+            return {
+                [$S](): Iterator<T> {
+                    let k = 0;
+                    return {
+                        next() {
+                            return k < i.length
+                                ? {value: i[k++] as T, done: false}
+                                : {value: undefined, done: true};
+                        },
+                    };
+                },
+            };
         }
     }
 

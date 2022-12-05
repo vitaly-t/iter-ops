@@ -56,6 +56,17 @@ export function isPromiseLike<T, CastGeneric = unknown>(
 }
 
 /**
+ * Determines if the value is array-like.
+ */
+export function isArrayLike<T, CastGeneric = unknown>(
+    value: T
+): value is T & ArrayLike<CastGeneric> {
+    return (
+        hasOfType(value, 'length', 'number') && Number.isInteger(value.length)
+    );
+}
+
+/**
  * Determines if the value is an iterable.
  */
 export function isSyncIterable<T, CastGeneric = unknown>(
