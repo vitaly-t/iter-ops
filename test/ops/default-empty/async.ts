@@ -33,7 +33,10 @@ export default () => {
             expect(await _asyncValues(output)).to.eql([1, 2, 'three']);
         });
         it('must add async iterables', async () => {
-            const output = pipe(_async([]), defaultEmpty(_async([1, 2, 'three'])));
+            const output = pipe(
+                _async([]),
+                defaultEmpty(_async([1, 2, 'three']))
+            );
             expect(await _asyncValues(output)).to.eql([1, 2, 'three']);
         });
     });

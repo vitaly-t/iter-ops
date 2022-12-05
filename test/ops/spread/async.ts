@@ -2,7 +2,7 @@ import {_async, _asyncValues, expect} from '../../header';
 import {pipe, spread} from '../../../src';
 
 export default () => {
-    it('must split strings', async () => {
+    it('must spread strings', async () => {
         const output = pipe(_async(['one', 'two']), spread());
         expect(await _asyncValues(output)).to.eql([
             'o',
@@ -13,9 +13,14 @@ export default () => {
             'o',
         ]);
     });
-    it('must split arrays', async () => {
+    it('must spread arrays', async () => {
         const second = [3, 4];
         const output = pipe(_async([[1, 2], second]), spread());
+        expect(await _asyncValues(output)).to.eql([1, 2, 3, 4]);
+    });
+    it('must spread async arrays', async () => {
+        const second = [3, 4];
+        const output = pipe(_async([_async([1, 2]), second]), spread());
         expect(await _asyncValues(output)).to.eql([1, 2, 3, 4]);
     });
     it('must handle empty iterables', async () => {
