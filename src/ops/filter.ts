@@ -4,33 +4,6 @@ import {createOperation} from '../utils';
 
 /**
  * Standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter Array.filter} logic for the iterable,
- * extended with iteration state.
- *
- * In the example below, we are able to use a type guard to filter out all the nullable values.
- *
- * ```ts
- * import {pipe, filter} from 'iter-ops';
- *
- * const i = pipe(
- *     [1, null, "foo"],
- *     filter((value): value is NonNullable<typeof value> => value != null)
- * );
- * ```
- *
- * Note: The asynchronous version of this function cannot make use of type guards.\
- * Give a :+1: to the [Asynchronous Type Guards issue](https://github.com/microsoft/TypeScript/issues/37681)
- * if you want support for this.
- *
- * @see
- *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter Array.filter}
- * @category Sync+Async
- */
-export function filter<T, S extends T = T>(
-    cb: (value: T, index: number, state: IterationState) => value is S
-): Operation<T, S>;
-
-/**
- * Standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter Array.filter} logic for the iterable,
  * extended with iteration state + async.
  *
  * In the example below, we take advantage of the {@link IterationState}, to detect and remove repeated
@@ -65,6 +38,33 @@ export function filter<T>(
         state: IterationState
     ) => boolean | Promise<boolean>
 ): Operation<T, T>;
+
+/**
+ * Standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter Array.filter} logic for the iterable,
+ * extended with iteration state.
+ *
+ * In the example below, we are able to use a type guard to filter out all the nullable values.
+ *
+ * ```ts
+ * import {pipe, filter} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, null, "foo"],
+ *     filter((value): value is NonNullable<typeof value> => value != null)
+ * );
+ * ```
+ *
+ * Note: The asynchronous version of this function cannot make use of type guards.\
+ * Give a :+1: to the [Asynchronous Type Guards issue](https://github.com/microsoft/TypeScript/issues/37681)
+ * if you want support for this.
+ *
+ * @see
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter Array.filter}
+ * @category Sync+Async
+ */
+export function filter<T, S extends T = T>(
+    cb: (value: T, index: number, state: IterationState) => value is S
+): Operation<T, S>;
 
 export function filter(...args: unknown[]) {
     return createOperation(filterSync, filterAsync, args);

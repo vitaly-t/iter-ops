@@ -37,7 +37,7 @@ export type Flatten<T, N extends number> =
  * console.log(...i); //=> 'o', 'n', 'e', 2, 3, 4, 5
  * ```
  *
- * It implements the logic consistent with {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat Array.prototype.flat()},
+ * It implements the logic consistent with {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat Array.flat},
  * handling non-iterable values without throwing errors (unlike {@link spread}), and with optional `depth` support.
  *
  * Note that when handling a synchronous iterable, this operator can only expand synchronous sub-iterables.
@@ -48,7 +48,7 @@ export type Flatten<T, N extends number> =
  *
  * @see
  *  - {@link spread}
- *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat Array.prototype.flat()}
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat Array.flat}
  * @category Sync+Async
  */
 export function flat<T, N extends number = 1>(
