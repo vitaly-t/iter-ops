@@ -9,9 +9,6 @@
   "semanticCommits": "enabled",
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
-  "customEnvVariables": {
-    "EXCLUDE_RACE_TESTS": true
-  },
   "packageRules": [
     {
       "matchPackageNames": ["rollup-plugin-dts"],
