@@ -129,7 +129,7 @@ All standard operators implement the same logic as [Array] does:
 
 #### <i>Custom Operators:</i>
 
-See [iter-ops-extra] - a collection of custom operators (ones based on existing operators).
+See [iter-ops-extras] - a collection of custom operators (ones based on existing operators).
 
 #### <i>Resources:</i>
 
@@ -158,4 +158,4 @@ See [iter-ops-extra] - a collection of custom operators (ones based on existing 
 [pipesync]: https://vitaly-t.github.io/iter-ops/functions/pipeSync
 [pipeasync]: https://vitaly-t.github.io/iter-ops/functions/pipeAsync
 [wiki pages]: https://github.com/vitaly-t/iter-ops/wiki
-[iter-ops-extra]: https://github.com/vitaly-t/iter-ops-extras
+[iter-ops-extras]: https://github.com/vitaly-t/iter-ops-extras
