@@ -14,7 +14,7 @@ Basic operations on [synchronous] + [asynchronous] iterables, strictly for JavaS
 We do not use any synthetic types / wrappers here, like `Observable` in RXJS, etc. It is strictly an iterable on the
 input, and an iterable on the output, for maximum performance, simplicity and compatibility (see [Rationale]).
 
-Related repo: [iter-ops-extras](https://github.com/vitaly-t/iter-ops-extras) - addition to the [main API](https://vitaly-t.github.io/iter-ops/).
+Related repo: [iter-ops-extras] - addition to the [main API](https://vitaly-t.github.io/iter-ops/).
 
 ## Installation
 
@@ -72,7 +72,7 @@ _See also..._
 Function [pipe] takes any iterable, applies all specified operators to it, and returns an extended iterable.
 For strict type of iterables, there are also [pipeSync] and [pipeAsync].
 
-#### <i>Standard operators:</i>
+#### <i>Standard Operators:</i>
 
 All standard operators implement the same logic as [Array] does:
 
@@ -86,7 +86,7 @@ All standard operators implement the same logic as [Array] does:
 -   [reduce](http://vitaly-t.github.io/iter-ops/functions/reduce) - standard reduce processor.
 -   [some](http://vitaly-t.github.io/iter-ops/functions/some) - checks if any element passes the predicate test.
 
-#### <i>Extended operators:</i>
+#### <i>Extended Operators:</i>
 
 -   [aggregate](http://vitaly-t.github.io/iter-ops/functions/aggregate) - executes an aggregate on accumulated values -
     see [Aggregates].
@@ -127,7 +127,11 @@ All standard operators implement the same logic as [Array] does:
 -   [toArray](http://vitaly-t.github.io/iter-ops/functions/toArray) - accumulates values into an array.
 -   [zip](http://vitaly-t.github.io/iter-ops/functions/zip) - zips values together, into an array.
 
-#### <i>See also:</i>
+#### <i>Custom Operators:</i>
+
+See [iter-ops-extra] - a collection of custom operators (ones based on existing operators).
+
+#### <i>Resources:</i>
 
 -   [Short API] list below, plus [Full API]
 -   [Benchmarks], for performance comparison
@@ -154,3 +158,4 @@ All standard operators implement the same logic as [Array] does:
 [pipesync]: https://vitaly-t.github.io/iter-ops/functions/pipeSync
 [pipeasync]: https://vitaly-t.github.io/iter-ops/functions/pipeAsync
 [wiki pages]: https://github.com/vitaly-t/iter-ops/wiki
+[iter-ops-extra]:https://github.com/vitaly-t/iter-ops-extras
