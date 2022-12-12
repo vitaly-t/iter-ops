@@ -5,8 +5,7 @@ import {createOperation} from '../utils';
  * Standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map Array.map} logic for the iterable,
  * extended for supporting iteration state.
  *
- * When the callback is asynchronous (returns a `Promise`), the operator does not resolve the value,
- * because this library gives you the flexibility of resolving those in a variety of ways:
+ * When the callback is asynchronous, the operator does not resolve the value, to give you the flexibility of resolving it in a variety of ways:
  *  - you can follow it up with operator {@link wait}, for sequential resolution
  *  - you can follow it up with operator {@link waitRace}, to emit values as they resolve
  *  - you can follow it up with {@link aggregate} + `Promise.all`, for a grouped resolution
