@@ -1,6 +1,13 @@
-import {$A, $S, IterationState, Operation} from '../types';
+import {
+    $A,
+    $S,
+    AsyncOperation,
+    DuelOperation,
+    IterationState,
+    SyncOperation,
+} from '../types';
 import {isPromiseLike} from '../typeguards';
-import {createOperation} from '../utils';
+import {createDuelOperation} from '../utils';
 
 /**
  * Takes values while the predicate test succeeds.
@@ -35,17 +42,37 @@ export function takeWhile<T>(
         index: number,
         state: IterationState
     ) => boolean | Promise<boolean>
-): Operation<T, T>;
-
-export function takeWhile(...args: unknown[]) {
-    return createOperation(takeWhileSync, takeWhileAsync, args);
+): DuelOperation<T, T> {
+    return createDuelOperation<T, T>(takeWhileSync, takeWhileAsync, [cb]);
 }
 
-function takeWhileSync<T>(
-    iterable: Iterable<T>,
+/**
+ * Takes values while the predicate test succeeds.
+ *
+ * ```ts
+ * import {pipe, takeWhile} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5, 6, 7, 8, 9],
+ *     takeWhile(a => a < 5) // take while value < 5
+ * );
+ *
+ * console.log(...i); //=> 1, 2, 3, 4
+ * ```
+ *
+ * @see
+ *  - {@link skip}
+ *  - {@link skipUntil}
+ *  - {@link skipWhile}
+ *  - {@link take}
+ *  - {@link takeLast}
+ *  - {@link takeUntil}
+ * @category Operations
+ */
+export function takeWhileSync<T>(
     cb: (value: T, index: number, state: IterationState) => boolean
-): Iterable<T> {
-    return {
+): SyncOperation<T, T> {
+    return (iterable) => ({
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             const state: IterationState = {};
@@ -64,18 +91,40 @@ function takeWhileSync<T>(
                 },
             };
         },
-    };
+    });
 }
 
-function takeWhileAsync<T>(
-    iterable: AsyncIterable<T>,
+/**
+ * Takes values while the predicate test succeeds.
+ *
+ * ```ts
+ * import {pipe, takeWhile} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5, 6, 7, 8, 9],
+ *     takeWhile(a => a < 5) // take while value < 5
+ * );
+ *
+ * console.log(...i); //=> 1, 2, 3, 4
+ * ```
+ *
+ * @see
+ *  - {@link skip}
+ *  - {@link skipUntil}
+ *  - {@link skipWhile}
+ *  - {@link take}
+ *  - {@link takeLast}
+ *  - {@link takeUntil}
+ * @category Operations
+ */
+export function takeWhileAsync<T>(
     cb: (
         value: T,
         index: number,
         state: IterationState
     ) => boolean | Promise<boolean>
-): AsyncIterable<T> {
-    return {
+): AsyncOperation<T, T> {
+    return (iterable) => ({
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             const state: IterationState = {};
@@ -101,5 +150,5 @@ function takeWhileAsync<T>(
                 },
             };
         },
-    };
+    });
 }

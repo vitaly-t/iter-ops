@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, toArray} from '../../../src';
+import {pipe, toArray} from '../../../src/entry/sync';
 
 export default () => {
     it('must recreate input array', () => {

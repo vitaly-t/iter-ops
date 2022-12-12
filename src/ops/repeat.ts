@@ -1,5 +1,12 @@
-import {$A, $S, IterationState, Operation} from '../types';
-import {createOperation} from '../utils';
+import {
+    $A,
+    $S,
+    AsyncOperation,
+    DuelOperation,
+    IterationState,
+    SyncOperation,
+} from '../types';
+import {createDuelOperation} from '../utils';
 
 /**
  * Repeats every value specified number of times.
@@ -19,7 +26,7 @@ import {createOperation} from '../utils';
  *  - {@link retry}
  * @category Sync+Async
  */
-export function repeat<T>(count: number): Operation<T, T>;
+export function repeat<T>(count: number): DuelOperation<T, T>;
 
 /**
  * Repeats values while passing predicate test.
@@ -53,14 +60,64 @@ export function repeat<T>(
         count: number,
         state: IterationState
     ) => boolean | Promise<boolean>
-): Operation<T, T>;
+): DuelOperation<T, T>;
 
 export function repeat(...args: unknown[]) {
-    return createOperation(repeatSync, repeatAsync, args);
+    return createDuelOperation(repeatSync, repeatAsync, args);
 }
 
-function repeatSync<T>(
-    iterable: Iterable<T>,
+/**
+ * Repeats every value specified number of times.
+ *
+ * ```ts
+ * import {pipe, repeat} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3],
+ *     repeat(2)
+ * );
+ *
+ * console.log(...i); //=> 1, 1, 1, 2, 2, 2, 3, 3, 3
+ * ```
+ *
+ * @see
+ *  - {@link retry}
+ * @category Operations
+ */
+export function repeatSync<T>(count: number): SyncOperation<T, T>;
+
+/**
+ * Repeats values while passing predicate test.
+ * - `value` - repeated value
+ * - `index` - original value index
+ * - `count` - repeats count thus far (starts with 0)
+ * - `state` - iteration state
+ *
+ * ```ts
+ * import {pipe, repeat} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5, 6, 7],
+ *     repeat((a, idx, c) => a % 2 === 0 && c < 2) // repeat even numbers 2 times
+ * );
+ *
+ * console.log(...i); //=> 1, 2, 2, 2, 3, 4, 4, 4, 5, 6, 6, 6, 7
+ * ```
+ *
+ * @see
+ *  - {@link retry}
+ * @category Operations
+ */
+export function repeatSync<T>(
+    cb: (
+        value: T,
+        index: number,
+        count: number,
+        state: IterationState
+    ) => boolean
+): SyncOperation<T, T>;
+
+export function repeatSync<T>(
     count:
         | number
         | ((
@@ -69,8 +126,8 @@ function repeatSync<T>(
               count: number,
               state: IterationState
           ) => boolean)
-): Iterable<T> {
-    return {
+): SyncOperation<T, T> {
+    return (iterable) => ({
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             const state: IterationState = {};
@@ -106,11 +163,61 @@ function repeatSync<T>(
                 },
             };
         },
-    };
+    });
 }
 
-function repeatAsync<T>(
-    iterable: AsyncIterable<T>,
+/**
+ * Repeats every value specified number of times.
+ *
+ * ```ts
+ * import {pipe, repeat} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3],
+ *     repeat(2)
+ * );
+ *
+ * console.log(...i); //=> 1, 1, 1, 2, 2, 2, 3, 3, 3
+ * ```
+ *
+ * @see
+ *  - {@link retry}
+ * @category Operations
+ */
+export function repeatAsync<T>(count: number): AsyncOperation<T, T>;
+
+/**
+ * Repeats values while passing predicate test.
+ * - `value` - repeated value
+ * - `index` - original value index
+ * - `count` - repeats count thus far (starts with 0)
+ * - `state` - iteration state
+ *
+ * ```ts
+ * import {pipe, repeat} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5, 6, 7],
+ *     repeat((a, idx, c) => a % 2 === 0 && c < 2) // repeat even numbers 2 times
+ * );
+ *
+ * console.log(...i); //=> 1, 2, 2, 2, 3, 4, 4, 4, 5, 6, 6, 6, 7
+ * ```
+ *
+ * @see
+ *  - {@link retry}
+ * @category Operations
+ */
+export function repeatAsync<T>(
+    cb: (
+        value: T,
+        index: number,
+        count: number,
+        state: IterationState
+    ) => boolean | Promise<boolean>
+): AsyncOperation<T, T>;
+
+export function repeatAsync<T>(
     count:
         | number
         | ((
@@ -119,8 +226,8 @@ function repeatAsync<T>(
               count: number,
               state: IterationState
           ) => boolean | Promise<boolean>)
-): AsyncIterable<T> {
-    return {
+): AsyncOperation<T, T> {
+    return (iterable) => ({
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             const state: IterationState = {};
@@ -161,5 +268,5 @@ function repeatAsync<T>(
                 },
             };
         },
-    };
+    });
 }

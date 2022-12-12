@@ -5,4 +5,4 @@ import {drain, IterableExt, pipe} from '../../../../src';
 declare const iterableString: Iterable<string>;
 
 const test1 = pipe(iterableString, drain());
-expectType<IterableExt<string>>(test1);
+expectType<IterableExt<never>>(test1);

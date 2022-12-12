@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, page} from '../../../src';
+import {pipe, page} from '../../../src/entry/sync';
 
 export default () => {
     it('must handle divisible page sizes', () => {

@@ -1,7 +1,14 @@
-import sync from './sync';
-import async from './async';
+import explicitAsync from './async';
+import duelAsync from './duel.async';
+import duelSync from './duel.sync';
 
 describe('waitRace', () => {
-    describe('sync', sync);
-    describe('async', async);
+    describe('explicit', () => {
+        describe('async', explicitAsync);
+    });
+
+    describe('duel', () => {
+        describe('sync', duelSync);
+        describe('async', duelAsync);
+    });
 });

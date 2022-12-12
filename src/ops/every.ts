@@ -1,6 +1,13 @@
-import {$A, $S, IterationState, Operation} from '../types';
+import {createDuelOperation} from '../utils';
+import {
+    $A,
+    $S,
+    AsyncOperation,
+    DuelOperation,
+    IterationState,
+    SyncOperation,
+} from '../types';
 import {isPromiseLike} from '../typeguards';
-import {createOperation} from '../utils';
 
 /**
  * Standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every Array.every} logic for the iterable,
@@ -35,17 +42,38 @@ export function every<T>(
         index: number,
         state: IterationState
     ) => boolean | Promise<boolean>
-): Operation<T, boolean>;
-
-export function every(...args: unknown[]) {
-    return createOperation(everySync, everyAsync, args);
+): DuelOperation<T, boolean> {
+    return createDuelOperation<T, boolean>(everySync, everyAsync, [cb]);
 }
 
-function everySync<T>(
-    iterable: Iterable<T>,
+/**
+ * Standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every Array.every} logic for the iterable,
+ * extended with iteration state + async.
+ *
+ * It emits a `boolean`, indicating whether all elements pass the predicate test.
+ *
+ * ```ts
+ * import {pipe, every} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3],
+ *     every(a => a % 2 === 0) // checks if every number is even
+ * );
+ *
+ * console.log(...i); //=> false
+ *
+ * console.log(i.first); //=> false
+ * ```
+ *
+ * @see
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every Array.every}
+ *  - {@link some}
+ * @category Operations
+ */
+export function everySync<T>(
     cb: (value: T, index: number, state: IterationState) => boolean
-): Iterable<boolean> {
-    return {
+): SyncOperation<T, boolean> {
+    return (iterable) => ({
         [$S](): Iterator<boolean> {
             const i = iterable[$S]();
             const state: IterationState = {};
@@ -66,18 +94,41 @@ function everySync<T>(
                 },
             };
         },
-    };
+    });
 }
 
-function everyAsync<T>(
-    iterable: AsyncIterable<T>,
+/**
+ * Standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every Array.every} logic for the iterable,
+ * extended with iteration state + async.
+ *
+ * It emits a `boolean`, indicating whether all elements pass the predicate test.
+ *
+ * ```ts
+ * import {pipe, every} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3],
+ *     every(a => a % 2 === 0) // checks if every number is even
+ * );
+ *
+ * console.log(...i); //=> false
+ *
+ * console.log(i.first); //=> false
+ * ```
+ *
+ * @see
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every Array.every}
+ *  - {@link some}
+ * @category Operations
+ */
+export function everyAsync<T>(
     cb: (
         value: T,
         index: number,
         state: IterationState
     ) => boolean | Promise<boolean>
-): AsyncIterable<boolean> {
-    return {
+): AsyncOperation<T, boolean> {
+    return (iterable) => ({
         [$A](): AsyncIterator<boolean> {
             const i = iterable[$A]();
             const state: IterationState = {};
@@ -102,5 +153,5 @@ function everyAsync<T>(
                 },
             };
         },
-    };
+    });
 }

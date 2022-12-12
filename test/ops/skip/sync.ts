@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, skip} from '../../../src';
+import {pipe, skip} from '../../../src/entry/sync';
 
 export default () => {
     const input = [1, 2, 3, 4, 5];

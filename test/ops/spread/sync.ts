@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, spread} from '../../../src';
+import {pipe, spread} from '../../../src/entry/sync';
 
 export default () => {
     it('must split strings', () => {

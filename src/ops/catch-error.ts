@@ -1,5 +1,13 @@
-import {$A, $S, IErrorContext, IterationState, Operation} from '../types';
-import {createOperation} from '../utils';
+import {createDuelOperation} from '../utils';
+import {
+    $A,
+    $S,
+    AsyncOperation,
+    IErrorContext,
+    IterationState,
+    DuelOperation,
+    SyncOperation,
+} from '../types';
 
 /**
  * Catches iteration errors (see {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}).
@@ -52,21 +60,35 @@ import {createOperation} from '../utils';
  * @see
  *  - {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}
  *  - {@link catchError}
+ *
  * @category Diagnostics
  */
 export function catchError<T>(
     cb: (error: any, ctx: IErrorContext<T>) => void
-): Operation<T, T>;
-
-export function catchError(...args: unknown[]) {
-    return createOperation(catchErrorSync, catchErrorAsync, args);
+): DuelOperation<T, T> {
+    return createDuelOperation<T, T>(catchErrorSync, catchErrorAsync, [cb]);
 }
 
-function catchErrorSync<T>(
-    iterable: Iterable<T>,
+/**
+ * Catches iteration errors (see {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}).
+ *
+ * What you can do inside the error handler:
+ *
+ * - nothing (we let it skip the value)
+ * - provide a new/alternative value (via `ctx.emit(value)`)
+ * - re-throw the original error
+ * - throw a new error
+ *
+ * @see
+ *  - {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}
+ *  - {@link catchError}
+ *
+ * @category Diagnostics
+ */
+export function catchErrorSync<T>(
     cb: (error: any, ctx: IErrorContext<T>) => void
-): Iterable<T> {
-    return {
+): SyncOperation<T, T> {
+    return (iterable) => ({
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             const state: IterationState = {};
@@ -106,14 +128,29 @@ function catchErrorSync<T>(
                 },
             };
         },
-    };
+    });
 }
 
-function catchErrorAsync<T>(
-    iterable: AsyncIterable<T>,
+/**
+ * Catches iteration errors (see {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}).
+ *
+ * What you can do inside the error handler:
+ *
+ * - nothing (we let it skip the value)
+ * - provide a new/alternative value (via `ctx.emit(value)`)
+ * - re-throw the original error
+ * - throw a new error
+ *
+ * @see
+ *  - {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}
+ *  - {@link catchError}
+ *
+ * @category Diagnostics
+ */
+export function catchErrorAsync<T>(
     cb: (error: any, ctx: IErrorContext<T>) => void
-): AsyncIterable<T> {
-    return {
+): AsyncOperation<T, T> {
+    return (iterable) => ({
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             const state: IterationState = {};
@@ -149,7 +186,7 @@ function catchErrorAsync<T>(
                 },
             };
         },
-    };
+    });
 }
 
 /**

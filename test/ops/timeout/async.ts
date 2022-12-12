@@ -1,14 +1,14 @@
 import {_asyncValues, expect} from '../../header';
-import {pipeAsync, delay, timeout} from '../../../src';
+import {pipe, delay, timeout} from '../../../src/entry/async';
 
 export default () => {
     it('must end iteration after timeout', async () => {
-        const i = pipeAsync([1, 2, 3], delay(20), timeout(39));
+        const i = pipe([1, 2, 3], delay(20), timeout(39));
         expect(await _asyncValues(i)).to.eql([1, 2]);
     });
     it('must invoke callback on timeout', async () => {
         let count;
-        const i = pipeAsync(
+        const i = pipe(
             [1, 2, 3],
             delay(10),
             timeout(19, (c) => {
@@ -20,7 +20,7 @@ export default () => {
     });
     it('must not invoke callback without timeout', async () => {
         let invoked = false;
-        const i = pipeAsync(
+        const i = pipe(
             [1, 2, 3],
             timeout(10, () => {
                 invoked = true;
@@ -30,7 +30,7 @@ export default () => {
         expect(invoked).to.be.false; // no callback
     });
     it('must deactivate on negative timeouts', async () => {
-        const i = pipeAsync([1, 2, 3], timeout(-1));
+        const i = pipe([1, 2, 3], timeout(-1));
         expect(await _asyncValues(i)).to.eql([1, 2, 3]);
     });
 };

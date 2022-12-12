@@ -1,9 +1,55 @@
+import type {UnknownIterable} from './common';
+
+/**
+ * @internal
+ */
+export type FlattenAsync<T, N extends number> =
+    // N < 0
+    `${N}` extends `-${string}`
+        ? T
+        : // N = 0
+        N extends 0
+        ? T
+        : // N = 1
+        N extends 1
+        ? T extends UnknownIterable<infer E>
+            ? E
+            : T
+        : // N > 20 or N is unknown
+        Decrement[number] extends Decrement[N]
+        ? unknown
+        : T extends UnknownIterable<infer E>
+        ? FlattenAsync<E, Decrement[N]>
+        : FlattenAsync<T, Decrement[N]>;
+
+/**
+ * @internal
+ */
+export type FlattenSync<T, N extends number> =
+    // N < 0
+    `${N}` extends `-${string}`
+        ? T
+        : // N = 0
+        N extends 0
+        ? T
+        : // N = 1
+        N extends 1
+        ? T extends Iterable<infer E>
+            ? E
+            : T
+        : // N > 20 or N is unknown
+        Decrement[number] extends Decrement[N]
+        ? unknown
+        : T extends Iterable<infer E>
+        ? FlattenSync<E, Decrement[N]>
+        : FlattenSync<T, Decrement[N]>;
+
 /**
  * Decrement N by 1.
  *
  * `Decr[N]` => `N - 1`
  */
-export type Decrement = [
+type Decrement = [
     never,
     0,
     1,

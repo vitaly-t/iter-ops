@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, map} from '../../../src';
+import {pipe, map} from '../../../src/entry/sync';
 
 export default () => {
     it('must remap values', () => {

@@ -1,14 +1,15 @@
-import {
-    Value,
-    SyncValue,
-    UnknownIterable,
-    UnknownIterator,
-    Operation,
-    $S,
-    $A,
-} from '../types';
-import {createOperation} from '../utils';
 import {isPromiseLike} from '../typeguards';
+import {
+    $A,
+    $S,
+    AsyncOperation,
+    DuelOperation,
+    SyncOperation,
+    SyncValue,
+    Value,
+} from '../types';
+
+import {createDuelOperation} from '../utils';
 
 /**
  * Adds a default value, iterator or iterable to an empty pipeline.
@@ -33,41 +34,37 @@ import {isPromiseLike} from '../typeguards';
  *  - {@link isEmpty}
  * @category Sync+Async
  */
-export function defaultEmpty<T, D>(
-    iterable: UnknownIterable<D>
-): Operation<T, T | D>;
-
-/**
- * Adds a default value, iterator or iterable to an empty pipeline.
- *
- * @see
- *  - {@link empty}
- *  - {@link isEmpty}
- * @category Sync+Async
- */
-export function defaultEmpty<T, D>(
-    iterator: UnknownIterator<D>
-): Operation<T, T | D>;
-
-/**
- * Adds a default value, iterator or iterable to an empty pipeline.
- *
- * @see
- *  - {@link empty}
- *  - {@link isEmpty}
- * @category Sync+Async
- */
-export function defaultEmpty<T, D>(value: D): Operation<T, T | D>;
-
-export function defaultEmpty(...args: unknown[]) {
-    return createOperation(defaultEmptySync, defaultEmptyAsync, args);
+export function defaultEmpty<T, D>(value: Value<D>): DuelOperation<T, T | D> {
+    return createDuelOperation<T, D>(defaultEmptySync, defaultEmptyAsync, [
+        value,
+    ]);
 }
 
-function defaultEmptySync<T, D>(
-    iterable: Iterable<T>,
+/**
+ * Adds a default value, iterator or iterable to an empty pipeline.
+ *
+ * If the pipeline has at least one value, the defaults are ignored.
+ *
+ * ```ts
+ * import {pipe, defaultEmpty} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [], // empty iterable/pipeline
+ *     defaultEmpty([1, 2, 3]) // default for an empty pipeline
+ * );
+ *
+ * console.log(...i); //=> 1, 2, 3
+ * ```
+ *
+ * @see
+ *  - {@link empty}
+ *  - {@link isEmpty}
+ * @category Operations
+ */
+export function defaultEmptySync<T, D>(
     value: SyncValue<D>
-): Iterable<T | D> {
-    return {
+): SyncOperation<T, T | D> {
+    return (iterable) => ({
         [$S](): Iterator<T | D> {
             const i = iterable[$S]();
             let k: Iterator<T>,
@@ -105,14 +102,35 @@ function defaultEmptySync<T, D>(
                 },
             };
         },
-    };
+    });
 }
 
-function defaultEmptyAsync<T, D>(
-    iterable: AsyncIterable<T>,
+/**
+ * Adds a default value, iterator or iterable to an empty pipeline.
+ *
+ * If the pipeline has at least one value, the defaults are ignored.
+ *
+ * ```ts
+ * import {pipe, defaultEmpty} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [], // empty iterable/pipeline
+ *     defaultEmpty([1, 2, 3]) // default for an empty pipeline
+ * );
+ *
+ * console.log(...i); //=> 1, 2, 3
+ * ```
+ *
+ * @see
+ *  - {@link empty}
+ *  - {@link isEmpty}
+ * @category Operations
+ */
+
+export function defaultEmptyAsync<T, D>(
     value: Value<D>
-): AsyncIterable<T | D> {
-    return {
+): AsyncOperation<T, T | D> {
+    return (iterable) => ({
         [$A](): AsyncIterator<T | D> {
             const i = iterable[$A]();
             let k: AsyncIterator<T>,
@@ -144,7 +162,7 @@ function defaultEmptyAsync<T, D>(
                             k =
                                 typeof x?.next === 'function'
                                     ? x
-                                    : x?.[$S]?.() || x?.[$A]?.();
+                                    : x?.[$S]?.() ?? x?.[$A]?.();
                             started = true;
                             return this.next();
                         }
@@ -154,5 +172,5 @@ function defaultEmptyAsync<T, D>(
                 },
             };
         },
-    };
+    });
 }

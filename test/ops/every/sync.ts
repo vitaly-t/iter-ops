@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, every} from '../../../src';
+import {pipe, every} from '../../../src/entry/sync';
 
 export default () => {
     it('must signal when all passed', () => {

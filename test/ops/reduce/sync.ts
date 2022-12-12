@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, reduce} from '../../../src';
+import {pipe, reduce} from '../../../src/entry/sync';
 
 export default () => {
     it('must work with initial value', () => {

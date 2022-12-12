@@ -28,5 +28,5 @@
     // "noPropertyAccessFromIndexSignature": true,
     "pretty": true
   },
-  "exclude": ["./benchmarks", "./dist"]
+  "exclude": ["./benchmarks", "./dist", "./*.d.ts"]
 }

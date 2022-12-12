@@ -1,6 +1,13 @@
-import {$A, $S, IterationState, Operation} from '../types';
 import {isPromiseLike} from '../typeguards';
-import {createOperation} from '../utils';
+import {
+    $A,
+    $S,
+    AsyncOperation,
+    DuelOperation,
+    IterationState,
+    SyncOperation,
+} from '../types';
+import {createDuelOperation} from '../utils';
 
 /**
  * Goes through the entire iterable, counting the values, and produces a one-value iterable with the count.
@@ -44,17 +51,47 @@ export function count<T>(
         index: number,
         state: IterationState
     ) => boolean | Promise<boolean>
-): Operation<T, number>;
-
-export function count(...args: unknown[]) {
-    return createOperation(countSync, countAsync, args);
+): DuelOperation<T, number> {
+    return createDuelOperation<T, number>(countSync, countAsync, [cb]);
 }
 
-function countSync<T>(
-    iterable: Iterable<T>,
+/**
+ * Goes through the entire iterable, counting the values, and produces a one-value iterable with the count.
+ *
+ * ```ts
+ * import {pipe, count} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     'hello world!',
+ *     count()
+ * );
+ *
+ * console.log(...i); //=> 12
+ *
+ * console.log(i.first); //=> 12
+ * ```
+ *
+ * When the optional predicate is specified, only values that satisfy the predicate are counted.
+ *
+ * ```ts
+ * import {pipe, count} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     'hello world!',
+ *     count(a => a === 'l')
+ * );
+ *
+ * console.log(...i); //=> 3
+ *
+ * console.log(i.first); //=> 3
+ * ```
+ *
+ * @category Operations
+ */
+export function countSync<T>(
     cb?: (value: T, index: number, state: IterationState) => boolean
-): Iterable<number> {
-    return {
+): SyncOperation<T, number> {
+    return (iterable) => ({
         [$S](): Iterator<number> {
             const i = iterable[$S]();
             const test = typeof cb === 'function' && cb;
@@ -79,18 +116,50 @@ function countSync<T>(
                 },
             };
         },
-    };
+    });
 }
 
-function countAsync<T>(
-    iterable: AsyncIterable<T>,
+/**
+ * Goes through the entire iterable, counting the values, and produces a one-value iterable with the count.
+ *
+ * ```ts
+ * import {pipe, count} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     'hello world!',
+ *     count()
+ * );
+ *
+ * console.log(...i); //=> 12
+ *
+ * console.log(i.first); //=> 12
+ * ```
+ *
+ * When the optional predicate is specified, only values that satisfy the predicate are counted.
+ *
+ * ```ts
+ * import {pipe, count} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     'hello world!',
+ *     count(a => a === 'l')
+ * );
+ *
+ * console.log(...i); //=> 3
+ *
+ * console.log(i.first); //=> 3
+ * ```
+ *
+ * @category Operations
+ */
+export function countAsync<T>(
     cb?: (
         value: T,
         index: number,
         state: IterationState
     ) => boolean | Promise<boolean>
-): AsyncIterable<number> {
-    return {
+): AsyncOperation<T, number> {
+    return (iterable) => ({
         [$A](): AsyncIterator<number> {
             const i = iterable[$A]();
             const test = typeof cb === 'function' && cb;
@@ -118,5 +187,5 @@ function countAsync<T>(
                 },
             };
         },
-    };
+    });
 }

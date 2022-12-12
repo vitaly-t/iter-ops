@@ -1,5 +1,5 @@
-import {_asyncValues, expect} from '../header';
-import {pipeAsync} from '../../src';
+import {_asyncValues, expect} from '../../header';
+import {pipeAsync} from '../../../src';
 
 export default () => {
     describe('without operators', () => {

@@ -1,14 +1,14 @@
-import {_async, _asyncValues, expect} from '../../header';
-import {pipe, last} from '../../../src';
+import {_asyncValues, expect} from '../../header';
+import {pipe, last} from '../../../src/entry/async';
 
 export default () => {
     describe('without predicate', () => {
         it('must emit last value', async () => {
-            const i = pipe(_async([1, 2, 3]), last());
+            const i = pipe([1, 2, 3], last());
             expect(await _asyncValues(i)).to.eql([3]);
         });
         it('must emit nothing for empty iterables', async () => {
-            const output = pipe(_async([]), last());
+            const output = pipe([], last());
             expect(await _asyncValues(output)).to.eql([]);
         });
     });
@@ -17,7 +17,7 @@ export default () => {
             const input = [1, 2, 3, 4, 5, 6, 7, 8, 9];
             const indexes: number[] = [];
             const i = pipe(
-                _async(input),
+                input,
                 last((value, index) => {
                     indexes.push(index);
                     return value % 2 === 0;
@@ -30,7 +30,7 @@ export default () => {
             const input = [1, 2, 3, 4, 5, 6, 7, 8, 9];
             const indexes: number[] = [];
             const i = pipe(
-                _async(input),
+                input,
                 last(async (value, index) => {
                     indexes.push(index);
                     return value % 2 === 0;
@@ -40,7 +40,7 @@ export default () => {
             expect(indexes).to.eql([0, 1, 2, 3, 4, 5, 6, 7, 8]);
         });
         it('must reject invalid predicate types', async () => {
-            const i = pipe(_async([1, 2, 3]), last('bla' as any));
+            const i = pipe([1, 2, 3], last('bla' as any));
             expect(await _asyncValues(i)).to.eql([3]);
         });
     });

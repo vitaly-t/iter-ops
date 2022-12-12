@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, tap} from '../../../src';
+import {pipe, tap} from '../../../src/entry/sync';
 
 export default () => {
     it('must be called for all values', () => {

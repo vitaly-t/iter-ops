@@ -1,5 +1,12 @@
-import {$A, $S, IterationState, Operation} from '../types';
-import {createOperation} from '../utils';
+import {
+    $A,
+    $S,
+    AsyncOperation,
+    DuelOperation,
+    IterationState,
+    SyncOperation,
+} from '../types';
+import {createDuelOperation} from '../utils';
 
 /**
  * Value timing details, produced by the {@link timing} operator.
@@ -68,17 +75,50 @@ export interface IValueTiming<T> {
  *  - {@link onEnd}
  * @category Diagnostics
  */
-export function timing<T>(cb: (t: IValueTiming<T>) => void): Operation<T, T>;
-
-export function timing(...args: unknown[]) {
-    return createOperation(timingSync, timingAsync, args);
+export function timing<T>(
+    cb: (t: IValueTiming<T>) => void
+): DuelOperation<T, T> {
+    return createDuelOperation<T, T>(timingSync, timingAsync, [cb]);
 }
 
-function timingSync<T>(
-    iterable: Iterable<T>,
+/**
+ * Measures timings for each value, and provides a notification callback.
+ *
+ * It is mainly to help evaluate performance of asynchronous lengthy iterables,
+ * though it works synchronously also.
+ *
+ * The operator doesn't affect the iteration, unless the callback function throws an error.
+ *
+ * ```ts
+ * import {pipe, map, wait, timing, catchError} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     asyncIterable,
+ *     map(a => myService.requestData(a)), // map into promises
+ *     wait(), // resolve each promise
+ *     timing(t => {
+ *         if(t.duration > 3000) {
+ *             // took over 3s to get the value, needs investigation;
+ *             throw new Error(`Took too long to get value ${t.value} for index ${t.index}`);
+ *         }
+ *     }),
+ *     catchError((err, ctx) => {
+ *         console.log(err?.message || err);
+ *         throw err;
+ *     })
+ * );
+ * ```
+ *
+ * @see
+ *  - {@link IValueTiming}
+ *  - {@link onEnd}
+ *
+ * @category Diagnostics
+ */
+export function timingSync<T>(
     cb: (t: IValueTiming<T>) => void
-): Iterable<T> {
-    return {
+): SyncOperation<T, T> {
+    return (iterable) => ({
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             const state: IterationState = {};
@@ -101,14 +141,47 @@ function timingSync<T>(
                 },
             };
         },
-    };
+    });
 }
 
-function timingAsync<T>(
-    iterable: AsyncIterable<T>,
+/**
+ * Measures timings for each value, and provides a notification callback.
+ *
+ * It is mainly to help evaluate performance of asynchronous lengthy iterables,
+ * though it works synchronously also.
+ *
+ * The operator doesn't affect the iteration, unless the callback function throws an error.
+ *
+ * ```ts
+ * import {pipe, map, wait, timing, catchError} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     asyncIterable,
+ *     map(a => myService.requestData(a)), // map into promises
+ *     wait(), // resolve each promise
+ *     timing(t => {
+ *         if(t.duration > 3000) {
+ *             // took over 3s to get the value, needs investigation;
+ *             throw new Error(`Took too long to get value ${t.value} for index ${t.index}`);
+ *         }
+ *     }),
+ *     catchError((err, ctx) => {
+ *         console.log(err?.message || err);
+ *         throw err;
+ *     })
+ * );
+ * ```
+ *
+ * @see
+ *  - {@link IValueTiming}
+ *  - {@link onEnd}
+ *
+ * @category Diagnostics
+ */
+export function timingAsync<T>(
     cb: (t: IValueTiming<T>) => void
-): AsyncIterable<T> {
-    return {
+): AsyncOperation<T, T> {
+    return (iterable) => ({
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             const state: IterationState = {};
@@ -132,5 +205,5 @@ function timingAsync<T>(
                 },
             };
         },
-    };
+    });
 }

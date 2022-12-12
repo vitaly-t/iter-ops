@@ -1,31 +1,37 @@
 import {isIndexed} from './typeguards';
-import {$A, $S, Operation} from './types';
+import {
+    $A,
+    $S,
+    AsyncOperation,
+    DuelOperation,
+    SyncOperation,
+    UnknownIterable,
+} from './types';
 
-/**
- * Wraps operator signature.
- */
-export function createOperation<T, R>(
-    syncFunc: (i: Iterable<T>, ...args: any[]) => Iterable<R>,
-    asyncFunc: (i: AsyncIterable<T>, ...args: any[]) => AsyncIterable<R>,
-    args?: Iterable<unknown>
-): Operation<T, R> {
-    return (i: any) => {
-        const func: any = i[$S] ? syncFunc : asyncFunc;
-        return args ? func.apply(null, [i, ...args]) : func(i);
+export function createDuelOperation<T, R>(
+    syncOp: (...args: readonly any[]) => SyncOperation<T, R>,
+    asyncOp: (...args: readonly any[]) => AsyncOperation<T, R>,
+    args: readonly unknown[] = []
+): DuelOperation<T, R> {
+    return (i: UnknownIterable<T>) => {
+        const op = (i as any)[$S] ? syncOp : asyncOp;
+        return op(...args)(i as any);
     };
 }
 
 /**
  * Creates a generic synchronous operator that throws an error during iteration.
  */
-export function throwOnSync<T>(operatorName: string) {
-    return () => ({
-        [$S](): Iterator<T> {
+export function throwOnSync<T>(
+    operatorName: string
+): () => SyncOperation<T, never> {
+    return () => () => ({
+        [$S](): Iterator<never> {
             return iterateOnce(true, () => {
                 throw new Error(
                     `Operator "${operatorName}" requires asynchronous pipeline`
                 );
-            }) as Iterator<T>;
+            }) as Iterator<never>;
         },
     });
 }

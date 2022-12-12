@@ -1,9 +1,9 @@
 import {_asyncValues, expect} from '../../header';
-import {pipeAsync, map, delay, waitRace} from '../../../src';
+import {pipe, map, delay, waitRace} from '../../../src/entry/async';
 
 export default () => {
     it('must resolve all promises', async () => {
-        const i = pipeAsync(
+        const i = pipe(
             [1, 2, 3, 4],
             map((a) => Promise.resolve(a)),
             waitRace(2)
@@ -11,22 +11,22 @@ export default () => {
         expect(await _asyncValues(i)).to.have.members([1, 2, 3, 4]);
     });
     it('must resolve all simple values', async () => {
-        const i = pipeAsync([1, 2, 3, 4], waitRace(2));
+        const i = pipe([1, 2, 3, 4], waitRace(2));
         expect(await _asyncValues(i)).to.have.members([1, 2, 3, 4]);
     });
     it('must resolve combinations of promises and simple values', async () => {
-        const i = pipeAsync(
+        const i = pipe(
             [1, Promise.resolve(2), 3, Promise.resolve(4)],
             waitRace(2)
         );
         expect(await _asyncValues(i)).to.have.members([1, 2, 3, 4]);
     });
     it('must handle invalid size of cache', async () => {
-        const i = pipeAsync([1, 2, Promise.resolve(3), 4], waitRace(-1));
+        const i = pipe([1, 2, Promise.resolve(3), 4], waitRace(-1));
         expect(await _asyncValues(i)).to.have.members([1, 2, 3, 4]);
     });
     it('must reject when a value rejects', async () => {
-        const i = pipeAsync([1, Promise.reject(2) as any, 3], waitRace(2));
+        const i = pipe([1, Promise.reject(2) as any, 3], waitRace(2));
         let err;
         try {
             await _asyncValues(i);
@@ -45,7 +45,7 @@ export default () => {
             throw new Error('boom');
         }
 
-        const i = pipeAsync(oops(), waitRace(2));
+        const i = pipe(oops(), waitRace(2));
         let err = null;
         try {
             await _asyncValues(i);
@@ -55,7 +55,7 @@ export default () => {
         expect(err?.message).to.eql('boom');
     });
     it('must allow rejected value replacement', async () => {
-        const i = pipeAsync(
+        const i = pipe(
             [1, 2, 3, 4, 5],
             map(async (a) => {
                 if (a % 2 === 0) {
@@ -72,7 +72,7 @@ export default () => {
     it('must provide timely resolutions', async () => {
         const input = [1, 2, 3, 4, 5, 6, 7];
         const output: {value: number; delay: number}[] = [];
-        const i = pipeAsync(
+        const i = pipe(
             input,
             delay(50),
             map((a) => Promise.resolve(a)),

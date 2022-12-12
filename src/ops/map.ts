@@ -1,5 +1,12 @@
-import {$A, $S, IterationState, Operation} from '../types';
-import {createOperation} from '../utils';
+import {
+    $A,
+    $S,
+    AsyncOperation,
+    DuelOperation,
+    IterationState,
+    SyncOperation,
+} from '../types';
+import {createDuelOperation} from '../utils';
 
 /**
  * Standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map Array.map} logic for the iterable,
@@ -20,17 +27,31 @@ import {createOperation} from '../utils';
  */
 export function map<T, R>(
     cb: (value: T, index: number, state: IterationState) => R
-): Operation<T, R>;
-
-export function map(...args: unknown[]) {
-    return createOperation(mapSync, mapAsync, args);
+): DuelOperation<T, R> {
+    return createDuelOperation<T, R>(mapSync, mapAsync, [cb]);
 }
 
-function mapSync<T, R>(
-    iterable: Iterable<T>,
+/**
+ * Standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map Array.map} logic for the iterable,
+ * extended for supporting iteration state.
+ *
+ * When the callback is asynchronous (returns a `Promise`), the operator does not resolve the value,
+ * because this library gives you the flexibility of resolving those in a variety of ways:
+ *  - you can follow it up with operator {@link wait} when you want a simple one-by-one resolution
+ *  - you can follow it up with operator {@link waitRace} when you want values emitted as they resolve
+ *  - you can follow it up with {@link aggregate} + `Promise.all`, if you want to group the resolution
+ *  - you can provide any custom resolution logic
+ *
+ * @see
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map Array.map}
+ *  - {@link wait}
+ *  - {@link waitRace}
+ * @category Operations
+ */
+export function mapSync<T, R>(
     cb: (value: T, index: number, state: IterationState) => R
-): Iterable<R> {
-    return {
+): SyncOperation<T, R> {
+    return (iterable) => ({
         [$S](): Iterator<R> {
             const i = iterable[$S]();
             const state: IterationState = {};
@@ -48,14 +69,30 @@ function mapSync<T, R>(
                 },
             };
         },
-    };
+    });
 }
 
-function mapAsync<T, R>(
-    iterable: AsyncIterable<T>,
+/**
+ * Standard {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map Array.map} logic for the iterable,
+ * extended for supporting iteration state.
+ *
+ * When the callback is asynchronous (returns a `Promise`), the operator does not resolve the value,
+ * because this library gives you the flexibility of resolving those in a variety of ways:
+ *  - you can follow it up with operator {@link wait} when you want a simple one-by-one resolution
+ *  - you can follow it up with operator {@link waitRace} when you want values emitted as they resolve
+ *  - you can follow it up with {@link aggregate} + `Promise.all`, if you want to group the resolution
+ *  - you can provide any custom resolution logic
+ *
+ * @see
+ *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map Array.map}
+ *  - {@link wait}
+ *  - {@link waitRace}
+ * @category Operations
+ */
+export function mapAsync<T, R>(
     cb: (value: T, index: number, state: IterationState) => R
-): AsyncIterable<R> {
-    return {
+): AsyncOperation<T, R> {
+    return (iterable) => ({
         [$A](): AsyncIterator<R> {
             const i = iterable[$A]();
             const state: IterationState = {};
@@ -73,5 +110,5 @@ function mapAsync<T, R>(
                 },
             };
         },
-    };
+    });
 }

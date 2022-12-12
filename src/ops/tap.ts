@@ -1,5 +1,12 @@
-import {$A, $S, IterationState, Operation} from '../types';
-import {createOperation} from '../utils';
+import {
+    $A,
+    $S,
+    AsyncOperation,
+    DuelOperation,
+    IterationState,
+    SyncOperation,
+} from '../types';
+import {createDuelOperation} from '../utils';
 
 /**
  * Taps into each value, without changing the output, for logging or debugging.
@@ -21,17 +28,31 @@ import {createOperation} from '../utils';
  */
 export function tap<T>(
     cb: (value: T, index: number, state: IterationState) => void
-): Operation<T, T>;
-
-export function tap(...args: unknown[]) {
-    return createOperation(tapSync, tapAsync, args);
+): DuelOperation<T, T> {
+    return createDuelOperation<T, T>(tapSync, tapAsync, [cb]);
 }
 
-function tapSync<T>(
-    iterable: Iterable<T>,
+/**
+ * Taps into each value, without changing the output, for logging or debugging.
+ *
+ * ```ts
+ * import {pipe, tap} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     'text',
+ *     tap(a => {
+ *         console.log(a); //=> t e x t
+ *     })
+ * ); //=> IterableExt<string>
+ *
+ * const result = [...i]; // t e x t
+ * ```
+ * @category Operations
+ */
+export function tapSync<T>(
     cb: (value: T, index: number, state: IterationState) => void
-): Iterable<T> {
-    return {
+): SyncOperation<T, T> {
+    return (iterable) => ({
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             const state: IterationState = {};
@@ -46,14 +67,30 @@ function tapSync<T>(
                 },
             };
         },
-    };
+    });
 }
 
-function tapAsync<T>(
-    iterable: AsyncIterable<T>,
+/**
+ * Taps into each value, without changing the output, for logging or debugging.
+ *
+ * ```ts
+ * import {pipe, tap} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     'text',
+ *     tap(a => {
+ *         console.log(a); //=> t e x t
+ *     })
+ * ); //=> IterableExt<string>
+ *
+ * const result = [...i]; // t e x t
+ * ```
+ * @category Operations
+ */
+export function tapAsync<T>(
     cb: (value: T, index: number, state: IterationState) => void
-): AsyncIterable<T> {
-    return {
+): AsyncOperation<T, T> {
+    return (iterable) => ({
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             const state: IterationState = {};
@@ -69,5 +106,5 @@ function tapAsync<T>(
                 },
             };
         },
-    };
+    });
 }

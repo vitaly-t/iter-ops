@@ -1,5 +1,5 @@
 import {expect, YSNP} from '../../header';
-import {pipe, tap, catchError} from '../../../src';
+import {pipe, tap, catchError} from '../../../src/entry/sync';
 
 export default () => {
     it('must continue without value', () => {

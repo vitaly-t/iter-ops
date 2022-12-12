@@ -1,5 +1,10 @@
-import type {Operation, UnknownIterable} from '../types';
-import {createOperation} from '../utils';
+import type {
+    DuelOperation,
+    AsyncOperation,
+    SyncOperation,
+    UnknownIterable,
+} from '../types';
+import {createDuelOperation} from '../utils';
 import {$A, $S} from '../types';
 import {isPromiseLike} from '../typeguards';
 
@@ -28,17 +33,23 @@ import {isPromiseLike} from '../typeguards';
  */
 export function consume<T, R>(
     consumer: (data: UnknownIterable<T>, sync: boolean) => R | Promise<R>
-): Operation<T, R>;
+): DuelOperation<T, R>;
 
 export function consume(...args: unknown[]) {
-    return createOperation(consumeSync, consumeAsync, args);
+    return createDuelOperation(consumeSync, consumeAsync, args);
 }
 
-function consumeSync<T, R>(
-    iterable: Iterable<T>,
-    consumer: (data: Iterable<T>, sync: boolean) => R
-): Iterable<R> {
-    return {
+/**
+ * Exposes the source iterable to an external consumer, and emits a one-value iterable with that consumer.
+ *
+ * It is to simplify integration with external API that consumes iterables.
+ *
+ * @category Operations
+ */
+export function consumeSync<T, R>(
+    consumer: (data: Iterable<T>, sync: true) => R
+): SyncOperation<T, R> {
+    return (iterable) => ({
         [$S](): Iterator<R> {
             let done = false;
             return {
@@ -51,14 +62,34 @@ function consumeSync<T, R>(
                 },
             };
         },
-    };
+    });
 }
 
-function consumeAsync<T, R>(
-    iterable: AsyncIterable<T>,
-    consumer: (data: AsyncIterable<T>, sync: boolean) => R | Promise<R>
-): AsyncIterable<R> {
-    return {
+/**
+ * Exposes the source iterable to an external consumer, and emits a one-value iterable with that consumer.
+ *
+ * It is to simplify integration with external API that consumes iterables.
+ *
+ * ```ts
+ * import {pipeAsync, consume} from 'iter-ops';
+ * import {Readable} from 'stream';
+ *
+ * const i = pipeAsync(
+ *     [1, 2, 3, 4, 5],
+ *     consume(source => Readable.from(source))
+ * ); //=> AsyncIterableExt<Readable>
+ *
+ * const r = await i.first; //=> Readable stream
+ * ```
+ *
+ * The consumer callback can optionally return a `Promise`
+ *
+ * @category Operations
+ */
+export function consumeAsync<T, R>(
+    consumer: (data: AsyncIterable<T>, sync: false) => R | Promise<R>
+): AsyncOperation<T, R> {
+    return (iterable) => ({
         [$A](): AsyncIterator<R> {
             let done = false;
             return {
@@ -75,5 +106,5 @@ function consumeAsync<T, R>(
                 },
             };
         },
-    };
+    });
 }

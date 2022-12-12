@@ -1,0 +1,42 @@
+export {pipe} from '../pipe/sync';
+
+/////////////
+// Operators:
+export {aggregateSync as aggregate} from '../ops/aggregate';
+export {catchErrorSync as catchError} from '../ops/catch-error';
+export {concatSync as concat} from '../ops/concat';
+export {concurrencyForkSync as concurrencyFork} from '../ops/concurrency-fork';
+export {consumeSync as consume} from '../ops/consume';
+export {countSync as count} from '../ops/count';
+export {defaultEmptySync as defaultEmpty} from '../ops/default-empty';
+export {distinctSync as distinct} from '../ops/distinct';
+export {drainSync as drain} from '../ops/drain';
+export {emptySync as empty} from '../ops/empty';
+export {everySync as every} from '../ops/every';
+export {filterSync as filter} from '../ops/filter';
+export {firstSync as first} from '../ops/first';
+export {flatSync as flat} from '../ops/flat';
+export {flatMapSync as flatMap} from '../ops/flat-map';
+export {indexBySync as indexBy} from '../ops/index-by';
+export {isEmptySync as isEmpty} from '../ops/is-empty';
+export {lastSync as last} from '../ops/last';
+export {mapSync as map} from '../ops/map';
+export {onEndSync as onEnd} from '../ops/on-end';
+export {pageSync as page} from '../ops/page';
+export {reduceSync as reduce} from '../ops/reduce';
+export {repeatSync as repeat} from '../ops/repeat';
+export {skipSync as skip} from '../ops/skip';
+export {skipUntilSync as skipUntil} from '../ops/skip-until';
+export {skipWhileSync as skipWhile} from '../ops/skip-while';
+export {someSync as some} from '../ops/some';
+export {splitSync as split} from '../ops/split';
+export {spreadSync as spread} from '../ops/spread';
+export {takeSync as take} from '../ops/take';
+export {takeLastSync as takeLast} from '../ops/take-last';
+export {takeUntilSync as takeUntil} from '../ops/take-until';
+export {takeWhileSync as takeWhile} from '../ops/take-while';
+export {tapSync as tap} from '../ops/tap';
+export {timeoutSync as timeout} from '../ops/timeout';
+export {timingSync as timing} from '../ops/timing';
+export {toArraySync as toArray} from '../ops/to-array';
+export {zipSync as zip} from '../ops/zip';

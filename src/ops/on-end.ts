@@ -1,5 +1,5 @@
-import {$A, $S, Operation} from '../types';
-import {createOperation} from '../utils';
+import {$A, $S, AsyncOperation, DuelOperation, SyncOperation} from '../types';
+import {createDuelOperation} from '../utils';
 
 /**
  * Value-duration details, for minimum or maximum duration, used in {@link IDuration}.
@@ -120,17 +120,47 @@ export interface IIterationSummary<T> {
  */
 export function onEnd<T>(
     cb: (s: IIterationSummary<T>) => void
-): Operation<T, T>;
-
-export function onEnd(...args: unknown[]) {
-    return createOperation(onEndSync, onEndAsync, args);
+): DuelOperation<T, T> {
+    return createDuelOperation<T, T>(onEndSync, onEndAsync, [cb]);
 }
 
-function onEndSync<T>(
-    iterable: Iterable<T>,
+/**
+ * Notifies of the end of a successful iteration, for the immediately preceding operator, and provides a summary.
+ *
+ * It doesn't handle or affect any upstream errors, and should they occur, it may never reach the end,
+ * and thus never trigger the notification.
+ *
+ * The operator doesn't affect the iteration, unless the callback function throws an error.
+ *
+ * ```ts
+ * import {pipe, map, wait, onEnd, catchError} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     asyncIterable,
+ *     map(a => myService.getValues(a)), // remap into requests-promises
+ *     wait(), // resolve requests
+ *     onEnd(s => {
+ *         if(s.duration.average > 1000) {
+ *             // took longer than 1s per value on average;
+ *             throw new Error('Method getValues is too slow');
+ *         }
+ *     }),
+ *     catchError((err, ctx) => {
+ *         console.log(err?.message || err);
+ *         throw err;
+ *     })
+ * );
+ * ```
+ *
+ * @see
+ *  - {@link IIterationSummary}
+ *  - {@link timing}
+ * @category Diagnostics
+ */
+export function onEndSync<T>(
     cb: (s: IIterationSummary<T>) => void
-): Iterable<T> {
-    return {
+): SyncOperation<T, T> {
+    return (iterable) => ({
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             let start: number,
@@ -181,14 +211,47 @@ function onEndSync<T>(
                 },
             };
         },
-    };
+    });
 }
 
-function onEndAsync<T>(
-    iterable: AsyncIterable<T>,
+/**
+ * Notifies of the end of a successful iteration, for the immediately preceding operator, and provides a summary.
+ *
+ * It doesn't handle or affect any upstream errors, and should they occur, it may never reach the end,
+ * and thus never trigger the notification.
+ *
+ * The operator doesn't affect the iteration, unless the callback function throws an error.
+ *
+ * ```ts
+ * import {pipe, map, wait, onEnd, catchError} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     asyncIterable,
+ *     map(a => myService.getValues(a)), // remap into requests-promises
+ *     wait(), // resolve requests
+ *     onEnd(s => {
+ *         if(s.duration.average > 1000) {
+ *             // took longer than 1s per value on average;
+ *             throw new Error('Method getValues is too slow');
+ *         }
+ *     }),
+ *     catchError((err, ctx) => {
+ *         console.log(err?.message || err);
+ *         throw err;
+ *     })
+ * );
+ * ```
+ *
+ * @see
+ *  - {@link IIterationSummary}
+ *  - {@link timing}
+ *
+ * @category Diagnostics
+ */
+export function onEndAsync<T>(
     cb: (s: IIterationSummary<T>) => void
-): AsyncIterable<T> {
-    return {
+): AsyncOperation<T, T> {
+    return (iterable) => ({
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             let start: number,
@@ -238,5 +301,5 @@ function onEndAsync<T>(
                 },
             };
         },
-    };
+    });
 }

@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, concat} from '../../../src';
+import {pipe, concat} from '../../../src/entry/sync';
 
 export default () => {
     describe('with iterators', () => {

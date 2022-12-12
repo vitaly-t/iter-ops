@@ -1,5 +1,6 @@
 import {expect} from '../../header';
-import {pipe, split, SplitValueCarry, ISplitIndex} from '../../../src';
+import {pipe, split} from '../../../src/entry/sync';
+import {ISplitIndex, SplitValueCarry} from '../../../src';
 
 export default () => {
     describe('without options', () => {
