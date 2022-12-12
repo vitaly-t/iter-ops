@@ -24,11 +24,14 @@ extended for supporting iteration state.</p>
 <p>When the callback is asynchronous (returns a <code>Promise</code>), the operator does not resolve the value,
 because this library gives you the flexibility of resolving those in a variety of ways:</p>
 <ul>
-<li>you can follow it up with operator <a href="wait.html">wait</a> when you want a simple one-by-one resolution</li>
-<li>you can follow it up with operator <a href="waitRace.html">waitRace</a> when you want values emitted as they resolve</li>
-<li>you can follow it up with <a href="aggregate.html">aggregate</a> + <code>Promise.all</code>, if you want to group the resolution</li>
+<li>you can follow it up with operator <a href="wait.html">wait</a>, for sequential resolution</li>
+<li>you can follow it up with operator <a href="waitRace.html">waitRace</a>, to emit values as they resolve</li>
+<li>you can follow it up with <a href="aggregate.html">aggregate</a> + <code>Promise.all</code>, for a grouped resolution</li>
+<li>you can follow it up with <a href="aggregate.html">aggregate</a> + <code>Promise.race</code>, for a grouped race-resolution</li>
 <li>you can provide any custom resolution logic</li>
 </ul>
+<pre><code class="language-ts"><span class="hl-4">import</span><span class="hl-0"> {</span><span class="hl-2">pipeAsync</span><span class="hl-0">, </span><span class="hl-2">map</span><span class="hl-0">, </span><span class="hl-2">wait</span><span class="hl-0">} </span><span class="hl-4">from</span><span class="hl-0"> </span><span class="hl-6">&#39;iter-ops&#39;</span><span class="hl-0">;</span><br/><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-7">i</span><span class="hl-0"> = </span><span class="hl-1">pipeAsync</span><span class="hl-0">(</span><br/><span class="hl-0">    [</span><span class="hl-8">1</span><span class="hl-0">, </span><span class="hl-8">2</span><span class="hl-0">, </span><span class="hl-8">3</span><span class="hl-0">],</span><br/><span class="hl-0">    </span><span class="hl-1">map</span><span class="hl-0">(</span><span class="hl-3">async</span><span class="hl-0"> </span><span class="hl-2">a</span><span class="hl-0"> </span><span class="hl-3">=&gt;</span><span class="hl-0"> {</span><br/><span class="hl-0">        </span><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-7">res1</span><span class="hl-0"> = </span><span class="hl-4">await</span><span class="hl-0"> </span><span class="hl-1">firstAsyncRequest</span><span class="hl-0">(</span><span class="hl-2">a</span><span class="hl-0">);</span><br/><span class="hl-0">        </span><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-7">res2</span><span class="hl-0"> = </span><span class="hl-4">await</span><span class="hl-0"> </span><span class="hl-1">secondAsyncRequest</span><span class="hl-0">(</span><span class="hl-2">a</span><span class="hl-0">);</span><br/><span class="hl-0">        </span><span class="hl-4">return</span><span class="hl-0"> {</span><span class="hl-2">res1</span><span class="hl-0">, </span><span class="hl-2">res2</span><span class="hl-0">};</span><br/><span class="hl-0">    }),</span><br/><span class="hl-0">    </span><span class="hl-1">wait</span><span class="hl-0">() </span><span class="hl-5">// resolve sequentially</span><br/><span class="hl-0">);</span><br/><br/><span class="hl-4">for</span><span class="hl-0"> </span><span class="hl-4">await</span><span class="hl-0"> (</span><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-7">a</span><span class="hl-0"> </span><span class="hl-3">of</span><span class="hl-0"> </span><span class="hl-2">i</span><span class="hl-0">) {</span><br/><span class="hl-0">    </span><span class="hl-2">console</span><span class="hl-0">.</span><span class="hl-1">log</span><span class="hl-0">(</span><span class="hl-2">a</span><span class="hl-0">); </span><span class="hl-5">// prints data from {res1, res2}</span><br/><span class="hl-0">}</span>
+</code></pre>
 
 <h3>See</h3><ul>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map">Array.map</a></li>
@@ -65,7 +68,7 @@ because this library gives you the flexibility of resolving those in a variety o
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type" data-tsd-kind="Type parameter">R</span></h4></li></ul></li></ul></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../interfaces/Operation.html" class="tsd-signature-type" data-tsd-kind="Interface">Operation</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">R</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/vitaly-t/iter-ops/blob/92b51f3/src/ops/map.ts#L21">ops/map.ts:21</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/vitaly-t/iter-ops/blob/92b51f3/src/ops/map.ts#L40">ops/map.ts:40</a></li></ul></aside></li></ul></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
