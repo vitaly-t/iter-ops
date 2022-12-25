@@ -41,6 +41,23 @@ export default () => {
         expect([...i]).to.eql([1, 2, 3]); // iterate all
         expect(invoked).to.be.false; // no callback
     });
+    it('must pass on callback errors', () => {
+        const i = pipe(
+            [1, 2, 3],
+            tap(() => {
+                syncDelay(5);
+            }),
+            timeout(8, () => {
+                throw new Error('timeout');
+            })
+        );
+        const iter = i[Symbol.iterator]();
+        expect(() => {
+            while (iter.next());
+        }).to.throw('timeout');
+        // this one is a safety check:
+        expect(iter.next()).to.eql({value: undefined, done: true});
+    });
 };
 
 function syncDelay(ms: number) {

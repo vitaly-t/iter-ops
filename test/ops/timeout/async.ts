@@ -33,4 +33,18 @@ export default () => {
         const i = pipeAsync([1, 2, 3], timeout(-1));
         expect(await _asyncValues(i)).to.eql([1, 2, 3]);
     });
+    it('must pass on callback errors', async () => {
+        let e: any;
+        const i = pipeAsync(
+            [1, 2, 3],
+            delay(10),
+            timeout(1, () => {
+                throw new Error('timeout');
+            })
+        ).catch((err) => {
+            e = err;
+        });
+        await _asyncValues(i);
+        expect(e?.message).to.eql('timeout');
+    });
 };

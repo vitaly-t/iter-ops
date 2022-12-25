@@ -85,15 +85,20 @@ function timeoutSync<T>(
             }
             let count = 0; // number of items processed
             let start: number;
+            let done = false;
             return {
                 next(): IteratorResult<T> {
+                    if (done) {
+                        return {value: undefined, done};
+                    }
                     const now = Date.now();
                     start = start || now;
                     if (now - start > ms) {
+                        done = true;
                         if (typeof cb === 'function') {
                             cb(count); // notify of the timeout
                         }
-                        return {value: undefined, done: true};
+                        return {value: undefined, done};
                     }
                     count++;
                     return i.next();
@@ -117,15 +122,24 @@ function timeoutAsync<T>(
             }
             let count = 0; // number of items processed
             let start: number;
+            let done = false;
             return {
                 next(): Promise<IteratorResult<T>> {
+                    if (done) {
+                        return Promise.resolve({value: undefined, done});
+                    }
                     const now = Date.now();
                     start = start || now;
                     if (now - start > ms) {
+                        done = true;
                         if (typeof cb === 'function') {
-                            cb(count); // notify of the timeout
+                            try {
+                                cb(count); // notify of the timeout
+                            } catch (err) {
+                                return Promise.reject(err);
+                            }
                         }
-                        return Promise.resolve({value: undefined, done: true});
+                        return Promise.resolve({value: undefined, done});
                     }
                     count++;
                     return i.next();
