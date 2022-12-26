@@ -137,7 +137,10 @@ function timeoutAsync<T>(
                 }
                 resolutions.forEach((r) => r({value: undefined, done}));
             }, ms);
-            timeoutId.unref();
+            // istanbul ignore else;
+            if (typeof timeoutId.unref === 'function') {
+                timeoutId.unref();
+            }
             return {
                 next(): Promise<IteratorResult<T>> {
                     if (done) {

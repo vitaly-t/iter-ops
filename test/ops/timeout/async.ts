@@ -3,7 +3,7 @@ import {pipeAsync, delay, timeout} from '../../../src';
 
 export default () => {
     it('must end iteration after timeout', async () => {
-        const i = pipeAsync([1, 2, 3], delay(10), timeout(29));
+        const i = pipeAsync([1, 2, 3], delay(10), timeout(35));
         expect(await _asyncValues(i)).to.eql([1, 2]);
     });
     it('must emit nothing when timeout does not permit', async () => {
