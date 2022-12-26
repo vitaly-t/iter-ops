@@ -1,6 +1,5 @@
 import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
-import {clearTimeout} from 'timers';
 
 /**
  * Ends iteration after a specified number of milliseconds (from the beginning of iteration).
