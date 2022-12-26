@@ -1,5 +1,6 @@
 import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
+import {clearTimeout} from 'timers';
 
 /**
  * Ends iteration after a specified number of milliseconds (from the beginning of iteration).
@@ -121,28 +122,51 @@ function timeoutAsync<T>(
                 return i;
             }
             let count = 0; // number of items processed
-            let start: number;
             let done = false;
+            const resolutions: ((res: IteratorResult<any>) => void)[] = [];
+            const rejections: ((err: any) => void)[] = [];
+            const timeoutId = setTimeout(() => {
+                done = true;
+                if (typeof cb === 'function') {
+                    try {
+                        cb(count); // notify of the timeout
+                    } catch (err) {
+                        rejections.forEach((r) => r(err));
+                        return;
+                    }
+                }
+                resolutions.forEach((r) => r({value: undefined, done}));
+            }, ms);
+            // istanbul ignore else;
+            if (typeof timeoutId.unref === 'function') {
+                timeoutId.unref();
+            }
             return {
                 next(): Promise<IteratorResult<T>> {
                     if (done) {
                         return Promise.resolve({value: undefined, done});
                     }
-                    const now = Date.now();
-                    start = start || now;
-                    if (now - start > ms) {
-                        done = true;
-                        if (typeof cb === 'function') {
-                            try {
-                                cb(count); // notify of the timeout
-                            } catch (err) {
-                                return Promise.reject(err);
-                            }
-                        }
-                        return Promise.resolve({value: undefined, done});
-                    }
-                    count++;
-                    return i.next();
+                    return new Promise((resolve, reject) => {
+                        resolutions.push(resolve);
+                        rejections.push(reject);
+                        i.next()
+                            .then((data) => {
+                                if (done) {
+                                    return; // we have timed out
+                                }
+                                if (data.done) {
+                                    clearTimeout(timeoutId);
+                                    done = true;
+                                }
+                                count++;
+                                resolve(data);
+                            })
+                            .catch((err) => {
+                                clearTimeout(timeoutId);
+                                done = true;
+                                reject(err);
+                            });
+                    });
                 },
             };
         },

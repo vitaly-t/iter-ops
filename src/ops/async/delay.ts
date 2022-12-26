@@ -74,9 +74,16 @@ function delayAsync<T>(
                             : timeout;
                         return delay < 0
                             ? a
-                            : new Promise((resolve) =>
-                                  setTimeout(() => resolve(a), delay)
-                              );
+                            : new Promise((resolve) => {
+                                  const timeoutId = setTimeout(
+                                      () => resolve(a),
+                                      delay
+                                  );
+                                  // istanbul ignore else;
+                                  if (typeof timeoutId.unref === 'function') {
+                                      timeoutId.unref();
+                                  }
+                              });
                     });
                 },
             };
