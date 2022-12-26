@@ -151,6 +151,9 @@ function timeoutAsync<T>(
                         rejections.push(reject);
                         i.next()
                             .then((data) => {
+                                if (done) {
+                                    return; // we have timed out
+                                }
                                 if (data.done) {
                                     clearTimeout(timeoutId);
                                     done = true;

@@ -1,5 +1,5 @@
 import {_asyncValues, expect} from '../../header';
-import {pipeAsync, delay, timeout} from '../../../src';
+import {pipeAsync, delay, timeout, tap} from '../../../src';
 
 export default () => {
     it('must end iteration after timeout', async () => {
@@ -7,8 +7,16 @@ export default () => {
         expect(await _asyncValues(i)).to.eql([1, 2]);
     });
     it('must emit nothing when timeout does not permit', async () => {
-        const i = pipeAsync([1, 2, 3], delay(10), timeout(1));
+        let count: any;
+        const i = pipeAsync(
+            [1, 2, 3],
+            delay(10),
+            timeout(1, (c) => {
+                count = c;
+            })
+        );
         expect(await _asyncValues(i)).to.eql([]);
+        expect(count).to.eql(0);
     });
     it('must invoke callback on timeout', async () => {
         let count;
@@ -50,5 +58,25 @@ export default () => {
         });
         await _asyncValues(i);
         expect(e?.message).to.eql('timeout');
+    });
+    it('must pass on value rejection', async () => {
+        let count: any;
+        let e: any;
+        const i = pipeAsync(
+            [1, 2, 3],
+            tap((value) => {
+                if (value === 2) {
+                    throw new Error('ops!');
+                }
+            }),
+            timeout(1, (c) => {
+                count = c;
+            })
+        ).catch((err) => {
+            e = err;
+        });
+        await _asyncValues(i);
+        expect(e?.message).to.eql('ops!');
+        expect(count).to.be.undefined;
     });
 };
