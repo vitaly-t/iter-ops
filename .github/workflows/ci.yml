@@ -51,8 +51,8 @@ jobs:
         os:
           - 'ubuntu-latest'
         node_version:
-          - '14'
           - '16'
+          - '18'
     runs-on: ${{ matrix.os }}
     env:
       REPORT_COVERAGE: ${{ fromJSON('["false", "true"]')[matrix.node_version == '16' && matrix.os == 'ubuntu-latest'] }}
