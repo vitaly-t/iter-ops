@@ -33,11 +33,11 @@ export default () => {
         const output3 = pipe(input, flat(3));
         expect(
             await _asyncValues(output2),
-            'async inside sync / level 2'
+            'async inside sync / level 2',
         ).to.eql([1, 2, 3, 4, 5, 6, last]);
         expect(
             await _asyncValues(output3),
-            'async inside sync / level 3'
+            'async inside sync / level 3',
         ).to.eql([1, 2, 3, 4, 5, 6, 7, 8]);
     });
     it('must flatten nested arrays to specified depth', async () => {
@@ -46,7 +46,7 @@ export default () => {
                 [1, 2],
                 [3, [4, [5, 6], 7]],
             ]),
-            flat(2)
+            flat(2),
         );
         expect(await _asyncValues(output)).to.eql([1, 2, 3, 4, [5, 6], 7]);
     });

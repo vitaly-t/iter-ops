@@ -154,9 +154,9 @@ export function split<T>(
     cb: (
         value: T,
         index: ISplitIndex,
-        state: IterationState
+        state: IterationState,
     ) => boolean | Promise<boolean>,
-    options?: ISplitOptions
+    options?: ISplitOptions,
 ): Operation<T, T[]>;
 
 export function split(...args: unknown[]) {
@@ -166,7 +166,7 @@ export function split(...args: unknown[]) {
 function splitSync<T>(
     iterable: Iterable<T>,
     cb: (value: T, index: ISplitIndex, state: IterationState) => boolean,
-    options?: ISplitOptions
+    options?: ISplitOptions,
 ): Iterable<T[]> {
     return {
         [$S](): Iterator<T[]> {
@@ -175,16 +175,16 @@ function splitSync<T>(
 
             // quick access to the options:
             const carryStart = options?.carryStart
-                ? options?.carryStart < 0
+                ? (options?.carryStart as number) < 0
                     ? -1
-                    : options?.carryStart > 0
+                    : (options?.carryStart as number) > 0
                     ? 1
                     : 0
                 : 0;
             const carryEnd = options?.carryEnd
-                ? options?.carryEnd < 0
+                ? (options?.carryEnd as number) < 0
                     ? -1
-                    : options?.carryEnd > 0
+                    : (options?.carryEnd as number) > 0
                     ? 1
                     : 0
                 : 0;
@@ -266,9 +266,9 @@ function splitAsync<T>(
     cb: (
         value: T,
         index: ISplitIndex,
-        state: IterationState
+        state: IterationState,
     ) => boolean | Promise<boolean>,
-    options?: ISplitOptions
+    options?: ISplitOptions,
 ): AsyncIterable<T[]> {
     return {
         [$A](): AsyncIterator<T[]> {
@@ -277,16 +277,16 @@ function splitAsync<T>(
 
             // quick access to the options:
             const carryStart = options?.carryStart
-                ? options?.carryStart < 0
+                ? (options?.carryStart as number) < 0
                     ? -1
-                    : options?.carryStart > 0
+                    : (options?.carryStart as number) > 0
                     ? 1
                     : 0
                 : 0;
             const carryEnd = options?.carryEnd
-                ? options?.carryEnd < 0
+                ? (options?.carryEnd as number) < 0
                     ? -1
-                    : options?.carryEnd > 0
+                    : (options?.carryEnd as number) > 0
                     ? 1
                     : 0
                 : 0;

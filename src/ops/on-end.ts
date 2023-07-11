@@ -119,7 +119,7 @@ export interface IIterationSummary<T> {
  * @category Diagnostics
  */
 export function onEnd<T>(
-    cb: (s: IIterationSummary<T>) => void
+    cb: (s: IIterationSummary<T>) => void,
 ): Operation<T, T>;
 
 export function onEnd(...args: unknown[]) {
@@ -128,7 +128,7 @@ export function onEnd(...args: unknown[]) {
 
 function onEndSync<T>(
     iterable: Iterable<T>,
-    cb: (s: IIterationSummary<T>) => void
+    cb: (s: IIterationSummary<T>) => void,
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
@@ -186,7 +186,7 @@ function onEndSync<T>(
 
 function onEndAsync<T>(
     iterable: AsyncIterable<T>,
-    cb: (s: IIterationSummary<T>) => void
+    cb: (s: IIterationSummary<T>) => void,
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {

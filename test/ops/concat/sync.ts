@@ -38,7 +38,7 @@ export default () => {
         it('must join iterable types', () => {
             const result = pipe(
                 [1, 2],
-                concat('one', [undefined, 'word', false])
+                concat('one', [undefined, 'word', false]),
             );
             expect([...result]).to.eql([
                 1,

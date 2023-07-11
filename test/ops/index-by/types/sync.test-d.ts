@@ -6,6 +6,6 @@ declare const iterableString: Iterable<string>;
 
 const test1 = pipe(
     iterableString,
-    indexBy(() => true)
+    indexBy(() => true),
 );
 expectType<IterableExt<IIndexedValue<string>>>(test1);

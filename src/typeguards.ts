@@ -14,7 +14,7 @@ export function isObject<T>(value: T): value is T & object {
  */
 export function has<T, K extends PropertyKey>(
     object: T,
-    key: K
+    key: K,
 ): object is T & Record<K, unknown> {
     return key in Object(object);
 }
@@ -25,7 +25,7 @@ export function has<T, K extends PropertyKey>(
 export function hasOfType<T, K extends PropertyKey>(
     object: T,
     key: K,
-    type: 'function'
+    type: 'function',
     // eslint-disable-next-line @typescript-eslint/ban-types -- `Function` is the best that we can determine here.
 ): object is T & Record<K, Function>;
 
@@ -35,13 +35,13 @@ export function hasOfType<T, K extends PropertyKey>(
 export function hasOfType<T, K extends PropertyKey>(
     object: T,
     key: K,
-    type: 'number'
+    type: 'number',
 ): object is T & Record<K, number>;
 
 export function hasOfType<T, K extends PropertyKey>(
     object: T,
     key: K,
-    type: TypeOfTag
+    type: TypeOfTag,
 ): object is T & Record<K, unknown> {
     return has(object, key) && typeof object[key] === type;
 }
@@ -50,7 +50,7 @@ export function hasOfType<T, K extends PropertyKey>(
  * Determines if the value is promise-like.
  */
 export function isPromiseLike<T, CastGeneric = unknown>(
-    value: T
+    value: T,
 ): value is T & PromiseLike<CastGeneric> {
     return hasOfType(value, 'then', 'function');
 }
@@ -59,7 +59,7 @@ export function isPromiseLike<T, CastGeneric = unknown>(
  * Determines if the value is array-like.
  */
 export function isArrayLike<T, CastGeneric = unknown>(
-    value: T
+    value: T,
 ): value is T & ArrayLike<CastGeneric> {
     return (
         hasOfType(value, 'length', 'number') && Number.isInteger(value.length)
@@ -70,7 +70,7 @@ export function isArrayLike<T, CastGeneric = unknown>(
  * Determines if the value is an iterable.
  */
 export function isSyncIterable<T, CastGeneric = unknown>(
-    value: T
+    value: T,
 ): value is T & Iterable<CastGeneric> {
     return hasOfType(value, $S, 'function');
 }
@@ -79,7 +79,7 @@ export function isSyncIterable<T, CastGeneric = unknown>(
  * Determines if the value is an async iterable.
  */
 export function isAsyncIterable<T, CastGeneric = unknown>(
-    value: T
+    value: T,
 ): value is T & AsyncIterable<CastGeneric> {
     return hasOfType(value, $A, 'function');
 }
@@ -90,7 +90,7 @@ export function isAsyncIterable<T, CastGeneric = unknown>(
  * Note: This function cannot distinguish between sync and async iterators.
  */
 export function isUnknownIterator<T, CastGeneric = unknown>(
-    value: T
+    value: T,
 ): value is T & UnknownIterator<CastGeneric> {
     return hasOfType(value, 'next', 'function');
 }
@@ -99,7 +99,7 @@ export function isUnknownIterator<T, CastGeneric = unknown>(
  * Determines if the value is an iterator result.
  */
 export function isIteratorResult<T, CastGeneric = unknown>(
-    value: T
+    value: T,
 ): value is T & IteratorResult<CastGeneric> {
     return has(value, 'value') || (has(value, 'done') && value.done === true);
 }
@@ -108,7 +108,7 @@ export function isIteratorResult<T, CastGeneric = unknown>(
  * Determines if the value is an indexed type.
  */
 export function isIndexed<T, CastGeneric = unknown>(
-    value: T
+    value: T,
 ): value is T & ArrayLike<CastGeneric> {
     return (
         Array.isArray(value) ||

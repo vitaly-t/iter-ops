@@ -27,7 +27,7 @@ import {isPromiseLike} from '../typeguards';
  * @category Sync+Async
  */
 export function consume<T, R>(
-    consumer: (data: UnknownIterable<T>, sync: boolean) => R | Promise<R>
+    consumer: (data: UnknownIterable<T>, sync: boolean) => R | Promise<R>,
 ): Operation<T, R>;
 
 export function consume(...args: unknown[]) {
@@ -36,7 +36,7 @@ export function consume(...args: unknown[]) {
 
 function consumeSync<T, R>(
     iterable: Iterable<T>,
-    consumer: (data: Iterable<T>, sync: boolean) => R
+    consumer: (data: Iterable<T>, sync: boolean) => R,
 ): Iterable<R> {
     return {
         [$S](): Iterator<R> {
@@ -56,7 +56,7 @@ function consumeSync<T, R>(
 
 function consumeAsync<T, R>(
     iterable: AsyncIterable<T>,
-    consumer: (data: AsyncIterable<T>, sync: boolean) => R | Promise<R>
+    consumer: (data: AsyncIterable<T>, sync: boolean) => R | Promise<R>,
 ): AsyncIterable<R> {
     return {
         [$A](): AsyncIterator<R> {

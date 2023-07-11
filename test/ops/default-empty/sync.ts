@@ -38,7 +38,7 @@ export default () => {
             // the actual test here is compile-time, inferring the type correctly:
             const i: Iterable<number | string> = pipe(
                 [1, 2, 3],
-                defaultEmpty('hello')
+                defaultEmpty('hello'),
             );
             expect([...i]).to.eql([1, 2, 3]); // default not added
         });
@@ -58,7 +58,7 @@ export default () => {
             // NOTE: This case does require casting input as Iterator<string> :|
             const i: Iterable<number | string> = pipe(
                 [1, 2, 3],
-                defaultEmpty(input)
+                defaultEmpty(input),
             );
             expect([...i]).to.eql([1, 2, 3]); // default not added
         });
@@ -66,7 +66,7 @@ export default () => {
             // the actual test here is compile-time, inferring the type correctly:
             const i: Iterable<number | string | boolean> = pipe(
                 [1, 2, 3],
-                defaultEmpty(['hello', true])
+                defaultEmpty(['hello', true]),
             );
             expect([...i]).to.eql([1, 2, 3]); // default not added
         });

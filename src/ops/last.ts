@@ -43,8 +43,8 @@ export function last<T>(
     cb?: (
         value: T,
         index: number,
-        state: IterationState
-    ) => boolean | Promise<boolean>
+        state: IterationState,
+    ) => boolean | Promise<boolean>,
 ): Operation<T, T>;
 
 export function last(...args: unknown[]) {
@@ -53,7 +53,7 @@ export function last(...args: unknown[]) {
 
 function lastSync<T>(
     iterable: Iterable<T>,
-    cb?: (value: T, index: number, state: IterationState) => boolean
+    cb?: (value: T, index: number, state: IterationState) => boolean,
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
@@ -81,8 +81,8 @@ function lastAsync<T>(
     cb?: (
         value: T,
         index: number,
-        state: IterationState
-    ) => boolean | Promise<boolean>
+        state: IterationState,
+    ) => boolean | Promise<boolean>,
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {

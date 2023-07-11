@@ -30,9 +30,9 @@ export function reduce<T, R = T>(
         previousValue: R,
         currentValue: T,
         index: number,
-        state: IterationState
+        state: IterationState,
     ) => R | Promise<R>,
-    initialValue?: R | Promise<R>
+    initialValue?: R | Promise<R>,
 ): Operation<T, R>;
 
 export function reduce(...args: unknown[]) {
@@ -45,9 +45,9 @@ function reduceSync<T>(
         previousValue: T,
         currentValue: T,
         index: number,
-        state: IterationState
+        state: IterationState,
     ) => T,
-    initialValue?: T
+    initialValue?: T,
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
@@ -85,9 +85,9 @@ function reduceAsync<T>(
         previousValue: T,
         currentValue: T,
         index: number,
-        state: IterationState
+        state: IterationState,
     ) => T | Promise<T>,
-    initialValue?: T | Promise<T>
+    initialValue?: T | Promise<T>,
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {

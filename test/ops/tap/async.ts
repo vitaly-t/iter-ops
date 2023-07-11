@@ -9,7 +9,7 @@ export default () => {
             _async(input),
             tap((val, idx) => {
                 res.push({val, idx});
-            })
+            }),
         );
         await _asyncValues(i); // trigger iteration
         expect(res).to.eql([
@@ -27,7 +27,7 @@ export default () => {
                 state.count = state.count ?? 0;
                 state.count++;
                 arr.push(state.count);
-            })
+            }),
         );
         await _asyncValues(i); // trigger iteration
         expect(arr).to.eql([1, 2, 3, 4, 5, 6]);

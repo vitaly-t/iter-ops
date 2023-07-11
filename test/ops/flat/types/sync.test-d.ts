@@ -54,7 +54,7 @@ expectType<
 
 const test8 = pipe(iterableDeep, flat(3));
 expectType<IterableExt<string | number | boolean | Date | Iterable<RegExp>>>(
-    test8
+    test8,
 );
 
 const test9 = pipe(iterableDeep, flat(4));

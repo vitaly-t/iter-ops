@@ -15,7 +15,7 @@ export default () => {
                 onAsync() {
                     return _async(['one', 'two']);
                 },
-            })
+            }),
         );
         expect(await _asyncValues(output)).to.eql(['one', 'two']);
     });
@@ -27,7 +27,7 @@ export default () => {
                 onAsync() {
                     throw new Error('ops!');
                 },
-            })
+            }),
         ).catch((e) => {
             err = e;
         });

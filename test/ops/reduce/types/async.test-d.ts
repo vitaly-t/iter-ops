@@ -12,7 +12,7 @@ const test1 = pipe(
         expectType<number>(i);
         expectType<IterationState>(s);
         return 'foo';
-    })
+    }),
 );
 expectType<AsyncIterableExt<string>>(test1);
 
@@ -24,7 +24,7 @@ const test2 = pipe(
         expectType<number>(i);
         expectType<IterationState>(s);
         return 'foo';
-    }, 'bar')
+    }, 'bar'),
 );
 expectType<AsyncIterableExt<string>>(test2);
 
@@ -36,7 +36,7 @@ const test3 = pipe(
         expectType<number>(i);
         expectType<IterationState>(s);
         return Promise.resolve('foo');
-    })
+    }),
 );
 expectType<AsyncIterableExt<string>>(test3);
 
@@ -48,7 +48,7 @@ const test4 = pipe(
         expectType<number>(i);
         expectType<IterationState>(s);
         return Promise.resolve('foo');
-    }, 'bar')
+    }, 'bar'),
 );
 expectType<AsyncIterableExt<string>>(test4);
 
@@ -60,7 +60,7 @@ const test5 = pipe(
         expectType<number>(i);
         expectType<IterationState>(s);
         return 'foo';
-    }, Promise.resolve('bar'))
+    }, Promise.resolve('bar')),
 );
 expectType<AsyncIterableExt<string>>(test5);
 
@@ -72,6 +72,6 @@ const test6 = pipe(
         expectType<number>(i);
         expectType<IterationState>(s);
         return 'foo';
-    }, Promise.resolve('bar'))
+    }, Promise.resolve('bar')),
 );
 expectType<AsyncIterableExt<string>>(test6);

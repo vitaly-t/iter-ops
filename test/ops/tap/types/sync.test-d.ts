@@ -6,6 +6,6 @@ declare const iterableNumber: Iterable<number>;
 
 const test1 = pipe(
     iterableNumber,
-    tap(() => {})
+    tap(() => {}),
 );
 expectType<IterableExt<number>>(test1);

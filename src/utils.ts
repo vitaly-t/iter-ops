@@ -7,7 +7,7 @@ import {$A, $S, Operation} from './types';
 export function createOperation<T, R>(
     syncFunc: (i: Iterable<T>, ...args: any[]) => Iterable<R>,
     asyncFunc: (i: AsyncIterable<T>, ...args: any[]) => AsyncIterable<R>,
-    args?: Iterable<unknown>
+    args?: Iterable<unknown>,
 ): Operation<T, R> {
     return (i: any) => {
         const func: any = i[$S] ? syncFunc : asyncFunc;
@@ -23,7 +23,7 @@ export function throwOnSync<T>(operatorName: string) {
         [$S](): Iterator<T> {
             return iterateOnce(true, () => {
                 throw new Error(
-                    `Operator "${operatorName}" requires asynchronous pipeline`
+                    `Operator "${operatorName}" requires asynchronous pipeline`,
                 );
             }) as Iterator<T>;
         },
@@ -90,7 +90,7 @@ export function indexedAsyncIterable<T>(input: any): AsyncIterable<T> {
                     return Promise.resolve(
                         i < len
                             ? {value: input[i++], done: false}
-                            : {value: undefined, done: true}
+                            : {value: undefined, done: true},
                     );
                 },
             };

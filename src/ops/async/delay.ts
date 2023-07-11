@@ -41,7 +41,7 @@ export function delay<T>(timeout: number): Operation<T, T>;
  * @category Async-only
  */
 export function delay<T>(
-    cb: (value: T, index: number, state: IterationState) => number
+    cb: (value: T, index: number, state: IterationState) => number,
 ): Operation<T, T>;
 
 export function delay(...args: unknown[]) {
@@ -52,12 +52,12 @@ function delayAsync<T>(
     iterable: AsyncIterable<T>,
     timeout:
         | number
-        | ((value: T, index: number, state: IterationState) => number)
+        | ((value: T, index: number, state: IterationState) => number),
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
-            if (timeout < 0) {
+            if (typeof timeout === 'number' && timeout < 0) {
                 return i; // use no delay;
             }
             const cb = typeof timeout === 'function' && timeout;
@@ -75,7 +75,7 @@ function delayAsync<T>(
                         return delay < 0
                             ? a
                             : new Promise((resolve) =>
-                                  setTimeout(() => resolve(a), delay)
+                                  setTimeout(() => resolve(a), delay),
                               );
                     });
                 },

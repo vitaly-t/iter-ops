@@ -21,7 +21,7 @@ export default () => {
                 first((value, index) => {
                     indexes.push(index);
                     return value % 2 === 0;
-                })
+                }),
             );
             expect(await _asyncValues(i)).to.eql([2]);
             expect(indexes).to.eql([0, 1]);
@@ -34,7 +34,7 @@ export default () => {
                 first(async (value, index) => {
                     indexes.push(index);
                     return value % 2 === 0;
-                })
+                }),
             );
             expect(await _asyncValues(i)).to.eql([2]);
             expect(indexes).to.eql([0, 1]);

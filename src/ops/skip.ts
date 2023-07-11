@@ -51,7 +51,7 @@ function skipSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
 
 function skipAsync<T>(
     iterable: AsyncIterable<T>,
-    count: number
+    count: number,
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {

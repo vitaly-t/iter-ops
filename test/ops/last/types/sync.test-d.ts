@@ -9,6 +9,6 @@ expectType<IterableExt<number>>(test1);
 
 const test2 = pipe(
     iterableNumber,
-    last((value, index) => true)
+    last((value, index) => true),
 );
 expectType<IterableExt<number>>(test2);

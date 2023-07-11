@@ -12,7 +12,7 @@ export default () => {
                 [1, 2],
                 [3, 4],
             ],
-            flat()
+            flat(),
         );
         expect([...output]).to.eql([1, 2, 3, 4]);
     });
@@ -22,7 +22,7 @@ export default () => {
                 [1, 2],
                 [3, [4, [5, 6], 7]],
             ],
-            flat(2)
+            flat(2),
         );
         expect([...output]).to.eql([1, 2, 3, 4, [5, 6], 7]);
     });

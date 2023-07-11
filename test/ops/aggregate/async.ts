@@ -7,7 +7,7 @@ export default () => {
             [1, 2, 3],
             aggregate((arr) => {
                 return arr.reduce((a, c) => a + c);
-            })
+            }),
         );
         expect(await _asyncValues(output)).to.eql([6]);
     });
@@ -16,14 +16,14 @@ export default () => {
             [],
             aggregate((arr) => {
                 return arr;
-            })
+            }),
         );
         expect(await _asyncValues(output)).to.eql([[]]);
     });
     it('must allow return of nothing', async () => {
         const output = pipeAsync(
             [],
-            aggregate(() => {})
+            aggregate(() => {}),
         );
         expect(await _asyncValues(output)).to.eql([undefined]);
     });
@@ -32,7 +32,7 @@ export default () => {
             [1, 2, 3],
             aggregate(async (data) => {
                 return data;
-            })
+            }),
         );
         expect(await _asyncValues(output)).to.eql([[1, 2, 3]]);
     });

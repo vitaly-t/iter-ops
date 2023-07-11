@@ -6,7 +6,7 @@ export default () => {
         const input = [1, 2, 3];
         const output = pipe(
             _async(input),
-            map((value) => ({value}))
+            map((value) => ({value})),
         );
         expect(await _asyncValues(output)).to.eql([
             {value: 1},
@@ -18,7 +18,7 @@ export default () => {
         const input = [1, 2, 3];
         const output = pipe(
             _async(input),
-            map((value, idx) => ({idx}))
+            map((value, idx) => ({idx})),
         );
         expect(await _asyncValues(output)).to.eql([
             {idx: 0},
@@ -35,7 +35,7 @@ export default () => {
                 state.count = state.count ?? 0;
                 state.count++;
                 arr.push(state.count);
-            })
+            }),
         );
         await _asyncValues(output);
         expect(arr).to.eql([1, 2, 3, 4, 5, 6]);

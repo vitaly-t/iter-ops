@@ -52,7 +52,7 @@ function takeSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
 
 function takeAsync<T>(
     iterable: AsyncIterable<T>,
-    count: number
+    count: number,
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {

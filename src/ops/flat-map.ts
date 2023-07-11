@@ -26,7 +26,7 @@ import {isPromiseLike} from '../typeguards';
  * @category Sync+Async
  */
 export function flatMap<T, R>(
-    cb: (value: T, index: number, state: IterationState) => R | Promise<R>
+    cb: (value: T, index: number, state: IterationState) => R | Promise<R>,
 ): Operation<T, R extends UnknownIterable<infer E> ? E : R>;
 
 export function flatMap(...args: unknown[]) {
@@ -35,7 +35,7 @@ export function flatMap(...args: unknown[]) {
 
 function flatMapSync<T, R>(
     iterable: Iterable<T>,
-    cb: (value: T, index: number, state: IterationState) => R
+    cb: (value: T, index: number, state: IterationState) => R,
 ): Iterable<R> {
     return {
         [$S](): Iterator<R> {
@@ -72,7 +72,7 @@ function flatMapSync<T, R>(
 
 function flatMapAsync<T, R>(
     iterable: AsyncIterable<T>,
-    cb: (value: T, index: number, state: IterationState) => R
+    cb: (value: T, index: number, state: IterationState) => R,
 ): AsyncIterable<R> {
     return {
         [$A](): AsyncIterator<R> {

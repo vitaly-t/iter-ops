@@ -10,7 +10,7 @@ const test1 = pipeSync(
     flatMap((value) => {
         expectType<Iterable<number>>(value);
         return 123;
-    })
+    }),
 );
 expectType<IterableExt<number>>(test1);
 
@@ -19,7 +19,7 @@ const test2 = pipeSync(
     flatMap((value) => {
         expectType<Iterable<number>>(value);
         return [1, 2, 3];
-    })
+    }),
 );
 expectType<IterableExt<number>>(test2);
 
@@ -29,6 +29,6 @@ const test3 = pipeSync(
         expectType<string>(key);
         expectType<number>(value);
         return [1, 2, 3];
-    })
+    }),
 );
 expectType<IterableExt<number>>(test3);

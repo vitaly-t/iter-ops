@@ -6,7 +6,7 @@ export default () => {
     it('must compress till first end', async () => {
         const i = pipe(
             _async([1, 2, 3]),
-            zip('here', [11, 22, 33, 44], createIterator())
+            zip('here', [11, 22, 33, 44], createIterator()),
         );
         expect(await _asyncValues(i)).to.eql([
             [1, 'h', 11, true],
@@ -17,7 +17,7 @@ export default () => {
     it('must compress async iterables', async () => {
         const i = pipe(
             _async([1, 2, 3]),
-            zip('here', _async([11, 22, 33, 44]), createIterator())
+            zip('here', _async([11, 22, 33, 44]), createIterator()),
         );
         expect(await _asyncValues(i)).to.eql([
             [1, 'h', 11, true],

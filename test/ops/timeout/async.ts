@@ -13,7 +13,7 @@ export default () => {
             delay(10),
             timeout(1, (c) => {
                 count = c;
-            })
+            }),
         );
         expect(await _asyncValues(i)).to.eql([]);
         expect(count).to.eql(0);
@@ -25,7 +25,7 @@ export default () => {
             delay(10),
             timeout(29, (c) => {
                 count = c;
-            })
+            }),
         );
         expect(await _asyncValues(i)).to.eql([1, 2]);
         expect(count).to.eql(2);
@@ -36,7 +36,7 @@ export default () => {
             [1, 2, 3],
             timeout(1, () => {
                 invoked = true;
-            })
+            }),
         );
         await _asyncValues(i); // iterate
         expect(invoked).to.be.false; // no callback
@@ -52,7 +52,7 @@ export default () => {
             delay(10),
             timeout(1, () => {
                 throw new Error('timeout');
-            })
+            }),
         ).catch((err) => {
             e = err;
         });
@@ -71,7 +71,7 @@ export default () => {
             }),
             timeout(1, (c) => {
                 count = c;
-            })
+            }),
         ).catch((err) => {
             e = err;
         });

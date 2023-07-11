@@ -18,7 +18,7 @@ export default () => {
                     lastValue: ctx.lastValue,
                     repeats: ctx.repeats,
                 });
-            })
+            }),
         );
         const result = [...i];
         expect(result).to.eql([1, 2, 4, 5]);
@@ -32,7 +32,7 @@ export default () => {
             [1, 2, 3, 4, 5],
             tap(() => {
                 throw 'ops!';
-            })
+            }),
         ).catch((e, ctx) => {
             if (ctx.repeats > 2) {
                 throw 'stop';
@@ -56,7 +56,7 @@ export default () => {
                 if (value === 3) {
                     throw new Error(`ops-${value}`);
                 }
-            })
+            }),
         ).catch((err, info) => {
             info.emit(333);
         });
@@ -71,7 +71,7 @@ export default () => {
             }),
             catchError(() => {
                 throw new Error('handled');
-            })
+            }),
         );
         expect(() => {
             [...i];

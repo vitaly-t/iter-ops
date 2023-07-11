@@ -33,7 +33,7 @@ function pageSync<T>(iterable: Iterable<T>, size: number): Iterable<T[]> {
             if (typeof size !== 'number' || size < 1) {
                 return iterateOnce(true, () => {
                     throw new TypeError(
-                        `Page size >= 1 is required: ${JSON.stringify(size)}`
+                        `Page size >= 1 is required: ${JSON.stringify(size)}`,
                     );
                 }) as any;
             }
@@ -58,14 +58,14 @@ function pageSync<T>(iterable: Iterable<T>, size: number): Iterable<T[]> {
 
 function pageAsync<T>(
     iterable: AsyncIterable<T>,
-    size: number
+    size: number,
 ): AsyncIterable<T[]> {
     return {
         [$A](): AsyncIterator<T[]> {
             if (typeof size !== 'number' || size < 1) {
                 return iterateOnce(false, () => {
                     throw new TypeError(
-                        `Page size >= 1 is required: ${JSON.stringify(size)}`
+                        `Page size >= 1 is required: ${JSON.stringify(size)}`,
                     );
                 }) as any;
             }

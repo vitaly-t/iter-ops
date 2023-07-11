@@ -20,7 +20,7 @@ import {createOperation} from '../utils';
  * @category Sync+Async
  */
 export function tap<T>(
-    cb: (value: T, index: number, state: IterationState) => void
+    cb: (value: T, index: number, state: IterationState) => void,
 ): Operation<T, T>;
 
 export function tap(...args: unknown[]) {
@@ -29,7 +29,7 @@ export function tap(...args: unknown[]) {
 
 function tapSync<T>(
     iterable: Iterable<T>,
-    cb: (value: T, index: number, state: IterationState) => void
+    cb: (value: T, index: number, state: IterationState) => void,
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
@@ -51,7 +51,7 @@ function tapSync<T>(
 
 function tapAsync<T>(
     iterable: AsyncIterable<T>,
-    cb: (value: T, index: number, state: IterationState) => void
+    cb: (value: T, index: number, state: IterationState) => void,
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {

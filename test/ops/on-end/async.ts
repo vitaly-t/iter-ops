@@ -10,7 +10,7 @@ export default () => {
             delay((value, index) => delays[index]),
             onEnd((info) => {
                 s = info;
-            })
+            }),
         );
         expect(await _asyncValues(i)).to.eql([10, 20, 30, 5]);
         expect(s.sync).to.be.false;
@@ -27,7 +27,7 @@ export default () => {
             delay(10),
             onEnd((info) => {
                 s = info;
-            })
+            }),
         );
         expect(await _asyncValues(i)).to.eql([1]);
         expect(s.duration.total).to.be.greaterThanOrEqual(10);
@@ -38,7 +38,7 @@ export default () => {
             _async([]),
             onEnd((info) => {
                 s = info;
-            })
+            }),
         );
         expect(await _asyncValues(i)).to.eql([]);
         expect(s.sync).to.be.false;
@@ -57,7 +57,7 @@ export default () => {
             _async([]),
             onEnd(() => {
                 count++;
-            })
+            }),
         )[Symbol.asyncIterator]();
         await i.next();
         await i.next(); // after "done"

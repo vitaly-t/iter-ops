@@ -13,7 +13,7 @@ const test1 = pipeAsync(
     flatMap((value) => {
         expectType<AsyncIterable<number>>(value);
         return 123;
-    })
+    }),
 );
 expectType<AsyncIterableExt<number>>(test1);
 
@@ -22,7 +22,7 @@ const test2 = pipeAsync(
     flatMap((value) => {
         expectType<AsyncIterable<number>>(value);
         return [1, 2, 3];
-    })
+    }),
 );
 expectType<AsyncIterableExt<number>>(test2);
 
@@ -31,7 +31,7 @@ const test3 = pipeAsync(
     flatMap((value) => {
         expectType<Iterable<number>>(value);
         return 123;
-    })
+    }),
 );
 expectType<AsyncIterableExt<number>>(test3);
 
@@ -40,7 +40,7 @@ const test4 = pipeAsync(
     flatMap((value) => {
         expectType<Iterable<number>>(value);
         return [1, 2, 3];
-    })
+    }),
 );
 expectType<AsyncIterableExt<number>>(test4);
 
@@ -49,7 +49,7 @@ const test5 = pipeAsync(
     flatMap((value, index) => {
         expectType<AsyncIterable<number> | Iterable<string> | boolean>(value);
         return index ? 123 : 'bla';
-    })
+    }),
 );
 expectAssignable<AsyncIterableExt<number | string>>(test5);
 
@@ -58,7 +58,7 @@ const test6 = pipeAsync(
     flatMap((value) => {
         expectType<AsyncIterable<number> | Iterable<string> | boolean>(value);
         return [123, 'bla'];
-    })
+    }),
 );
 expectType<AsyncIterableExt<number | string>>(test6);
 
@@ -67,6 +67,6 @@ const test7 = pipeAsync(
     flatMap(async (value) => {
         expectType<AsyncIterable<number> | Iterable<string> | boolean>(value);
         return [123, 'bla'];
-    })
+    }),
 );
 expectType<AsyncIterableExt<number | string>>(test7);

@@ -7,7 +7,7 @@ export default () => {
     });
     it('must work for undefined value', () => {
         expect(isIteratorResult({value: undefined, done: false})).to.equal(
-            true
+            true,
         );
     });
     it('must work when missing done', () => {

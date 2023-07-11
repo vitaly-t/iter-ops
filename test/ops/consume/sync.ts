@@ -9,7 +9,7 @@ export default () => {
             consume((data, sync) => {
                 isSync = sync;
                 return 'hello';
-            })
+            }),
         );
         expect([...output]).to.eql(['hello']);
         expect(isSync).to.be.true;

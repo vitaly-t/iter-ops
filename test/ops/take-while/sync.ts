@@ -6,7 +6,7 @@ export default () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
             input,
-            takeWhile((a) => a <= 3)
+            takeWhile((a) => a <= 3),
         );
         expect([...output]).to.eql([1, 2, 3]);
     });
@@ -18,7 +18,7 @@ export default () => {
             takeWhile((a, idx) => {
                 indexes.push(idx);
                 return a <= 3;
-            })
+            }),
         );
         [...output];
         expect(indexes).to.eql([0, 1, 2, 3]);
@@ -27,7 +27,7 @@ export default () => {
         const input = [1, 2, 3];
         const output = pipe(
             input,
-            takeWhile((a) => a !== 2)
+            takeWhile((a) => a !== 2),
         );
         const i = output[Symbol.iterator]();
         expect(i.next()).to.eql({value: 1, done: false});
@@ -44,7 +44,7 @@ export default () => {
                 state.count++;
                 arr.push(state.count);
                 return false;
-            })
+            }),
         );
         expect([...output]).to.eql([]);
         expect(arr).to.eql([1]);

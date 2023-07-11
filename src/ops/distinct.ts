@@ -31,7 +31,7 @@ import {createOperation} from '../utils';
  * @category Sync+Async
  */
 export function distinct<T, K>(
-    keySelector?: (value: T, index: number) => K
+    keySelector?: (value: T, index: number) => K,
 ): Operation<T, T>;
 
 export function distinct(...args: unknown[]) {
@@ -40,7 +40,7 @@ export function distinct(...args: unknown[]) {
 
 function distinctSync<T, K>(
     iterable: Iterable<T>,
-    keySelector?: (value: T, index: number) => K
+    keySelector?: (value: T, index: number) => K,
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
@@ -71,7 +71,7 @@ function distinctSync<T, K>(
 
 function distinctAsync<T, K>(
     iterable: AsyncIterable<T>,
-    keySelector?: (value: T, index: number) => K
+    keySelector?: (value: T, index: number) => K,
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {

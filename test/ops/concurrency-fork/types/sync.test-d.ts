@@ -13,7 +13,7 @@ const test2 = pipe(
     iterableNumber,
     concurrencyFork({
         onSync() {},
-    })
+    }),
 );
 expectType<IterableExt<number>>(test2);
 
@@ -24,7 +24,7 @@ const test3 = pipe(
         onSync(i) {
             return null;
         },
-    })
+    }),
 );
 expectType<IterableExt<number>>(test3);
 
@@ -35,7 +35,7 @@ const test4 = pipe(
         onSync(i) {
             return i;
         },
-    })
+    }),
 );
 expectType<IterableExt<number>>(test4);
 
@@ -48,6 +48,6 @@ const test5 = pipe(
                 yield 'hello';
             })();
         },
-    })
+    }),
 );
 expectType<IterableExt<string>>(test5);

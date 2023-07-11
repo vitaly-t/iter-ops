@@ -6,6 +6,6 @@ declare const iterableString: AsyncIterable<string>;
 
 const test1 = pipe(
     iterableString,
-    onEnd(() => {})
+    onEnd(() => {}),
 );
 expectType<AsyncIterableExt<string>>(test1);

@@ -32,7 +32,7 @@ import {isPromiseLike} from '../typeguards';
  * @category Sync+Async
  */
 export function aggregate<T, R>(
-    cb: (arr: T[]) => R | Promise<R>
+    cb: (arr: T[]) => R | Promise<R>,
 ): Operation<T, R>;
 
 export function aggregate(...args: unknown[]) {
@@ -41,7 +41,7 @@ export function aggregate(...args: unknown[]) {
 
 function aggregateSync<T, R>(
     iterable: Iterable<T>,
-    cb: (arr: T[]) => R
+    cb: (arr: T[]) => R,
 ): Iterable<R> {
     return {
         [$S](): Iterator<R> {
@@ -67,7 +67,7 @@ function aggregateSync<T, R>(
 
 function aggregateAsync<T, R>(
     iterable: AsyncIterable<T>,
-    cb: (arr: T[]) => R | Promise<R>
+    cb: (arr: T[]) => R | Promise<R>,
 ): AsyncIterable<R> {
     return {
         [$A](): AsyncIterator<R> {

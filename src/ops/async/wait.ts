@@ -56,7 +56,7 @@ export function wait() {
 }
 
 export function waitAsync<T>(
-    iterable: AsyncIterable<Promise<T> | T>
+    iterable: AsyncIterable<Promise<T> | T>,
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {

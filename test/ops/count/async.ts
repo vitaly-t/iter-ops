@@ -22,11 +22,11 @@ export default () => {
         const input = _async([1, 2, 3, 4, 5, 6, 7, 8, 9]);
         const output1 = pipe(
             input,
-            count((a) => a % 2 === 0)
+            count((a) => a % 2 === 0),
         );
         const output2 = pipe(
             input,
-            count((a) => a % 2 > 0)
+            count((a) => a % 2 > 0),
         );
         expect(await output1.first).to.eql(4);
         expect(await output2.first).to.eql(5);
@@ -35,7 +35,7 @@ export default () => {
         const input = _async([1, 2, 3, 4, 5, 6, 7, 8, 9]);
         const output = pipe(
             input,
-            count(async (a) => a % 2 === 0)
+            count(async (a) => a % 2 === 0),
         );
         expect(await output.first).to.eql(4);
     });

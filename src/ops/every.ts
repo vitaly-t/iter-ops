@@ -33,8 +33,8 @@ export function every<T>(
     cb: (
         value: T,
         index: number,
-        state: IterationState
-    ) => boolean | Promise<boolean>
+        state: IterationState,
+    ) => boolean | Promise<boolean>,
 ): Operation<T, boolean>;
 
 export function every(...args: unknown[]) {
@@ -43,7 +43,7 @@ export function every(...args: unknown[]) {
 
 function everySync<T>(
     iterable: Iterable<T>,
-    cb: (value: T, index: number, state: IterationState) => boolean
+    cb: (value: T, index: number, state: IterationState) => boolean,
 ): Iterable<boolean> {
     return {
         [$S](): Iterator<boolean> {
@@ -74,8 +74,8 @@ function everyAsync<T>(
     cb: (
         value: T,
         index: number,
-        state: IterationState
-    ) => boolean | Promise<boolean>
+        state: IterationState,
+    ) => boolean | Promise<boolean>,
 ): AsyncIterable<boolean> {
     return {
         [$A](): AsyncIterator<boolean> {

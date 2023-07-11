@@ -32,25 +32,25 @@ export function zip<T>(): Operation<T, [T]>;
  * @category Sync+Async
  */
 export function zip<T, A>(
-    v0: UnknownIterableOrIterator<A>
+    v0: UnknownIterableOrIterator<A>,
 ): Operation<T, [T, A]>;
 /** @hidden */
 export function zip<T, A, B>(
     v0: UnknownIterableOrIterator<A>,
-    v1: UnknownIterableOrIterator<B>
+    v1: UnknownIterableOrIterator<B>,
 ): Operation<T, [T, A, B]>;
 /** @hidden */
 export function zip<T, A, B, C>(
     v0: UnknownIterableOrIterator<A>,
     v1: UnknownIterableOrIterator<B>,
-    v2: UnknownIterableOrIterator<C>
+    v2: UnknownIterableOrIterator<C>,
 ): Operation<T, [T, A, B, C]>;
 /** @hidden */
 export function zip<T, A, B, C, D>(
     v0: UnknownIterableOrIterator<A>,
     v1: UnknownIterableOrIterator<B>,
     v2: UnknownIterableOrIterator<C>,
-    v3: UnknownIterableOrIterator<D>
+    v3: UnknownIterableOrIterator<D>,
 ): Operation<T, [T, A, B, C, D]>;
 /** @hidden */
 export function zip<T, A, B, C, D, E>(
@@ -58,7 +58,7 @@ export function zip<T, A, B, C, D, E>(
     v1: UnknownIterableOrIterator<B>,
     v2: UnknownIterableOrIterator<C>,
     v3: UnknownIterableOrIterator<D>,
-    v4: UnknownIterableOrIterator<E>
+    v4: UnknownIterableOrIterator<E>,
 ): Operation<T, [T, A, B, C, D, E]>;
 /** @hidden */
 export function zip<T, A, B, C, D, E, F>(
@@ -67,7 +67,7 @@ export function zip<T, A, B, C, D, E, F>(
     v2: UnknownIterableOrIterator<C>,
     v3: UnknownIterableOrIterator<D>,
     v4: UnknownIterableOrIterator<E>,
-    v5: UnknownIterableOrIterator<F>
+    v5: UnknownIterableOrIterator<F>,
 ): Operation<T, [T, A, B, C, D, E, F]>;
 /** @hidden */
 export function zip<T, A, B, C, D, E, F, G>(
@@ -77,7 +77,7 @@ export function zip<T, A, B, C, D, E, F, G>(
     v3: UnknownIterableOrIterator<D>,
     v4: UnknownIterableOrIterator<E>,
     v5: UnknownIterableOrIterator<F>,
-    v6: UnknownIterableOrIterator<G>
+    v6: UnknownIterableOrIterator<G>,
 ): Operation<T, [T, A, B, C, D, E, F, G]>;
 /** @hidden */
 export function zip<T, A, B, C, D, E, F, G, H>(
@@ -88,7 +88,7 @@ export function zip<T, A, B, C, D, E, F, G, H>(
     v4: UnknownIterableOrIterator<E>,
     v5: UnknownIterableOrIterator<F>,
     v6: UnknownIterableOrIterator<G>,
-    v7: UnknownIterableOrIterator<H>
+    v7: UnknownIterableOrIterator<H>,
 ): Operation<T, [T, A, B, C, D, E, F, G, H]>;
 /** @hidden */
 export function zip<T, A, B, C, D, E, F, G, H, I>(
@@ -100,7 +100,7 @@ export function zip<T, A, B, C, D, E, F, G, H, I>(
     v5: UnknownIterableOrIterator<F>,
     v6: UnknownIterableOrIterator<G>,
     v7: UnknownIterableOrIterator<H>,
-    v8: UnknownIterableOrIterator<I>
+    v8: UnknownIterableOrIterator<I>,
 ): Operation<T, [T, A, B, C, D, E, F, G, H, I]>;
 /** @hidden */
 export function zip<T, A, B, C, D, E, F, G, H, I, J>(
@@ -113,7 +113,7 @@ export function zip<T, A, B, C, D, E, F, G, H, I, J>(
     v6: UnknownIterableOrIterator<G>,
     v7: UnknownIterableOrIterator<H>,
     v8: UnknownIterableOrIterator<I>,
-    v9: UnknownIterableOrIterator<J>
+    v9: UnknownIterableOrIterator<J>,
 ): Operation<T, [T, A, B, C, D, E, F, G, H, I, J]>;
 
 export function zip(...args: unknown[]) {
@@ -129,7 +129,7 @@ function zipSync<T>(
             const list: Iterator<any>[] = [
                 iterable[$S](),
                 ...values.map((v: any) =>
-                    typeof v[$S] === 'function' ? v[$S]() : v
+                    typeof v[$S] === 'function' ? v[$S]() : v,
                 ),
             ];
             const errIterator = validateZipIterators(true, list);
@@ -170,7 +170,7 @@ function zipAsync<T>(
                         ? v[$S]()
                         : typeof v[$A] === 'function'
                         ? v[$A]()
-                        : v
+                        : v,
                 ),
             ];
             const errIterator = validateZipIterators(false, list);
@@ -190,7 +190,7 @@ function zipAsync<T>(
                                         value.push(a[i].value);
                                     }
                                     return {value, done: false};
-                                }
+                                },
                             );
                         }
                         return Promise.resolve({value: undefined, done: true});
@@ -209,8 +209,8 @@ function validateZipIterators<T>(sync: boolean, inputs: UnknownIterator<T>[]) {
                 // either not iterable, or async iterable passed inside synchronous pipeline;
                 throw new TypeError(
                     `Value at index ${i - 1} is not iterable: ${JSON.stringify(
-                        a
-                    )}`
+                        a,
+                    )}`,
                 );
             }) as any;
         }

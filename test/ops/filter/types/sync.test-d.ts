@@ -6,6 +6,6 @@ declare const iterableNumber: Iterable<number>;
 
 const test1 = pipe(
     iterableNumber,
-    filter((a) => a > 5)
+    filter((a) => a > 5),
 );
 expectType<IterableExt<number>>(test1);

@@ -34,8 +34,8 @@ export function takeUntil<T>(
     cb: (
         value: T,
         index: number,
-        state: IterationState
-    ) => boolean | Promise<boolean>
+        state: IterationState,
+    ) => boolean | Promise<boolean>,
 ): Operation<T, T>;
 
 export function takeUntil(...args: unknown[]) {
@@ -44,7 +44,7 @@ export function takeUntil(...args: unknown[]) {
 
 function takeUntilSync<T>(
     iterable: Iterable<T>,
-    cb: (value: T, index: number, state: IterationState) => boolean
+    cb: (value: T, index: number, state: IterationState) => boolean,
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
@@ -73,8 +73,8 @@ function takeUntilAsync<T>(
     cb: (
         value: T,
         index: number,
-        state: IterationState
-    ) => boolean | Promise<boolean>
+        state: IterationState,
+    ) => boolean | Promise<boolean>,
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
@@ -91,7 +91,7 @@ function takeUntilAsync<T>(
                         const r = cb(
                             a.value,
                             index++,
-                            state
+                            state,
                         ) as Promise<boolean>;
                         const out = (flag: any): IteratorResult<T> => {
                             stopped = flag;

@@ -6,12 +6,12 @@ declare const iterableString: Iterable<string>;
 
 const test1 = pipe(
     iterableString,
-    aggregate((v) => 1)
+    aggregate((v) => 1),
 );
 expectType<IterableExt<number>>(test1);
 
 const test2 = pipe(
     iterableString,
-    aggregate((v) => v.join())
+    aggregate((v) => v.join()),
 );
 expectType<IterableExt<string>>(test2);

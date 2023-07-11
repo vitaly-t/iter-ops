@@ -27,7 +27,7 @@ import {createOperation, throwOnSync} from '../../utils';
  * @category Async-only
  */
 export function throttle<T>(
-    cb: (value: T, index: number, state: IterationState) => Promise<any>
+    cb: (value: T, index: number, state: IterationState) => Promise<any>,
 ): Operation<T, T>;
 
 export function throttle(...args: unknown[]) {
@@ -36,7 +36,7 @@ export function throttle(...args: unknown[]) {
 
 function throttleAsync<T>(
     iterable: AsyncIterable<T>,
-    cb: (value: T, index: number, state: IterationState) => Promise<any>
+    cb: (value: T, index: number, state: IterationState) => Promise<any>,
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
@@ -50,7 +50,7 @@ function throttleAsync<T>(
                         .then((a) =>
                             a.done
                                 ? a
-                                : cb(a.value, index++, state).then(() => a)
+                                : cb(a.value, index++, state).then(() => a),
                         );
                 },
             };

@@ -233,7 +233,7 @@ export function toIterable<T>(i: unknown) {
 export function reverse<T>(input: ArrayLike<T>): Iterable<T> {
     if (typeof input?.length !== 'number') {
         throw new TypeError(
-            `An array-like value was expected: ${JSON.stringify(input)}`
+            `An array-like value was expected: ${JSON.stringify(input)}`,
         );
     }
     return {
@@ -261,7 +261,7 @@ function toSyncIterable<T>(value: T): Iterable<T> {
  * Create an async iterable that has the awaited given value as its only element.
  */
 function toSingleAsyncIterable<T>(
-    asyncValue: PromiseLike<T>
+    asyncValue: PromiseLike<T>,
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {

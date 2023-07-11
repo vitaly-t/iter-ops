@@ -77,7 +77,7 @@ export interface IConcurrencyWork<T, R> {
  * @category Sync+Async
  */
 export function concurrencyFork<T, R = T>(
-    work: IConcurrencyWork<T, R>
+    work: IConcurrencyWork<T, R>,
 ): Operation<T, R>;
 
 export function concurrencyFork(...args: unknown[]) {
@@ -86,7 +86,7 @@ export function concurrencyFork(...args: unknown[]) {
 
 function concurrencyForkSync<T, R>(
     iterable: Iterable<T>,
-    work: IConcurrencyWork<T, R>
+    work: IConcurrencyWork<T, R>,
 ): Iterable<R> {
     try {
         return work.onSync?.(iterable) ?? (iterable as Iterable<any>);
@@ -110,7 +110,7 @@ function concurrencyForkSync<T, R>(
 
 function concurrencyForkAsync<T, R>(
     iterable: AsyncIterable<T>,
-    work: IConcurrencyWork<T, R>
+    work: IConcurrencyWork<T, R>,
 ): AsyncIterable<R> {
     try {
         return work.onAsync?.(iterable) ?? (iterable as AsyncIterable<any>);

@@ -6,7 +6,7 @@ export async function testIterOps(input: UnknownIterable<number>) {
         input,
         filter((a) => a % 2 === 0),
         map((b) => ({value: b})),
-        toArray()
+        toArray(),
     );
     const {length} = (await i.first)!;
     const duration = Date.now() - start;

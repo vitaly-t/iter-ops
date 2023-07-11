@@ -76,7 +76,7 @@ export function timing(...args: unknown[]) {
 
 function timingSync<T>(
     iterable: Iterable<T>,
-    cb: (t: IValueTiming<T>) => void
+    cb: (t: IValueTiming<T>) => void,
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
@@ -106,7 +106,7 @@ function timingSync<T>(
 
 function timingAsync<T>(
     iterable: AsyncIterable<T>,
-    cb: (t: IValueTiming<T>) => void
+    cb: (t: IValueTiming<T>) => void,
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {

@@ -16,11 +16,11 @@ declare function opT2Number<T>(): Operation<T, number>;
 declare function opT2R<T, R>(): Operation<T, R>;
 
 declare function opString2RCallbackNone2Boolean<R>(
-    foo: () => boolean
+    foo: () => boolean,
 ): Operation<string, R>;
 
 declare function opT2BooleanCallbackT2Boolean<T>(
-    foo: (arg: T) => boolean
+    foo: (arg: T) => boolean,
 ): Operation<T, boolean>;
 
 declare function opT2RCallbackT2R<T, R>(foo: (arg: T) => R): Operation<T, R>;
@@ -40,7 +40,7 @@ const test4 = pipe(
     iterableString,
     opString2String(),
     opString2Number(),
-    opNumber2String()
+    opNumber2String(),
 );
 expectType<AsyncIterableExt<string>>(test4);
 
@@ -48,7 +48,7 @@ const test5 = pipe(
     iterableString,
     opString2String(),
     opString2Number(),
-    opNumber2Number()
+    opNumber2Number(),
 );
 expectType<AsyncIterableExt<number>>(test5);
 
@@ -62,7 +62,7 @@ const test8 = pipe(
     iterableString,
     opString2R(),
     opT2Number(),
-    opNumber2String()
+    opNumber2String(),
 );
 expectType<AsyncIterableExt<string>>(test8);
 
@@ -71,26 +71,26 @@ expectType<AsyncIterableExt<string>>(test9);
 
 const test10 = pipe(
     iterableString,
-    opT2BooleanCallbackT2Boolean(() => true)
+    opT2BooleanCallbackT2Boolean(() => true),
 );
 expectType<AsyncIterableExt<boolean>>(test10);
 
 const test11 = pipe(
     iterableString,
-    opString2RCallbackNone2Boolean(() => false)
+    opString2RCallbackNone2Boolean(() => false),
 );
 expectType<AsyncIterableExt<unknown>>(test11);
 
 const test12 = pipe(
     iterableString,
     opString2RCallbackNone2Boolean(() => false),
-    opString2Number()
+    opString2Number(),
 );
 expectType<AsyncIterableExt<number>>(test12);
 
 const test13 = pipe(
     iterableString,
-    opT2RCallbackT2R(() => 1)
+    opT2RCallbackT2R(() => 1),
 );
 expectType<AsyncIterableExt<number>>(test13);
 
