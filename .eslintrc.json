@@ -25,19 +25,7 @@
     "/**/*.js"
   ],
   "rules": {
-    "@typescript-eslint/comma-dangle": [
-      "error",
-      {
-        "arrays": "only-multiline",
-        "enums": "only-multiline",
-        "exports": "only-multiline",
-        "functions": "ignore",
-        "generics": "only-multiline",
-        "imports": "only-multiline",
-        "objects": "only-multiline",
-        "tuples": "only-multiline"
-      }
-    ],
+    "@typescript-eslint/comma-dangle": "off",
     "@typescript-eslint/quotes": ["error", "single"],
     "@typescript-eslint/semi": ["error", "always"],
     "@typescript-eslint/no-explicit-any": "off",
