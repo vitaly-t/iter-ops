@@ -8,7 +8,7 @@ export {
     UnknownIterable,
     UnknownIterableOrIterator,
     UnknownIterator,
-    Value,
+    Value
 } from './types';
 export {reverse, toAsync, toIterable} from './helpers';
 export {pipe, pipeSync, pipeAsync} from './pipe';
@@ -39,7 +39,7 @@ export {
     onEnd,
     IIterationSummary,
     IDuration,
-    IValueDuration,
+    IValueDuration
 } from './ops/on-end';
 export {page} from './ops/page';
 export {reduce} from './ops/reduce';

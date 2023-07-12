@@ -3,13 +3,13 @@ import {filter, firstValueFrom, from, map, toArray} from 'rxjs';
 
 export async function testRXJS(
     input: UnknownIterable<number>,
-    withSubscription?: boolean,
+    withSubscription?: boolean
 ) {
     const start = Date.now();
     const i = from(input).pipe(
         filter((a) => a % 2 === 0),
         map((b) => ({value: b})),
-        toArray(),
+        toArray()
     );
     if (withSubscription) {
         // key to measuring RXJS correctly;

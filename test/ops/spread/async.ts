@@ -10,7 +10,7 @@ export default () => {
             'e',
             't',
             'w',
-            'o',
+            'o'
         ]);
     });
     it('must spread arrays', async () => {

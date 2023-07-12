@@ -59,8 +59,8 @@ export function retry<T>(
     cb: (
         index: number,
         attempts: number,
-        state: IterationState,
-    ) => boolean | Promise<boolean>,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): Operation<T, T>;
 
 export function retry(...args: unknown[]) {
@@ -74,8 +74,8 @@ function retryAsync<T>(
         | ((
               index: number,
               attempts: number,
-              state: IterationState,
-          ) => boolean | Promise<boolean>),
+              state: IterationState
+          ) => boolean | Promise<boolean>)
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
@@ -102,7 +102,7 @@ function retryAsync<T>(
                                 const r = cb(
                                     index,
                                     attempts++,
-                                    state,
+                                    state
                                 ) as Promise<boolean>;
                                 return isPromiseLike(r) ? r.then(b) : b(r);
                             }
@@ -111,10 +111,10 @@ function retryAsync<T>(
                                 return this.next();
                             }
                             return Promise.reject(e);
-                        },
+                        }
                     );
-                },
+                }
             };
-        },
+        }
     };
 }

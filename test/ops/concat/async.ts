@@ -58,13 +58,13 @@ export default () => {
                 'e',
                 'x',
                 't',
-                true,
+                true
             ]);
         });
         it('must join iterable types', async () => {
             const result = pipe(
                 _async([1, 2]),
-                concat('one', [undefined, 'word', false]),
+                concat('one', [undefined, 'word', false])
             );
             expect(await _asyncValues(result)).to.eql([
                 1,
@@ -74,7 +74,7 @@ export default () => {
                 'e',
                 undefined,
                 'word',
-                false,
+                false
             ]);
         });
     });

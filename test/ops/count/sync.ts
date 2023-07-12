@@ -22,11 +22,11 @@ export default () => {
         const input = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         const output1 = pipe(
             input,
-            count((a) => a % 2 === 0),
+            count((a) => a % 2 === 0)
         );
         const output2 = pipe(
             input,
-            count((a) => a % 2 > 0),
+            count((a) => a % 2 > 0)
         );
         expect(output1.first).to.eql(4);
         expect(output2.first).to.eql(5);

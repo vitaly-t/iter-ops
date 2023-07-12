@@ -24,7 +24,7 @@ export default () => {
                 distinct((sel, idx) => {
                     indexes.push(idx);
                     return sel.a;
-                }),
+                })
             );
             expect(await _asyncValues(output)).to.eql([{a: 1}, {a: 2}, {a: 3}]);
             expect(indexes).to.eql([0, 1, 2, 3, 4, 5]); // index is for each original element

@@ -9,7 +9,7 @@ export default () => {
             consume((data, sync) => {
                 isSync = sync;
                 return 'hello';
-            }),
+            })
         );
         expect(await _asyncValues(output)).to.eql(['hello']);
         expect(isSync).to.be.false;
@@ -17,7 +17,7 @@ export default () => {
     it('must return async consumer', async () => {
         const output = pipe(
             _async([]),
-            consume(async () => 'hello'),
+            consume(async () => 'hello')
         );
         expect(await _asyncValues(output)).to.eql(['hello']);
     });

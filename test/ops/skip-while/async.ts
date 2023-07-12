@@ -6,7 +6,7 @@ export default () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
             _async(input),
-            skipWhile((a) => a <= 3),
+            skipWhile((a) => a <= 3)
         );
         expect(await _asyncValues(output)).to.eql([4, 5]);
     });
@@ -14,7 +14,7 @@ export default () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
             _async(input),
-            skipWhile(async (a) => a <= 3),
+            skipWhile(async (a) => a <= 3)
         );
         expect(await _asyncValues(output)).to.eql([4, 5]);
     });
@@ -26,7 +26,7 @@ export default () => {
             skipWhile((a, idx) => {
                 indexes.push(idx);
                 return a <= 3;
-            }),
+            })
         );
         await _asyncValues(output);
         expect(indexes).to.eql([0, 1, 2, 3]);
@@ -35,7 +35,7 @@ export default () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
             _async(input),
-            skipWhile((a) => a < 10),
+            skipWhile((a) => a < 10)
         );
         expect(await _asyncValues(output)).to.eql([]);
     });
@@ -43,7 +43,7 @@ export default () => {
         const input = [1, 2, 3, 4, 5];
         const output = pipe(
             _async(input),
-            skipWhile(async (a) => a < 10),
+            skipWhile(async (a) => a < 10)
         );
         expect(await _asyncValues(output)).to.eql([]);
     });
@@ -57,7 +57,7 @@ export default () => {
                 state.count++;
                 arr.push(state.count);
                 return index < 2;
-            }),
+            })
         );
         expect(await _asyncValues(output)).to.eql(['l', 'l', 'o', '!']);
         expect(arr).to.eql([1, 2, 3]);

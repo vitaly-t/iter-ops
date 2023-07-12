@@ -12,7 +12,7 @@ export default () => {
     it('must emit after callback count', async () => {
         const output = pipe(
             _async([1]),
-            delay(() => 51),
+            delay(() => 51)
         );
         const start = Date.now();
         await _asyncValues(output);
@@ -38,7 +38,7 @@ export default () => {
         it('must not add delay for callback result', async () => {
             const output = pipe(
                 _async([1]),
-                delay(() => -100),
+                delay(() => -100)
             );
             const start = Date.now();
             await _asyncValues(output);

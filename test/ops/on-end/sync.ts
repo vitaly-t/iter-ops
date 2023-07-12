@@ -8,7 +8,7 @@ export default () => {
             [10, 20, 30],
             onEnd((info) => {
                 s = info;
-            }),
+            })
         );
         expect([...i]).to.eql([10, 20, 30]);
         expect(s.sync).to.be.true;
@@ -24,7 +24,7 @@ export default () => {
             [],
             onEnd((info) => {
                 s = info;
-            }),
+            })
         );
         expect([...i]).to.eql([]);
         expect(s.sync).to.be.true;
@@ -34,7 +34,7 @@ export default () => {
             average: 0,
             max: undefined,
             min: undefined,
-            total: 0,
+            total: 0
         });
     });
     it('must emit only once', () => {
@@ -43,7 +43,7 @@ export default () => {
             [],
             onEnd(() => {
                 count++;
-            }),
+            })
         )[Symbol.iterator]();
         i.next();
         i.next(); // after "done"

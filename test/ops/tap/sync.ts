@@ -9,13 +9,13 @@ export default () => {
             input,
             tap((val, idx) => {
                 res.push({val, idx});
-            }),
+            })
         );
         [...a]; // trigger iteration
         expect(res).to.eql([
             {val: 1, idx: 0},
             {val: 2, idx: 1},
-            {val: 3, idx: 2},
+            {val: 3, idx: 2}
         ]);
     });
     it('must reuse the state object', () => {
@@ -27,7 +27,7 @@ export default () => {
                 state.count = state.count ?? 0;
                 state.count++;
                 arr.push(state.count);
-            }),
+            })
         );
         [...output];
         expect(arr).to.eql([1, 2, 3, 4, 5, 6]);

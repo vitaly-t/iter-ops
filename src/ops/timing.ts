@@ -76,7 +76,7 @@ export function timing(...args: unknown[]) {
 
 function timingSync<T>(
     iterable: Iterable<T>,
-    cb: (t: IValueTiming<T>) => void,
+    cb: (t: IValueTiming<T>) => void
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
@@ -94,19 +94,19 @@ function timingSync<T>(
                             index: index++,
                             value: a.value,
                             state,
-                            sync: true,
+                            sync: true
                         });
                     }
                     return a;
-                },
+                }
             };
-        },
+        }
     };
 }
 
 function timingAsync<T>(
     iterable: AsyncIterable<T>,
-    cb: (t: IValueTiming<T>) => void,
+    cb: (t: IValueTiming<T>) => void
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
@@ -124,13 +124,13 @@ function timingAsync<T>(
                                 index: index++,
                                 value: a.value,
                                 state,
-                                sync: false,
+                                sync: false
                             });
                         }
                         return a;
                     });
-                },
+                }
             };
-        },
+        }
     };
 }

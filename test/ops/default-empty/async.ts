@@ -19,7 +19,7 @@ export default () => {
                         return {value};
                     }
                     return {value: undefined, done: true};
-                },
+                }
             };
             const output = pipe(_async([]), defaultEmpty(input));
             expect(await _asyncValues(output)).to.eql([3, 2, 1, 0]);
@@ -35,7 +35,7 @@ export default () => {
         it('must add async iterables', async () => {
             const output = pipe(
                 _async([]),
-                defaultEmpty(_async([1, 2, 'three'])),
+                defaultEmpty(_async([1, 2, 'three']))
             );
             expect(await _asyncValues(output)).to.eql([1, 2, 'three']);
         });
@@ -45,7 +45,7 @@ export default () => {
             // the actual test here is compile-time, inferring the type correctly:
             const i: AsyncIterable<number | string> = pipe(
                 _async([1, 2, 3]),
-                defaultEmpty('hello'),
+                defaultEmpty('hello')
             );
             expect(await _asyncValues(i)).to.eql([1, 2, 3]); // default not added
         });
@@ -59,13 +59,13 @@ export default () => {
                         return {value};
                     }
                     return {value: undefined, done};
-                },
+                }
             };
             // the actual test here is compile-time, inferring the type correctly;
             // NOTE: This case does require casting input as Iterator<string> :|
             const i: AsyncIterable<number | string> = pipe(
                 _async([1, 2, 3]),
-                defaultEmpty(input),
+                defaultEmpty(input)
             );
             expect(await _asyncValues(i)).to.eql([1, 2, 3]); // default not added
         });
@@ -73,7 +73,7 @@ export default () => {
             // the actual test here is compile-time, inferring the type correctly:
             const i: AsyncIterable<number | string | boolean> = pipe(
                 _async([1, 2, 3]),
-                defaultEmpty(['hello', true]),
+                defaultEmpty(['hello', true])
             );
             expect(await _asyncValues(i)).to.eql([1, 2, 3]); // default not added
         });

@@ -15,7 +15,7 @@ export default () => {
             'h',
             'r',
             'e',
-            'e',
+            'e'
         ]);
     });
     it('must flatten arrays', async () => {
@@ -25,7 +25,7 @@ export default () => {
     it('must flatten mixed iterables', async () => {
         const output1 = pipe(_async<any>([[1, 2], 3, [4, 5]]), flat());
         expect(await _asyncValues(output1), 'sync inside async').to.eql([
-            1, 2, 3, 4, 5,
+            1, 2, 3, 4, 5
         ]);
         const last = _async([7, 8]);
         const input = _async<any>([[1, 2], [_async([3, 4])], [5, 6, [last]]]);
@@ -33,20 +33,20 @@ export default () => {
         const output3 = pipe(input, flat(3));
         expect(
             await _asyncValues(output2),
-            'async inside sync / level 2',
+            'async inside sync / level 2'
         ).to.eql([1, 2, 3, 4, 5, 6, last]);
         expect(
             await _asyncValues(output3),
-            'async inside sync / level 3',
+            'async inside sync / level 3'
         ).to.eql([1, 2, 3, 4, 5, 6, 7, 8]);
     });
     it('must flatten nested arrays to specified depth', async () => {
         const output = pipe(
             _async([
                 [1, 2],
-                [3, [4, [5, 6], 7]],
+                [3, [4, [5, 6], 7]]
             ]),
-            flat(2),
+            flat(2)
         );
         expect(await _asyncValues(output)).to.eql([1, 2, 3, 4, [5, 6], 7]);
     });

@@ -8,6 +8,6 @@ expectType<IterableExt<number>>(pipe(iterableNumber, first()));
 
 const test1 = pipe(
     iterableNumber,
-    first((a) => a > 5),
+    first((a) => a > 5)
 );
 expectType<IterableExt<number>>(test1);

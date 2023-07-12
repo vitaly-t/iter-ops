@@ -6,18 +6,18 @@ export default () => {
         it('must do regular split', () => {
             const i = pipe(
                 'one two three',
-                split((a) => a === ' '),
+                split((a) => a === ' ')
             );
             expect([...i]).to.eql([
                 ['o', 'n', 'e'],
                 ['t', 'w', 'o'],
-                ['t', 'h', 'r', 'e', 'e'],
+                ['t', 'h', 'r', 'e', 'e']
             ]);
         });
         it('must process gaps correctly', () => {
             const i = pipe(
                 [0, 1, 2, 0, 3, 4, 0, 0],
-                split((a) => a === 0),
+                split((a) => a === 0)
             );
             expect([...i]).to.eql([[], [1, 2], [3, 4], [], []]);
         });
@@ -27,7 +27,7 @@ export default () => {
             it('must be able to carry back', () => {
                 const i = pipe(
                     [0, 1, 2, 0, 0, 3, 4, 0, 0],
-                    split((a) => a === 0, {carryStart: -1, carryEnd: -1}),
+                    split((a) => a === 0, {carryStart: -1, carryEnd: -1})
                 );
                 expect([...i]).to.eql([
                     [0],
@@ -35,13 +35,13 @@ export default () => {
                     [0],
                     [3, 4, 0],
                     [0],
-                    [],
+                    []
                 ]);
             });
             it('must be able to carry forward', () => {
                 const i = pipe(
                     [0, 1, 2, 0, 0, 3, 4, 0, 0],
-                    split((a) => a === 0, {carryStart: 1, carryEnd: 1}),
+                    split((a) => a === 0, {carryStart: 1, carryEnd: 1})
                 );
                 expect([...i]).to.eql([
                     [],
@@ -49,7 +49,7 @@ export default () => {
                     [0],
                     [0, 3, 4],
                     [0],
-                    [0],
+                    [0]
                 ]);
             });
         });
@@ -61,33 +61,33 @@ export default () => {
                         split((a) => !a, {
                             toggle: true,
                             carryStart: 'bla' as any, // for coverage
-                            carryEnd: 'bla' as any, // for coverage
-                        }),
+                            carryEnd: 'bla' as any // for coverage
+                        })
                     );
                     expect([...i1]).to.eql([
                         [1, 2],
-                        [3, 4],
+                        [3, 4]
                     ]);
 
                     const i2 = pipe(
                         [1, 2, 0, 0, 3, 4, 0],
                         split((a) => !a, {
                             toggle: true,
-                            carryStart: SplitValueCarry.none, // just for coverage
-                        }),
+                            carryStart: SplitValueCarry.none // just for coverage
+                        })
                     );
                     expect([...i2]).to.eql([[], []]);
 
                     const i3 = pipe(
                         [1, 2, 0, 3, 4, 0],
-                        split((a) => !a, {toggle: true}),
+                        split((a) => !a, {toggle: true})
                     );
                     expect([...i3]).to.eql([[3, 4]]);
                 });
                 it('must handle no toggles', () => {
                     const i = pipe(
                         [1, 2, 3, 4, 5],
-                        split(() => false, {toggle: true}),
+                        split(() => false, {toggle: true})
                     );
                     expect([...i]).to.eql([]);
                 });
@@ -95,14 +95,14 @@ export default () => {
                     // ending with open toggle:
                     const i1 = pipe(
                         [1, 2, 3, 4, 5],
-                        split(() => true, {toggle: true}),
+                        split(() => true, {toggle: true})
                     );
                     expect([...i1]).to.eql([[], [], []]);
 
                     // ending with closed toggle:
                     const i2 = pipe(
                         [1, 2, 3, 4, 5, 6],
-                        split(() => true, {toggle: true}),
+                        split(() => true, {toggle: true})
                     );
                     expect([...i2]).to.eql([[], [], []]);
                 });
@@ -111,7 +111,7 @@ export default () => {
                 it('must work with carrying back', () => {
                     const i1 = pipe(
                         [1, 2, 3, 4, 5],
-                        split(() => true, {toggle: true, carryStart: -1}),
+                        split(() => true, {toggle: true, carryStart: -1})
                     );
                     expect([...i1]).to.eql([[1], [3], [5]]);
 
@@ -120,15 +120,15 @@ export default () => {
                         split(() => true, {
                             toggle: true,
                             carryStart: -1,
-                            carryEnd: -1,
-                        }),
+                            carryEnd: -1
+                        })
                     );
                     expect([...i2]).to.eql([[1, 2], [3, 4], [5]]);
                 });
                 it('must work with carrying forward', () => {
                     const i1 = pipe(
                         [1, 2, 3, 4, 5],
-                        split((a) => !!a, {toggle: true, carryStart: 1}),
+                        split((a) => !!a, {toggle: true, carryStart: 1})
                     );
                     expect([...i1]).to.eql([[1], [3], [5]]);
 
@@ -137,12 +137,12 @@ export default () => {
                         split((a) => a === 0, {
                             toggle: true,
                             carryStart: 1,
-                            carryEnd: 1,
-                        }),
+                            carryEnd: 1
+                        })
                     );
                     expect([...i2]).to.eql([
                         [0, 1, 2],
-                        [0, 0, 5],
+                        [0, 0, 5]
                     ]);
                 });
                 it('must handle triggers without values', () => {
@@ -151,8 +151,8 @@ export default () => {
                         split((a) => a === 0, {
                             toggle: true,
                             carryStart: 1,
-                            carryEnd: 1,
-                        }),
+                            carryEnd: 1
+                        })
                     );
                     expect([...i1]).to.eql([[0], [0, 0]]);
 
@@ -161,12 +161,12 @@ export default () => {
                         split((a) => a === 0, {
                             toggle: true,
                             carryStart: -1,
-                            carryEnd: -1,
-                        }),
+                            carryEnd: -1
+                        })
                     );
                     expect([...i2]).to.eql([
                         [0, 0],
-                        [0, 0],
+                        [0, 0]
                     ]);
                 });
             });
@@ -181,7 +181,7 @@ export default () => {
                     split((a, idx) => {
                         indexes.push(idx);
                         return a === ' ';
-                    }),
+                    })
                 );
                 [...i];
                 expect(indexes).to.eql([
@@ -191,7 +191,7 @@ export default () => {
                     {start: 3, list: 3, split: 0},
                     {start: 4, list: 0, split: 1},
                     {start: 5, list: 1, split: 1},
-                    {start: 6, list: 2, split: 1},
+                    {start: 6, list: 2, split: 1}
                 ]);
             });
         });
@@ -205,8 +205,8 @@ export default () => {
                             indexes.push(idx);
                             return a === ' ';
                         },
-                        {carryEnd: 1},
-                    ),
+                        {carryEnd: 1}
+                    )
                 );
                 [...i];
                 expect(indexes).to.eql([
@@ -216,7 +216,7 @@ export default () => {
                     {start: 3, list: 3, split: 0},
                     {start: 4, list: 1, split: 1},
                     {start: 5, list: 2, split: 1},
-                    {start: 6, list: 3, split: 1},
+                    {start: 6, list: 3, split: 1}
                 ]);
             });
         });
@@ -231,8 +231,8 @@ export default () => {
                             indexes.push(idx);
                             return a < 0;
                         },
-                        {toggle: true},
-                    ),
+                        {toggle: true}
+                    )
                 );
                 [...i];
                 expect(indexes).to.eql([
@@ -245,7 +245,7 @@ export default () => {
                     {start: 6, list: 0, split: 1},
                     {start: 7, list: 0, split: 1},
                     {start: 8, list: 0, split: 2},
-                    {start: 9, list: 1, split: 2},
+                    {start: 9, list: 1, split: 2}
                 ]);
             });
             it('must report correct indexes for carry=back', () => {
@@ -257,8 +257,8 @@ export default () => {
                             indexes.push(idx);
                             return true;
                         },
-                        {toggle: true, carryStart: -1, carryEnd: -1},
-                    ),
+                        {toggle: true, carryStart: -1, carryEnd: -1}
+                    )
                 );
                 [...i];
                 expect(indexes).to.eql([
@@ -266,7 +266,7 @@ export default () => {
                     {start: 1, list: 0, split: 1},
                     {start: 2, list: 0, split: 1},
                     {start: 3, list: 0, split: 2},
-                    {start: 4, list: 0, split: 2},
+                    {start: 4, list: 0, split: 2}
                 ]);
             });
             it('must report correct indexes for carry=forward', () => {
@@ -278,8 +278,8 @@ export default () => {
                             indexes.push(idx);
                             return true;
                         },
-                        {toggle: true, carryStart: 1, carryEnd: 1},
-                    ),
+                        {toggle: true, carryStart: 1, carryEnd: 1}
+                    )
                 );
                 [...i];
                 expect(indexes).to.eql([
@@ -287,7 +287,7 @@ export default () => {
                     {start: 1, list: 1, split: 1},
                     {start: 2, list: 0, split: 1},
                     {start: 3, list: 1, split: 2},
-                    {start: 4, list: 0, split: 2},
+                    {start: 4, list: 0, split: 2}
                 ]);
             });
         });

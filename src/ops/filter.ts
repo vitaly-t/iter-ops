@@ -26,7 +26,7 @@ import {createOperation} from '../utils';
  * @category Sync+Async
  */
 export function filter<T, S extends T = T>(
-    cb: (value: T, index: number, state: IterationState) => value is S,
+    cb: (value: T, index: number, state: IterationState) => value is S
 ): Operation<T, S>;
 
 /**
@@ -62,8 +62,8 @@ export function filter<T>(
     cb: (
         value: T,
         index: number,
-        state: IterationState,
-    ) => boolean | Promise<boolean>,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): Operation<T, T>;
 
 export function filter(...args: unknown[]) {
@@ -72,7 +72,7 @@ export function filter(...args: unknown[]) {
 
 function filterSync<T>(
     iterable: Iterable<T>,
-    cb: (value: T, index: number, state: IterationState) => boolean,
+    cb: (value: T, index: number, state: IterationState) => boolean
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
@@ -87,9 +87,9 @@ function filterSync<T>(
                         !cb(a.value, index++, state)
                     );
                     return a;
-                },
+                }
             };
-        },
+        }
     };
 }
 
@@ -98,8 +98,8 @@ function filterAsync<T>(
     cb: (
         value: T,
         index: number,
-        state: IterationState,
-    ) => boolean | Promise<boolean>,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
@@ -115,13 +115,13 @@ function filterAsync<T>(
                         const r = cb(
                             a.value,
                             index++,
-                            state,
+                            state
                         ) as Promise<boolean>;
                         const out = (flag: any) => (flag ? a : this.next());
                         return isPromiseLike(r) ? r.then(out) : out(r);
                     });
-                },
+                }
             };
-        },
+        }
     };
 }

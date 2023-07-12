@@ -5,7 +5,7 @@ import {
     UnknownIterator,
     Operation,
     $S,
-    $A,
+    $A
 } from '../types';
 import {createOperation} from '../utils';
 import {isPromiseLike} from '../typeguards';
@@ -34,7 +34,7 @@ import {isPromiseLike} from '../typeguards';
  * @category Sync+Async
  */
 export function defaultEmpty<T, D>(
-    iterable: UnknownIterable<D>,
+    iterable: UnknownIterable<D>
 ): Operation<T, T | D>;
 
 /**
@@ -46,7 +46,7 @@ export function defaultEmpty<T, D>(
  * @category Sync+Async
  */
 export function defaultEmpty<T, D>(
-    iterator: UnknownIterator<D>,
+    iterator: UnknownIterator<D>
 ): Operation<T, T | D>;
 
 /**
@@ -65,7 +65,7 @@ export function defaultEmpty(...args: unknown[]) {
 
 function defaultEmptySync<T, D>(
     iterable: Iterable<T>,
-    value: SyncValue<D>,
+    value: SyncValue<D>
 ): Iterable<T | D> {
     return {
         [$S](): Iterator<T | D> {
@@ -102,15 +102,15 @@ function defaultEmptySync<T, D>(
                         }
                     }
                     return {value: undefined, done: true};
-                },
+                }
             };
-        },
+        }
     };
 }
 
 function defaultEmptyAsync<T, D>(
     iterable: AsyncIterable<T>,
-    value: Value<D>,
+    value: Value<D>
 ): AsyncIterable<T | D> {
     return {
         [$A](): AsyncIterator<T | D> {
@@ -135,7 +135,7 @@ function defaultEmptyAsync<T, D>(
                         done = true; // we are done with our simple value;
                         return Promise.resolve({
                             value: value as any,
-                            done: false,
+                            done: false
                         });
                     }
                     return i.next().then((a) => {
@@ -151,8 +151,8 @@ function defaultEmptyAsync<T, D>(
                         skip = true;
                         return a;
                     });
-                },
+                }
             };
-        },
+        }
     };
 }

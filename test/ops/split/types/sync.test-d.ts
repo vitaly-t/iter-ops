@@ -6,6 +6,6 @@ declare const iterableNumber: Iterable<number>;
 
 const test1 = pipe(
     iterableNumber,
-    split((value) => true),
+    split((value) => true)
 );
 expectType<IterableExt<number[]>>(test1);

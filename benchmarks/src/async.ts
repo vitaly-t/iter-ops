@@ -18,16 +18,16 @@ const input: AsyncIterable<number> = {
         return {
             async next(): Promise<IteratorResult<number>> {
                 return i.next();
-            },
+            }
         };
-    },
+    }
 };
 
 (async function testAsync() {
     const result = {
         ...(await testIterOps(toAsync(data))),
         ...(await testRXJS(input)),
-        ...(await testRXJS(input, true)),
+        ...(await testRXJS(input, true))
     };
     console.log(`Asynchronous test for ${maxItems.toExponential()} items:`);
     console.table(result);

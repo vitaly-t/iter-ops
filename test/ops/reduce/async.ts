@@ -6,7 +6,7 @@ export default () => {
         const input = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         const output = pipe(
             _async(input),
-            reduce((c, i) => c + i, 5),
+            reduce((c, i) => c + i, 5)
         );
         expect(await output.first).to.eql(50);
     });
@@ -14,7 +14,7 @@ export default () => {
         const input = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         const output = pipe(
             _async(input),
-            reduce((c, i) => c + i),
+            reduce((c, i) => c + i)
         );
         expect(await output.first).to.eql(45);
     });
@@ -22,7 +22,7 @@ export default () => {
         const input = [1, 2];
         const output = pipe(
             _async(input),
-            reduce((a, c) => a + c),
+            reduce((a, c) => a + c)
         );
         const i = output[Symbol.asyncIterator]();
         const result = (await i.next()) && (await i.next());
@@ -38,7 +38,7 @@ export default () => {
                 state.count++;
                 arr.push(state.count);
                 return '';
-            }),
+            })
         );
         await _asyncValues(output);
         expect(arr).to.eql([1, 2, 3, 4, 5]);
@@ -50,7 +50,7 @@ export default () => {
             reduce((a, c, idx) => {
                 indexes.push(idx);
                 return 555;
-            }, 77),
+            }, 77)
         );
         await _asyncValues(output);
         expect(indexes).to.eql([0, 1, 2]);
@@ -62,7 +62,7 @@ export default () => {
             reduce((a, c, idx) => {
                 indexes.push(idx);
                 return 555;
-            }),
+            })
         );
         await _asyncValues(output);
         expect(indexes).to.eql([1, 2]);
@@ -71,7 +71,7 @@ export default () => {
         const input = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         const output = pipeAsync(
             input,
-            reduce(async (c, i) => c + i, 5),
+            reduce(async (c, i) => c + i, 5)
         );
         expect(await output.first).to.eql(50);
     });
@@ -79,7 +79,7 @@ export default () => {
         const input = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         const output = pipeAsync(
             input,
-            reduce((c, i) => c + i, Promise.resolve(5)),
+            reduce((c, i) => c + i, Promise.resolve(5))
         );
         expect(await output.first).to.eql(50);
     });
@@ -87,7 +87,7 @@ export default () => {
         const input = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         const output = pipeAsync(
             input,
-            reduce(async (c, i) => c + i, Promise.resolve(5)),
+            reduce(async (c, i) => c + i, Promise.resolve(5))
         );
         expect(await output.first).to.eql(50);
     });

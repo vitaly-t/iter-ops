@@ -16,14 +16,14 @@ export default () => {
                     err: err?.message,
                     index: ctx.index,
                     lastValue: ctx.lastValue,
-                    repeats: ctx.repeats,
+                    repeats: ctx.repeats
                 });
-            }),
+            })
         );
         const result = await _asyncValues(i);
         expect(result).to.eql([1, 2, 4, 5]);
         expect(reports).to.eql([
-            {err: 'ops-3', index: 2, lastValue: 2, repeats: 0},
+            {err: 'ops-3', index: 2, lastValue: 2, repeats: 0}
         ]);
     });
     it('must report repeated errors', async () => {
@@ -32,7 +32,7 @@ export default () => {
             [1, 2, 3, 4, 5],
             tap(() => {
                 throw 'ops!';
-            }),
+            })
         ).catch((e, ctx) => {
             if (ctx.repeats > 2) {
                 throw 'stop';
@@ -55,7 +55,7 @@ export default () => {
                 if (value === 3) {
                     throw new Error(`ops-${value}`);
                 }
-            }),
+            })
         ).catch((err, info) => {
             info.emit(333);
         });
@@ -70,7 +70,7 @@ export default () => {
             }),
             catchError(() => {
                 throw new Error('handled');
-            }),
+            })
         );
         let err: Error | undefined = undefined;
         try {

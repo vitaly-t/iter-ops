@@ -44,8 +44,8 @@ export function indexBy<T>(
     cb: (
         value: T,
         index: number,
-        state: IterationState,
-    ) => boolean | Promise<boolean>,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): Operation<T, IIndexedValue<T>>;
 
 export function indexBy(...args: unknown[]) {
@@ -54,7 +54,7 @@ export function indexBy(...args: unknown[]) {
 
 function indexBySync<T>(
     iterable: Iterable<T>,
-    cb: (value: T, index: number, state: IterationState) => boolean,
+    cb: (value: T, index: number, state: IterationState) => boolean
 ): Iterable<IIndexedValue<T>> {
     return {
         [$S](): Iterator<IIndexedValue<T>> {
@@ -71,9 +71,9 @@ function indexBySync<T>(
                     return a.done
                         ? a
                         : {value: {index, value: a.value}, done: false};
-                },
+                }
             };
-        },
+        }
     };
 }
 
@@ -82,8 +82,8 @@ function indexByAsync<T>(
     cb: (
         value: T,
         index: number,
-        state: IterationState,
-    ) => boolean | Promise<boolean>,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): AsyncIterable<IIndexedValue<T>> {
     return {
         [$A](): AsyncIterator<IIndexedValue<T>> {
@@ -99,7 +99,7 @@ function indexByAsync<T>(
                         const r = cb(
                             a.value,
                             ++index,
-                            state,
+                            state
                         ) as Promise<boolean>;
                         const out = (flag: any) =>
                             flag
@@ -107,8 +107,8 @@ function indexByAsync<T>(
                                 : this.next();
                         return isPromiseLike(r) ? r.then(out) : out(r);
                     });
-                },
+                }
             };
-        },
+        }
     };
 }

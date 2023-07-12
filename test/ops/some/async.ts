@@ -5,28 +5,28 @@ export default () => {
     it('must find element when present', async () => {
         const i = pipe(
             _async([1, 2, 3]),
-            some((a) => a === 2),
+            some((a) => a === 2)
         );
         expect(await _asyncValues(i)).to.eql([true]);
     });
     it('must find async element when present', async () => {
         const i = pipe(
             _async([1, 2, 3]),
-            some(async (a) => a === 2),
+            some(async (a) => a === 2)
         );
         expect(await _asyncValues(i)).to.eql([true]);
     });
     it('must work without match', async () => {
         const i = pipe(
             _async([1, 2, 3]),
-            some((a) => a === 5),
+            some((a) => a === 5)
         );
         expect(await _asyncValues(i)).to.eql([false]);
     });
     it('must work without async match', async () => {
         const i = pipe(
             _async([1, 2, 3]),
-            some(async (a) => a === 5),
+            some(async (a) => a === 5)
         );
         expect(await _asyncValues(i)).to.eql([false]);
     });

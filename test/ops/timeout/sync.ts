@@ -8,7 +8,7 @@ export default () => {
             tap(() => {
                 syncDelay(5);
             }),
-            timeout(8),
+            timeout(8)
         );
         expect([...i]).to.eql([1, 2]);
     });
@@ -25,7 +25,7 @@ export default () => {
             }),
             timeout(8, (c) => {
                 count = c;
-            }),
+            })
         );
         expect([...i]).to.eql([1, 2]);
         expect(count).to.eql(2);
@@ -36,7 +36,7 @@ export default () => {
             [1, 2, 3],
             timeout(1, () => {
                 invoked = true;
-            }),
+            })
         );
         expect([...i]).to.eql([1, 2, 3]); // iterate all
         expect(invoked).to.be.false; // no callback
@@ -49,7 +49,7 @@ export default () => {
             }),
             timeout(8, () => {
                 throw new Error('timeout');
-            }),
+            })
         );
         const iter = i[Symbol.iterator]();
         expect(() => {

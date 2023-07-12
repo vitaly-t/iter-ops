@@ -14,8 +14,8 @@ export default () => {
             concurrencyFork({
                 onSync() {
                     return ['one', 'two'];
-                },
-            }),
+                }
+            })
         );
         expect([...output]).to.eql(['one', 'two']);
     });
@@ -26,8 +26,8 @@ export default () => {
             concurrencyFork({
                 onSync() {
                     throw new Error('ops!');
-                },
-            }),
+                }
+            })
         ).catch((e) => {
             err = e;
         });

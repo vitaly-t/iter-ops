@@ -56,15 +56,15 @@ function takeLastSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
                         done = true;
                     }
                     return {value: undefined, done: true};
-                },
+                }
             };
-        },
+        }
     };
 }
 
 function takeLastAsync<T>(
     iterable: AsyncIterable<T>,
-    count: number,
+    count: number
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
@@ -90,8 +90,8 @@ function takeLastAsync<T>(
                         }
                         return {value: undefined, done: true};
                     });
-                },
+                }
             };
-        },
+        }
     };
 }

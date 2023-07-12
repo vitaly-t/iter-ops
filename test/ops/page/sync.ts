@@ -7,7 +7,7 @@ export default () => {
         const i = pipe(input, page(3));
         expect([...i]).to.eql([
             [1, 2, 3],
-            [4, 5, 6],
+            [4, 5, 6]
         ]);
     });
     it('must handle non-divisible page sizes', () => {
@@ -15,7 +15,7 @@ export default () => {
         const i1 = pipe(input1, page(3));
         expect([...i1], 'more than 1 page').to.eql([
             [1, 2, 3],
-            [4, 5],
+            [4, 5]
         ]);
 
         const input2 = [1, 2];

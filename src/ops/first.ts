@@ -46,8 +46,8 @@ export function first<T>(
     cb?: (
         value: T,
         index: number,
-        state: IterationState,
-    ) => boolean | Promise<boolean>,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): Operation<T, T>;
 
 export function first(...args: unknown[]) {
@@ -56,7 +56,7 @@ export function first(...args: unknown[]) {
 
 function firstSync<T>(
     iterable: Iterable<T>,
-    cb?: (value: T, index: number, state: IterationState) => boolean,
+    cb?: (value: T, index: number, state: IterationState) => boolean
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
@@ -78,9 +78,9 @@ function firstSync<T>(
                     );
                     finished = true;
                     return a;
-                },
+                }
             };
-        },
+        }
     };
 }
 
@@ -89,8 +89,8 @@ function firstAsync<T>(
     cb?: (
         value: T,
         index: number,
-        state: IterationState,
-    ) => boolean | Promise<boolean>,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
@@ -114,8 +114,8 @@ function firstAsync<T>(
                         };
                         return isPromiseLike(r) ? r.then(out) : out(r);
                     });
-                },
+                }
             };
-        },
+        }
     };
 }

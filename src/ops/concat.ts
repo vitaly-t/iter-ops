@@ -4,7 +4,7 @@ import {
     Value,
     SyncValue,
     Operation,
-    UnknownIterableOrIterator,
+    UnknownIterableOrIterator
 } from '../types';
 import {createOperation} from '../utils';
 import {isPromiseLike} from '../typeguards';
@@ -81,9 +81,9 @@ function concatSync<T>(
                         }
                     }
                     return {value: undefined, done: true};
-                },
+                }
             };
-        },
+        }
     };
 }
 
@@ -102,7 +102,7 @@ function concatAsync<T>(
                         if (++index === values.length) {
                             return Promise.resolve({
                                 value: undefined,
-                                done: true,
+                                done: true
                             });
                         }
                         v = values[index];
@@ -128,8 +128,8 @@ function concatAsync<T>(
                     return isPromiseLike(a)
                         ? a.then(out)
                         : Promise.resolve(out(a));
-                },
+                }
             };
-        },
+        }
     };
 }

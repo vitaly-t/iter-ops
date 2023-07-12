@@ -52,7 +52,7 @@ export type Flatten<T, N extends number> =
  * @category Sync+Async
  */
 export function flat<T, N extends number = 1>(
-    depth?: N,
+    depth?: N
 ): Operation<T, Flatten<T, N>>;
 
 export function flat(...args: unknown[]) {
@@ -61,7 +61,7 @@ export function flat(...args: unknown[]) {
 
 function flatSync<T>(
     iterable: Iterable<Iterable<T>>,
-    depth = 1,
+    depth = 1
 ): Iterable<T | Iterable<T>> {
     return {
         [$S](): Iterator<T | Iterable<T>> {
@@ -88,15 +88,15 @@ function flatSync<T>(
                         }
                         d[++level] = i; // save next iterable
                     } while (true);
-                },
+                }
             };
-        },
+        }
     };
 }
 
 function flatAsync<T>(
     iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>,
-    depth = 1,
+    depth = 1
 ): AsyncIterable<T | Iterable<T> | AsyncIterable<T>> {
     type AnyValue = T | Iterator<T> | AsyncIterator<T>;
     return {
@@ -131,7 +131,7 @@ function flatAsync<T>(
                         (
                             a: IteratorResult<
                                 T | Iterable<T> | AsyncIterable<T>
-                            >,
+                            >
                         ) => {
                             if (a.done) {
                                 if (!level) {
@@ -156,10 +156,10 @@ function flatAsync<T>(
                             }
                             d[++level] = {i, sync}; // save next iterable
                             return this.next();
-                        },
+                        }
                     );
-                },
+                }
             };
-        },
+        }
     };
 }

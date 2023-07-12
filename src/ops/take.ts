@@ -44,15 +44,15 @@ function takeSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
                         }
                     }
                     return {value: undefined, done: true};
-                },
+                }
             };
-        },
+        }
     };
 }
 
 function takeAsync<T>(
     iterable: AsyncIterable<T>,
-    count: number,
+    count: number
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
@@ -68,8 +68,8 @@ function takeAsync<T>(
                         finished = a.done || index++ >= count;
                         return finished ? {value: undefined, done: true} : a;
                     });
-                },
+                }
             };
-        },
+        }
     };
 }

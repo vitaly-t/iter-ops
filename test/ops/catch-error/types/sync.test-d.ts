@@ -6,6 +6,6 @@ declare const iterableString: Iterable<string>;
 
 const test1 = pipe(
     iterableString,
-    catchError((err, ctx) => {}),
+    catchError((err, ctx) => {})
 );
 expectType<IterableExt<string>>(test1);

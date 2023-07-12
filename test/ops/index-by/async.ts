@@ -5,7 +5,7 @@ export default () => {
     it('must work for an empty list', async () => {
         const i = pipe(
             _async([]),
-            indexBy(() => true),
+            indexBy(() => true)
         );
         expect(await _asyncValues(i)).to.eql([]);
     });
@@ -16,17 +16,17 @@ export default () => {
             indexBy((value, index) => {
                 calls.push({value, index});
                 return value % 2 === 0;
-            }),
+            })
         );
         expect(await _asyncValues(i)).to.eql([
             {index: 1, value: 2},
-            {index: 3, value: 4},
+            {index: 3, value: 4}
         ]);
         expect(calls).to.eql([
             {index: 0, value: 1},
             {index: 1, value: 2},
             {index: 2, value: 3},
-            {index: 3, value: 4},
+            {index: 3, value: 4}
         ]);
     });
     it('must work for partial async match', async () => {
@@ -36,30 +36,30 @@ export default () => {
             indexBy(async (value, index) => {
                 calls.push({value, index});
                 return value % 2 === 0;
-            }),
+            })
         );
         expect(await _asyncValues(i)).to.eql([
             {index: 1, value: 2},
-            {index: 3, value: 4},
+            {index: 3, value: 4}
         ]);
         expect(calls).to.eql([
             {index: 0, value: 1},
             {index: 1, value: 2},
             {index: 2, value: 3},
-            {index: 3, value: 4},
+            {index: 3, value: 4}
         ]);
     });
     it('must work for no-match', async () => {
         const i = pipe(
             _async([1, 2, 3]),
-            indexBy(() => false),
+            indexBy(() => false)
         );
         expect(await _asyncValues(i)).to.eql([]);
     });
     it('must work for async no-match', async () => {
         const i = pipe(
             _async([1, 2, 3]),
-            indexBy(async () => false),
+            indexBy(async () => false)
         );
         expect(await _asyncValues(i)).to.eql([]);
     });

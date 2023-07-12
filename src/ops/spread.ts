@@ -29,7 +29,7 @@ import {createOperation} from '../utils';
  * @category Sync+Async
  */
 export function spread<
-    T extends Iterable<unknown> | AsyncIterable<unknown>,
+    T extends Iterable<unknown> | AsyncIterable<unknown>
 >(): Operation<T, T extends UnknownIterable<infer E> ? E : never>;
 
 export function spread(...args: unknown[]) {
@@ -56,8 +56,8 @@ function spreadSync<T>(iterable: Iterable<Iterable<T>>): Iterable<T> {
                                 if (!k) {
                                     throw new TypeError(
                                         `Value at index ${index} is not iterable: ${JSON.stringify(
-                                            a.value,
-                                        )}`,
+                                            a.value
+                                        )}`
                                     );
                                 }
                             }
@@ -72,14 +72,14 @@ function spreadSync<T>(iterable: Iterable<Iterable<T>>): Iterable<T> {
                         }
                     } while (!a.done);
                     return a;
-                },
+                }
             };
-        },
+        }
     };
 }
 
 function spreadAsync<T>(
-    iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>,
+    iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
@@ -91,7 +91,7 @@ function spreadAsync<T>(
             return {
                 next(): Promise<IteratorResult<T>> {
                     const nextValue = (
-                        wrap: boolean,
+                        wrap: boolean
                     ): Promise<IteratorResult<T>> => {
                         const out = (v: IteratorResult<T>) => {
                             if (!v.done) {
@@ -118,8 +118,8 @@ function spreadAsync<T>(
                             if (!k) {
                                 throw new TypeError(
                                     `Value at index ${index} is not iterable: ${JSON.stringify(
-                                        a.value,
-                                    )}`,
+                                        a.value
+                                    )}`
                                 );
                             }
                             index++;
@@ -127,8 +127,8 @@ function spreadAsync<T>(
                         });
                     }
                     return nextValue(true);
-                },
+                }
             };
-        },
+        }
     };
 }

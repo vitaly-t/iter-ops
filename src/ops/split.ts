@@ -78,7 +78,7 @@ export enum SplitValueCarry {
     /**
      * Split/toggle value is carried forward, to make the first value in the next list.
      */
-    forward = 1,
+    forward = 1
 }
 
 /**
@@ -154,9 +154,9 @@ export function split<T>(
     cb: (
         value: T,
         index: ISplitIndex,
-        state: IterationState,
+        state: IterationState
     ) => boolean | Promise<boolean>,
-    options?: ISplitOptions,
+    options?: ISplitOptions
 ): Operation<T, T[]>;
 
 export function split(...args: unknown[]) {
@@ -166,7 +166,7 @@ export function split(...args: unknown[]) {
 function splitSync<T>(
     iterable: Iterable<T>,
     cb: (value: T, index: ISplitIndex, state: IterationState) => boolean,
-    options?: ISplitOptions,
+    options?: ISplitOptions
 ): Iterable<T[]> {
     return {
         [$S](): Iterator<T[]> {
@@ -215,7 +215,7 @@ function splitSync<T>(
                             const index: ISplitIndex = {
                                 start: startIndex++,
                                 list: listIndex,
-                                split: splitIndex,
+                                split: splitIndex
                             };
                             if (cb(v.value, index, state)) {
                                 // split/toggle has been triggered;
@@ -255,9 +255,9 @@ function splitSync<T>(
                         }
                     }
                     return {value: undefined, done: true};
-                },
+                }
             };
-        },
+        }
     };
 }
 
@@ -266,9 +266,9 @@ function splitAsync<T>(
     cb: (
         value: T,
         index: ISplitIndex,
-        state: IterationState,
+        state: IterationState
     ) => boolean | Promise<boolean>,
-    options?: ISplitOptions,
+    options?: ISplitOptions
 ): AsyncIterable<T[]> {
     return {
         [$A](): AsyncIterator<T[]> {
@@ -317,7 +317,7 @@ function splitAsync<T>(
                             const index: ISplitIndex = {
                                 start: startIndex++,
                                 list: listIndex,
-                                split: splitIndex,
+                                split: splitIndex
                             };
                             if (await cb(v.value, index, state)) {
                                 // split/toggle has been triggered;
@@ -357,8 +357,8 @@ function splitAsync<T>(
                         }
                     }
                     return {value: undefined, done: true};
-                },
+                }
             };
-        },
+        }
     };
 }

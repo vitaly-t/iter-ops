@@ -6,7 +6,7 @@ import {
     isObject,
     isPromiseLike,
     isIndexed,
-    isArrayLike,
+    isArrayLike
 } from './typeguards';
 import {$A, $S, UnknownIterable} from './types';
 import {indexedAsyncIterable} from './utils';
@@ -52,9 +52,9 @@ export function toAsync<T>(i: UnknownIterable<T>): AsyncIterable<T> {
             return {
                 next(): Promise<IteratorResult<T>> {
                     return Promise.resolve(it.next());
-                },
+                }
             };
-        },
+        }
     };
 }
 
@@ -179,9 +179,9 @@ export function toIterable<T>(i: unknown) {
                                     }
                                     started = true;
                                     return value;
-                                },
+                                }
                             };
-                        },
+                        }
                     };
                 }
             }
@@ -201,9 +201,9 @@ export function toIterable<T>(i: unknown) {
                             return k < i.length
                                 ? {value: i[k++] as T, done: false}
                                 : {value: undefined, done: true};
-                        },
+                        }
                     };
-                },
+                }
             };
         }
     }
@@ -233,7 +233,7 @@ export function toIterable<T>(i: unknown) {
 export function reverse<T>(input: ArrayLike<T>): Iterable<T> {
     if (typeof input?.length !== 'number') {
         throw new TypeError(
-            `An array-like value was expected: ${JSON.stringify(input)}`,
+            `An array-like value was expected: ${JSON.stringify(input)}`
         );
     }
     return {
@@ -244,9 +244,9 @@ export function reverse<T>(input: ArrayLike<T>): Iterable<T> {
                     return i
                         ? {value: input[--i], done: false}
                         : {value: undefined, done: true};
-                },
+                }
             };
-        },
+        }
     };
 }
 
@@ -261,7 +261,7 @@ function toSyncIterable<T>(value: T): Iterable<T> {
  * Create an async iterable that has the awaited given value as its only element.
  */
 function toSingleAsyncIterable<T>(
-    asyncValue: PromiseLike<T>,
+    asyncValue: PromiseLike<T>
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
@@ -271,16 +271,16 @@ function toSingleAsyncIterable<T>(
                     if (finished) {
                         return Promise.resolve({
                             value: undefined,
-                            done: true,
+                            done: true
                         });
                     }
                     finished = true;
                     return (asyncValue as Promise<T>).then((value: T) => ({
                         value,
-                        done: false,
+                        done: false
                     }));
-                },
+                }
             };
-        },
+        }
     };
 }

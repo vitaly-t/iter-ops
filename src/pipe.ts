@@ -4,7 +4,7 @@ import {
     UnknownIterable,
     AsyncIterableExt,
     IterableExt,
-    Operation,
+    Operation
 } from './types';
 import {toAsync} from './helpers';
 import {catchError} from './ops/catch-error';
@@ -13,25 +13,25 @@ import {isAsyncIterable, isSyncIterable} from './typeguards';
 
 interface PipeSync {
     <T extends Iterable<unknown>>(
-        i: T,
+        i: T
     ): T extends Iterable<infer E> ? IterableExt<E> : never;
 
     <T extends Iterable<unknown>, A>(
         i: T,
-        p0: Operation<T extends Iterable<infer E> ? E : never, A>,
+        p0: Operation<T extends Iterable<infer E> ? E : never, A>
     ): IterableExt<A>;
 
     <T extends Iterable<unknown>, A, B>(
         i: T,
         p0: Operation<T extends Iterable<infer E> ? E : never, A>,
-        p1: Operation<A, B>,
+        p1: Operation<A, B>
     ): IterableExt<B>;
 
     <T extends Iterable<unknown>, A, B, C>(
         i: T,
         p0: Operation<T extends Iterable<infer E> ? E : never, A>,
         p1: Operation<A, B>,
-        p2: Operation<B, C>,
+        p2: Operation<B, C>
     ): IterableExt<C>;
 
     <T extends Iterable<unknown>, A, B, C, D>(
@@ -39,7 +39,7 @@ interface PipeSync {
         p0: Operation<T extends Iterable<infer E> ? E : never, A>,
         p1: Operation<A, B>,
         p2: Operation<B, C>,
-        p3: Operation<C, D>,
+        p3: Operation<C, D>
     ): IterableExt<D>;
 
     <T extends Iterable<unknown>, A, B, C, D, E>(
@@ -48,7 +48,7 @@ interface PipeSync {
         p1: Operation<A, B>,
         p2: Operation<B, C>,
         p3: Operation<C, D>,
-        p4: Operation<D, E>,
+        p4: Operation<D, E>
     ): IterableExt<E>;
 
     <T extends Iterable<unknown>, A, B, C, D, E, F>(
@@ -58,7 +58,7 @@ interface PipeSync {
         p2: Operation<B, C>,
         p3: Operation<C, D>,
         p4: Operation<D, E>,
-        p5: Operation<E, F>,
+        p5: Operation<E, F>
     ): IterableExt<F>;
 
     <T extends Iterable<unknown>, A, B, C, D, E, F, G>(
@@ -69,7 +69,7 @@ interface PipeSync {
         p3: Operation<C, D>,
         p4: Operation<D, E>,
         p5: Operation<E, F>,
-        p6: Operation<F, G>,
+        p6: Operation<F, G>
     ): IterableExt<G>;
 
     <T extends Iterable<unknown>, A, B, C, D, E, F, G, H>(
@@ -81,7 +81,7 @@ interface PipeSync {
         p4: Operation<D, E>,
         p5: Operation<E, F>,
         p6: Operation<F, G>,
-        p7: Operation<G, H>,
+        p7: Operation<G, H>
     ): IterableExt<H>;
 
     <T extends Iterable<unknown>, A, B, C, D, E, F, G, H, I>(
@@ -94,7 +94,7 @@ interface PipeSync {
         p5: Operation<E, F>,
         p6: Operation<F, G>,
         p7: Operation<G, H>,
-        p8: Operation<H, I>,
+        p8: Operation<H, I>
     ): IterableExt<I>;
 
     <T extends Iterable<unknown>, A, B, C, D, E, F, G, H, I, J>(
@@ -108,7 +108,7 @@ interface PipeSync {
         p6: Operation<F, G>,
         p7: Operation<G, H>,
         p8: Operation<H, I>,
-        p9: Operation<I, J>,
+        p9: Operation<I, J>
     ): IterableExt<J>;
 
     (
@@ -119,25 +119,25 @@ interface PipeSync {
 
 interface PipeAsync {
     <T extends UnknownIterable<unknown>>(
-        i: T,
+        i: T
     ): T extends UnknownIterable<infer E> ? AsyncIterableExt<E> : never;
 
     <T extends UnknownIterable<unknown>, A>(
         i: T,
-        p0: Operation<T extends UnknownIterable<infer E> ? E : never, A>,
+        p0: Operation<T extends UnknownIterable<infer E> ? E : never, A>
     ): AsyncIterableExt<A>;
 
     <T extends UnknownIterable<unknown>, A, B>(
         i: T,
         p0: Operation<T extends UnknownIterable<infer E> ? E : never, A>,
-        p1: Operation<A, B>,
+        p1: Operation<A, B>
     ): AsyncIterableExt<B>;
 
     <T extends UnknownIterable<unknown>, A, B, C>(
         i: T,
         p0: Operation<T extends UnknownIterable<infer E> ? E : never, A>,
         p1: Operation<A, B>,
-        p2: Operation<B, C>,
+        p2: Operation<B, C>
     ): AsyncIterableExt<C>;
 
     <T extends UnknownIterable<unknown>, A, B, C, D>(
@@ -145,7 +145,7 @@ interface PipeAsync {
         p0: Operation<T extends UnknownIterable<infer E> ? E : never, A>,
         p1: Operation<A, B>,
         p2: Operation<B, C>,
-        p3: Operation<C, D>,
+        p3: Operation<C, D>
     ): AsyncIterableExt<D>;
 
     <T extends UnknownIterable<unknown>, A, B, C, D, E>(
@@ -154,7 +154,7 @@ interface PipeAsync {
         p1: Operation<A, B>,
         p2: Operation<B, C>,
         p3: Operation<C, D>,
-        p4: Operation<D, E>,
+        p4: Operation<D, E>
     ): AsyncIterableExt<E>;
 
     <T extends UnknownIterable<unknown>, A, B, C, D, E, F>(
@@ -164,7 +164,7 @@ interface PipeAsync {
         p2: Operation<B, C>,
         p3: Operation<C, D>,
         p4: Operation<D, E>,
-        p5: Operation<E, F>,
+        p5: Operation<E, F>
     ): AsyncIterableExt<F>;
 
     <T extends UnknownIterable<unknown>, A, B, C, D, E, F, G>(
@@ -175,7 +175,7 @@ interface PipeAsync {
         p3: Operation<C, D>,
         p4: Operation<D, E>,
         p5: Operation<E, F>,
-        p6: Operation<F, G>,
+        p6: Operation<F, G>
     ): AsyncIterableExt<G>;
 
     <T extends UnknownIterable<unknown>, A, B, C, D, E, F, G, H>(
@@ -187,7 +187,7 @@ interface PipeAsync {
         p4: Operation<D, E>,
         p5: Operation<E, F>,
         p6: Operation<F, G>,
-        p7: Operation<G, H>,
+        p7: Operation<G, H>
     ): AsyncIterableExt<H>;
 
     <T extends UnknownIterable<unknown>, A, B, C, D, E, F, G, H, I>(
@@ -200,7 +200,7 @@ interface PipeAsync {
         p5: Operation<E, F>,
         p6: Operation<F, G>,
         p7: Operation<G, H>,
-        p8: Operation<H, I>,
+        p8: Operation<H, I>
     ): AsyncIterableExt<I>;
 
     <T extends UnknownIterable<unknown>, A, B, C, D, E, F, G, H, I, J>(
@@ -214,7 +214,7 @@ interface PipeAsync {
         p6: Operation<F, G>,
         p7: Operation<G, H>,
         p8: Operation<H, I>,
-        p9: Operation<I, J>,
+        p9: Operation<I, J>
     ): AsyncIterableExt<J>;
 
     (
@@ -242,7 +242,7 @@ export const pipe = ((
     ...[i, ...p]:
         | [
               UnknownIterable<unknown>,
-              ...(readonly Operation<unknown, unknown>[]),
+              ...(readonly Operation<unknown, unknown>[])
           ]
         | [AsyncIterable<unknown>, ...(readonly Operation<unknown, unknown>[])]
 ) => {
@@ -253,7 +253,7 @@ export const pipe = ((
         return pipeAsync(i, ...(p as readonly Operation<unknown, unknown>[]));
     }
     throw new TypeError(
-        `An iterable object was expected: ${JSON.stringify(i)}`,
+        `An iterable object was expected: ${JSON.stringify(i)}`
     );
 }) as Pipe;
 
@@ -276,7 +276,7 @@ export const pipeSync = ((
 ) => {
     if (isAsyncIterable(i)) {
         throw new TypeError(
-            'Cannot run the sync pipeline from an AsyncIterable',
+            'Cannot run the sync pipeline from an AsyncIterable'
         );
     }
     return extendIterable(p.reduce((c, a: any) => a(c), optimizeIterable(i)));
@@ -312,7 +312,7 @@ export const pipeAsync = ((
     ...p: readonly Operation<unknown, unknown>[]
 ) =>
     extendAsyncIterable(
-        p.reduce((c, a: any) => a(c), toAsync(i)),
+        p.reduce((c, a: any) => a(c), toAsync(i))
     )) as PipeAsync;
 
 /**
@@ -332,7 +332,7 @@ function extendAsyncIterable(i: any): AsyncIterableExt<any> {
         get: () =>
             i[$A]()
                 .next()
-                .then((a: any) => a.value),
+                .then((a: any) => a.value)
     });
     i.catch = (cb: any) => extendAsyncIterable(catchError(cb)(i));
     return i;

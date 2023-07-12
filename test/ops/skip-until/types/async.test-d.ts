@@ -6,6 +6,6 @@ declare const iterableNumber: AsyncIterable<number>;
 
 const test1 = pipe(
     iterableNumber,
-    skipUntil((value) => true),
+    skipUntil((value) => true)
 );
 expectType<AsyncIterableExt<number>>(test1);

@@ -15,7 +15,7 @@ const common = {
     input: 'src/index.ts',
 
     output: {
-        sourcemap: false,
+        sourcemap: false
     },
 
     external: [],
@@ -24,8 +24,8 @@ const common = {
         annotations: true,
         moduleSideEffects: [],
         propertyReadSideEffects: false,
-        unknownGlobalSideEffects: false,
-    },
+        unknownGlobalSideEffects: false
+    }
 };
 
 /**
@@ -36,8 +36,8 @@ function getPlugins(tsconfig = 'tsconfig.build.json') {
         rollupPluginAutoExternal(),
         rollupPluginNodeResolve(),
         rollupPluginTypescript({
-            tsconfig,
-        }),
+            tsconfig
+        })
     ];
 }
 
@@ -75,10 +75,10 @@ const cjs = {
     output: {
         ...common.output,
         file: pkg.main,
-        format: 'cjs',
+        format: 'cjs'
     },
 
-    plugins: getPlugins(),
+    plugins: getPlugins()
 };
 
 /**
@@ -90,10 +90,10 @@ const esm = {
     output: {
         ...common.output,
         file: pkg.module,
-        format: 'esm',
+        format: 'esm'
     },
 
-    plugins: getPlugins(),
+    plugins: getPlugins()
 };
 
 /**
@@ -108,18 +108,18 @@ const web = {
         file: 'dist/web/iter-ops.min.js',
         format: 'iife',
         name: 'iterOps',
-        banner: copyright,
+        banner: copyright
     },
 
     plugins: [
         ...getPlugins('tsconfig.build.web.json'),
         rollupPluginTerser({
             output: {
-                comments: 'some',
-            },
+                comments: 'some'
+            }
         }),
-        rollupPluginGzip(),
-    ],
+        rollupPluginGzip()
+    ]
 };
 
 /**
@@ -131,18 +131,18 @@ const webModule = {
     output: {
         ...web.output,
         file: 'dist/web/iter-ops.min.mjs',
-        format: 'esm',
+        format: 'esm'
     },
 
     plugins: [
         ...getPlugins('tsconfig.build.web.json'),
         rollupPluginTerser({
             output: {
-                comments: 'some',
-            },
+                comments: 'some'
+            }
         }),
-        rollupPluginGzip(),
-    ],
+        rollupPluginGzip()
+    ]
 };
 
 /**
@@ -153,10 +153,10 @@ const dts = {
 
     output: {
         file: pkg.types,
-        format: 'esm',
+        format: 'esm'
     },
 
-    plugins: [rollupPluginDts()],
+    plugins: [rollupPluginDts()]
 };
 
 export default buildTypesOnly ? dts : [cjs, esm, web, webModule, dts];

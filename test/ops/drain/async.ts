@@ -9,7 +9,7 @@ export default () => {
             tap((a) => {
                 c.push(a);
             }),
-            drain(),
+            drain()
         );
         expect(await i.first).to.be.undefined;
         expect(c).to.eql([1, 2, 3]);

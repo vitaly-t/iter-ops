@@ -42,8 +42,8 @@ export function count<T>(
     cb?: (
         value: T,
         index: number,
-        state: IterationState,
-    ) => boolean | Promise<boolean>,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): Operation<T, number>;
 
 export function count(...args: unknown[]) {
@@ -52,7 +52,7 @@ export function count(...args: unknown[]) {
 
 function countSync<T>(
     iterable: Iterable<T>,
-    cb?: (value: T, index: number, state: IterationState) => boolean,
+    cb?: (value: T, index: number, state: IterationState) => boolean
 ): Iterable<number> {
     return {
         [$S](): Iterator<number> {
@@ -76,9 +76,9 @@ function countSync<T>(
                         }
                     }
                     return a;
-                },
+                }
             };
-        },
+        }
     };
 }
 
@@ -87,8 +87,8 @@ function countAsync<T>(
     cb?: (
         value: T,
         index: number,
-        state: IterationState,
-    ) => boolean | Promise<boolean>,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): AsyncIterable<number> {
     return {
         [$A](): AsyncIterator<number> {
@@ -115,8 +115,8 @@ function countAsync<T>(
                         };
                         return isPromiseLike(r) ? r.then(out) : out(r);
                     });
-                },
+                }
             };
-        },
+        }
     };
 }

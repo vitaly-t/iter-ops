@@ -119,7 +119,7 @@ export interface IIterationSummary<T> {
  * @category Diagnostics
  */
 export function onEnd<T>(
-    cb: (s: IIterationSummary<T>) => void,
+    cb: (s: IIterationSummary<T>) => void
 ): Operation<T, T>;
 
 export function onEnd(...args: unknown[]) {
@@ -128,7 +128,7 @@ export function onEnd(...args: unknown[]) {
 
 function onEndSync<T>(
     iterable: Iterable<T>,
-    cb: (s: IIterationSummary<T>) => void,
+    cb: (s: IIterationSummary<T>) => void
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
@@ -153,7 +153,7 @@ function onEndSync<T>(
                                 count,
                                 duration: {average, min, max, total},
                                 lastValue,
-                                sync: true,
+                                sync: true
                             });
                         }
                     } else {
@@ -178,15 +178,15 @@ function onEndSync<T>(
                         count++;
                     }
                     return a;
-                },
+                }
             };
-        },
+        }
     };
 }
 
 function onEndAsync<T>(
     iterable: AsyncIterable<T>,
-    cb: (s: IIterationSummary<T>) => void,
+    cb: (s: IIterationSummary<T>) => void
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
@@ -211,7 +211,7 @@ function onEndAsync<T>(
                                     count,
                                     duration: {average, min, max, total},
                                     lastValue,
-                                    sync: false,
+                                    sync: false
                                 });
                             }
                         } else {
@@ -235,8 +235,8 @@ function onEndAsync<T>(
                         }
                         return a;
                     });
-                },
+                }
             };
-        },
+        }
     };
 }

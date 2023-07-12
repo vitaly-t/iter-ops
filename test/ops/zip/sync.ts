@@ -8,7 +8,7 @@ export default () => {
         expect([...i]).to.eql([
             [1, 'h', true],
             [2, 'e', false],
-            [3, 'r', true],
+            [3, 'r', true]
         ]);
     });
     it('must not retry once finished', () => {

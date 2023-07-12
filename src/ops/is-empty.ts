@@ -41,9 +41,9 @@ function isEmptySync<T>(iterable: Iterable<T>): Iterable<boolean> {
                         return {value: !!a.done, done: false};
                     }
                     return {value: undefined, done: true};
-                },
+                }
             };
-        },
+        }
     };
 }
 
@@ -61,8 +61,8 @@ function isEmptyAsync<T>(iterable: AsyncIterable<T>): AsyncIterable<boolean> {
                     return i
                         .next()
                         .then((a) => ({value: !!a.done, done: false}));
-                },
+                }
             };
-        },
+        }
     };
 }

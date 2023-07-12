@@ -16,7 +16,7 @@ export function _async(i: any): any {
     return {
         async next() {
             return i.next();
-        },
+        }
     };
 }
 

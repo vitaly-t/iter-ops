@@ -51,8 +51,8 @@ export function repeat<T>(
         value: T,
         index: number,
         count: number,
-        state: IterationState,
-    ) => boolean | Promise<boolean>,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): Operation<T, T>;
 
 export function repeat(...args: unknown[]) {
@@ -67,8 +67,8 @@ function repeatSync<T>(
               value: T,
               index: number,
               count: number,
-              state: IterationState,
-          ) => boolean),
+              state: IterationState
+          ) => boolean)
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
@@ -103,9 +103,9 @@ function repeatSync<T>(
                         start = true;
                     }
                     return a;
-                },
+                }
             };
-        },
+        }
     };
 }
 
@@ -117,8 +117,8 @@ function repeatAsync<T>(
               value: T,
               index: number,
               count: number,
-              state: IterationState,
-          ) => boolean | Promise<boolean>),
+              state: IterationState
+          ) => boolean | Promise<boolean>)
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
@@ -148,7 +148,7 @@ function repeatAsync<T>(
                             a.value,
                             index,
                             copied++,
-                            state,
+                            state
                         ) as Promise<boolean>));
                         return a;
                     }
@@ -158,8 +158,8 @@ function repeatAsync<T>(
                         start = true;
                     }
                     return a;
-                },
+                }
             };
-        },
+        }
     };
 }

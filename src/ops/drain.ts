@@ -46,9 +46,9 @@ function drainSync<T>(iterable: Iterable<T>): Iterable<T> {
                 next(): IteratorResult<T> {
                     while (!i.next().done);
                     return {value: undefined, done: true};
-                },
+                }
             };
-        },
+        }
     };
 }
 
@@ -59,8 +59,8 @@ function drainAsync<T>(iterable: AsyncIterable<T>): AsyncIterable<T> {
             return {
                 next(): Promise<IteratorResult<T>> {
                     return i.next().then((a) => (a.done ? a : this.next()));
-                },
+                }
             };
-        },
+        }
     };
 }

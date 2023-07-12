@@ -64,7 +64,7 @@ import {createOperation} from '../utils';
  */
 export function timeout<T>(
     ms: number,
-    cb?: (count: number) => void,
+    cb?: (count: number) => void
 ): Operation<T, T>;
 
 export function timeout(...args: unknown[]) {
@@ -74,7 +74,7 @@ export function timeout(...args: unknown[]) {
 function timeoutSync<T>(
     iterable: Iterable<T>,
     ms: number,
-    cb?: (count: number) => void,
+    cb?: (count: number) => void
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
@@ -102,16 +102,16 @@ function timeoutSync<T>(
                     }
                     count++;
                     return i.next();
-                },
+                }
             };
-        },
+        }
     };
 }
 
 function timeoutAsync<T>(
     iterable: AsyncIterable<T>,
     ms: number,
-    cb?: (index: number) => void,
+    cb?: (index: number) => void
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
@@ -162,8 +162,8 @@ function timeoutAsync<T>(
                                 reject(err);
                             });
                     });
-                },
+                }
             };
-        },
+        }
     };
 }

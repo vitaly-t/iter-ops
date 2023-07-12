@@ -8,6 +8,6 @@ export function createIterator() {
                 return {value, done: false};
             }
             return {value: undefined, done: true};
-        },
+        }
     };
 }

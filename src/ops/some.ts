@@ -33,8 +33,8 @@ export function some<T>(
     cb: (
         value: T,
         index: number,
-        state: IterationState,
-    ) => boolean | Promise<boolean>,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): Operation<T, boolean>;
 
 export function some(...args: unknown[]) {
@@ -43,7 +43,7 @@ export function some(...args: unknown[]) {
 
 function someSync<T>(
     iterable: Iterable<T>,
-    cb: (value: T, index: number, state: IterationState) => boolean,
+    cb: (value: T, index: number, state: IterationState) => boolean
 ): Iterable<boolean> {
     return {
         [$S](): Iterator<boolean> {
@@ -63,9 +63,9 @@ function someSync<T>(
                         return {value: !a.done, done: false};
                     }
                     return {value: undefined, done: true};
-                },
+                }
             };
-        },
+        }
     };
 }
 
@@ -74,8 +74,8 @@ function someAsync<T>(
     cb: (
         value: T,
         index: number,
-        state: IterationState,
-    ) => boolean | Promise<boolean>,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): AsyncIterable<boolean> {
     return {
         [$A](): AsyncIterator<boolean> {
@@ -99,8 +99,8 @@ function someAsync<T>(
                         };
                         return isPromiseLike(r) ? r.then(out) : out(r);
                     });
-                },
+                }
             };
-        },
+        }
     };
 }

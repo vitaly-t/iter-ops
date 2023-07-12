@@ -6,29 +6,29 @@ export default () => {
         it('must do regular split', async () => {
             const i = pipe(
                 _async('one two three'),
-                split((a) => a === ' '),
+                split((a) => a === ' ')
             );
             expect(await _asyncValues(i)).to.eql([
                 ['o', 'n', 'e'],
                 ['t', 'w', 'o'],
-                ['t', 'h', 'r', 'e', 'e'],
+                ['t', 'h', 'r', 'e', 'e']
             ]);
         });
         it('must do regular async split', async () => {
             const i = pipe(
                 _async('one two three'),
-                split(async (a) => a === ' '),
+                split(async (a) => a === ' ')
             );
             expect(await _asyncValues(i)).to.eql([
                 ['o', 'n', 'e'],
                 ['t', 'w', 'o'],
-                ['t', 'h', 'r', 'e', 'e'],
+                ['t', 'h', 'r', 'e', 'e']
             ]);
         });
         it('must process gaps correctly', async () => {
             const i = pipe(
                 _async([0, 1, 2, 0, 3, 4, 0, 0]),
-                split((a) => a === 0),
+                split((a) => a === 0)
             );
             expect(await _asyncValues(i)).to.eql([[], [1, 2], [3, 4], [], []]);
         });
@@ -40,8 +40,8 @@ export default () => {
                     _async([0, 1, 2, 0, 0, 3, 4, 0, 0]),
                     split((a) => a === 0, {
                         carryStart: -1,
-                        carryEnd: -1,
-                    }),
+                        carryEnd: -1
+                    })
                 );
                 expect(await _asyncValues(i)).to.eql([
                     [0],
@@ -49,13 +49,13 @@ export default () => {
                     [0],
                     [3, 4, 0],
                     [0],
-                    [],
+                    []
                 ]);
             });
             it('must be able to carry forward', async () => {
                 const i = pipe(
                     _async([0, 1, 2, 0, 0, 3, 4, 0, 0]),
-                    split((a) => a === 0, {carryStart: 1, carryEnd: 1}),
+                    split((a) => a === 0, {carryStart: 1, carryEnd: 1})
                 );
                 expect(await _asyncValues(i)).to.eql([
                     [],
@@ -63,7 +63,7 @@ export default () => {
                     [0],
                     [0, 3, 4],
                     [0],
-                    [0],
+                    [0]
                 ]);
             });
         });
@@ -75,33 +75,33 @@ export default () => {
                         split((a) => !a, {
                             toggle: true,
                             carryStart: 'bla' as any, // for coverage
-                            carryEnd: 'bla' as any, // for coverage
-                        }),
+                            carryEnd: 'bla' as any // for coverage
+                        })
                     );
                     expect(await _asyncValues(i1)).to.eql([
                         [1, 2],
-                        [3, 4],
+                        [3, 4]
                     ]);
 
                     const i2 = pipe(
                         _async([1, 2, 0, 0, 3, 4, 0]),
                         split((a) => !a, {
                             toggle: true,
-                            carryStart: SplitValueCarry.none, // just for coverage
-                        }),
+                            carryStart: SplitValueCarry.none // just for coverage
+                        })
                     );
                     expect(await _asyncValues(i2)).to.eql([[], []]);
 
                     const i3 = pipe(
                         _async([1, 2, 0, 3, 4, 0]),
-                        split((a) => !a, {toggle: true}),
+                        split((a) => !a, {toggle: true})
                     );
                     expect(await _asyncValues(i3)).to.eql([[3, 4]]);
                 });
                 it('must handle no toggles', async () => {
                     const i = pipe(
                         _async([1, 2, 3, 4, 5]),
-                        split(() => false, {toggle: true}),
+                        split(() => false, {toggle: true})
                     );
                     expect(await _asyncValues(i)).to.eql([]);
                 });
@@ -109,14 +109,14 @@ export default () => {
                     // ending with open toggle:
                     const i1 = pipe(
                         _async([1, 2, 3, 4, 5]),
-                        split(() => true, {toggle: true}),
+                        split(() => true, {toggle: true})
                     );
                     expect(await _asyncValues(i1)).to.eql([[], [], []]);
 
                     // ending with closed toggle:
                     const i2 = pipe(
                         _async([1, 2, 3, 4, 5, 6]),
-                        split(() => true, {toggle: true}),
+                        split(() => true, {toggle: true})
                     );
                     expect(await _asyncValues(i2)).to.eql([[], [], []]);
                 });
@@ -125,7 +125,7 @@ export default () => {
                 it('must work with carrying back', async () => {
                     const i1 = pipe(
                         _async([1, 2, 3, 4, 5]),
-                        split(() => true, {toggle: true, carryStart: -1}),
+                        split(() => true, {toggle: true, carryStart: -1})
                     );
                     expect(await _asyncValues(i1)).to.eql([[1], [3], [5]]);
 
@@ -134,19 +134,19 @@ export default () => {
                         split(() => true, {
                             toggle: true,
                             carryStart: -1,
-                            carryEnd: -1,
-                        }),
+                            carryEnd: -1
+                        })
                     );
                     expect(await _asyncValues(i2)).to.eql([
                         [1, 2],
                         [3, 4],
-                        [5],
+                        [5]
                     ]);
                 });
                 it('must work with carrying forward', async () => {
                     const i1 = pipe(
                         _async([1, 2, 3, 4, 5]),
-                        split((a) => !!a, {toggle: true, carryStart: 1}),
+                        split((a) => !!a, {toggle: true, carryStart: 1})
                     );
                     expect(await _asyncValues(i1)).to.eql([[1], [3], [5]]);
 
@@ -155,12 +155,12 @@ export default () => {
                         split((a) => a === 0, {
                             toggle: true,
                             carryStart: 1,
-                            carryEnd: 1,
-                        }),
+                            carryEnd: 1
+                        })
                     );
                     expect(await _asyncValues(i2)).to.eql([
                         [0, 1, 2],
-                        [0, 0, 5],
+                        [0, 0, 5]
                     ]);
                 });
                 it('must handle triggers without values', async () => {
@@ -169,8 +169,8 @@ export default () => {
                         split((a) => a === 0, {
                             toggle: true,
                             carryStart: 1,
-                            carryEnd: 1,
-                        }),
+                            carryEnd: 1
+                        })
                     );
                     expect(await _asyncValues(i1)).to.eql([[0], [0, 0]]);
 
@@ -179,12 +179,12 @@ export default () => {
                         split((a) => a === 0, {
                             toggle: true,
                             carryStart: -1,
-                            carryEnd: -1,
-                        }),
+                            carryEnd: -1
+                        })
                     );
                     expect(await _asyncValues(i2)).to.eql([
                         [0, 0],
-                        [0, 0],
+                        [0, 0]
                     ]);
                 });
             });
@@ -199,7 +199,7 @@ export default () => {
                     split((a, idx) => {
                         indexes.push(idx);
                         return a === ' ';
-                    }),
+                    })
                 );
                 await _asyncValues(i);
                 expect(indexes).to.eql([
@@ -209,7 +209,7 @@ export default () => {
                     {start: 3, list: 3, split: 0},
                     {start: 4, list: 0, split: 1},
                     {start: 5, list: 1, split: 1},
-                    {start: 6, list: 2, split: 1},
+                    {start: 6, list: 2, split: 1}
                 ]);
             });
         });
@@ -223,8 +223,8 @@ export default () => {
                             indexes.push(idx);
                             return a === ' ';
                         },
-                        {carryEnd: 1},
-                    ),
+                        {carryEnd: 1}
+                    )
                 );
                 await _asyncValues(i);
                 expect(indexes).to.eql([
@@ -234,7 +234,7 @@ export default () => {
                     {start: 3, list: 3, split: 0},
                     {start: 4, list: 1, split: 1},
                     {start: 5, list: 2, split: 1},
-                    {start: 6, list: 3, split: 1},
+                    {start: 6, list: 3, split: 1}
                 ]);
             });
         });
@@ -249,8 +249,8 @@ export default () => {
                             indexes.push(idx);
                             return a < 0;
                         },
-                        {toggle: true},
-                    ),
+                        {toggle: true}
+                    )
                 );
                 await _asyncValues(i);
                 expect(indexes).to.eql([
@@ -263,7 +263,7 @@ export default () => {
                     {start: 6, list: 0, split: 1},
                     {start: 7, list: 0, split: 1},
                     {start: 8, list: 0, split: 2},
-                    {start: 9, list: 1, split: 2},
+                    {start: 9, list: 1, split: 2}
                 ]);
             });
             it('must report correct indexes for carry=back', async () => {
@@ -275,8 +275,8 @@ export default () => {
                             indexes.push(idx);
                             return true;
                         },
-                        {toggle: true, carryStart: -1, carryEnd: -1},
-                    ),
+                        {toggle: true, carryStart: -1, carryEnd: -1}
+                    )
                 );
                 await _asyncValues(i);
                 expect(indexes).to.eql([
@@ -284,7 +284,7 @@ export default () => {
                     {start: 1, list: 0, split: 1},
                     {start: 2, list: 0, split: 1},
                     {start: 3, list: 0, split: 2},
-                    {start: 4, list: 0, split: 2},
+                    {start: 4, list: 0, split: 2}
                 ]);
             });
             it('must report correct indexes for carry=forward', async () => {
@@ -296,8 +296,8 @@ export default () => {
                             indexes.push(idx);
                             return true;
                         },
-                        {toggle: true, carryStart: 1, carryEnd: 1},
-                    ),
+                        {toggle: true, carryStart: 1, carryEnd: 1}
+                    )
                 );
                 await _asyncValues(i);
                 expect(indexes).to.eql([
@@ -305,7 +305,7 @@ export default () => {
                     {start: 1, list: 1, split: 1},
                     {start: 2, list: 0, split: 1},
                     {start: 3, list: 1, split: 2},
-                    {start: 4, list: 0, split: 2},
+                    {start: 4, list: 0, split: 2}
                 ]);
             });
         });

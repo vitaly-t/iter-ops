@@ -10,9 +10,9 @@ export default () => {
         const output = pipe(
             [
                 [1, 2],
-                [3, 4],
+                [3, 4]
             ],
-            spread(),
+            spread()
         );
         expect([...output]).to.eql([1, 2, 3, 4]);
     });

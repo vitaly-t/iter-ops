@@ -66,7 +66,7 @@ export function waitRace(...args: unknown[]) {
 // implemented by: https://stackoverflow.com/users/1048572/bergi
 export function waitRaceAsync<T>(
     iterable: AsyncIterable<Promise<T> | T>,
-    cacheSize: number,
+    cacheSize: number
 ): AsyncIterable<T> {
     cacheSize = cacheSize >= 2 ? cacheSize : 1;
     return {
@@ -75,7 +75,7 @@ export function waitRaceAsync<T>(
             let finished = false;
             // resolvers for currently active tasks, that are racing to remove and call the first one:
             const resolvers: ((
-                res: IteratorResult<T> | Promise<never>,
+                res: IteratorResult<T> | Promise<never>
             ) => void)[] = [];
             // cache of promises to be resolved or to be returned by `.next()` to the destination:
             const promises: Promise<IteratorResult<T>>[] = [];
@@ -95,16 +95,16 @@ export function waitRaceAsync<T>(
                                         (value: any) => {
                                             resolvers.shift()?.({
                                                 done: false,
-                                                value,
+                                                value
                                             });
                                             kickOffMore();
                                         },
                                         () => {
                                             resolvers.shift()?.(
-                                                promise as Promise<never>,
+                                                promise as Promise<never>
                                             );
                                             kickOffMore();
-                                        },
+                                        }
                                     );
                                 } else {
                                     resolvers.shift()?.(a as IteratorResult<T>);
@@ -115,9 +115,9 @@ export function waitRaceAsync<T>(
                                 // handle rejections from calling `i.next()`
                                 resolvers.shift()?.(Promise.reject(err));
                                 finished = true;
-                            },
+                            }
                         );
-                    }),
+                    })
                 );
             }
             function kickOffMore() {
@@ -143,7 +143,7 @@ export function waitRaceAsync<T>(
                                 ? p.then((value) => ({value, done: false}))
                                 : a;
                         });
-                    },
+                    }
                 };
             }
             return {
@@ -152,8 +152,8 @@ export function waitRaceAsync<T>(
                         kickOffNext();
                     }
                     return promises.shift() as Promise<IteratorResult<T>>;
-                },
+                }
             };
-        },
+        }
     };
 }

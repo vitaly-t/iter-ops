@@ -55,7 +55,7 @@ import {createOperation} from '../utils';
  * @category Diagnostics
  */
 export function catchError<T>(
-    cb: (error: any, ctx: IErrorContext<T>) => void,
+    cb: (error: any, ctx: IErrorContext<T>) => void
 ): Operation<T, T>;
 
 export function catchError(...args: unknown[]) {
@@ -64,7 +64,7 @@ export function catchError(...args: unknown[]) {
 
 function catchErrorSync<T>(
     iterable: Iterable<T>,
-    cb: (error: any, ctx: IErrorContext<T>) => void,
+    cb: (error: any, ctx: IErrorContext<T>) => void
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
@@ -95,7 +95,7 @@ function catchErrorSync<T>(
                                 emit(v) {
                                     value = v;
                                     emitted = true;
-                                },
+                                }
                             });
                             if (emitted) {
                                 return {value, done: false};
@@ -103,15 +103,15 @@ function catchErrorSync<T>(
                         }
                     } while (!last?.done);
                     return {value: undefined, done: true};
-                },
+                }
             };
-        },
+        }
     };
 }
 
 function catchErrorAsync<T>(
     iterable: AsyncIterable<T>,
-    cb: (error: any, ctx: IErrorContext<T>) => void,
+    cb: (error: any, ctx: IErrorContext<T>) => void
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
@@ -141,14 +141,14 @@ function catchErrorAsync<T>(
                                 emit(v) {
                                     value = v;
                                     emitted = true;
-                                },
+                                }
                             });
                             return emitted ? {value, done: false} : this.next();
-                        },
+                        }
                     );
-                },
+                }
             };
-        },
+        }
     };
 }
 

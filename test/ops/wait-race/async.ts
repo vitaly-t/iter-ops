@@ -6,7 +6,7 @@ export default () => {
         const i = pipeAsync(
             [1, 2, 3, 4],
             map((a) => Promise.resolve(a)),
-            waitRace(2),
+            waitRace(2)
         );
         expect(await _asyncValues(i)).to.have.members([1, 2, 3, 4]);
     });
@@ -17,7 +17,7 @@ export default () => {
     it('must resolve combinations of promises and simple values', async () => {
         const i = pipeAsync(
             [1, Promise.resolve(2), 3, Promise.resolve(4)],
-            waitRace(2),
+            waitRace(2)
         );
         expect(await _asyncValues(i)).to.have.members([1, 2, 3, 4]);
     });
@@ -63,7 +63,7 @@ export default () => {
                 }
                 return a;
             }),
-            waitRace(3),
+            waitRace(3)
         ).catch((err, ctx) => {
             ctx.emit(err * 10);
         });
@@ -76,7 +76,7 @@ export default () => {
             input,
             delay(50),
             map((a) => Promise.resolve(a)),
-            waitRace(5),
+            waitRace(5)
         );
         const start = Date.now();
         for await (const value of i) {
@@ -85,19 +85,19 @@ export default () => {
         }
         expect(
             output.map((a) => a.value),
-            'Missing resolution values',
+            'Missing resolution values'
         ).to.include.members(input);
         expect(
             output[0].delay,
-            'First resolution took too long',
+            'First resolution took too long'
         ).to.be.lessThan(85);
         expect(
             output[1].delay,
-            'Second resolution took too long',
+            'Second resolution took too long'
         ).to.be.lessThan(145);
         expect(
             output[input.length - 1].delay,
-            'Last resolution took too long',
+            'Last resolution took too long'
         ).to.be.lessThan(470);
     });
 };

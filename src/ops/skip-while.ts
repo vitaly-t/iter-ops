@@ -33,8 +33,8 @@ export function skipWhile<T>(
     cb: (
         value: T,
         index: number,
-        state: IterationState,
-    ) => boolean | Promise<boolean>,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): Operation<T, T>;
 
 export function skipWhile(...args: unknown[]) {
@@ -43,7 +43,7 @@ export function skipWhile(...args: unknown[]) {
 
 function skipWhileSync<T>(
     iterable: Iterable<T>,
-    cb: (value: T, index: number, state: IterationState) => boolean,
+    cb: (value: T, index: number, state: IterationState) => boolean
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
@@ -61,9 +61,9 @@ function skipWhileSync<T>(
                         started = true;
                     }
                     return a;
-                },
+                }
             };
-        },
+        }
     };
 }
 
@@ -72,8 +72,8 @@ function skipWhileAsync<T>(
     cb: (
         value: T,
         index: number,
-        state: IterationState,
-    ) => boolean | Promise<boolean>,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
@@ -90,7 +90,7 @@ function skipWhileAsync<T>(
                         const r = cb(
                             a.value,
                             index++,
-                            state,
+                            state
                         ) as Promise<boolean>;
                         const out = (flag: any) => {
                             started = !flag;
@@ -98,8 +98,8 @@ function skipWhileAsync<T>(
                         };
                         return isPromiseLike(r) ? r.then(out) : out(r);
                     });
-                },
+                }
             };
-        },
+        }
     };
 }

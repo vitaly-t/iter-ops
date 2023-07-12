@@ -6,7 +6,7 @@ export default () => {
         const input = [1, 2, 3, 4, 5, 0];
         const output = pipe(
             input,
-            filter((a) => a < 3),
+            filter((a) => a < 3)
         );
         expect([...output]).to.eql([1, 2, 0]);
     });
@@ -17,8 +17,8 @@ export default () => {
             input,
             filter(
                 (value): value is NonNullable<typeof value> =>
-                    value !== null && value !== undefined,
-            ),
+                    value !== null && value !== undefined
+            )
         );
         expect([...output]).to.eql([1, 2, 4, 0]);
     });
@@ -32,7 +32,7 @@ export default () => {
                 state.count++;
                 arr.push(state.count);
                 return false;
-            }),
+            })
         );
         [...output];
         expect(arr).to.eql([1, 2, 3, 4, 5, 6]);

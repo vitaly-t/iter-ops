@@ -21,7 +21,7 @@ export function empty(...args: unknown[]) {
 
 function emptySync<T>(): Iterable<T> {
     return {
-        [$S]: () => ({next: () => ({value: undefined, done: true})}),
+        [$S]: () => ({next: () => ({value: undefined, done: true})})
     };
 }
 
@@ -30,7 +30,7 @@ function emptyAsync<T>(): AsyncIterable<T> {
         [$A]: () => ({
             next() {
                 return Promise.resolve({value: undefined, done: true});
-            },
-        }),
+            }
+        })
     };
 }

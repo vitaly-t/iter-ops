@@ -6,6 +6,6 @@ declare const iterableNumber: AsyncIterable<number>;
 
 const test1 = pipe(
     iterableNumber,
-    every((a) => a > 5),
+    every((a) => a > 5)
 );
 expectType<AsyncIterableExt<boolean>>(test1);

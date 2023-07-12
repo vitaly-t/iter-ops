@@ -33,8 +33,8 @@ export function takeWhile<T>(
     cb: (
         value: T,
         index: number,
-        state: IterationState,
-    ) => boolean | Promise<boolean>,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): Operation<T, T>;
 
 export function takeWhile(...args: unknown[]) {
@@ -43,7 +43,7 @@ export function takeWhile(...args: unknown[]) {
 
 function takeWhileSync<T>(
     iterable: Iterable<T>,
-    cb: (value: T, index: number, state: IterationState) => boolean,
+    cb: (value: T, index: number, state: IterationState) => boolean
 ): Iterable<T> {
     return {
         [$S](): Iterator<T> {
@@ -61,9 +61,9 @@ function takeWhileSync<T>(
                         }
                     }
                     return {value: undefined, done: true};
-                },
+                }
             };
-        },
+        }
     };
 }
 
@@ -72,8 +72,8 @@ function takeWhileAsync<T>(
     cb: (
         value: T,
         index: number,
-        state: IterationState,
-    ) => boolean | Promise<boolean>,
+        state: IterationState
+    ) => boolean | Promise<boolean>
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
@@ -90,7 +90,7 @@ function takeWhileAsync<T>(
                         const r = cb(
                             a.value,
                             index++,
-                            state,
+                            state
                         ) as Promise<boolean>;
                         const out = (flag: any): IteratorResult<T> => {
                             stopped = !flag;
@@ -98,8 +98,8 @@ function takeWhileAsync<T>(
                         };
                         return isPromiseLike(r) ? r.then(out) : out(r);
                     });
-                },
+                }
             };
-        },
+        }
     };
 }

@@ -6,7 +6,7 @@ export default () => {
         const i = pipe(
             _async([1, 2, 3]),
             map((a) => Promise.resolve(a)),
-            wait(),
+            wait()
         );
         expect(await _asyncValues(i)).to.eql([1, 2, 3]);
     });
