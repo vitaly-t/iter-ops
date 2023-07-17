@@ -36,9 +36,10 @@ function takeSync<T>(iterable: Iterable<T>, count: number): Iterable<T> {
                 finished: boolean;
             return {
                 next(): IteratorResult<T> {
+                    finished = finished || index++ >= count;
                     if (!finished) {
                         const a = i.next();
-                        finished = a.done || index++ >= count;
+                        finished = a.done;
                         if (!finished) {
                             return a;
                         }
@@ -61,11 +62,12 @@ function takeAsync<T>(
                 finished: boolean;
             return {
                 next(): Promise<IteratorResult<T>> {
+                    finished = finished || index++ >= count
                     if (finished) {
                         return Promise.resolve({value: undefined, done: true});
                     }
                     return i.next().then((a) => {
-                        finished = a.done || index++ >= count;
+                        finished = a.done;
                         return finished ? {value: undefined, done: true} : a;
                     });
                 }
