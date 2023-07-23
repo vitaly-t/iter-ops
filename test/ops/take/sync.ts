@@ -22,4 +22,11 @@ export default () => {
         const res = i.next() && i.next() && i.next();
         expect(res).to.eql({value: undefined, done: true});
     });
+    it('must not extract more values than requested', () => {
+        const i = input[Symbol.iterator]();
+        const nextValues = (n: number) => [...pipe(i, take(n))];
+        expect(nextValues(2)).to.eql([10, 20]);
+        expect(nextValues(2)).to.eql([30, 40]);
+        expect(nextValues(2)).to.eql([50]);
+    });
 };
