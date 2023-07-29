@@ -51,18 +51,18 @@ export interface IErrorContext<T> {
  */
 export interface IterableExt<T> extends Iterable<T> {
     /**
+     * A getter that creates a new iterator, iterates to the first element and returns the value.
+     *
+     * It is to simplify accessing value of single-element iterables.
+     *
+     * @returns
      * - first element produced by the iterable;
      * - `undefined`, if the iterable produced nothing.
-     *
-     * It is to simplify use of one-value iterables.
-     *
-     * _IMPORTANT:_ It is a getter that creates a new iterator from the iterable,
-     * and then iterates to the first value.
      */
     readonly first: T | undefined;
 
     /**
-     * Appends {@link catchError} operator to the pipeline.
+     * Appends {@link catchError} operator to the end of pipeline.
      *
      * @see {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}
      */
@@ -74,18 +74,18 @@ export interface IterableExt<T> extends Iterable<T> {
  */
 export interface AsyncIterableExt<T> extends AsyncIterable<T> {
     /**
-     * - first element/`Promise` produced by the iterable;
+     * A getter that creates a new iterator, iterates to the first element and returns the value.
+     *
+     * It is to simplify accessing value of single-element iterables.
+     *
+     * @returns
+     * - first element / `Promise` produced by the iterable;
      * - `Promise<undefined>`, if the iterable produced nothing.
-     *
-     * It is to simplify use of one-value iterables.
-     *
-     * _IMPORTANT:_ It is a getter that creates a new iterator from the iterable,
-     * and then iterates to the first value.
      */
     readonly first: Promise<T | undefined>;
 
     /**
-     * Appends {@link catchError} operator to the pipeline.
+     * Appends {@link catchError} operator to the end of pipeline.
      *
      * @see {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}
      */
