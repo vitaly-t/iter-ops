@@ -5,7 +5,7 @@
 -   [Usage](#usage)
 -   [API]
 
-[![Build Status](https://github.com/vitaly-t/iter-ops/workflows/ci/badge.svg?branch=master)](https://github.com/vitaly-t/iter-ops/actions?query=workflow%3Aci+branch%3Amaster)
+[![Build Status](https://github.com/vitaly-t/iter-ops/workflows/ci/badge.svg?branch=main)](https://github.com/vitaly-t/iter-ops/actions?query=workflow%3Aci+branch%3Amain)
 
 ## About
 
