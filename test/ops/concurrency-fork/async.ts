@@ -2,9 +2,14 @@ import {_async, _asyncValues, expect} from '../../header';
 import {pipe, concurrencyFork} from '../../../src';
 
 export default () => {
-    it('must default to the source', async () => {
+    it('must default to the source on missing handlers', async () => {
         const input = [1, 2, 3];
         const output = pipe(_async(input), concurrencyFork({}));
+        expect(await _asyncValues(output)).to.eql(input);
+    });
+    it('must default to the source on invalid handlers', async () => {
+        const input = [1, 2, 3];
+        const output = pipe(_async(input), concurrencyFork({onAsync: 123 as any}));
         expect(await _asyncValues(output)).to.eql(input);
     });
     it('must return the result', async () => {

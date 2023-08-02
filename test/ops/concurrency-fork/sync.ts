@@ -2,9 +2,14 @@ import {expect} from '../../header';
 import {pipe, concurrencyFork} from '../../../src';
 
 export default () => {
-    it('must default to the source', () => {
+    it('must default to the source on missing handlers', () => {
         const input = [1, 2, 3];
         const output = pipe(input, concurrencyFork({}));
+        expect([...output]).to.eql(input);
+    });
+    it('must default to the source on invalid handlers', () => {
+        const input = [1, 2, 3];
+        const output = pipe(input, concurrencyFork({onSync: 123 as any}));
         expect([...output]).to.eql(input);
     });
     it('must return the result', () => {
