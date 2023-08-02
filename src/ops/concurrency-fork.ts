@@ -89,7 +89,8 @@ function concurrencyForkSync<T, R>(
     work: IConcurrencyWork<T, R>
 ): Iterable<R> {
     try {
-        return work.onSync?.(iterable) ?? (iterable as Iterable<any>);
+        const i = typeof work.onSync === 'function' && work.onSync(iterable);
+        return i || (iterable as Iterable<any>);
     } catch (err) {
         return {
             [$S](): Iterator<R> {
@@ -113,7 +114,8 @@ function concurrencyForkAsync<T, R>(
     work: IConcurrencyWork<T, R>
 ): AsyncIterable<R> {
     try {
-        return work.onAsync?.(iterable) ?? (iterable as AsyncIterable<any>);
+        const i = typeof work.onAsync === 'function' && work.onAsync(iterable);
+        return i || (iterable as AsyncIterable<any>);
     } catch (err) {
         return {
             [$A](): AsyncIterator<R> {
