@@ -6,15 +6,24 @@ export default () => {
         const output = pipe(['one', 'two'], flat());
         expect([...output]).to.eql(['o', 'n', 'e', 't', 'w', 'o']);
     });
+    it('must support skip logic', () => {
+        let level;
+        const output = pipe(
+            ['one', 'two'],
+            flat(1, (v, l) => {
+                level = l;
+                return v === 'two';
+            })
+        );
+        expect([...output]).to.eql(['o', 'n', 'e', 'two']);
+        expect(level).to.eql(0);
+    });
     it('must flatten arrays', () => {
         const output = pipe(
-            [
-                [1, 2],
-                [3, 4]
-            ],
-            flat()
+            [[1, 2], [3, 4], 'word!'],
+            flat(1, (v) => typeof v === 'string')
         );
-        expect([...output]).to.eql([1, 2, 3, 4]);
+        expect([...output]).to.eql([1, 2, 3, 4, 'word!']);
     });
     it('must flatten nested arrays to specified depth', () => {
         const output = pipe(

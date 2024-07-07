@@ -24,7 +24,7 @@ export type Flatten<T, N extends number> =
         : Flatten<T, Decrement[N]>;
 
 /**
- * Expands / flattens sub-iterables up to the specified `depth` (default is 1).
+ * Expands / flattens sub-iterables up to the specified `depth` (default is 1), with optional `skip` logic.
  *
  * ```ts
  * import {pipe, flat} from 'iter-ops';
@@ -37,8 +37,21 @@ export type Flatten<T, N extends number> =
  * console.log(...i); //=> 'o', 'n', 'e', 2, 3, 4, 5
  * ```
  *
- * It implements the logic consistent with {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat Array.flat},
+ * It implements the logic similar to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat Array.flat},
  * handling non-iterable values without throwing errors (unlike {@link spread}), and with optional `depth` support.
+ * However, unlike `Array.flat`, this operator expands all iterable values, including strings.
+ * If you want to prevent certain values from being expanded, you can pass in second parameter -
+ * `skip(value, level)` callback function:
+ *
+ * ```ts
+ * const i = pipe(
+ *     ['one', [1, 2, 3]],
+ *     flat(1, v => typeof v === 'string') // skip expanding strings
+ * );
+ *
+ * console.log(...i); //=> 'one', 1, 2, 3
+ * ```
+ * Parameter `level` in the `skip` callback represents current depth level = `0, ...depth - 1`
  *
  * Note that when handling a synchronous iterable, this operator can only expand synchronous sub-iterables.
  * But when handling an asynchronous iterable, it can expand mixed sub-iterables, i.e. any combination of
@@ -52,7 +65,8 @@ export type Flatten<T, N extends number> =
  * @category Sync+Async
  */
 export function flat<T, N extends number = 1>(
-    depth?: N
+    depth?: N,
+    skip?: (value: any, level: number) => boolean
 ): Operation<T, Flatten<T, N>>;
 
 export function flat(...args: unknown[]) {
@@ -61,7 +75,8 @@ export function flat(...args: unknown[]) {
 
 function flatSync<T>(
     iterable: Iterable<Iterable<T>>,
-    depth = 1
+    depth = 1,
+    skip?: (value: any, level: number) => false
 ): Iterable<T | Iterable<T>> {
     return {
         [$S](): Iterator<T | Iterable<T>> {
@@ -83,8 +98,11 @@ function flatSync<T>(
                             return v; // maximum depth reached
                         }
                         const i = (v.value as Iterable<T>)?.[$S]?.();
-                        if (!i) {
-                            return v; // non-iterable value
+                        if (
+                            !i ||
+                            (typeof skip === 'function' && skip(v.value, level))
+                        ) {
+                            return v; // non-iterable value or to be skipped
                         }
                         d[++level] = i; // save next iterable
                     } while (true);
@@ -96,7 +114,8 @@ function flatSync<T>(
 
 function flatAsync<T>(
     iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>,
-    depth = 1
+    depth = 1,
+    skip?: (value: any, level: number) => false
 ): AsyncIterable<T | Iterable<T> | AsyncIterable<T>> {
     type AnyValue = T | Iterator<T> | AsyncIterator<T>;
     return {
@@ -119,7 +138,11 @@ function flatAsync<T>(
                         let sync = true;
                         if (!i) {
                             i = v.value?.[$A]?.(); // then try with async
-                            if (!i) {
+                            if (
+                                !i ||
+                                (typeof skip === 'function' &&
+                                    skip(v.value, level))
+                            ) {
                                 return Promise.resolve(v); // non-iterable value
                             }
                             sync = false;
@@ -149,7 +172,11 @@ function flatAsync<T>(
                             let sync = false;
                             if (!i) {
                                 i = (a.value as Iterable<T>)?.[$S]?.(); // then try with sync
-                                if (!i) {
+                                if (
+                                    !i ||
+                                    (typeof skip === 'function' &&
+                                        skip(a.value, level))
+                                ) {
                                     return a; // non-iterable value
                                 }
                                 sync = true;
