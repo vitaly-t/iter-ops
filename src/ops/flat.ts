@@ -5,23 +5,23 @@ import {createOperation} from '../utils';
  * @internal
  */
 export type Flatten<T, N extends number> =
-// N < 0
+    // N < 0
     `${N}` extends `-${string}`
         ? T
         : // N = 0
         N extends 0
-            ? T
-            : // N = 1
-            N extends 1
-                ? T extends UnknownIterable<infer E>
-                    ? E
-                    : T
-                : // N > 20 or N is unknown
-                Decrement[number] extends Decrement[N]
-                    ? unknown
-                    : T extends UnknownIterable<infer E>
-                        ? Flatten<E, Decrement[N]>
-                        : Flatten<T, Decrement[N]>;
+        ? T
+        : // N = 1
+        N extends 1
+        ? T extends UnknownIterable<infer E>
+            ? E
+            : T
+        : // N > 20 or N is unknown
+        Decrement[number] extends Decrement[N]
+        ? unknown
+        : T extends UnknownIterable<infer E>
+        ? Flatten<E, Decrement[N]>
+        : Flatten<T, Decrement[N]>;
 
 /**
  * Expands / flattens sub-iterables up to the specified `depth` (default is 1), with optional `skip` logic.
@@ -65,7 +65,8 @@ export type Flatten<T, N extends number> =
  * @category Sync+Async
  */
 export function flat<T, N extends number = 1>(
-    depth?: N, skip?: (value: any, level: number) => boolean
+    depth?: N,
+    skip?: (value: any, level: number) => boolean
 ): Operation<T, Flatten<T, N>>;
 
 export function flat(...args: unknown[]) {
@@ -75,10 +76,10 @@ export function flat(...args: unknown[]) {
 function flatSync<T>(
     iterable: Iterable<Iterable<T>>,
     depth = 1,
-    skip = (value: any, level: number) => false
+    skip?: (value: any, level: number) => false
 ): Iterable<T | Iterable<T>> {
     return {
-        [Symbol.iterator](): Iterator<T | Iterable<T>> {
+        [$S](): Iterator<T | Iterable<T>> {
             const d: Iterator<T | Iterable<T>>[] = new Array(depth + 1);
             d[0] = iterable[$S]();
             let level = 0;
@@ -97,7 +98,10 @@ function flatSync<T>(
                             return v; // maximum depth reached
                         }
                         const i = (v.value as Iterable<T>)?.[$S]?.();
-                        if (!i || (typeof skip === 'function' && skip(v.value, level))) {
+                        if (
+                            !i ||
+                            (typeof skip === 'function' && skip(v.value, level))
+                        ) {
                             return v; // non-iterable value or to be skipped
                         }
                         d[++level] = i; // save next iterable
@@ -111,12 +115,12 @@ function flatSync<T>(
 function flatAsync<T>(
     iterable: AsyncIterable<Iterable<T> | AsyncIterable<T>>,
     depth = 1,
-    skip = (value: any, level: number) => false
+    skip?: (value: any, level: number) => false
 ): AsyncIterable<T | Iterable<T> | AsyncIterable<T>> {
     type AnyValue = T | Iterator<T> | AsyncIterator<T>;
     return {
-        [Symbol.asyncIterator](): AsyncIterator<T> {
-            const d: { i: any; sync: boolean }[] = new Array(depth + 1);
+        [$A](): AsyncIterator<T> {
+            const d: {i: any; sync: boolean}[] = new Array(depth + 1);
             d[0] = {i: iterable[$A](), sync: false};
             let level = 0;
             return {
@@ -134,7 +138,11 @@ function flatAsync<T>(
                         let sync = true;
                         if (!i) {
                             i = v.value?.[$A]?.(); // then try with async
-                            if (!i || (typeof skip === 'function' && skip(v.value, level))) {
+                            if (
+                                !i ||
+                                (typeof skip === 'function' &&
+                                    skip(v.value, level))
+                            ) {
                                 return Promise.resolve(v); // non-iterable value
                             }
                             sync = false;
@@ -144,7 +152,9 @@ function flatAsync<T>(
                     }
                     return v.then(
                         (
-                            a: IteratorResult<T | Iterable<T> | AsyncIterable<T>>
+                            a: IteratorResult<
+                                T | Iterable<T> | AsyncIterable<T>
+                            >
                         ) => {
                             if (a.done) {
                                 if (!level) {
@@ -158,11 +168,15 @@ function flatAsync<T>(
                             }
                             let i: AnyValue = (a.value as AsyncIterable<T>)?.[
                                 $A
-                                ]?.(); // first, try with async
+                            ]?.(); // first, try with async
                             let sync = false;
                             if (!i) {
                                 i = (a.value as Iterable<T>)?.[$S]?.(); // then try with sync
-                                if (!i || (typeof skip === 'function' && skip(a.value, level))) {
+                                if (
+                                    !i ||
+                                    (typeof skip === 'function' &&
+                                        skip(a.value, level))
+                                ) {
                                     return a; // non-iterable value
                                 }
                                 sync = true;
