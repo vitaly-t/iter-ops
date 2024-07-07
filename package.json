@@ -96,7 +96,7 @@
     "typedoc": "0.24.8",
     "typescript": "5.1.6"
   },
-  "packageManager": "yarn@3.2.4",
+  "packageManager": "yarn@1.22.22",
   "engines": {
     "node": ">=16"
   }
