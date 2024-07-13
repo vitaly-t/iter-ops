@@ -29,6 +29,9 @@ import {createOperation} from '../utils';
  * ```
  *
  * @category Sync+Async
+ *
+ * @see
+ *  - {@link https://github.com/vitaly-t/iter-ops-extras/blob/main/src/distinct-values.ts distinctValues}
  */
 export function distinct<T, K>(
     keySelector?: (value: T, index: number) => K

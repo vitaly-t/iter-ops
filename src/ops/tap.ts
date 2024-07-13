@@ -18,6 +18,10 @@ import {createOperation} from '../utils';
  * ```
  *
  * @category Sync+Async
+ *
+ * @see
+ *  - {@link https://github.com/vitaly-t/iter-ops-extras/blob/main/src/tap-log.ts tapLog}
+ *  - {@link https://github.com/vitaly-t/iter-ops-extras/blob/main/src/tap-once.ts tapOnce}
  */
 export function tap<T>(
     cb: (value: T, index: number, state: IterationState) => void

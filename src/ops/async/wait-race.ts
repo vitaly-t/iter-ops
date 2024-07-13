@@ -54,6 +54,7 @@ import {createOperation, throwOnSync} from '../../utils';
  *
  * @see
  *  - {@link wait}
+ *  - {@link https://github.com/vitaly-t/iter-ops-extras/blob/main/src/map-wait.ts mapWait}
  *
  * @category Async-only
  */
