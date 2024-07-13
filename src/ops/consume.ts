@@ -25,6 +25,9 @@ import {isPromiseLike} from '../typeguards';
  * Flag `sync` in the callback is `true` when the iterable is synchronous, and `false` when asynchronous.
  *
  * @category Sync+Async
+ *
+ * @see
+ *  - {@link concurrencyFork}
  */
 export function consume<T, R>(
     consumer: (data: UnknownIterable<T>, sync: boolean) => R | Promise<R>

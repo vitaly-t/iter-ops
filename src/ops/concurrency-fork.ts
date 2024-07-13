@@ -75,6 +75,9 @@ export interface IConcurrencyWork<T, R> {
  *  - It offers a more strict types control, plus generally cleaner coding style.
  *
  * @category Sync+Async
+ *
+ * @see
+ *  - {@link consume}
  */
 export function concurrencyFork<T, R = T>(
     work: IConcurrencyWork<T, R>

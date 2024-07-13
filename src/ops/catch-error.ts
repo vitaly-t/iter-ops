@@ -2,7 +2,7 @@ import {$A, $S, IErrorContext, IterationState, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Catches iteration errors (see {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}).
+ * Catches all iteration errors up the chain (see {@link https://github.com/vitaly-t/iter-ops/wiki/Error-Handling Error Handling}).
  *
  * Below is explicit error handling, by injecting `catchError` into the pipeline:
  *

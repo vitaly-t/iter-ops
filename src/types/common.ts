@@ -48,6 +48,8 @@ export interface IErrorContext<T> {
 
 /**
  * Extended Iterable.
+ *
+ * @see {@link AsyncIterableExt}
  */
 export interface IterableExt<T> extends Iterable<T> {
     /**
@@ -71,6 +73,8 @@ export interface IterableExt<T> extends Iterable<T> {
 
 /**
  * Extended Asynchronous Iterable.
+ *
+ * @see {@link IterableExt}
  */
 export interface AsyncIterableExt<T> extends AsyncIterable<T> {
     /**
