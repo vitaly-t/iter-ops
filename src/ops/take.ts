@@ -2,7 +2,7 @@ import {$A, $S, Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
- * Emits up to `count` number of values, then stops iteration.
+ * Emits up to `count` number of values, then stops the iteration.
  *
  * ```ts
  * import {pipe, take} from 'iter-ops';
