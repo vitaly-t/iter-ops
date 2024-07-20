@@ -47,7 +47,7 @@ export function hasOfType<T, K extends PropertyKey>(
 }
 
 /**
- * Determines if the value is promise-like.
+ * Determines if the value is Promise-like.
  */
 export function isPromiseLike<T, CastGeneric = unknown>(
     value: T

@@ -27,7 +27,7 @@ export default () => {
         );
         expect(await _asyncValues(output)).to.eql([undefined]);
     });
-    it('must resolve a returned promise', async () => {
+    it('must resolve a returned Promise', async () => {
         const output = pipeAsync(
             [1, 2, 3],
             aggregate(async (data) => {

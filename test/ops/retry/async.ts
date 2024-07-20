@@ -40,7 +40,7 @@ export default () => {
         }
         expect(err?.message).to.eql('Throw for value 2');
     });
-    it('must throw when failed for promise', async () => {
+    it('must throw when failed for Promise', async () => {
         const i = pipeAsync(
             source,
             retry((index, attempts) => Promise.resolve(attempts < 1))

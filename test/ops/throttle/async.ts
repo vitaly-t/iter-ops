@@ -19,7 +19,7 @@ export default () => {
             {value: 3, index: 2, state: {sum: 6}}
         ]);
     });
-    it('must throw on rejected promise', async () => {
+    it('must throw on rejected Promise', async () => {
         const i = pipe(
             _async([1]),
             throttle(() => Promise.reject(555))

@@ -49,7 +49,7 @@ export interface IValueTiming<T> {
  * const i = pipe(
  *     asyncIterable,
  *     map(a => myService.requestData(a)), // map into promises
- *     wait(), // resolve each promise
+ *     wait(), // resolve each Promise
  *     timing(t => {
  *         if(t.duration > 3000) {
  *             // took over 3s to get the value, needs investigation;

@@ -12,8 +12,8 @@ import {createOperation} from '../utils';
  *
  * const i = pipe(
  *     iterable,
- *     map(a => myService.request(a)), // map into promise
- *     wait(), // resolve each promise
+ *     map(a => myService.request(a)), // map into Promise
+ *     wait(), // resolve each Promise
  *     drain(), // drain all values
  *     onEnd(s => {
  *         console.log('duration:', s.duration);

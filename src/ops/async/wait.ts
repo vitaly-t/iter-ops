@@ -14,7 +14,7 @@ import {createOperation, throwOnSync} from '../../utils';
  * const i = pipe(
  *     toAsync(userIds), // make pipeline asynchronous
  *     map(id => myService.getUserData(id)), // map into promises
- *     wait() // resolve each promise
+ *     wait() // resolve each Promise
  * );
  *
  * for await(const user of i) {
