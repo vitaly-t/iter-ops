@@ -3,7 +3,8 @@ import {createOperation} from '../utils';
 import {isPromiseLike} from '../typeguards';
 
 /**
- * Remaps and then flattens an iterable, consistent with the logic of {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap Array.flatMap}
+ * Remaps and then flattens an iterable, similar to {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap Array.flatMap},
+ * except it flattens all iterable values, including strings.
  *
  * ```ts
  * import {pipe, flatMap} from 'iter-ops';

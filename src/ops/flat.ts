@@ -24,7 +24,7 @@ export type Flatten<T, N extends number> =
         : Flatten<T, Decrement[N]>;
 
 /**
- * Expands / flattens sub-iterables up to the specified `depth` (default is 1), with optional `skip` logic.
+ * Expands / flattens sub-iterables up to the specified `depth` (default is 1), with support for `skip` logic.
  *
  * ```ts
  * import {pipe, flat} from 'iter-ops';
@@ -61,6 +61,7 @@ export type Flatten<T, N extends number> =
  *
  * @see
  *  - {@link spread}
+ *  - {@link flatMap}
  *  - {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat Array.flat}
  * @category Sync+Async
  */
