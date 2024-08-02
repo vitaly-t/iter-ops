@@ -20,15 +20,15 @@ export default () => {
     it('must retry the number of attempts', () => {
         let count = 0;
         const i = pipe(
-            [1, 2, 3],
+            [1, 2, 3, 4, 5],
             tap(() => {
-                if (!count++) {
+                if (count++ < 3) {
                     throw 'ops!'; // throw only once
                 }
             }),
-            retry(1)
+            retry(3)
         );
-        expect([...i]).to.eql([2, 3]);
+        expect([...i]).to.eql([4, 5]);
     });
     it('must retry on callback result', () => {
         let count = 0;
