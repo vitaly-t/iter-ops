@@ -44,7 +44,7 @@ export {
 export {page} from './ops/page';
 export {reduce} from './ops/reduce';
 export {repeat} from './ops/repeat';
-export {retry} from './ops/async/retry';
+export {retry} from './ops/retry';
 export {skip} from './ops/skip';
 export {skipUntil} from './ops/skip-until';
 export {skipWhile} from './ops/skip-while';

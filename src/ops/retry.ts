@@ -1,18 +1,18 @@
-import {$A, IterationState, Operation} from '../../types';
-import {isPromiseLike} from '../../typeguards';
-import {createOperation, throwOnSync} from '../../utils';
+import {$A, $S, IterationState, Operation} from '../types';
+import {isPromiseLike} from '../typeguards';
+import {createOperation} from '../utils';
 
 /**
- * When an asynchronous iterable rejects, it retries getting the value specified number of times.
+ * When an iterable throws or rejects, it retries getting the value specified number of times.
  *
- * Note that retries deplete values prior the operator that threw the error,  and so it is often
+ * Note that retries deplete values prior the operator that threw the error, and so it is often
  * used in combination with operator {@link repeat}.
  *
  * ```ts
- * import {pipe, toAsync, tap, retry} from 'iter-ops';
+ * import {pipe, tap, retry} from 'iter-ops';
  *
  * const i = pipe(
- *     toAsync([1, 2, 3, 4, 5, 6, 7, 8, 9]),
+ *     [1, 2, 3, 4, 5, 6, 7, 8, 9],
  *     tap(value => {
  *         if (value % 2 === 0) {
  *             throw new Error(`fail-${value}`); // throw for all even numbers
@@ -21,24 +21,20 @@ import {createOperation, throwOnSync} from '../../utils';
  *     retry(1) // retry 1 time
  * );
  *
- * for await(const a of i) {
- *     console.log(a); // 1, 3, 5, 7, 9
- * }
+ * console.log(...i); //=> 1, 3, 5, 7, 9
  * ```
  *
  * Above, we end up with just odd numbers, because we do not provide any {@link repeat} logic,
  * and as a result, the `retry` simply jumps to the next value on each error.
  *
- * @throws `Error: 'Operator "retry" requires asynchronous pipeline'` when used inside a synchronous pipeline.
- *
  * @see
  *  - {@link repeat}
- * @category Async-only
+ * @category Sync+Async
  */
 export function retry<T>(attempts: number): Operation<T, T>;
 
 /**
- * When an asynchronous iterable rejects, the callback is to return the flag, indicating whether
+ * When an iterable throws or rejects, the callback is to return the flag, indicating whether
  * we should retry getting the value one more time.
  *
  * The callback is only invoked when there is a failure, and it receives:
@@ -49,11 +45,9 @@ export function retry<T>(attempts: number): Operation<T, T>;
  * Note that retries deplete values prior the operator that threw the error,
  * and so it is often used in combination with operator {@link repeat}.
  *
- * @throws `Error: 'Operator "retry" requires asynchronous pipeline'` when used inside a synchronous pipeline.
- *
  * @see
  *  - {@link repeat}
- * @category Async-only
+ * @category Sync+Async
  */
 export function retry<T>(
     cb: (
@@ -64,18 +58,52 @@ export function retry<T>(
 ): Operation<T, T>;
 
 export function retry(...args: unknown[]) {
-    return createOperation(throwOnSync('retry'), retryAsync, args);
+    return createOperation(retrySync, retryAsync, args);
+}
+
+type Retry<T> =
+    | number
+    | ((index: number, attempts: number, state: IterationState) => T);
+
+function retrySync<T>(
+    iterable: Iterable<T>,
+    retry: Retry<boolean>
+): Iterable<T> {
+    return {
+        [$S](): Iterator<T> {
+            const i = iterable[$S]();
+            const state: IterationState = {};
+            let index = 0;
+            const cb = typeof retry === 'function' && retry;
+            let attempts = 0;
+            const retriesNumber = !cb && retry > 0 ? retry : 0;
+            let leftTries = retriesNumber;
+            return {
+                next(): IteratorResult<T> {
+                    do {
+                        try {
+                            const a = i.next();
+                            index++;
+                            attempts = 0;
+                            leftTries = retriesNumber;
+                            return a;
+                        } catch (err) {
+                            const r = cb && cb(index, attempts++, state);
+                            if (r || leftTries--) {
+                                continue;
+                            }
+                            throw err; // out of attempts, re-throw
+                        }
+                    } while (true);
+                }
+            };
+        }
+    };
 }
 
 function retryAsync<T>(
     iterable: AsyncIterable<T>,
-    retry:
-        | number
-        | ((
-              index: number,
-              attempts: number,
-              state: IterationState
-          ) => boolean | Promise<boolean>)
+    retry: Retry<boolean | Promise<boolean>>
 ): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
