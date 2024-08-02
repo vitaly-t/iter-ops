@@ -1,4 +1,4 @@
-import {$A, IterationState, Operation} from '../types';
+import {$A, $S, IterationState, Operation} from '../types';
 import {isPromiseLike} from '../typeguards';
 import {createOperation} from '../utils';
 
@@ -67,12 +67,17 @@ export function retry(...args: unknown[]) {
     return createOperation(retrySync, retryAsync, args);
 }
 
-type Retry<T> = number | ((index: number, attempts: number, state: IterationState) => T);
+type Retry<T> =
+    | number
+    | ((index: number, attempts: number, state: IterationState) => T);
 
-function retrySync<T>(iterable: Iterable<T>, retry: Retry<boolean>): Iterable<T> {
+function retrySync<T>(
+    iterable: Iterable<T>,
+    retry: Retry<boolean>
+): Iterable<T> {
     return {
-        [Symbol.iterator](): Iterator<T> {
-            const i = iterable[Symbol.iterator]();
+        [$S](): Iterator<T> {
+            const i = iterable[$S]();
             const state: IterationState = {};
             let index = 0;
             const cb = typeof retry === 'function' && retry;
@@ -102,7 +107,10 @@ function retrySync<T>(iterable: Iterable<T>, retry: Retry<boolean>): Iterable<T>
     };
 }
 
-function retryAsync<T>(iterable: AsyncIterable<T>, retry: Retry<boolean | Promise<boolean>>): AsyncIterable<T> {
+function retryAsync<T>(
+    iterable: AsyncIterable<T>,
+    retry: Retry<boolean | Promise<boolean>>
+): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
