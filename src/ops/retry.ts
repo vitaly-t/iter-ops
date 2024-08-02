@@ -1,6 +1,6 @@
-import {$A, IterationState, Operation} from '../../types';
-import {isPromiseLike} from '../../typeguards';
-import {createOperation, throwOnSync} from '../../utils';
+import {$A, IterationState, Operation} from '../types';
+import {isPromiseLike} from '../typeguards';
+import {createOperation} from '../utils';
 
 /**
  * When an asynchronous iterable rejects, it retries getting the value specified number of times.
@@ -64,19 +64,45 @@ export function retry<T>(
 ): Operation<T, T>;
 
 export function retry(...args: unknown[]) {
-    return createOperation(throwOnSync('retry'), retryAsync, args);
+    return createOperation(retrySync, retryAsync, args);
 }
 
-function retryAsync<T>(
-    iterable: AsyncIterable<T>,
-    retry:
-        | number
-        | ((
-              index: number,
-              attempts: number,
-              state: IterationState
-          ) => boolean | Promise<boolean>)
-): AsyncIterable<T> {
+type Retry<T> = number | ((index: number, attempts: number, state: IterationState) => T);
+
+function retrySync<T>(iterable: Iterable<T>, retry: Retry<boolean>): Iterable<T> {
+    return {
+        [Symbol.iterator](): Iterator<T> {
+            const i = iterable[Symbol.iterator]();
+            const state: IterationState = {};
+            let index = 0;
+            const cb = typeof retry === 'function' && retry;
+            let attempts = 0;
+            const retriesNumber = !cb && retry > 0 ? retry : 0;
+            let leftTries = retriesNumber;
+            return {
+                next(): IteratorResult<T> {
+                    do {
+                        try {
+                            const a = i.next();
+                            index++;
+                            attempts = 0;
+                            leftTries = retriesNumber;
+                            return a;
+                        } catch (err) {
+                            const r = cb && cb(index, attempts++, state);
+                            if (r || leftTries--) {
+                                continue;
+                            }
+                            throw err; // out of attempts, re-throw
+                        }
+                    } while (true);
+                }
+            };
+        }
+    };
+}
+
+function retryAsync<T>(iterable: AsyncIterable<T>, retry: Retry<boolean | Promise<boolean>>): AsyncIterable<T> {
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
