@@ -19,7 +19,7 @@
 <ul class="tsd-signatures">
 <li class="tsd-signature tsd-anchor-link" id="flat"><span class="tsd-kind-call-signature">flat</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">N</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">depth</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">skip</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/Operation.html" class="tsd-signature-type tsd-kind-interface">Operation</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type ">Flatten</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">N</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><a href="#flat" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><g stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icon-anchor"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></g></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Expands / flattens sub-iterables up to the specified <code>depth</code> (default is 1), with optional <code>skip</code> logic.</p>
+<div class="tsd-comment tsd-typography"><p>Expands / flattens sub-iterables up to the specified <code>depth</code> (default is 1), with support for <code>skip</code> logic.</p>
 <pre><code class="language-ts"><span class="hl-4">import</span><span class="hl-0"> {</span><span class="hl-2">pipe</span><span class="hl-0">, </span><span class="hl-2">flat</span><span class="hl-0">} </span><span class="hl-4">from</span><span class="hl-0"> </span><span class="hl-6">&#39;iter-ops&#39;</span><span class="hl-0">;</span><br/><br/><span class="hl-3">const</span><span class="hl-0"> </span><span class="hl-7">i</span><span class="hl-0"> = </span><span class="hl-1">pipe</span><span class="hl-0">(</span><br/><span class="hl-0">    [</span><span class="hl-6">&#39;one&#39;</span><span class="hl-0">, [</span><span class="hl-8">2</span><span class="hl-0">, </span><span class="hl-8">3</span><span class="hl-0">, [</span><span class="hl-8">4</span><span class="hl-0">, </span><span class="hl-8">5</span><span class="hl-0">]]],</span><br/><span class="hl-0">    </span><span class="hl-1">flat</span><span class="hl-0">(</span><span class="hl-8">2</span><span class="hl-0">)</span><br/><span class="hl-0">);</span><br/><br/><span class="hl-2">console</span><span class="hl-0">.</span><span class="hl-1">log</span><span class="hl-0">(...</span><span class="hl-2">i</span><span class="hl-0">); </span><span class="hl-5">//=&gt; &#39;o&#39;, &#39;n&#39;, &#39;e&#39;, 2, 3, 4, 5</span>
 </code><button>Copy</button></pre>
 <p>It implements the logic similar to <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat">Array.flat</a>,
@@ -66,11 +66,12 @@ synchronous and asynchronous sub-iterables.</p>
 <div class="tsd-comment tsd-typography">
 <h4>See</h4><ul>
 <li><a href="spread.html" class="tsd-kind-function">spread</a></li>
+<li><a href="flatMap.html" class="tsd-kind-function">flatMap</a></li>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat">Array.flat</a></li>
 </ul>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/vitaly-t/iter-ops/blob/975cb37b/src/ops/flat.ts#L67">ops/flat.ts:67</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/vitaly-t/iter-ops/blob/5060a5f1/src/ops/flat.ts#L68">ops/flat.ts:68</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
