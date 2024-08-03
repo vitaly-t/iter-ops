@@ -35,7 +35,27 @@ export function retry<T>(attempts: number): Operation<T, T>;
 
 /**
  * When an iterable throws or rejects, the callback is to return the flag, indicating whether
- * we should retry getting the value one more time.
+ * we should retry getting the value one more time. When inside asynchronous pipeline,
+ * the callback can also return `Promise<boolean>`.
+ *
+ * ```ts
+ * import {pipe, tap, retry} from 'iter-ops';
+ *
+ * const i = pipe(
+ *     [1, 2, 3, 4, 5, 6, 7, 8, 9],
+ *     tap(value => {
+ *         if (value % 2 === 0) {
+ *             throw new Error(`fail-${value}`); // throw for all even numbers
+ *         }
+ *     }),
+ *     retry((i, a, s) => {
+ *         // i = index, a = attempts, s = state
+ *         return a < 3; // make up to 3 retry attempts
+ *     })
+ * );
+ *
+ * console.log(...i); //=> 1, 3, 5, 7, 9
+ * ```
  *
  * The callback is only invoked when there is a failure, and it receives:
  * - `index` - index of the iterable value that we failed to acquire
