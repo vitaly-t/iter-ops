@@ -58,7 +58,7 @@ export function retry<T>(attempts: number): Operation<T, T>;
  * ```
  *
  * The callback is only invoked when there is a failure, and it receives:
- * - `index` - index of the iterable value that we failed to acquire
+ * - `index` - index of the iterable value that threw/rejected
  * - `attempts` - number of retry attempts made so far (starts with 0)
  * - `state` - state for the entire iteration session
  *
@@ -108,7 +108,7 @@ function retrySync<T>(
                             leftTries = retriesNumber;
                             return a;
                         } catch (err) {
-                            const r = cb && cb(index, attempts++, state);
+                            const r = cb && cb(index++, attempts++, state);
                             if (!r && !leftTries--) {
                                 throw err;
                             }
@@ -147,7 +147,7 @@ function retryAsync<T>(
                                 const b = (f: any) =>
                                     f ? this.next() : Promise.reject(e);
                                 const r = cb(
-                                    index,
+                                    index++,
                                     attempts++,
                                     state
                                 ) as Promise<boolean>;
