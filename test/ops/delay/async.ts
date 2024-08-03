@@ -29,16 +29,16 @@ export default () => {
     describe('for negative timeouts', () => {
         it('must reuse the source iterable', async () => {
             const source = _async([1, 2, 3]);
-            let lastIterable;
+            let destIterable;
             const output = pipe(
                 source,
                 delay(-100),
                 consume((c) => {
-                    lastIterable = c;
+                    destIterable = c;
                 })
             );
             await _asyncValues(output);
-            expect(lastIterable).to.eq(source);
+            expect(destIterable).to.eq(source);
         });
         it('must not add delay for callback result', async () => {
             const output = pipe(
