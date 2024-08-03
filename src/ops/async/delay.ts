@@ -28,8 +28,10 @@ import {createOperation, throwOnSync} from '../../utils';
  * @throws `Error: 'Operator "delay" requires asynchronous pipeline'` when used inside a synchronous pipeline.
  *
  * @see
+ *  - {@link https://github.com/vitaly-t/iter-ops-extras/blob/main/src/interval.ts interval}
  *  - {@link throttle}
  *  - {@link timeout}
+ *
  * @category Async-only
  */
 export function delay<T>(timeout: number): Operation<T, T>;
