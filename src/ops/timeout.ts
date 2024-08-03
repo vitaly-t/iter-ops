@@ -55,8 +55,8 @@ import {createOperation} from '../utils';
  *
  * @param ms - Timeout in milliseconds. Passing in a negative number deactivates the timeout.
  *
- * @param [cb] - Notification of when iteration stops due to the timeout,
- * with parameter `count` - the number of items processed before timeout.
+ * @param [cb] - Notification of when iteration stopped due to the timeout,
+ * with parameter `count` - the number of items processed before the timeout.
  *
  * @see
  *   - {@link delay}
