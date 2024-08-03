@@ -83,8 +83,8 @@ function delayAsync<T>(
                         return delay < 0
                             ? a
                             : new Promise((resolve) =>
-                                setTimeout(() => resolve(a), delay)
-                            );
+                                  setTimeout(() => resolve(a), delay)
+                              );
                     });
                 }
             };
