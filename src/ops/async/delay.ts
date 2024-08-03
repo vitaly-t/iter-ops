@@ -62,12 +62,12 @@ function delayAsync<T>(
         | number
         | ((value: T, index: number, state: IterationState) => number)
 ): AsyncIterable<T> {
+    if (typeof timeout === 'number' && timeout < 0) {
+        return iterable; // just reuse the source iterable
+    }
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
-            if (typeof timeout === 'number' && timeout < 0) {
-                return i; // use no delay;
-            }
             const cb = typeof timeout === 'function' && timeout;
             const state: IterationState = {};
             let index = 0;
