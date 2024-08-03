@@ -70,12 +70,15 @@ function repeatSync<T>(
               state: IterationState
           ) => boolean)
 ): Iterable<T> {
+    if (typeof count === 'number' && count < 1) {
+        return iterable;
+    }
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
             const state: IterationState = {};
             const cb = typeof count === 'function' && count;
-            const initialCount = !cb && count > 0 ? count : 0;
+            const initialCount = !cb && count;
             let copyCount = initialCount;
             let index = -1,
                 copied = 0,
@@ -120,12 +123,15 @@ function repeatAsync<T>(
               state: IterationState
           ) => boolean | Promise<boolean>)
 ): AsyncIterable<T> {
+    if (typeof count === 'number' && count < 1) {
+        return iterable;
+    }
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
             const state: IterationState = {};
             const cb = typeof count === 'function' && count;
-            const initialCount = !cb && count > 0 ? count : 0;
+            const initialCount = !cb && count;
             let copyCount = initialCount;
             let index = -1,
                 copied = 0,
