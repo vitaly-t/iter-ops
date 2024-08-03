@@ -2,7 +2,7 @@ import {$A, Operation, IterationState} from '../../types';
 import {createOperation, throwOnSync} from '../../utils';
 
 /**
- * Delays each value by the specified timeout.
+ * Delays each value by the specified timeout (including the first one).
  * When the timeout is a negative number, no delay added.
  *
  * ```ts
@@ -19,6 +19,11 @@ import {createOperation, throwOnSync} from '../../utils';
  *     console.log(a); //=> 1, 2, 3, 4, 5 (with 1s delay)
  * }
  * ```
+ *
+ * Note that passing in `timeout = 0`, or returning the same from the callback,
+ * still uses the `timeout` function, just like `setTimeout(0)`, which can be used
+ * for throttling. In order to fully deactivate it, you need to pass in a negative
+ * `timeout` value.
  *
  * @throws `Error: 'Operator "delay" requires asynchronous pipeline'` when used inside a synchronous pipeline.
  *

@@ -76,13 +76,13 @@ function timeoutSync<T>(
     ms: number,
     cb?: (count: number) => void
 ): Iterable<T> {
+    if (ms < 0) {
+        // timeout is inactive, reuse the source iterable instead:
+        return iterable;
+    }
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
-            if (ms < 0) {
-                // timeout is inactive;
-                return i;
-            }
             let count = 0; // number of items processed
             let start: number;
             let done = false;
@@ -113,13 +113,13 @@ function timeoutAsync<T>(
     ms: number,
     cb?: (index: number) => void
 ): AsyncIterable<T> {
+    if (ms < 0) {
+        // timeout is inactive, reuse the source iterable instead:
+        return iterable;
+    }
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
-            if (ms < 0) {
-                // timeout is inactive;
-                return i;
-            }
             let count = 0; // number of items processed
             let done = false;
             const resolutions: ((res: IteratorResult<any>) => void)[] = [];

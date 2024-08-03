@@ -1,29 +1,36 @@
 import {_asyncValues, expect} from '../../header';
-import {pipeAsync, delay, timeout, tap} from '../../../src';
+import {
+    pipeAsync,
+    delay,
+    timeout,
+    tap,
+    IterationState,
+    Operation
+} from '../../../src';
 
 export default () => {
     it('must end iteration after timeout', async () => {
-        const i = pipeAsync([1, 2, 3], delay(10), timeout(35));
+        const i = pipeAsync([1, 2, 3], interval(10), timeout(19));
         expect(await _asyncValues(i)).to.eql([1, 2]);
     });
     it('must emit nothing when timeout does not permit', async () => {
         let count: any;
         const i = pipeAsync(
-            [1, 2, 3],
-            delay(10),
-            timeout(1, (c) => {
+            [11, 22, 33],
+            interval(10),
+            timeout(3, (c) => {
                 count = c;
             })
         );
-        expect(await _asyncValues(i)).to.eql([]);
-        expect(count).to.eql(0);
+        expect(await _asyncValues(i)).to.eql([11]);
+        expect(count).to.eql(1);
     });
     it('must invoke callback on timeout', async () => {
         let count;
         const i = pipeAsync(
             [1, 2, 3],
-            delay(10),
-            timeout(29, (c) => {
+            interval(10),
+            timeout(19, (c) => {
                 count = c;
             })
         );
@@ -49,7 +56,7 @@ export default () => {
         let e: any;
         const i = pipeAsync(
             [1, 2, 3],
-            delay(10),
+            interval(10),
             timeout(1, () => {
                 throw new Error('timeout');
             })
@@ -80,3 +87,18 @@ export default () => {
         expect(count).to.be.undefined;
     });
 };
+
+/**
+ * Helper borrowed from iter-ops-extras, to avoid delaying first value in tests;
+ * https://github.com/vitaly-t/iter-ops-extras/blob/main/src/interval.ts
+ */
+function interval<T>(
+    timeout:
+        | number
+        | ((value: T, index: number, state: IterationState) => number)
+): Operation<T, T> {
+    if (typeof timeout === 'function') {
+        return delay((v, i, s) => (i ? timeout(v, i, s) : -1));
+    }
+    return delay((_, i) => (i ? timeout : -1));
+}
