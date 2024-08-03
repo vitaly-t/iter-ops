@@ -33,8 +33,10 @@ import {isPromiseLike} from '../typeguards';
  */
 export function concat<T, Vs extends readonly unknown[]>(
     ...values: Vs
-): Operation<T,
-    T | (Vs[number] extends UnknownIterableOrIterator<infer U> ? U : never)>;
+): Operation<
+    T,
+    T | (Vs[number] extends UnknownIterableOrIterator<infer U> ? U : never)
+>;
 
 export function concat(...args: unknown[]) {
     return createOperation(concatSync, concatAsync, args);
@@ -116,7 +118,7 @@ function concatAsync<T>(
                             typeof v?.next === 'function'
                                 ? v
                                 : v?.[Symbol.iterator]?.() ||
-                                v?.[Symbol.asyncIterator]?.();
+                                  v?.[Symbol.asyncIterator]?.();
                         start = !k;
                         if (start) {
                             return Promise.resolve({value: v, done: false});
