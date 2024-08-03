@@ -1,5 +1,5 @@
 import {_async, _asyncValues, expect} from '../../header';
-import {pipe, delay} from '../../../src';
+import {pipe, delay, consume} from '../../../src';
 
 export default () => {
     it('must emit after count', async () => {
@@ -26,14 +26,19 @@ export default () => {
         const duration = Date.now() - start;
         expect(duration).to.be.lessThan(10);
     });
-
-    describe('for negative timeout', () => {
-        it('must not add delay for direct number', async () => {
-            const output = pipe(_async([1]), delay(-100));
-            const start = Date.now();
+    describe('for negative timeouts', () => {
+        it('must reuse the source iterable', async () => {
+            const source = _async([1, 2, 3]);
+            let lastIterable;
+            const output = pipe(
+                source,
+                delay(-100),
+                consume((c) => {
+                    lastIterable = c;
+                })
+            );
             await _asyncValues(output);
-            const duration = Date.now() - start;
-            expect(duration).to.be.lessThan(10);
+            expect(lastIterable).to.eq(source);
         });
         it('must not add delay for callback result', async () => {
             const output = pipe(
