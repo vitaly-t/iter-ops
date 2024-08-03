@@ -89,6 +89,10 @@ function retrySync<T>(
     iterable: Iterable<T>,
     retry: Retry<boolean>
 ): Iterable<T> {
+    if (typeof retry === 'number' && retry < 1) {
+        // reuse the source when repeat is not needed;
+        return iterable;
+    }
     return {
         [$S](): Iterator<T> {
             const i = iterable[$S]();
@@ -124,6 +128,10 @@ function retryAsync<T>(
     iterable: AsyncIterable<T>,
     retry: Retry<boolean | Promise<boolean>>
 ): AsyncIterable<T> {
+    if (typeof retry === 'number' && retry < 1) {
+        // reuse the source when repeat is not needed;
+        return iterable;
+    }
     return {
         [$A](): AsyncIterator<T> {
             const i = iterable[$A]();
