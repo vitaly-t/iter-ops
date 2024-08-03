@@ -89,10 +89,9 @@ function retrySync<T>(
                             return a;
                         } catch (err) {
                             const r = cb && cb(index, attempts++, state);
-                            if (r || leftTries--) {
-                                continue;
+                            if (!r && !leftTries--) {
+                                throw err;
                             }
-                            throw err; // out of attempts, re-throw
                         }
                     } while (true);
                 }
