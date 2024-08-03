@@ -22,8 +22,9 @@ import {createOperation, throwOnSync} from '../../utils';
  *
  * Note that passing in `timeout = 0`, or returning the same from the callback,
  * still uses the `timeout` function, just like `setTimeout(0)`, which can be used
- * for throttling. In order to fully deactivate it, you need to pass in a negative
- * `timeout` value.
+ * for throttling. In order to fully deactivate, it needs a negative `timeout`.
+ *
+ * If you do not want to delay the first value, check out {@link https://github.com/vitaly-t/iter-ops-extras/blob/main/src/interval.ts interval}.
  *
  * @throws `Error: 'Operator "delay" requires asynchronous pipeline'` when used inside a synchronous pipeline.
  *
@@ -82,8 +83,8 @@ function delayAsync<T>(
                         return delay < 0
                             ? a
                             : new Promise((resolve) =>
-                                  setTimeout(() => resolve(a), delay)
-                              );
+                                setTimeout(() => resolve(a), delay)
+                            );
                     });
                 }
             };
