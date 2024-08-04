@@ -1,6 +1,6 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "name": "ITER-OPS v3.3.0",
+  "name": "ITER-OPS v3.4.0",
   "out": "../iter-ops-docs",
   "excludeExternals": true,
   "excludePrivate": true,
@@ -11,5 +11,5 @@
   "intentionallyNotExported": ["Flatten"],
   "hideGenerator": true,
   "customCss": "./typedoc.css",
-  "exclude": ["./test/*.ts"]
+  "exclude": ["./test/**/*.ts"]
 }
