@@ -3,7 +3,7 @@ import {pipe, delay, onEnd, type IIterationSummary} from '../../../src';
 
 export default () => {
     it('must notify for non-empty iterables', async () => {
-        let s = {} as typeof IIterationSummary<any>;
+        let s = {} as IIterationSummary<any>;
         const delays = [10, 20, 30, 5];
         const i = pipe(
             _async([10, 20, 30, 5]),
@@ -21,7 +21,7 @@ export default () => {
         expect(s.duration.min).not.to.be.undefined;
     });
     it('must measure timing from start', async () => {
-        let s = {} as typeof IIterationSummary<any>;
+        let s = {} as IIterationSummary<any>;
         const i = pipe(
             _async([1]),
             delay(10),
@@ -33,7 +33,7 @@ export default () => {
         expect(s.duration.total).to.be.greaterThanOrEqual(10);
     });
     it('must notify for empty iterables', async () => {
-        let s = {} as typeof IIterationSummary<any>;
+        let s = {} as IIterationSummary<any>;
         const i = pipe(
             _async([]),
             onEnd((info) => {

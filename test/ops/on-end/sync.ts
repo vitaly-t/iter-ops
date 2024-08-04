@@ -3,7 +3,7 @@ import {pipe, onEnd, type IIterationSummary} from '../../../src';
 
 export default () => {
     it('must notify for non-empty iterables', () => {
-        let s = {} as typeof IIterationSummary<any>;
+        let s = {} as IIterationSummary<any>;
         const i = pipe(
             [10, 20, 30],
             onEnd((info) => {
@@ -19,7 +19,7 @@ export default () => {
         expect(s.duration.min).not.to.be.undefined;
     });
     it('must notify for empty iterables', () => {
-        let s = {} as typeof IIterationSummary<any>;
+        let s = {} as IIterationSummary<any>;
         const i = pipe(
             [],
             onEnd((info) => {
