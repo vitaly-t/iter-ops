@@ -1,6 +1,6 @@
 import {expectType} from 'tsd';
 
-import {AsyncIterableExt, every, pipe} from '../../../../src';
+import {type AsyncIterableExt, every, pipe} from '../../../../src';
 
 declare const iterableNumber: AsyncIterable<number>;
 

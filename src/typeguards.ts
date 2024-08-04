@@ -1,6 +1,4 @@
-import type {TypeOfTag} from 'typescript';
-
-import {$A, $S, TypedArray, UnknownIterator} from './types';
+import {$A, $S, type TypedArray, type UnknownIterator} from './types';
 
 /**
  * Determines if the value is a non-null object.
@@ -26,7 +24,6 @@ export function hasOfType<T, K extends PropertyKey>(
     object: T,
     key: K,
     type: 'function'
-    // eslint-disable-next-line @typescript-eslint/ban-types -- `Function` is the best that we can determine here.
 ): object is T & Record<K, Function>;
 
 /**
@@ -41,7 +38,15 @@ export function hasOfType<T, K extends PropertyKey>(
 export function hasOfType<T, K extends PropertyKey>(
     object: T,
     key: K,
-    type: TypeOfTag
+    type:
+        | 'string'
+        | 'number'
+        | 'bigint'
+        | 'boolean'
+        | 'symbol'
+        | 'undefined'
+        | 'object'
+        | 'function'
 ): object is T & Record<K, unknown> {
     return has(object, key) && typeof object[key] === type;
 }

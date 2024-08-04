@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist/web/",
     "sourceMap": true,
-    "target": "ES2015"
+    "target": "ES2017",
+    "declaration": false,
   }
 }

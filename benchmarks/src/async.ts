@@ -1,6 +1,6 @@
 import {testIterOps} from './tests/iter-ops';
 import {testRXJS} from './tests/rxjs';
-import {toAsync} from '../../dist';
+import {toAsync} from '../../';
 
 // tslint:disable:no-console
 
@@ -16,8 +16,8 @@ const input: AsyncIterable<number> = {
     [Symbol.asyncIterator](): AsyncIterator<number> {
         const i = data.values();
         return {
-            async next(): Promise<IteratorResult<number>> {
-                return i.next();
+            next(): Promise<IteratorResult<number>> {
+                return Promise.resolve(i.next());
             }
         };
     }

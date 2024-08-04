@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {IValueTiming, pipe, timing} from '../../../src';
+import {type IValueTiming, pipe, timing} from '../../../src';
 
 export default () => {
     it('must emit correct timings', () => {

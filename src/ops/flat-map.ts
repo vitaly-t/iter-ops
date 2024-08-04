@@ -1,4 +1,10 @@
-import {$A, $S, IterationState, Operation, UnknownIterable} from '../types';
+import {
+    $A,
+    $S,
+    type IterationState,
+    type Operation,
+    type UnknownIterable
+} from '../types';
 import {createOperation} from '../utils';
 import {isPromiseLike} from '../typeguards';
 

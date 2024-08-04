@@ -1,6 +1,6 @@
 import {expectType} from 'tsd';
 
-import {flatMap, IterableExt, pipeSync} from '../../../../src';
+import {flatMap, type IterableExt, pipeSync} from '../../../../src';
 
 declare const iterableNumber: Iterable<Iterable<number>>;
 declare const iterableEntries: IterableIterator<[string, number]>;

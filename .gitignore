@@ -13,6 +13,7 @@ dist/
 docs/
 **/package-lock.json
 **/*.js
+!eslint.config.js
 **/*.d.ts
 !test/**/types/index.d.ts
 *.tsbuildinfo

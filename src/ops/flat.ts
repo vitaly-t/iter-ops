@@ -1,4 +1,10 @@
-import {$A, $S, Decrement, Operation, UnknownIterable} from '../types';
+import {
+    $A,
+    $S,
+    type Decrement,
+    type Operation,
+    type UnknownIterable
+} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -9,19 +15,19 @@ export type Flatten<T, N extends number> =
     `${N}` extends `-${string}`
         ? T
         : // N = 0
-        N extends 0
-        ? T
-        : // N = 1
-        N extends 1
-        ? T extends UnknownIterable<infer E>
-            ? E
-            : T
-        : // N > 20 or N is unknown
-        Decrement[number] extends Decrement[N]
-        ? unknown
-        : T extends UnknownIterable<infer E>
-        ? Flatten<E, Decrement[N]>
-        : Flatten<T, Decrement[N]>;
+          N extends 0
+          ? T
+          : // N = 1
+            N extends 1
+            ? T extends UnknownIterable<infer E>
+                ? E
+                : T
+            : // N > 20 or N is unknown
+              Decrement[number] extends Decrement[N]
+              ? unknown
+              : T extends UnknownIterable<infer E>
+                ? Flatten<E, Decrement[N]>
+                : Flatten<T, Decrement[N]>;
 
 /**
  * Expands / flattens sub-iterables up to the specified `depth` (default is 1), with support for `skip` logic.

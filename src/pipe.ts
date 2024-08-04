@@ -1,10 +1,10 @@
 import {
     $A,
     $S,
-    UnknownIterable,
-    AsyncIterableExt,
-    IterableExt,
-    Operation
+    type UnknownIterable,
+    type AsyncIterableExt,
+    type IterableExt,
+    type Operation
 } from './types';
 import {toAsync} from './helpers';
 import {catchError} from './ops/catch-error';

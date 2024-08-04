@@ -1,4 +1,10 @@
-import {$A, $S, IErrorContext, IterationState, Operation} from '../types';
+import {
+    $A,
+    $S,
+    type IErrorContext,
+    type IterationState,
+    type Operation
+} from '../types';
 import {createOperation} from '../utils';
 
 /**

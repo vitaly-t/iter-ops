@@ -1,4 +1,4 @@
-import {$A, Operation} from '../../types';
+import {$A, type Operation} from '../../types';
 import {isPromiseLike} from '../../typeguards';
 import {createOperation, throwOnSync} from '../../utils';
 
@@ -114,6 +114,7 @@ export function waitRaceAsync<T>(
                             },
                             (err) => {
                                 // handle rejections from calling `i.next()`
+                                // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                                 resolvers.shift()?.(Promise.reject(err));
                                 finished = true;
                             }

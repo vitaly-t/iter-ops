@@ -3,7 +3,8 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist/",
-    "target": "ES2018"
+    "target": "ES2018",
+    "declaration": true
   },
   "include": ["./src"]
 }

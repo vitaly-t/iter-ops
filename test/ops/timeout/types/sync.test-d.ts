@@ -1,6 +1,6 @@
 import {expectType} from 'tsd';
 
-import {timeout, pipe, IterableExt} from '../../../../src';
+import {timeout, pipe, type IterableExt} from '../../../../src';
 
 declare const iterableNumber: Iterable<string>;
 

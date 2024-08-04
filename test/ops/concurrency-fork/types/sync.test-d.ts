@@ -1,6 +1,6 @@
 import {expectType} from 'tsd';
 
-import {IterableExt, pipe, concurrencyFork} from '../../../../src';
+import {type IterableExt, pipe, concurrencyFork} from '../../../../src';
 
 declare const iterableNumber: Iterable<number>;
 

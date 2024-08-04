@@ -1,8 +1,8 @@
 import {
-    UnknownIterable,
-    UnknownIterator,
-    UnknownIterableOrIterator,
-    Operation,
+    type UnknownIterable,
+    type UnknownIterator,
+    type UnknownIterableOrIterator,
+    type Operation,
     $S,
     $A
 } from '../types';
@@ -169,8 +169,8 @@ function zipAsync<T>(
                     typeof v[$S] === 'function'
                         ? v[$S]()
                         : typeof v[$A] === 'function'
-                        ? v[$A]()
-                        : v
+                          ? v[$A]()
+                          : v
                 )
             ];
             const errIterator = validateZipIterators(false, list);
