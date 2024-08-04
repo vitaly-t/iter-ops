@@ -25,8 +25,8 @@ Running tests separately is recommended, or else results may become skewed.
 
 ![image](https://github.com/user-attachments/assets/1ec6bff9-c849-4867-8a91-170553661dd3)
 
--   Testing against `rxjs` synchronous pipeline - we get ~2.5x times better performance
--   Testing against `rxjs` with a single empty subscription - we get ~5x better performance
+-   Testing against `rxjs` synchronous pipeline - we get ~1.85x times better performance
+-   Testing against `rxjs` with a single empty subscription - we get ~4.46x better performance
 
 ![image](https://github.com/user-attachments/assets/193cc14c-92b0-4cd0-937d-6914a24b57b7)
 
@@ -35,21 +35,9 @@ iterable is. This makes it difficult to test objectively. On one hand, `iter-ops
 has embedded optimization for wrapping an asynchronous iterable, so if we test that against a standard async iterable
 for `rxjs`, we get the result as above:
 
--   Testing against `rxjs` asynchronous pipeline, we get ~7x times better performance
--   Testing against `rxjs` with a single empty subscription - we get ~15x better performance
+- Testing against `rxjs` asynchronous pipeline, we went from ~7x better performance (in RxJs v6) to ~0.5x performance
+  against the latest RxJs v7.
+- Testing against `rxjs` with a single empty subscription - we went from ~15x better performance (in RxJs v6), to just ~2x
+  better performance against the latest RxJs v7
 
-However, if we optimize the source iterable similar to how `iter-ops` does it, then figures become very comparative.
-
-### Conclusions
-
-This library performs about 2.5x faster than `rxjs` synchronous pipeline. However, just as you add a single subscription
-in `rxjs` (
-which is inevitable with `rxjs`), then `iter-ops` performance is about 5x times better. So ultimately, this library can
-process synchronous iterables about 5x times faster than synchronous `rxjs`.
-
-For the asynchronous test, even though we do have very impressive results versus `rxjs`, those for the most part depend
-on how fast the source iterable is. Library `iter-ops` does come with some good performance optimization for wrapping
-asynchronous iterables, which we achieve by using [toAsync]. However, it is possible to optimize an iterable for `rxjs`
-separately. Therefore, it is nearly impossible to draw the line, in how to define an objective test for this.
-
-[toAsync]: https://vitaly-t.github.io/iter-ops/functions/toAsync
+The above points at tremendous performance optimizations done in v7 of RxJs.
