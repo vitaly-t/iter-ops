@@ -1,6 +1,11 @@
 import {expectType} from 'tsd';
 
-import {IIndexedValue, indexBy, IterableExt, pipe} from '../../../../src';
+import {
+    type IIndexedValue,
+    indexBy,
+    type IterableExt,
+    pipe
+} from '../../../../src';
 
 declare const iterableString: Iterable<string>;
 

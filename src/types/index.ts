@@ -1,4 +1,4 @@
-export {
+export type {
     IErrorContext,
     IterableExt,
     AsyncIterableExt,
@@ -12,7 +12,7 @@ export {
     TypedArray
 } from './common';
 
-export {Decrement} from './utils';
+export type {Decrement} from './utils';
 
 /**
  * These are for code abbreviation + smaller bundles:

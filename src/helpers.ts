@@ -8,7 +8,7 @@ import {
     isIndexed,
     isArrayLike
 } from './typeguards';
-import {$A, $S, UnknownIterable} from './types';
+import {$A, $S, type UnknownIterable} from './types';
 import {indexedAsyncIterable} from './utils';
 
 /**

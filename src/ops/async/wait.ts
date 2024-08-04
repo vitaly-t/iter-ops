@@ -1,4 +1,4 @@
-import {$A, Operation} from '../../types';
+import {$A, type Operation} from '../../types';
 import {isPromiseLike} from '../../typeguards';
 import {createOperation, throwOnSync} from '../../utils';
 

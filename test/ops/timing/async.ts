@@ -1,5 +1,5 @@
 import {_async, _asyncValues, expect} from '../../header';
-import {IValueTiming, pipe, timing, delay} from '../../../src';
+import {type IValueTiming, pipe, timing, delay} from '../../../src';
 
 export default () => {
     it('must emit correct timings', async () => {

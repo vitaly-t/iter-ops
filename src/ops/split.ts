@@ -1,4 +1,4 @@
-import {$A, $S, IterationState, Operation} from '../types';
+import {$A, $S, type IterationState, type Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -178,15 +178,15 @@ function splitSync<T>(
                 ? (options?.carryStart as number) < 0
                     ? -1
                     : (options?.carryStart as number) > 0
-                    ? 1
-                    : 0
+                      ? 1
+                      : 0
                 : 0;
             const carryEnd = options?.carryEnd
                 ? (options?.carryEnd as number) < 0
                     ? -1
                     : (options?.carryEnd as number) > 0
-                    ? 1
-                    : 0
+                      ? 1
+                      : 0
                 : 0;
             const toggle = !!options?.toggle;
 
@@ -280,15 +280,15 @@ function splitAsync<T>(
                 ? (options?.carryStart as number) < 0
                     ? -1
                     : (options?.carryStart as number) > 0
-                    ? 1
-                    : 0
+                      ? 1
+                      : 0
                 : 0;
             const carryEnd = options?.carryEnd
                 ? (options?.carryEnd as number) < 0
                     ? -1
                     : (options?.carryEnd as number) > 0
-                    ? 1
-                    : 0
+                      ? 1
+                      : 0
                 : 0;
             const toggle = !!options?.toggle;
 

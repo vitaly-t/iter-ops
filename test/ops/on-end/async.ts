@@ -1,5 +1,5 @@
 import {_async, _asyncValues, expect} from '../../header';
-import {pipe, delay, onEnd, IIterationSummary} from '../../../src';
+import {pipe, delay, onEnd, type IIterationSummary} from '../../../src';
 
 export default () => {
     it('must notify for non-empty iterables', async () => {

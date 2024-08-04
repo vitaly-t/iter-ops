@@ -4,8 +4,8 @@ import {
     delay,
     timeout,
     tap,
-    IterationState,
-    Operation
+    type IterationState,
+    type Operation
 } from '../../../src';
 
 export default () => {

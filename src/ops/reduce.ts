@@ -1,5 +1,5 @@
 import {isPromiseLike} from '../typeguards';
-import {$A, $S, IterationState, Operation} from '../types';
+import {$A, $S, type IterationState, type Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**

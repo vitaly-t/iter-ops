@@ -1,4 +1,4 @@
-import {$A, Operation, IterationState} from '../../types';
+import {$A, type Operation, type IterationState} from '../../types';
 import {createOperation, throwOnSync} from '../../utils';
 
 /**

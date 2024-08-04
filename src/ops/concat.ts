@@ -1,10 +1,10 @@
 import {
     $A,
     $S,
-    Value,
-    SyncValue,
-    Operation,
-    UnknownIterableOrIterator
+    type Value,
+    type SyncValue,
+    type Operation,
+    type UnknownIterableOrIterator
 } from '../types';
 import {createOperation} from '../utils';
 import {isPromiseLike} from '../typeguards';

@@ -1,4 +1,4 @@
-import {$A, $S, Operation} from '../types';
+import {$A, $S, type Operation} from '../types';
 import {createOperation, iterateOnce} from '../utils';
 
 /**

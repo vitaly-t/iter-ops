@@ -1,5 +1,5 @@
 import {expect} from '../../header';
-import {pipe, split, SplitValueCarry, ISplitIndex} from '../../../src';
+import {pipe, split, SplitValueCarry, type ISplitIndex} from '../../../src';
 
 export default () => {
     describe('without options', () => {

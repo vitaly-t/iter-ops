@@ -1,4 +1,4 @@
-import {$A, $S, Operation} from '../types';
+import {$A, $S, type Operation} from '../types';
 import {createOperation} from '../utils';
 
 /**
@@ -159,6 +159,7 @@ function timeoutAsync<T>(
                             .catch((err) => {
                                 clearTimeout(timeoutId);
                                 done = true;
+                                // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                                 reject(err);
                             });
                     });

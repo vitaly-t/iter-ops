@@ -1,9 +1,9 @@
 import {
-    Value,
-    SyncValue,
-    UnknownIterable,
-    UnknownIterator,
-    Operation,
+    type Value,
+    type SyncValue,
+    type UnknownIterable,
+    type UnknownIterator,
+    type Operation,
     $S,
     $A
 } from '../types';

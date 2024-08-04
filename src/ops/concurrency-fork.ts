@@ -129,6 +129,7 @@ function concurrencyForkAsync<T, R>(
                             return Promise.resolve({value: undefined, done});
                         }
                         done = true;
+                        // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                         return Promise.reject(err); // now catchError operator can handle the error
                     }
                 };

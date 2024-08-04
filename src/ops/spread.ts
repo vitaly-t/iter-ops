@@ -1,4 +1,4 @@
-import {$A, $S, Operation, UnknownIterable} from '../types';
+import {$A, $S, type Operation, type UnknownIterable} from '../types';
 import {createOperation} from '../utils';
 
 /**

@@ -1,4 +1,4 @@
-import {$A, $S, IterationState, Operation} from '../types';
+import {$A, $S, type IterationState, type Operation} from '../types';
 import {isPromiseLike} from '../typeguards';
 import {createOperation} from '../utils';
 
@@ -153,7 +153,10 @@ function retryAsync<T>(
                         (e) => {
                             if (cb) {
                                 const b = (f: any) =>
-                                    f ? this.next() : Promise.reject(e);
+                                    f
+                                        ? this.next()
+                                        : // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
+                                          Promise.reject(e);
                                 const r = cb(
                                     index++,
                                     attempts++,
@@ -165,6 +168,7 @@ function retryAsync<T>(
                                 leftTries--;
                                 return this.next();
                             }
+                            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
                             return Promise.reject(e);
                         }
                     );
