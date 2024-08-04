@@ -4,6 +4,6 @@
     "outDir": "./dist/web/",
     "sourceMap": true,
     "target": "ES2017",
-    "declaration": false,
+    "declaration": false
   }
 }

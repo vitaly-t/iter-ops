@@ -34,6 +34,6 @@
     "noImplicitOverride": true,
     // "noPropertyAccessFromIndexSignature": true,
     // "noErrorTruncation": true,
-    "pretty": true,
+    "pretty": true
   }
 }
