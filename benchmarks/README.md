@@ -9,17 +9,17 @@ Testing `iter-ops` against the latest `rxjs`:
 
 **Tested with:**
 
--   NodeJS v18.19.0
--   rxjs v7.4.0
--   iter-ops v1.5.2
+-   NodeJS v20.16.0
+-   rxjs v7.8.1
+-   iter-ops v3.4.0
 
 ### Running Tests
 
 Running tests separately is recommended, or else results may become skewed.
 
--   `npm run sync` - runs tests on synchronous iterables
--   `npm run async` - runs tests on asynchronous iterables
 -   `npm test` - runs all tests (not recommended)
+-   `npm run test:sync` - runs tests on synchronous iterables
+-   `npm run test:async` - runs tests on asynchronous iterables
 
 ### Test Results
 
@@ -52,4 +52,4 @@ on how fast the source iterable is. Library `iter-ops` does come with some good 
 asynchronous iterables, which we achieve by using [toAsync]. However, it is possible to optimize an iterable for `rxjs`
 separately. Therefore, it is nearly impossible to draw the line, in how to define an objective test for this.
 
-[toasync]: https://vitaly-t.github.io/iter-ops/functions/toAsync
+[toAsync]: https://vitaly-t.github.io/iter-ops/functions/toAsync
