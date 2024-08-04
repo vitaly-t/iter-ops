@@ -41,6 +41,9 @@ jobs:
       - name: Check spelling
         run: yarn check-spelling
 
+      - name: Check types
+        run: yarn typecheck
+
   test:
     name: 'Test: Node v${{ matrix.node_version }}'
     needs: pre_job
