@@ -198,15 +198,15 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cspell/cspell-bundled-dicts@8.13.1":
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/@cspell/cspell-bundled-dicts/-/cspell-bundled-dicts-8.13.1.tgz"
-  integrity sha512-ylAwnIdxBMJ9v6BHpFAQFZM+5zbybLtqVQJG7zQePts4e0/Qr2xjYFbC3F+fovZqyXPIx24BR+S6gFJNO1OdAw==
+"@cspell/cspell-bundled-dicts@8.13.2":
+  version "8.13.2"
+  resolved "https://registry.npmjs.org/@cspell/cspell-bundled-dicts/-/cspell-bundled-dicts-8.13.2.tgz"
+  integrity sha512-BLXah6gUvPeZM8bj1I0F5YJ0CzDZ3d3xpbDCrDB0NfHIsF9zn0la+ie0O15VcVWNBrNIToc6enjxWg1JSF3E5g==
   dependencies:
     "@cspell/dict-ada" "^4.0.2"
     "@cspell/dict-aws" "^4.0.3"
     "@cspell/dict-bash" "^4.1.3"
-    "@cspell/dict-companies" "^3.1.3"
+    "@cspell/dict-companies" "^3.1.4"
     "@cspell/dict-cpp" "^5.1.12"
     "@cspell/dict-cryptocurrencies" "^5.0.0"
     "@cspell/dict-csharp" "^4.0.2"
@@ -217,7 +217,7 @@
     "@cspell/dict-dotnet" "^5.0.2"
     "@cspell/dict-elixir" "^4.0.3"
     "@cspell/dict-en_us" "^4.3.23"
-    "@cspell/dict-en-common-misspellings" "^2.0.3"
+    "@cspell/dict-en-common-misspellings" "^2.0.4"
     "@cspell/dict-en-gb" "1.1.33"
     "@cspell/dict-filetypes" "^3.0.4"
     "@cspell/dict-fonts" "^4.0.0"
@@ -243,47 +243,47 @@
     "@cspell/dict-php" "^4.0.8"
     "@cspell/dict-powershell" "^5.0.5"
     "@cspell/dict-public-licenses" "^2.0.7"
-    "@cspell/dict-python" "^4.2.3"
+    "@cspell/dict-python" "^4.2.4"
     "@cspell/dict-r" "^2.0.1"
     "@cspell/dict-ruby" "^5.0.2"
     "@cspell/dict-rust" "^4.0.5"
     "@cspell/dict-scala" "^5.0.3"
-    "@cspell/dict-software-terms" "^4.0.3"
-    "@cspell/dict-sql" "^2.1.3"
+    "@cspell/dict-software-terms" "^4.0.5"
+    "@cspell/dict-sql" "^2.1.5"
     "@cspell/dict-svelte" "^1.0.2"
     "@cspell/dict-swift" "^2.0.1"
     "@cspell/dict-terraform" "^1.0.0"
     "@cspell/dict-typescript" "^3.1.6"
     "@cspell/dict-vue" "^3.0.0"
 
-"@cspell/cspell-json-reporter@8.13.1":
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/@cspell/cspell-json-reporter/-/cspell-json-reporter-8.13.1.tgz"
-  integrity sha512-vYZTBRkYjpNBifGNbYQsgIXesDEdUa9QAwllDcLZGKbhh5mY/C1ygPnAVpYDYiJNt1WCeIqW286DUyjRjkmHeA==
+"@cspell/cspell-json-reporter@8.13.2":
+  version "8.13.2"
+  resolved "https://registry.npmjs.org/@cspell/cspell-json-reporter/-/cspell-json-reporter-8.13.2.tgz"
+  integrity sha512-UOINJikJs9tRWc2RrFmXK4s3hpasAIbSq+6ed7NojY/2kYv6u0bHNhh4D+4DAroHcFsU24vl/PeTa9V4Z5CelA==
   dependencies:
-    "@cspell/cspell-types" "8.13.1"
+    "@cspell/cspell-types" "8.13.2"
 
-"@cspell/cspell-pipe@8.13.1":
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/@cspell/cspell-pipe/-/cspell-pipe-8.13.1.tgz"
-  integrity sha512-acLWTQv3yWfeWXMds/cfQKZapslOrLHVL4VDp4rFyL/EnfgaCr7Ew9hQ7zAIARY3r/n0dByqWbOt2HKthdhx/g==
+"@cspell/cspell-pipe@8.13.2":
+  version "8.13.2"
+  resolved "https://registry.npmjs.org/@cspell/cspell-pipe/-/cspell-pipe-8.13.2.tgz"
+  integrity sha512-67N6UHaHRc3H9Nl5TKO/r1lCMgnMPQH+scR6aJxHjcwlKLSoNpGF9LiURhmYaItIhfTH4TDfB2hVPzsslRzaWg==
 
-"@cspell/cspell-resolver@8.13.1":
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/@cspell/cspell-resolver/-/cspell-resolver-8.13.1.tgz"
-  integrity sha512-EGdb7KLYCklV3sLxf/895b7s6sExh8DCHZFpDos2hjKwMt+F4ynsu1+ceybQtqoUF/MsyLoJXrrmPvV2uGVmUQ==
+"@cspell/cspell-resolver@8.13.2":
+  version "8.13.2"
+  resolved "https://registry.npmjs.org/@cspell/cspell-resolver/-/cspell-resolver-8.13.2.tgz"
+  integrity sha512-SCAH4LbV0uFP9ldXB49mRGnAnPCKZV8W96EMHv9Tdh7Fp3btF5FFaVf0h3/ms1g3quzWJq1+EZvJCKCpm9JY5g==
   dependencies:
     global-directory "^4.0.1"
 
-"@cspell/cspell-service-bus@8.13.1":
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/@cspell/cspell-service-bus/-/cspell-service-bus-8.13.1.tgz"
-  integrity sha512-oLFJfxuB1rwGXn3eD5qSF9nf0lHu6YjO0JcrjWhAZQ0r3AsO97gsX50wwCFCw6szVU3rd1cTUktW0KYEZUY6dA==
+"@cspell/cspell-service-bus@8.13.2":
+  version "8.13.2"
+  resolved "https://registry.npmjs.org/@cspell/cspell-service-bus/-/cspell-service-bus-8.13.2.tgz"
+  integrity sha512-lKgRzJlCPc4BLlqDjWQgIo0ikX4nQ04M1vu0H3CQjfcwr2PVEGLSlXXyJnA6S3A80WxVXhGehyMBhXzItmpKIQ==
 
-"@cspell/cspell-types@8.13.1":
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/@cspell/cspell-types/-/cspell-types-8.13.1.tgz"
-  integrity sha512-9dJdmyXLXJVesCJa/DWgwKsEC9p2RRFc6KORcLhNvtm1tE9TvCXiu5jV47sOmYXd6Hwan8IurBXXTz82CLVjPQ==
+"@cspell/cspell-types@8.13.2":
+  version "8.13.2"
+  resolved "https://registry.npmjs.org/@cspell/cspell-types/-/cspell-types-8.13.2.tgz"
+  integrity sha512-0QFLcerzBapst1A729VTegeEcsHFK/YfDvOYWUwsZcmPrpacJ8qHmRPVyyFLvN5punXWwB7pIdtbrVRPDQT49w==
 
 "@cspell/dict-ada@^4.0.2":
   version "4.0.2"
@@ -300,7 +300,7 @@
   resolved "https://registry.npmjs.org/@cspell/dict-bash/-/dict-bash-4.1.3.tgz"
   integrity sha512-tOdI3QVJDbQSwPjUkOiQFhYcu2eedmX/PtEpVWg0aFps/r6AyjUQINtTgpqMYnYuq8O1QUIQqnpx21aovcgZCw==
 
-"@cspell/dict-companies@^3.1.3":
+"@cspell/dict-companies@^3.1.4":
   version "3.1.4"
   resolved "https://registry.npmjs.org/@cspell/dict-companies/-/dict-companies-3.1.4.tgz"
   integrity sha512-y9e0amzEK36EiiKx3VAA+SHQJPpf2Qv5cCt5eTUSggpTkiFkCh6gRKQ97rVlrKh5GJrqinDwYIJtTsxuh2vy2Q==
@@ -360,10 +360,10 @@
   resolved "https://registry.npmjs.org/@cspell/dict-en_us/-/dict-en_us-4.3.23.tgz"
   integrity sha512-l0SoEQBsi3zDSl3OuL4/apBkxjuj4hLIg/oy6+gZ7LWh03rKdF6VNtSZNXWAmMY+pmb1cGA3ouleTiJIglbsIg==
 
-"@cspell/dict-en-common-misspellings@^2.0.3":
-  version "2.0.3"
-  resolved "https://registry.npmjs.org/@cspell/dict-en-common-misspellings/-/dict-en-common-misspellings-2.0.3.tgz"
-  integrity sha512-8nF1z9nUiSgMyikL66HTbDO7jCGtB24TxKBasXIBwkBKMDZgA2M883iXdeByy6m1JJUcCGFkSftVYp2W0bUgjw==
+"@cspell/dict-en-common-misspellings@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.npmjs.org/@cspell/dict-en-common-misspellings/-/dict-en-common-misspellings-2.0.4.tgz"
+  integrity sha512-lvOiRjV/FG4pAGZL3PN2GCVHSTCE92cwhfLGGkOsQtxSmef6WCHfHwp9auafkBlX0yFQSKDfq6/TlpQbjbJBtQ==
 
 "@cspell/dict-en-gb@1.1.33":
   version "1.1.33"
@@ -490,10 +490,10 @@
   resolved "https://registry.npmjs.org/@cspell/dict-public-licenses/-/dict-public-licenses-2.0.7.tgz"
   integrity sha512-KlBXuGcN3LE7tQi/GEqKiDewWGGuopiAD0zRK1QilOx5Co8XAvs044gk4MNIQftc8r0nHeUI+irJKLGcR36DIQ==
 
-"@cspell/dict-python@^4.2.3":
-  version "4.2.3"
-  resolved "https://registry.npmjs.org/@cspell/dict-python/-/dict-python-4.2.3.tgz"
-  integrity sha512-C1CPX9wwEGgcHv/p7KfjuIOp1G6KNyx5gWYweAd6/KPv+ZpeM1v572zFUTmpO8WDuAfKFf00nqYL8/GmCENWBw==
+"@cspell/dict-python@^4.2.4":
+  version "4.2.4"
+  resolved "https://registry.npmjs.org/@cspell/dict-python/-/dict-python-4.2.4.tgz"
+  integrity sha512-sCtLBqMreb+8zRW2bXvFsfSnRUVU6IFm4mT6Dc4xbz0YajprbaPPh/kOUTw5IJRP8Uh+FFb7Xp2iH03CNWRq/A==
   dependencies:
     "@cspell/dict-data-science" "^2.0.1"
 
@@ -517,15 +517,15 @@
   resolved "https://registry.npmjs.org/@cspell/dict-scala/-/dict-scala-5.0.3.tgz"
   integrity sha512-4yGb4AInT99rqprxVNT9TYb1YSpq58Owzq7zi3ZS5T0u899Y4VsxsBiOgHnQ/4W+ygi+sp+oqef8w8nABR2lkg==
 
-"@cspell/dict-software-terms@^4.0.3":
-  version "4.0.3"
-  resolved "https://registry.npmjs.org/@cspell/dict-software-terms/-/dict-software-terms-4.0.3.tgz"
-  integrity sha512-65QAVMc3YlcI7PcqWRY5ox53tTWC8aktUZdJYCVs4VDBPUCTSDnTSmSreeg4F5Z468clv9KF/S0PkxbLjgW72A==
+"@cspell/dict-software-terms@^4.0.5":
+  version "4.0.6"
+  resolved "https://registry.npmjs.org/@cspell/dict-software-terms/-/dict-software-terms-4.0.6.tgz"
+  integrity sha512-UDhUzNSf7GN529a0Ip9hlSoGbpscz0YlUYBEJmZBXi8otpkrbCJqs50T74Ppd+SWqNil04De8urv4af2c6SY5Q==
 
-"@cspell/dict-sql@^2.1.3":
-  version "2.1.3"
-  resolved "https://registry.npmjs.org/@cspell/dict-sql/-/dict-sql-2.1.3.tgz"
-  integrity sha512-SEyTNKJrjqD6PAzZ9WpdSu6P7wgdNtGV2RV8Kpuw1x6bV+YsSptuClYG+JSdRExBTE6LwIe1bTklejUp3ZP8TQ==
+"@cspell/dict-sql@^2.1.5":
+  version "2.1.5"
+  resolved "https://registry.npmjs.org/@cspell/dict-sql/-/dict-sql-2.1.5.tgz"
+  integrity sha512-FmxanytHXss7GAWAXmgaxl3icTCW7YxlimyOSPNfm+njqeUDjw3kEv4mFNDDObBJv8Ec5AWCbUDkWIpkE3IpKg==
 
 "@cspell/dict-svelte@^1.0.2":
   version "1.0.2"
@@ -552,27 +552,27 @@
   resolved "https://registry.npmjs.org/@cspell/dict-vue/-/dict-vue-3.0.0.tgz"
   integrity sha512-niiEMPWPV9IeRBRzZ0TBZmNnkK3olkOPYxC1Ny2AX4TGlYRajcW0WUtoSHmvvjZNfWLSg2L6ruiBeuPSbjnG6A==
 
-"@cspell/dynamic-import@8.13.1":
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/@cspell/dynamic-import/-/dynamic-import-8.13.1.tgz"
-  integrity sha512-jMqJHWmQy+in99JMSFlaGV9P033gCx7DCZvGO/ZSeZ2EatrUTanJk3oTG1TZknZydb0nnxr1mgTWXN7PCAAXDg==
+"@cspell/dynamic-import@8.13.2":
+  version "8.13.2"
+  resolved "https://registry.npmjs.org/@cspell/dynamic-import/-/dynamic-import-8.13.2.tgz"
+  integrity sha512-ckn9k7kW9Wv1kw8WltUGByQQzFFR9YITtnDQHHFI8yi9IQkSle4+KHLr9Y8uL6U8rtwP70edX4ese++yfnJr+Q==
   dependencies:
     import-meta-resolve "^4.1.0"
 
-"@cspell/strong-weak-map@8.13.1":
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/@cspell/strong-weak-map/-/strong-weak-map-8.13.1.tgz"
-  integrity sha512-ga1ibI9ZLJWNszfP7e6qQ8gnoQOP9rE/clALMAim9ssO6cmMhEEm+i1ROH4nsDfThd6sVlUJ0IOtx5dEqPmWxw==
+"@cspell/strong-weak-map@8.13.2":
+  version "8.13.2"
+  resolved "https://registry.npmjs.org/@cspell/strong-weak-map/-/strong-weak-map-8.13.2.tgz"
+  integrity sha512-jVwlZnef8Q/x3MEg5ixRYYfV3BoI5ZOw0UZRianaM1GwsLCIW/mJ7ZIlIQF6N/exE1YWCpyRlCNgvTgUf7fc7w==
 
-"@cspell/url@8.13.1":
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/@cspell/url/-/url-8.13.1.tgz"
-  integrity sha512-cCyojz5ovgGCexhez2urle4Q1UOEsp96lvl4pDmWNDHa/6n8dqiIn60SVzQIsAHzJ4yEV077RSaIrTlq/T+oSQ==
+"@cspell/url@8.13.2":
+  version "8.13.2"
+  resolved "https://registry.npmjs.org/@cspell/url/-/url-8.13.2.tgz"
+  integrity sha512-IFtiADDLGCp4QXPhsQ0F5/jbVQb0Loeum36wzGLiqXWYDjIA25W8miy0hyy/S8aZhzdEq2aUZjz9dTvkl+5ISQ==
 
-"@esbuild/win32-x64@0.21.5":
-  version "0.21.5"
-  resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.21.5.tgz"
-  integrity sha512-tQd/1efJuzPC6rCFwEvLtci/xNFcTZknmXs98FYDfGE4wP9ClFV98nyKrzJKVPMhdDnjzLhdUyMX4PsQAPjwIw==
+"@esbuild/win32-x64@0.23.0":
+  version "0.23.0"
+  resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.23.0.tgz"
+  integrity sha512-Arm+WgUFLUATuoxCJcahGuk6Yj9Pzxd6l11Zb/2aAuv5kWWvvfhLFo2fni4uSK5vzlUdCGZ/BdV5tH8klj8p8g==
 
 "@eslint-community/eslint-utils@^4.2.0", "@eslint-community/eslint-utils@^4.4.0":
   version "4.4.0"
@@ -877,62 +877,62 @@
   resolved "https://registry.npmjs.org/@types/unist/-/unist-3.0.2.tgz"
   integrity sha512-dqId9J8K/vGi5Zr7oo212BGii5m3q5Hxlkwy3WpYuKPklmBEvsbMYYyLxAQpSffdLl/gdW0XUpKWFvYmyoWCoQ==
 
-"@typescript-eslint/eslint-plugin@8.0.0":
-  version "8.0.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/eslint-plugin/-/eslint-plugin-8.0.0.tgz"
-  integrity sha512-STIZdwEQRXAHvNUS6ILDf5z3u95Gc8jzywunxSNqX00OooIemaaNIA0vEgynJlycL5AjabYLLrIyHd4iazyvtg==
+"@typescript-eslint/eslint-plugin@8.0.1":
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/@typescript-eslint/eslint-plugin/-/eslint-plugin-8.0.1.tgz"
+  integrity sha512-5g3Y7GDFsJAnY4Yhvk8sZtFfV6YNF2caLzjrRPUBzewjPCaj0yokePB4LJSobyCzGMzjZZYFbwuzbfDHlimXbQ==
   dependencies:
     "@eslint-community/regexpp" "^4.10.0"
-    "@typescript-eslint/scope-manager" "8.0.0"
-    "@typescript-eslint/type-utils" "8.0.0"
-    "@typescript-eslint/utils" "8.0.0"
-    "@typescript-eslint/visitor-keys" "8.0.0"
+    "@typescript-eslint/scope-manager" "8.0.1"
+    "@typescript-eslint/type-utils" "8.0.1"
+    "@typescript-eslint/utils" "8.0.1"
+    "@typescript-eslint/visitor-keys" "8.0.1"
     graphemer "^1.4.0"
     ignore "^5.3.1"
     natural-compare "^1.4.0"
     ts-api-utils "^1.3.0"
 
-"@typescript-eslint/parser@^8.0.0 || ^8.0.0-alpha.0", "@typescript-eslint/parser@8.0.0":
-  version "8.0.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-8.0.0.tgz"
-  integrity sha512-pS1hdZ+vnrpDIxuFXYQpLTILglTjSYJ9MbetZctrUawogUsPdz31DIIRZ9+rab0LhYNTsk88w4fIzVheiTbWOQ==
+"@typescript-eslint/parser@^8.0.0 || ^8.0.0-alpha.0", "@typescript-eslint/parser@8.0.1":
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-8.0.1.tgz"
+  integrity sha512-5IgYJ9EO/12pOUwiBKFkpU7rS3IU21mtXzB81TNwq2xEybcmAZrE9qwDtsb5uQd9aVO9o0fdabFyAmKveXyujg==
   dependencies:
-    "@typescript-eslint/scope-manager" "8.0.0"
-    "@typescript-eslint/types" "8.0.0"
-    "@typescript-eslint/typescript-estree" "8.0.0"
-    "@typescript-eslint/visitor-keys" "8.0.0"
+    "@typescript-eslint/scope-manager" "8.0.1"
+    "@typescript-eslint/types" "8.0.1"
+    "@typescript-eslint/typescript-estree" "8.0.1"
+    "@typescript-eslint/visitor-keys" "8.0.1"
     debug "^4.3.4"
 
-"@typescript-eslint/scope-manager@8.0.0":
-  version "8.0.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/scope-manager/-/scope-manager-8.0.0.tgz"
-  integrity sha512-V0aa9Csx/ZWWv2IPgTfY7T4agYwJyILESu/PVqFtTFz9RIS823mAze+NbnBI8xiwdX3iqeQbcTYlvB04G9wyQw==
+"@typescript-eslint/scope-manager@8.0.1":
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/@typescript-eslint/scope-manager/-/scope-manager-8.0.1.tgz"
+  integrity sha512-NpixInP5dm7uukMiRyiHjRKkom5RIFA4dfiHvalanD2cF0CLUuQqxfg8PtEUo9yqJI2bBhF+pcSafqnG3UBnRQ==
   dependencies:
-    "@typescript-eslint/types" "8.0.0"
-    "@typescript-eslint/visitor-keys" "8.0.0"
+    "@typescript-eslint/types" "8.0.1"
+    "@typescript-eslint/visitor-keys" "8.0.1"
 
-"@typescript-eslint/type-utils@8.0.0":
-  version "8.0.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/type-utils/-/type-utils-8.0.0.tgz"
-  integrity sha512-mJAFP2mZLTBwAn5WI4PMakpywfWFH5nQZezUQdSKV23Pqo6o9iShQg1hP2+0hJJXP2LnZkWPphdIq4juYYwCeg==
+"@typescript-eslint/type-utils@8.0.1":
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/@typescript-eslint/type-utils/-/type-utils-8.0.1.tgz"
+  integrity sha512-+/UT25MWvXeDX9YaHv1IS6KI1fiuTto43WprE7pgSMswHbn1Jm9GEM4Txp+X74ifOWV8emu2AWcbLhpJAvD5Ng==
   dependencies:
-    "@typescript-eslint/typescript-estree" "8.0.0"
-    "@typescript-eslint/utils" "8.0.0"
+    "@typescript-eslint/typescript-estree" "8.0.1"
+    "@typescript-eslint/utils" "8.0.1"
     debug "^4.3.4"
     ts-api-utils "^1.3.0"
 
-"@typescript-eslint/types@8.0.0":
-  version "8.0.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/types/-/types-8.0.0.tgz"
-  integrity sha512-wgdSGs9BTMWQ7ooeHtu5quddKKs5Z5dS+fHLbrQI+ID0XWJLODGMHRfhwImiHoeO2S5Wir2yXuadJN6/l4JRxw==
+"@typescript-eslint/types@8.0.1":
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/@typescript-eslint/types/-/types-8.0.1.tgz"
+  integrity sha512-PpqTVT3yCA/bIgJ12czBuE3iBlM3g4inRSC5J0QOdQFAn07TYrYEQBBKgXH1lQpglup+Zy6c1fxuwTk4MTNKIw==
 
-"@typescript-eslint/typescript-estree@8.0.0":
-  version "8.0.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/typescript-estree/-/typescript-estree-8.0.0.tgz"
-  integrity sha512-5b97WpKMX+Y43YKi4zVcCVLtK5F98dFls3Oxui8LbnmRsseKenbbDinmvxrWegKDMmlkIq/XHuyy0UGLtpCDKg==
+"@typescript-eslint/typescript-estree@8.0.1":
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/@typescript-eslint/typescript-estree/-/typescript-estree-8.0.1.tgz"
+  integrity sha512-8V9hriRvZQXPWU3bbiUV4Epo7EvgM6RTs+sUmxp5G//dBGy402S7Fx0W0QkB2fb4obCF8SInoUzvTYtc3bkb5w==
   dependencies:
-    "@typescript-eslint/types" "8.0.0"
-    "@typescript-eslint/visitor-keys" "8.0.0"
+    "@typescript-eslint/types" "8.0.1"
+    "@typescript-eslint/visitor-keys" "8.0.1"
     debug "^4.3.4"
     globby "^11.1.0"
     is-glob "^4.0.3"
@@ -940,22 +940,22 @@
     semver "^7.6.0"
     ts-api-utils "^1.3.0"
 
-"@typescript-eslint/utils@8.0.0":
-  version "8.0.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/utils/-/utils-8.0.0.tgz"
-  integrity sha512-k/oS/A/3QeGLRvOWCg6/9rATJL5rec7/5s1YmdS0ZU6LHveJyGFwBvLhSRBv6i9xaj7etmosp+l+ViN1I9Aj/Q==
+"@typescript-eslint/utils@8.0.1":
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/@typescript-eslint/utils/-/utils-8.0.1.tgz"
+  integrity sha512-CBFR0G0sCt0+fzfnKaciu9IBsKvEKYwN9UZ+eeogK1fYHg4Qxk1yf/wLQkLXlq8wbU2dFlgAesxt8Gi76E8RTA==
   dependencies:
     "@eslint-community/eslint-utils" "^4.4.0"
-    "@typescript-eslint/scope-manager" "8.0.0"
-    "@typescript-eslint/types" "8.0.0"
-    "@typescript-eslint/typescript-estree" "8.0.0"
+    "@typescript-eslint/scope-manager" "8.0.1"
+    "@typescript-eslint/types" "8.0.1"
+    "@typescript-eslint/typescript-estree" "8.0.1"
 
-"@typescript-eslint/visitor-keys@8.0.0":
-  version "8.0.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/visitor-keys/-/visitor-keys-8.0.0.tgz"
-  integrity sha512-oN0K4nkHuOyF3PVMyETbpP5zp6wfyOvm7tWhTMfoqxSSsPmJIh6JNASuZDlODE8eE+0EB9uar+6+vxr9DBTYOA==
+"@typescript-eslint/visitor-keys@8.0.1":
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/@typescript-eslint/visitor-keys/-/visitor-keys-8.0.1.tgz"
+  integrity sha512-W5E+o0UfUcK5EgchLZsyVWqARmsM7v54/qEq6PY3YI5arkgmCzHiuk0zKSJJbm71V0xdRna4BGomkCTXz2/LkQ==
   dependencies:
-    "@typescript-eslint/types" "8.0.0"
+    "@typescript-eslint/types" "8.0.1"
     eslint-visitor-keys "^3.4.3"
 
 "@wessberg/stringutil@^1.0.19":
@@ -1357,79 +1357,79 @@ crosspath@^2.0.0:
   dependencies:
     "@types/node" "^17.0.36"
 
-cspell-config-lib@8.13.1:
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/cspell-config-lib/-/cspell-config-lib-8.13.1.tgz"
-  integrity sha512-sXUFOyxvk+qDkoQdFkVEqj1hfQWzMi+tbi6ksiotQaqpm7r+YitZLSgwJjN4xgDO/rTLyP70k9fagdZ67MVZbw==
+cspell-config-lib@8.13.2:
+  version "8.13.2"
+  resolved "https://registry.npmjs.org/cspell-config-lib/-/cspell-config-lib-8.13.2.tgz"
+  integrity sha512-AkG5qWnmHxwEJqyLsraVVzEWGShICn533GdcbSHYYrLxEd9UromEjmFrMlgNomwj8SnJq4L9xq1LoWgRXa5jjg==
   dependencies:
-    "@cspell/cspell-types" "8.13.1"
+    "@cspell/cspell-types" "8.13.2"
     comment-json "^4.2.4"
     yaml "^2.5.0"
 
-cspell-dictionary@8.13.1:
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/cspell-dictionary/-/cspell-dictionary-8.13.1.tgz"
-  integrity sha512-Z0T4J4ahOJaHmWq83w24KXGik1zeauO5WvDRyzDyaSgpbA5MN2hN98LvxaIx72g3I+trtRK77XFcKginuME9EA==
+cspell-dictionary@8.13.2:
+  version "8.13.2"
+  resolved "https://registry.npmjs.org/cspell-dictionary/-/cspell-dictionary-8.13.2.tgz"
+  integrity sha512-dvtb9fDHw3jEa5mGBmrDTRxlaXVccQ5LMYkosPcS+J5/iLrV0E3iQu3njFHBFXKsLqOwnd6GV9pd6fXkPEFdeQ==
   dependencies:
-    "@cspell/cspell-pipe" "8.13.1"
-    "@cspell/cspell-types" "8.13.1"
-    cspell-trie-lib "8.13.1"
+    "@cspell/cspell-pipe" "8.13.2"
+    "@cspell/cspell-types" "8.13.2"
+    cspell-trie-lib "8.13.2"
     fast-equals "^5.0.1"
 
-cspell-gitignore@8.13.1:
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/cspell-gitignore/-/cspell-gitignore-8.13.1.tgz"
-  integrity sha512-XyZ3X5d6x0gkWtNXSAQRcPMG41bEdLx9cTgZCYCJhEZCesU1VpNm60F3oc11dMLkO+BqPH3An+AO/YEIiaje3A==
+cspell-gitignore@8.13.2:
+  version "8.13.2"
+  resolved "https://registry.npmjs.org/cspell-gitignore/-/cspell-gitignore-8.13.2.tgz"
+  integrity sha512-eEDR0g2VQHVRg9mLXi6PUnjZzD1DYa2jkmiuj61ZEN9yEKZ3GKXlUTxlewIiMGN/fxIn5kHyjeMo+hbCHoYkGw==
   dependencies:
-    "@cspell/url" "8.13.1"
-    cspell-glob "8.13.1"
-    cspell-io "8.13.1"
+    "@cspell/url" "8.13.2"
+    cspell-glob "8.13.2"
+    cspell-io "8.13.2"
     find-up-simple "^1.0.0"
 
-cspell-glob@8.13.1:
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/cspell-glob/-/cspell-glob-8.13.1.tgz"
-  integrity sha512-rW1A3t7YvPXxcC4z1pp1m9coeWzUVUmRjUw3vMNGlEDC2zecB39KKbEqesziBqnBceNAY7O5itllIGFKr03vqA==
+cspell-glob@8.13.2:
+  version "8.13.2"
+  resolved "https://registry.npmjs.org/cspell-glob/-/cspell-glob-8.13.2.tgz"
+  integrity sha512-zhWcfE4k1BVErVd36AMle9DE5W0bxI4OcM7/q3YxPQUdbsox/DihGXGQu+jld2LkUpDl0llIPVJ8OibKg9stcQ==
   dependencies:
-    "@cspell/url" "8.13.1"
+    "@cspell/url" "8.13.2"
     micromatch "^4.0.7"
 
-cspell-grammar@8.13.1:
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/cspell-grammar/-/cspell-grammar-8.13.1.tgz"
-  integrity sha512-HUkd24bulvBwee1UNBurxGlPUOiywb9pB34iXXoxFWuloHohZ/DuFlE8B/31ZtjW48ffEYIu3QZfWhcnD8e81w==
+cspell-grammar@8.13.2:
+  version "8.13.2"
+  resolved "https://registry.npmjs.org/cspell-grammar/-/cspell-grammar-8.13.2.tgz"
+  integrity sha512-mdRNahGfY7BXg36PQcmeB8WQZETYB6W0A/+yMDgFg+YQX7UdJr8M5GVDFmIFRWyc7/cnv6GMiqdI64gmfCU8ww==
   dependencies:
-    "@cspell/cspell-pipe" "8.13.1"
-    "@cspell/cspell-types" "8.13.1"
+    "@cspell/cspell-pipe" "8.13.2"
+    "@cspell/cspell-types" "8.13.2"
 
-cspell-io@8.13.1:
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/cspell-io/-/cspell-io-8.13.1.tgz"
-  integrity sha512-t2sgZuWGBzPSOAStfvz/U3KoFEfDxEt1cXZj0Kd0Vs36v2uoLktm6ihMe7XNFu7zIdOFSajsYQ8Bi4RSLPGPxQ==
+cspell-io@8.13.2:
+  version "8.13.2"
+  resolved "https://registry.npmjs.org/cspell-io/-/cspell-io-8.13.2.tgz"
+  integrity sha512-Jf5LL1TEXPvKH0iabIr8BLK/Hc6crPCdsWM3CbZydp/fDU6rpbaApzSVQ376JlAaLMLpEP7s5oVh9WC4wIE5Bw==
   dependencies:
-    "@cspell/cspell-service-bus" "8.13.1"
-    "@cspell/url" "8.13.1"
+    "@cspell/cspell-service-bus" "8.13.2"
+    "@cspell/url" "8.13.2"
 
-cspell-lib@8.13.1:
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/cspell-lib/-/cspell-lib-8.13.1.tgz"
-  integrity sha512-H1HHG1pmATSeAaY0KmQ0xnkbSqJLvh9QpXWARDLWKUBvtE+/l44H4yVhIp/No3rM7PKMmb82GuSJzMaoIhHFLQ==
+cspell-lib@8.13.2:
+  version "8.13.2"
+  resolved "https://registry.npmjs.org/cspell-lib/-/cspell-lib-8.13.2.tgz"
+  integrity sha512-qWX4B0Nwo6Souoi8/hLEohSLQEeeh1mWIiQDDJ43w+zmzzzmHZ8+tAeJJ2eAGgOKVqfjcyefH5y7Py2TQrn3xg==
   dependencies:
-    "@cspell/cspell-bundled-dicts" "8.13.1"
-    "@cspell/cspell-pipe" "8.13.1"
-    "@cspell/cspell-resolver" "8.13.1"
-    "@cspell/cspell-types" "8.13.1"
-    "@cspell/dynamic-import" "8.13.1"
-    "@cspell/strong-weak-map" "8.13.1"
-    "@cspell/url" "8.13.1"
+    "@cspell/cspell-bundled-dicts" "8.13.2"
+    "@cspell/cspell-pipe" "8.13.2"
+    "@cspell/cspell-resolver" "8.13.2"
+    "@cspell/cspell-types" "8.13.2"
+    "@cspell/dynamic-import" "8.13.2"
+    "@cspell/strong-weak-map" "8.13.2"
+    "@cspell/url" "8.13.2"
     clear-module "^4.1.2"
     comment-json "^4.2.4"
-    cspell-config-lib "8.13.1"
-    cspell-dictionary "8.13.1"
-    cspell-glob "8.13.1"
-    cspell-grammar "8.13.1"
-    cspell-io "8.13.1"
-    cspell-trie-lib "8.13.1"
+    cspell-config-lib "8.13.2"
+    cspell-dictionary "8.13.2"
+    cspell-glob "8.13.2"
+    cspell-grammar "8.13.2"
+    cspell-io "8.13.2"
+    cspell-trie-lib "8.13.2"
     env-paths "^3.0.0"
     fast-equals "^5.0.1"
     gensequence "^7.0.0"
@@ -1439,33 +1439,33 @@ cspell-lib@8.13.1:
     vscode-uri "^3.0.8"
     xdg-basedir "^5.1.0"
 
-cspell-trie-lib@8.13.1:
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/cspell-trie-lib/-/cspell-trie-lib-8.13.1.tgz"
-  integrity sha512-2moCsIYDmMT7hp5Non3CvWatfXptFWCuxjbXQGDNvWJ2Cj3oso/oBe4802GJv5GEenv9QBWmEtum/E7rFcx4JA==
+cspell-trie-lib@8.13.2:
+  version "8.13.2"
+  resolved "https://registry.npmjs.org/cspell-trie-lib/-/cspell-trie-lib-8.13.2.tgz"
+  integrity sha512-JYpxU6mN0W9cp5g6QN4TXz0S3zzcmGpVJf1fka7tuWHY1e62Gs0qIIL2LjTHYW9wlRFYyrqPnN5opfwuEZCCMg==
   dependencies:
-    "@cspell/cspell-pipe" "8.13.1"
-    "@cspell/cspell-types" "8.13.1"
+    "@cspell/cspell-pipe" "8.13.2"
+    "@cspell/cspell-types" "8.13.2"
     gensequence "^7.0.0"
 
-cspell@8.13.1:
-  version "8.13.1"
-  resolved "https://registry.npmjs.org/cspell/-/cspell-8.13.1.tgz"
-  integrity sha512-Bqppilpwx9xt3jZPaYcqe1JPteNmfKhx9pw9YglZEePDUzdiJQNVIfs31589GAnXjgdqqctR8N87ffLcaBNPXw==
+cspell@8.13.2:
+  version "8.13.2"
+  resolved "https://registry.npmjs.org/cspell/-/cspell-8.13.2.tgz"
+  integrity sha512-m+aA54r95QteZBPzZBR4bdld92TDV47/qoKhYt7+M8umcLZR3C2dfktEbVQGoAJokRgSQo9L4/fRF0skk+g5Mg==
   dependencies:
-    "@cspell/cspell-json-reporter" "8.13.1"
-    "@cspell/cspell-pipe" "8.13.1"
-    "@cspell/cspell-types" "8.13.1"
-    "@cspell/dynamic-import" "8.13.1"
-    "@cspell/url" "8.13.1"
+    "@cspell/cspell-json-reporter" "8.13.2"
+    "@cspell/cspell-pipe" "8.13.2"
+    "@cspell/cspell-types" "8.13.2"
+    "@cspell/dynamic-import" "8.13.2"
+    "@cspell/url" "8.13.2"
     chalk "^5.3.0"
     chalk-template "^1.1.0"
     commander "^12.1.0"
-    cspell-dictionary "8.13.1"
-    cspell-gitignore "8.13.1"
-    cspell-glob "8.13.1"
-    cspell-io "8.13.1"
-    cspell-lib "8.13.1"
+    cspell-dictionary "8.13.2"
+    cspell-gitignore "8.13.2"
+    cspell-glob "8.13.2"
+    cspell-io "8.13.2"
+    cspell-lib "8.13.2"
     fast-glob "^3.3.2"
     fast-json-stable-stringify "^2.1.0"
     file-entry-cache "^9.0.0"
@@ -1572,34 +1572,35 @@ error-ex@^1.3.1:
   dependencies:
     is-arrayish "^0.2.1"
 
-esbuild@~0.21.5:
-  version "0.21.5"
-  resolved "https://registry.npmjs.org/esbuild/-/esbuild-0.21.5.tgz"
-  integrity sha512-mg3OPMV4hXywwpoDxu3Qda5xCKQi+vCTZq8S9J/EpkhB2HzKXq4SNFZE3+NK93JYxc8VMSep+lOUSC/RVKaBqw==
+esbuild@~0.23.0:
+  version "0.23.0"
+  resolved "https://registry.npmjs.org/esbuild/-/esbuild-0.23.0.tgz"
+  integrity sha512-1lvV17H2bMYda/WaFb2jLPeHU3zml2k4/yagNMG8Q/YtfMjCwEUZa2eXXMgZTVSL5q1n4H7sQ0X6CdJDqqeCFA==
   optionalDependencies:
-    "@esbuild/aix-ppc64" "0.21.5"
-    "@esbuild/android-arm" "0.21.5"
-    "@esbuild/android-arm64" "0.21.5"
-    "@esbuild/android-x64" "0.21.5"
-    "@esbuild/darwin-arm64" "0.21.5"
-    "@esbuild/darwin-x64" "0.21.5"
-    "@esbuild/freebsd-arm64" "0.21.5"
-    "@esbuild/freebsd-x64" "0.21.5"
-    "@esbuild/linux-arm" "0.21.5"
-    "@esbuild/linux-arm64" "0.21.5"
-    "@esbuild/linux-ia32" "0.21.5"
-    "@esbuild/linux-loong64" "0.21.5"
-    "@esbuild/linux-mips64el" "0.21.5"
-    "@esbuild/linux-ppc64" "0.21.5"
-    "@esbuild/linux-riscv64" "0.21.5"
-    "@esbuild/linux-s390x" "0.21.5"
-    "@esbuild/linux-x64" "0.21.5"
-    "@esbuild/netbsd-x64" "0.21.5"
-    "@esbuild/openbsd-x64" "0.21.5"
-    "@esbuild/sunos-x64" "0.21.5"
-    "@esbuild/win32-arm64" "0.21.5"
-    "@esbuild/win32-ia32" "0.21.5"
-    "@esbuild/win32-x64" "0.21.5"
+    "@esbuild/aix-ppc64" "0.23.0"
+    "@esbuild/android-arm" "0.23.0"
+    "@esbuild/android-arm64" "0.23.0"
+    "@esbuild/android-x64" "0.23.0"
+    "@esbuild/darwin-arm64" "0.23.0"
+    "@esbuild/darwin-x64" "0.23.0"
+    "@esbuild/freebsd-arm64" "0.23.0"
+    "@esbuild/freebsd-x64" "0.23.0"
+    "@esbuild/linux-arm" "0.23.0"
+    "@esbuild/linux-arm64" "0.23.0"
+    "@esbuild/linux-ia32" "0.23.0"
+    "@esbuild/linux-loong64" "0.23.0"
+    "@esbuild/linux-mips64el" "0.23.0"
+    "@esbuild/linux-ppc64" "0.23.0"
+    "@esbuild/linux-riscv64" "0.23.0"
+    "@esbuild/linux-s390x" "0.23.0"
+    "@esbuild/linux-x64" "0.23.0"
+    "@esbuild/netbsd-x64" "0.23.0"
+    "@esbuild/openbsd-arm64" "0.23.0"
+    "@esbuild/openbsd-x64" "0.23.0"
+    "@esbuild/sunos-x64" "0.23.0"
+    "@esbuild/win32-arm64" "0.23.0"
+    "@esbuild/win32-ia32" "0.23.0"
+    "@esbuild/win32-x64" "0.23.0"
 
 escalade@^3.1.1, escalade@^3.1.2:
   version "3.1.2"
@@ -2508,10 +2509,10 @@ minimist-options@4.1.0:
   resolved "https://registry.npmjs.org/minipass/-/minipass-7.1.2.tgz"
   integrity sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==
 
-mocha@10.7.0:
-  version "10.7.0"
-  resolved "https://registry.npmjs.org/mocha/-/mocha-10.7.0.tgz"
-  integrity sha512-v8/rBWr2VO5YkspYINnvu81inSz2y3ODJrhO175/Exzor1RcEZZkizgE2A+w/CAXXoESS8Kys5E62dOHGHzULA==
+mocha@10.7.3:
+  version "10.7.3"
+  resolved "https://registry.npmjs.org/mocha/-/mocha-10.7.3.tgz"
+  integrity sha512-uQWxAu44wwiACGqjbPYmjo7Lg8sFrS3dQe7PP2FQI+woptP4vZXSMcfMyFL/e1yFEeEpV4RtyTpZROOKmxis+A==
   dependencies:
     ansi-colors "^4.1.3"
     browser-stdout "^1.3.1"
@@ -3228,12 +3229,12 @@ tslib@^2.6.1, tslib@^2.6.2:
   resolved "https://registry.npmjs.org/tslib/-/tslib-2.6.3.tgz"
   integrity sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==
 
-tsx@4.16.5:
-  version "4.16.5"
-  resolved "https://registry.npmjs.org/tsx/-/tsx-4.16.5.tgz"
-  integrity sha512-ArsiAQHEW2iGaqZ8fTA1nX0a+lN5mNTyuGRRO6OW3H/Yno1y9/t1f9YOI1Cfoqz63VAthn++ZYcbDP7jPflc+A==
+tsx@4.17.0:
+  version "4.17.0"
+  resolved "https://registry.npmjs.org/tsx/-/tsx-4.17.0.tgz"
+  integrity sha512-eN4mnDA5UMKDt4YZixo9tBioibaMBpoxBkD+rIPAjVmYERSG0/dWEY1CEFuV89CgASlKL499q8AhmkMnnjtOJg==
   dependencies:
-    esbuild "~0.21.5"
+    esbuild "~0.23.0"
     get-tsconfig "^4.7.5"
   optionalDependencies:
     fsevents "~2.3.3"
@@ -3276,14 +3277,14 @@ typedoc@0.26.5:
     shiki "^1.9.1"
     yaml "^2.4.5"
 
-typescript-eslint@8.0.0:
-  version "8.0.0"
-  resolved "https://registry.npmjs.org/typescript-eslint/-/typescript-eslint-8.0.0.tgz"
-  integrity sha512-yQWBJutWL1PmpmDddIOl9/Mi6vZjqNCjqSGBMQ4vsc2Aiodk0SnbQQWPXbSy0HNuKCuGkw1+u4aQ2mO40TdhDQ==
+typescript-eslint@8.0.1:
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/typescript-eslint/-/typescript-eslint-8.0.1.tgz"
+  integrity sha512-V3Y+MdfhawxEjE16dWpb7/IOgeXnLwAEEkS7v8oDqNcR1oYlqWhGH/iHqHdKVdpWme1VPZ0SoywXAkCqawj2eQ==
   dependencies:
-    "@typescript-eslint/eslint-plugin" "8.0.0"
-    "@typescript-eslint/parser" "8.0.0"
-    "@typescript-eslint/utils" "8.0.0"
+    "@typescript-eslint/eslint-plugin" "8.0.1"
+    "@typescript-eslint/parser" "8.0.1"
+    "@typescript-eslint/utils" "8.0.1"
 
 "typescript@^3.x || ^4.x || ^5.x", "typescript@>=3.2.x || >= 4.x || >= 5.x", "typescript@>=3.x || >= 4.x || >= 5.x", typescript@>=4.2.0, "typescript@4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x", typescript@5.5.4:
   version "5.5.4"
