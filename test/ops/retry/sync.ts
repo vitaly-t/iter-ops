@@ -31,8 +31,8 @@ export default () => {
         expect([...i]).to.eql([4, 5]);
     });
     it('must retry on callback result', () => {
-        const indexes: number[] = [],
-            attempts: number[] = [];
+        const ind: number[] = [],
+            att: number[] = [];
         const i = pipe(
             [11, 20, 33, 40, 55, 60, 77, 80, 99],
             tap((value) => {
@@ -40,14 +40,14 @@ export default () => {
                     throw new Error(`fail-${value}`); // throw for all even numbers
                 }
             }),
-            retry((idx, att) => {
-                indexes.push(idx);
-                attempts.push(att);
-                return att < 1; // retry once
+            retry(({attempt, index}) => {
+                att.push(attempt);
+                ind.push(index);
+                return attempt < 1; // retry once
             })
         );
         expect([...i]).to.eql([11, 33, 55, 77, 99]);
-        expect(indexes).to.eql([1, 3, 5, 7]);
-        expect(attempts).to.eql([0, 0, 0, 0]);
+        expect(ind).to.eql([1, 3, 5, 7]);
+        expect(att).to.eql([0, 0, 0, 0]);
     });
 };

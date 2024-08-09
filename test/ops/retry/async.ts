@@ -18,14 +18,14 @@ export default () => {
     it('must retry while resolves with true', async () => {
         const i = pipeAsync(
             source,
-            retry((index, attempts) => Promise.resolve(attempts < 3))
+            retry(({attempt}) => Promise.resolve(attempt < 3))
         );
         expect(await _asyncValues(i)).to.eql([3, 4, 5]);
     });
     it('must retry while returns true', async () => {
         const i = pipeAsync(
             source,
-            retry((index, attempts) => attempts < 3)
+            retry(({attempt}) => attempt < 3)
         );
         expect(await _asyncValues(i)).to.eql([3, 4, 5]);
     });
@@ -42,7 +42,7 @@ export default () => {
     it('must throw when failed for Promise', async () => {
         const i = pipeAsync(
             source,
-            retry((index, attempts) => Promise.resolve(attempts < 1))
+            retry(({attempt}) => Promise.resolve(attempt < 1))
         );
         let err: any;
         try {
@@ -55,7 +55,7 @@ export default () => {
     it('must throw when failed for boolean', async () => {
         const i = pipeAsync(
             source,
-            retry((index, attempts) => attempts < 1)
+            retry(({attempt}) => attempt < 1)
         );
         let err: any;
         try {
@@ -66,8 +66,8 @@ export default () => {
         expect(err?.message).to.eql('Throw for value 2');
     });
     it('must pass correct callback parameters', async () => {
-        const indexes: number[] = [],
-            attempts: number[] = [];
+        const ind: number[] = [],
+            att: number[] = [];
         const i = pipeAsync(
             [11, 20, 33, 40, 55, 60, 77, 80, 99],
             tap((value) => {
@@ -75,14 +75,14 @@ export default () => {
                     throw new Error(`fail-${value}`); // throw for all even numbers
                 }
             }),
-            retry((idx, att) => {
-                indexes.push(idx);
-                attempts.push(att);
-                return att < 1; // retry once
+            retry(({attempt, index}) => {
+                att.push(attempt);
+                ind.push(index);
+                return attempt < 1; // retry once
             })
         );
         expect(await _asyncValues(i)).to.eql([11, 33, 55, 77, 99]);
-        expect(indexes).to.eql([1, 3, 5, 7]);
-        expect(attempts).to.eql([0, 0, 0, 0]);
+        expect(ind).to.eql([1, 3, 5, 7]);
+        expect(att).to.eql([0, 0, 0, 0]);
     });
 };
