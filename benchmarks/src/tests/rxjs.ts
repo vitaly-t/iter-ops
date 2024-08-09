@@ -1,4 +1,4 @@
-import type {UnknownIterable} from '../../../';
+import type {UnknownIterable} from '../../../src';
 import {filter, firstValueFrom, from, map, toArray} from 'rxjs';
 
 export async function testRXJS(

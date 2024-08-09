@@ -48,18 +48,20 @@ export function retry<T>(attempts: number): Operation<T, T>;
  *             throw new Error(`fail-${value}`); // throw for all even numbers
  *         }
  *     }),
- *     retry((i, a, s) => {
- *         // i = index, a = attempts, s = state
- *         return a < 3; // make up to 3 retry attempts
+ *     retry(({attempt}) => {
+ *         // available properties: {attempt, error, index, state}
+ *         return attempt < 3; // make up to 3 retry attempts
  *     })
  * );
  *
  * console.log(...i); //=> 1, 3, 5, 7, 9
  * ```
  *
- * The callback is only invoked when there is a failure, and it receives:
+ * The callback is only invoked when there is a failure, and it receives an object with the following properties:
+ *
+ * - `attempt` - attempt index so far (starts with 0)
+ * - `error` - the error that was thrown
  * - `index` - index of the iterable value that threw/rejected
- * - `attempts` - number of retry attempts made so far (starts with 0)
  * - `state` - state for the entire iteration session
  *
  * Note that retries deplete values prior the operator that threw the error,
@@ -70,11 +72,12 @@ export function retry<T>(attempts: number): Operation<T, T>;
  * @category Sync+Async
  */
 export function retry<T>(
-    cb: (
-        index: number,
-        attempts: number,
-        state: IterationState
-    ) => boolean | Promise<boolean>
+    retry: (cb: {
+        attempt: number;
+        error: any;
+        index: number;
+        state: IterationState;
+    }) => boolean | Promise<boolean>
 ): Operation<T, T>;
 
 export function retry(...args: unknown[]) {
@@ -83,7 +86,12 @@ export function retry(...args: unknown[]) {
 
 type Retry<T> =
     | number
-    | ((index: number, attempts: number, state: IterationState) => T);
+    | ((cb: {
+          attempt: number;
+          error: any;
+          index: number;
+          state: IterationState;
+      }) => T);
 
 function retrySync<T>(
     iterable: Iterable<T>,
@@ -99,7 +107,7 @@ function retrySync<T>(
             const state: IterationState = {};
             let index = 0;
             const cb = typeof retry === 'function' && retry;
-            let attempts = 0;
+            let attempt = 0;
             const retriesNumber = !cb && retry > 0 ? retry : 0;
             let leftTries = retriesNumber;
             return {
@@ -108,13 +116,15 @@ function retrySync<T>(
                         try {
                             const a = i.next();
                             index++;
-                            attempts = 0;
+                            attempt = 0;
                             leftTries = retriesNumber;
                             return a;
-                        } catch (err) {
-                            const r = cb && cb(index++, attempts++, state);
+                        } catch (error) {
+                            const r = cb && cb({attempt, index, error, state});
+                            attempt++;
+                            index++;
                             if (!r && !leftTries--) {
-                                throw err;
+                                throw error;
                             }
                         }
                     } while (true);
@@ -138,7 +148,7 @@ function retryAsync<T>(
             const state: IterationState = {};
             let index = 0;
             const cb = typeof retry === 'function' && retry;
-            let attempts = 0;
+            let attempt = 0;
             const retriesNumber = !cb && retry > 0 ? retry : 0;
             let leftTries = retriesNumber;
             return {
@@ -146,22 +156,25 @@ function retryAsync<T>(
                     return i.next().then(
                         (a) => {
                             index++;
-                            attempts = 0;
+                            attempt = 0;
                             leftTries = retriesNumber;
                             return a;
                         },
-                        (e) => {
+                        (error) => {
                             if (cb) {
                                 const b = (f: any) =>
                                     f
                                         ? this.next()
                                         : // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
-                                          Promise.reject(e);
-                                const r = cb(
-                                    index++,
-                                    attempts++,
+                                          Promise.reject(error);
+                                const r = cb({
+                                    attempt,
+                                    index,
+                                    error,
                                     state
-                                ) as Promise<boolean>;
+                                }) as Promise<boolean>;
+                                attempt++;
+                                index++;
                                 return isPromiseLike(r) ? r.then(b) : b(r);
                             }
                             if (leftTries) {
@@ -169,7 +182,7 @@ function retryAsync<T>(
                                 return this.next();
                             }
                             // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
-                            return Promise.reject(e);
+                            return Promise.reject(error);
                         }
                     );
                 }

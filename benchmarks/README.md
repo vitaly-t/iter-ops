@@ -35,9 +35,9 @@ iterable is. This makes it difficult to test objectively. On one hand, `iter-ops
 has embedded optimization for wrapping an asynchronous iterable, so if we test that against a standard async iterable
 for `rxjs`, we get the result as above:
 
-- Testing against `rxjs` asynchronous pipeline, we went from ~7x better performance (in RxJs v6) to ~0.5x performance
-  against the latest RxJs v7.
-- Testing against `rxjs` with a single empty subscription - we went from ~15x better performance (in RxJs v6), to just ~2x
-  better performance against the latest RxJs v7
+-   Testing against `rxjs` asynchronous pipeline, we went from ~7x better performance (in RxJs v6) to ~0.5x performance
+    against the latest RxJs v7.
+-   Testing against `rxjs` with a single empty subscription - we went from ~15x better performance (in RxJs v6), to just ~2x
+    better performance against the latest RxJs v7
 
 The above points at tremendous performance optimizations done in v7 of RxJs.
