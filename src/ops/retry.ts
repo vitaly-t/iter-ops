@@ -73,10 +73,10 @@ export function retry<T>(attempts: number): Operation<T, T>;
  */
 export function retry<T>(
     retry: (cb: {
-        attempt: number,
-        error: any,
-        index: number,
-        state: IterationState
+        attempt: number;
+        error: any;
+        index: number;
+        state: IterationState;
     }) => boolean | Promise<boolean>
 ): Operation<T, T>;
 
@@ -84,12 +84,14 @@ export function retry(...args: unknown[]) {
     return createOperation(retrySync, retryAsync, args);
 }
 
-type Retry<T> = number | ((cb: {
-    attempt: number,
-    error: any,
-    index: number,
-    state: IterationState
-}) => T);
+type Retry<T> =
+    | number
+    | ((cb: {
+          attempt: number;
+          error: any;
+          index: number;
+          state: IterationState;
+      }) => T);
 
 function retrySync<T>(
     iterable: Iterable<T>,
@@ -164,7 +166,7 @@ function retryAsync<T>(
                                     f
                                         ? this.next()
                                         : // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
-                                        Promise.reject(error);
+                                          Promise.reject(error);
                                 const r = cb({
                                     attempt,
                                     index,
