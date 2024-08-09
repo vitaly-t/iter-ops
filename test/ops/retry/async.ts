@@ -67,7 +67,8 @@ export default () => {
     });
     it('must pass correct callback parameters', async () => {
         const ind: number[] = [],
-            att: number[] = [];
+            att: number[] = [],
+            err: any[] = [];
         const i = pipeAsync(
             [11, 20, 33, 40, 55, 60, 77, 80, 99],
             tap((value) => {
@@ -75,14 +76,21 @@ export default () => {
                     throw new Error(`fail-${value}`); // throw for all even numbers
                 }
             }),
-            retry(({attempt, index}) => {
+            retry(({attempt, error, index}) => {
                 att.push(attempt);
+                err.push(error);
                 ind.push(index);
                 return attempt < 1; // retry once
             })
         );
         expect(await _asyncValues(i)).to.eql([11, 33, 55, 77, 99]);
-        expect(ind).to.eql([1, 3, 5, 7]);
         expect(att).to.eql([0, 0, 0, 0]);
+        expect(err).to.eql([
+            new Error('fail-20'),
+            new Error('fail-40'),
+            new Error('fail-60'),
+            new Error('fail-80')
+        ]);
+        expect(ind).to.eql([1, 3, 5, 7]);
     });
 };
