@@ -1,4 +1,4 @@
-import {type UnknownIterable, filter, map, pipe, toArray} from '../../../src';
+import {type UnknownIterable, filter, map, pipe, toArray} from '../../../';
 
 export async function testIterOps(input: UnknownIterable<number>) {
     const start = Date.now();
