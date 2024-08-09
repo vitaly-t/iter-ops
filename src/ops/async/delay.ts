@@ -31,7 +31,7 @@ import {createOperation, throwOnSync} from '../../utils';
  * @see
  *  - {@link https://github.com/vitaly-t/iter-ops-extras/blob/main/src/interval.ts interval}
  *  - {@link throttle}
- *  - {@link timeout}
+ *  - {@link !timeout timeout}
  *
  * @category Async-only
  */
