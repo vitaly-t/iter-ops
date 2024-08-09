@@ -1,6 +1,6 @@
 import {testIterOps} from './tests/iter-ops';
 import {testRXJS} from './tests/rxjs';
-import {toAsync} from '../../';
+import {toAsync} from '../../src';
 
 // tslint:disable:no-console
 
